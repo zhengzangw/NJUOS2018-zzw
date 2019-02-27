@@ -71,7 +71,7 @@ void getinfo(struct Process *ret, int pid)
                                         sprintf(tmp, "{%s}", ret->name);
                                         strcpy(ret->thr[ret->nthr]->name, tmp);
                                         ret->thr[ret->nthr]->pid = tid;
-                                        ret->thr[ret->nthr]->nthr=ret->thr[ret->nthr]->nproc = 0;
+                                        ret->thr[ret->nthr]->nthr=ret->thr[ret->nthr]->nson = 0;
                                         ret->nthr++;
                                 }
 
