@@ -199,6 +199,7 @@ int main(int argc, char *argv[])
                         break;
                 case 'p':
                         showpid = true;
+                        break;
                 default:
                         printf("Only -V,-n,-p is available.\n");
                         return -1;
