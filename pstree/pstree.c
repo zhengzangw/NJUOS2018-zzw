@@ -112,7 +112,6 @@ void search(struct Process *cur, int type)
         for (int i = stack[head - 1]; i < stack[head]; ++i)
                 pre[i] = ' ';
         pre[stack[head]] = '|';
-        pre[++stack[head]] = '\0';
 
         switch (cur->nson) {
         case 0:
@@ -120,10 +119,13 @@ void search(struct Process *cur, int type)
                 break;
         case 1:
                 printf("--");
+                pre[stack[head]] = ' ';
                 break;
         default:
                 printf("-+");
         }
+
+        pre[++stack[head]] = '\0';
 
         for (int i = 0; i < cur->nson; ++i) {
                 int ith = i;
