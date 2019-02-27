@@ -106,12 +106,14 @@ void search(struct Process *cur, int type)
                 }
         }
 
+        printf("%s", tmp);
+        if (type == -1) pre[stack[head]-1] = ' ';
+
         for (int i = stack[head - 1]; i < stack[head]; ++i)
                 pre[i] = ' ';
         pre[stack[head]] = '|';
         pre[++stack[head]] = '\0';
 
-        printf("%s", tmp);
         switch (cur->nson) {
         case 0:
                 printf("\n");
