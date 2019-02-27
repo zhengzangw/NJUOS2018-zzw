@@ -129,8 +129,7 @@ void search(struct Process *cur, int type)
         //for (int i = 0; i < cur->nthr; ++i) {
         //    printf("%s%s(%d)\n", pre, cur->thr[i]->name, cur->thr[i]->pid);
         //}
-        if (type > 0)
-                head--;
+        head--;
         pre[stack[head]] = '\0';
 
 }
