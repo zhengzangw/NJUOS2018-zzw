@@ -92,7 +92,7 @@ void search(struct Process *cur, int type)
     switch (chs){
         case 0: break;
         case 1: strcpy(tail, "--");  break;
-        default: strcpy(tail, "+-");
+        default: strcpy(tail, "-+");
     }
 
     switch (type){
@@ -104,12 +104,11 @@ void search(struct Process *cur, int type)
             break;
         default: //others
             sprintf(tmp, "%s-%s(%d)",pre, cur->name, cur->pid);
-            stack[++head] = strlen(tmp)+1;
-            break;
     }
 
-    printf("%s%s%s", pre, tmp, tail);
+    printf("%s%s", tmp, tail);
 
+    stack[++head] = strlen(tmp)+1;
     for (int i=stack[head-1];i<stack[head];++i) pre[i]=' ';
     pre[stack[head]] = '|';
     pre[++stack[head]] = '\0';
@@ -122,8 +121,8 @@ void search(struct Process *cur, int type)
         //    printf("%s%s(%d)\n", pre, cur->thr[i]->name, cur->thr[i]->pid);
         //}
 
-        head--;
-        pre[stack[head]] = '\0';
+    head--;
+    pre[stack[head]] = '\0';
 }
 
 
