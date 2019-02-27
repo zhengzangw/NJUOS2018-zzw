@@ -100,12 +100,12 @@ void getinfo(struct Process * ret, int pid){
     fp = fopen(childfile, "r");
     ret->nson = 0;
     int ch;
-    printf("HHH");
+    printf("HHH\n");
     while ((fscanf(fp, "%d", &ch))!=EOF){
         ret->son[ret->nson] = malloc(sizeof(struct Process));
         getinfo(ret->son[ret->nson], ch);
         ret->nson++;
-    printf("HHH");
+    printf("HHH\n");
     }
 
     DIR *dir;
@@ -154,7 +154,6 @@ int main(int argc, char *argv[])
         }
         printf("%d%d\n", issort, showpid);
 
-        printf("HHH");
         struct Process *root = malloc(sizeof(struct Process));
         getinfo(root, 1);
         //search(root, 0);
