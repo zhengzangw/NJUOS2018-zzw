@@ -95,12 +95,14 @@ void search(struct Process *cur, int type)
         default: strcpy(tail, "-+");
     }
 
+    bool oneline = false;
     switch (type){
         case 0: //root
             sprintf(tmp, "%s(%d)", cur->name, cur->pid);
             break;
         case 1: //first of one subtree
             sprintf(tmp, "-%s(%d)", cur->name, cur->pid);
+            oneline = true;
             break;
         default: //others
             sprintf(tmp, "%s-%s(%d)",pre, cur->name, cur->pid);
@@ -108,10 +110,12 @@ void search(struct Process *cur, int type)
 
     printf("%s%s", tmp, tail);
 
+    if (!oneline){
     stack[++head] = strlen(tmp)+1;
     for (int i=stack[head-1];i<stack[head];++i) pre[i]=' ';
     pre[stack[head]] = '|';
     pre[++stack[head]] = '\0';
+    }
 
         for (int i = 0; i < cur->nson; ++i) {
             search(cur->son[i],i==0?1:2);
@@ -119,9 +123,11 @@ void search(struct Process *cur, int type)
         //for (int i = 0; i < cur->nthr; ++i) {
         //    printf("%s%s(%d)\n", pre, cur->thr[i]->name, cur->thr[i]->pid);
         //}
-
+    if (!oneline){
     head--;
     pre[stack[head]] = '\0';
+
+}
 }
 
 
