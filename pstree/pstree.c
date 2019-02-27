@@ -116,6 +116,6 @@ int main(int argc, char *argv[])
 
         struct Process *root = malloc(sizeof(struct Process));
         getinfo(root, 1);
-        //search(root, 0);
+        search(root, 0);
         return 0;
 }
