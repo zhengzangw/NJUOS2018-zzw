@@ -87,7 +87,7 @@ void search(struct Process *cur, int depth, char pre[128], int prelen)
         if (cur->nson+cur->nthr>1) printf("+-"); else printf("--");
 
         int newprelen = prelen+strlen(cur->name)+2;
-        for (int i=prelen;i<newprelen;++i) pre[i]=' ';
+        //for (int i=prelen;i<newprelen;++i) pre[i]=' ';
         //pre[newprelen] = '\0';
         //prelen = newprelen;
 
