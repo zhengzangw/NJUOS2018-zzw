@@ -109,16 +109,17 @@ void getinfo(struct Process * ret, int pid){
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(taskdirname)) != NULL) {
-    printf("HHH\n");
         while ((ent = readdir(dir)) != NULL) {
+        /*
           int tid = atoi(ent->d_name);
-           if (tid != pid) {
+          if (tid != pid) {
               ret->son[ret->nson] = malloc(sizeof(struct Process));
               strcpy(ret->son[ret->nson]->name,(strcat("{", ret->name),"}"));
               ret->son[ret->nson]->pid = tid;
               ret->son[ret->nson]->isproc = false;
               ret->nson ++;
            }
+           */
         }
         closedir(dir);
     } else assert(0);
