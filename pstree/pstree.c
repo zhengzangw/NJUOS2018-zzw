@@ -47,6 +47,7 @@ void search(int cur, int depth)
                         while ((ent = readdir(dir)) != NULL) {
                                 if (isnumber(ent->d_name, strlen(ent->d_name))) {
                                         int curdd = atoi(ent->d_name);
+                                        if (curdd != cur)
                                         printf("%*s%s(%d)\n", depth, "", procname, curdd);
                                 }
                         }
