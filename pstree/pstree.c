@@ -1,13 +1,23 @@
 #include <stdio.h>
 #include <assert.h>
+#include <unistd.h>
+#include <getopt.h>
 
 int main(int argc, char *argv[]) {
-  printf("Hello, World!\n");
-  int i;
-  for (i = 0; i < argc; i++) {
-    assert(argv[i]); // always true
-    printf("argv[%d] = %s\n", i, argv[i]);
+  // getopt
+  bool issort=false, showpid=false;
+  int opt;
+  while ((opt = getopt(argc, argv, "Vnp"))!=-1){
+      switch (opt) {
+          case 'V':
+            printf("pstree 1.0\n Copyright (C) 2019 Zheng Zangwei");
+            return 0;
+          case 'n':
+            issort = true;
+            break;
+          case 'p':
+            showpid = true
+      }
   }
-  assert(!argv[argc]); // always true
   return 0;
 }
