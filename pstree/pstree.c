@@ -72,6 +72,7 @@ void search(int cur, int depth)
 }
 
 struct process {
+    process(){};
     int pic,ppic;
     char name[512];
     process* son[128];
