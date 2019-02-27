@@ -39,7 +39,7 @@ void search(int cur, int depth){
 
     int ch;
     sprintf(filename, "/proc/%d/task/%d/children", cur, cur);
-    FILE *fp = fopen(filename, "r");
+    fp = fopen(filename, "r");
     if (fp) {
           fscanf(fp, "%d", &ch);
           search(ch, depth+1);
