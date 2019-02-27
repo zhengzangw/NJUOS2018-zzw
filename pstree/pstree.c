@@ -80,7 +80,7 @@ struct Process {
     bool isproc;
 };
 
-void getinfo(struct Process * ret, int pid, bool isproc){
+void getinfo(struct Process * ret, int pid){
     char childfile[512], statname[512], taskdirname[512], tmp[128];
     sprintf(statname, "/proc/%d/stat", pid);
     sprintf(taskdirname, "/proc/%d/task/", pid);
@@ -94,7 +94,7 @@ void getinfo(struct Process * ret, int pid, bool isproc){
     strcpy(ret->name, tmp+1);
     fscanf(fp, "%s", tmp);
     fscanf(fp, "%d", &ret->ppid); // Get ppid
-    ret->isproc = isproc;
+    ret->isproc = true;
     fclose(fp);
 
     fp = fopen(childfile, "r");
@@ -102,10 +102,24 @@ void getinfo(struct Process * ret, int pid, bool isproc){
     int ch;
     while ((fscanf(fp, "%d", &ch))!=EOF){
         ret->son[ret->nson] = malloc(sizeof(struct Process));
-        getinfo(ret->son[ret->nson], ch, true);
+        getinfo(ret->son[ret->nson], ch);
         ret->nson++;
     }
-}
+
+
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir(taskdirname)) != NULL) {
+        while ((ent = readdir(dir)) != NULL) {
+          int tid = atoi(ent->d_name);
+             if (tid != pid)
+                ret->son[ret->nson] = malloc(sizeof(struct Process));
+                strcpy(ret->son[ret->nson]->name,(strcat("{", ret->name),"}"));
+                ret->son[ret->nson]->pid = tid;
+                ret->isproc = false;
+          }
+        closedir(dir);
+    } else assert(0);
 
 void search(struct Process * cur, int depth){
   printf("%*s%s(%d)\n", depth, "", cur->name, cur->pid);
@@ -138,7 +152,7 @@ int main(int argc, char *argv[])
         printf("%d%d\n", issort, showpid);
 
         struct Process *root = malloc(sizeof(struct Process));
-        getinfo(root, 1, true);
+        getinfo(root, 1);
         search(root, 0);
 /*
         DIR *dir;
