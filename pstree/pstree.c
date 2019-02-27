@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
           case 'p':
             showpid = true;
           default:
-            Usage();
+            printf("No such option: %c", opt);
             return -1;
       }
   }
