@@ -100,14 +100,14 @@ void getinfo(struct Process * ret, int pid){
     fp = fopen(childfile, "r");
     ret->nson = 0;
     int ch;
+    printf("HHH");
     while ((fscanf(fp, "%d", &ch))!=EOF){
         ret->son[ret->nson] = malloc(sizeof(struct Process));
         getinfo(ret->son[ret->nson], ch);
         ret->nson++;
+    printf("HHH");
     }
 
-
-    printf("HHH");
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(taskdirname)) != NULL) {
@@ -122,7 +122,6 @@ void getinfo(struct Process * ret, int pid){
         }
         closedir(dir);
     } else assert(0);
-    printf("HHH");
 }
 
 void search(struct Process * cur, int depth){
