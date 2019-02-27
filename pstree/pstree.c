@@ -72,7 +72,7 @@ void search(int cur, int depth)
 }
 
 struct Process {
-    int pic,ppic;
+    int pid,ppid;
     char name[512];
     struct process* son[128];
     bool isproc;
@@ -116,8 +116,8 @@ int main(int argc, char *argv[])
         }
         printf("%d%d\n", issort, showpid);
 
-        getinfo(fp, cur, true);
-        printf("pid=%d\nppid=%d\n%s\n", pid, ppid, name);
+        struct Process* tree = &getinfo(1, true);
+        printf("pid=%d\nppid=%d\n%s\n", tree->pid, tree->ppid, tree->name);
 /*
         DIR *dir;
         struct dirent *ent;
