@@ -81,7 +81,7 @@ void getinfo(struct Process *ret, int pid)
                 assert(0);
 }
 
-void search(struct Process *cur, int depth, char pre[512], int prelen)
+void search(struct Process *cur, int depth, char pre[128], int prelen)
 {
         printf("-%s%s(%d)-\n", pre, cur->name, cur->pid);
         if (cur->nson+cur->nthr>1) printf("+-"); else printf("--");
