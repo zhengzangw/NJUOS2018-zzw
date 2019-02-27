@@ -136,7 +136,7 @@ void search(struct Process *cur, int type, bool isproc)
         }
         for (int i = 0; i < cur->nthr; ++i) {
                 int ith = i+cur->nson;
-                if (cur->nson+cur->nthr>1 && cur->nthr-1+cur->nson==i) ith = -1;
+                if (cur->nson+cur->nthr>1 && cur->nthr-1+cur->nson==ith) ith = -1;
                 search(cur->thr[i], ith, false);
         }
 }
