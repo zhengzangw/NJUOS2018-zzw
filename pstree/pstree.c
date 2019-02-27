@@ -71,6 +71,7 @@ void getinfo(struct Process *ret, int pid)
                                         sprintf(tmp, "{%s}", ret->name);
                                         strcpy(ret->thr[ret->nthr]->name, tmp);
                                         ret->thr[ret->nthr]->pid = tid;
+                                        ret->thr[ret->nthr]->nthr=ret->thr[ret->nthr]->nproc = 0;
                                         ret->nthr++;
                                 }
 
@@ -85,7 +86,7 @@ char pre[512] = "";
 int stack[512];
 int head = 0;
 bool isroot = true;
-void search(struct Process *cur, int type)
+void search(struct Process *cur, int type, bool isproc)
 {
         if (isroot) {
                 sprintf(tmp, "%s(%d)", cur->name, cur->pid);
@@ -113,7 +114,7 @@ void search(struct Process *cur, int type)
                 pre[i] = ' ';
         pre[stack[head]] = '|';
 
-        switch (cur->nson) {
+        switch (cur->nson+cur->nthr) {
         case 0:
                 printf("\n");
                 break;
@@ -127,14 +128,18 @@ void search(struct Process *cur, int type)
 
         pre[++stack[head]] = '\0';
 
+        if (isproc){
         for (int i = 0; i < cur->nson; ++i) {
                 int ith = i;
-                if (cur->nson>1 && cur->nson-1==i) ith = -1;
-                search(cur->son[i], ith);
+                if (cur->nson+cur->nthr>1 && cur->nson+cur->nthr-1==i) ith = -1;
+                search(cur->son[i], ith, true);
         }
-        //for (int i = 0; i < cur->nthr; ++i) {
-        //    printf("%s%s(%d)\n", pre, cur->thr[i]->name, cur->thr[i]->pid);
-        //}
+        for (int i = 0; i < cur->nthr; ++i) {
+                int ith = i+cur->nson;
+                if (cur->nson+cur->nthr>1 && cur->nson+cur->nthr-1==i) ith = -1;
+                search(cur->thr[i], ith, false);
+        }
+}
         head--;
         pre[stack[head]] = '\0';
 
@@ -165,6 +170,6 @@ int main(int argc, char *argv[])
 
         struct Process *root = malloc(sizeof(struct Process));
         getinfo(root, 1);
-        search(root, 0);
+        search(root, 0, true);
         return 0;
 }
