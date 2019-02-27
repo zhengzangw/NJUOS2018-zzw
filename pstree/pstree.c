@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 
   DIR *dir;
   struct dirent *ent;
-  char filename[256], procname[256];
+  char filename[512], procname[256];
   if ((dir = opendir("/proc/"))!=NULL){
       while ((ent = readdir(dir))!=NULL){
         if (isnumber(ent->d_name, strlen(ent->d_name))){
