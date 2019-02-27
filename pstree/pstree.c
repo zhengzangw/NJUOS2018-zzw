@@ -80,8 +80,9 @@ struct Process {
     bool isproc;
 };
 
+char tmp[1024];
 void getinfo(struct Process * ret, int pid){
-    char childfile[512], statname[512], taskdirname[512], tmp[512];
+    char childfile[512], statname[512], taskdirname[512];
     sprintf(statname, "/proc/%d/stat", pid);
     sprintf(taskdirname, "/proc/%d/task/", pid);
     sprintf(childfile, "/proc/%d/task/%d/children", pid, pid);
@@ -113,7 +114,7 @@ void getinfo(struct Process * ret, int pid){
           int tid = atoi(ent->d_name);
           if (tid != pid) {
               ret->son[ret->nson] = malloc(sizeof(struct Process));
-              sprintf(tmp, "\{%s\}", ret->name);
+              sprintf(tmp, "{%s}", ret->name);
               strcpy(ret->son[ret->nson]->name,tmp);
               ret->son[ret->nson]->pid = tid;
               ret->son[ret->nson]->isproc = false;
