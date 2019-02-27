@@ -109,7 +109,10 @@ struct Process getinfo(int pid, bool isproc){
 }
 
 void search(struct Process * cur, int depth){
-  printf("%*s%s(%d)", depth, "", cur->name, cur->pid);
+  printf("%*s%s(%d)\n", depth, "", cur->name, cur->pid);
+  for (int i=0; i<cur->nson; ++i){
+      search(cur->son[i], depth+1);
+  }
 }
 
 int main(int argc, char *argv[])
