@@ -80,8 +80,7 @@ struct Process {
     bool isproc;
 };
 
-struct Process getinfo(int pid, bool isproc){
-    struct Process ret;
+void getinfo(struct Process * ret, int pid, bool isproc){
     char childfile[512], statname[512], taskdirname[512], tmp[128];
     sprintf(statname, "/proc/%d/stat", pid);
     sprintf(taskdirname, "/proc/%d/task/", pid);
@@ -89,23 +88,22 @@ struct Process getinfo(int pid, bool isproc){
 
 
     FILE *fp = fopen(statname, "r");
-    fscanf(fp, "%d", &ret.pid); // Get pid
+    fscanf(fp, "%d", &ret->pid); // Get pid
     fscanf(fp, "%s", tmp); // Get name
     tmp[strlen(tmp)-1]='\0';
-    strcpy(ret.name, tmp+1);
+    strcpy(ret->name, tmp+1);
     fscanf(fp, "%s", tmp);
-    fscanf(fp, "%d", &ret.ppid); // Get ppid
-    ret.isproc = isproc;
+    fscanf(fp, "%d", &ret->ppid); // Get ppid
+    ret->isproc = isproc;
     fclose(fp);
 
     fp = fopen(childfile, "r");
-    ret.nson = 0;
+    ret->nson = 0;
     int ch;
     while ((fscanf(fp, "%d", &ch))!=EOF){
-        struct Process cur = getinfo(ch, true);
-        ret.son[ret.nson ++] = &cur;
+        ret->son[ret->nson] = malloc(sizeof(struct Process));
+        getinfo(ret->son[ret->nson], ch, true);
     }
-    return ret;
 }
 
 void search(struct Process * cur, int depth){
@@ -138,8 +136,8 @@ int main(int argc, char *argv[])
         }
         printf("%d%d\n", issort, showpid);
 
-        struct Process cur = getinfo(1, true);
-        struct Process *root = &cur;
+        struct Process *root = malloc(sizeof(struct Process));
+        getinfo(root, 1, true);
         search(root, 0);
 /*
         DIR *dir;
