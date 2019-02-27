@@ -26,14 +26,15 @@ int main(int argc, char *argv[]) {
             return -1;
       }
   }
-  printf("%d%d", issort, showpid);
+  printf("%d%d\n", issort, showpid);
 
   DIR *dir;
   struct dirent *ent;
   if ((dir = opendir("/proc/"))!=NULL){
       while ((ent = readdir(dir))!=NULL){
-        printf("%s\n", ent->d_name);
-      }
+        if (isnumber(ent->d_name)){
+          printf("%s\n", ent->d_name);
+        }
       closedir(dir);
   } else {
     perror("");
