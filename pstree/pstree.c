@@ -90,7 +90,7 @@ void search(struct Process *cur, int type)
     int chs = cur->nson;
     char tail[5] = "";
     switch (chs){
-        case 0: break;
+        case 0: printf("\n"); break;
         case 1: strcpy(tail, "--");  break;
         default: strcpy(tail, "-+");
     }
@@ -115,7 +115,6 @@ void search(struct Process *cur, int type)
 
         for (int i = 0; i < cur->nson; ++i) {
             search(cur->son[i],i==0?1:2);
-            printf("\n");
         }
         //for (int i = 0; i < cur->nthr; ++i) {
         //    printf("%s%s(%d)\n", pre, cur->thr[i]->name, cur->thr[i]->pid);
