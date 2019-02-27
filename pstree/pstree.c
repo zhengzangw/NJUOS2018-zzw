@@ -104,7 +104,7 @@ void search(struct Process *cur, int type)
     switch (cur->nson+cur->nthr){
         case 0: break;
         case 1: printf("-");
-        defualt: printf("+");
+        default: printf("+");
     }
 
         stack[head+1] = stack[head]+strlen(tmp);
