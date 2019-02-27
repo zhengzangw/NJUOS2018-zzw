@@ -23,6 +23,7 @@ bool isnumber(char *s, int length)
         return true;
 }
 
+/*
 void search(int cur, int depth)
 {
         if (!visit[cur]) {
@@ -70,6 +71,7 @@ void search(int cur, int depth)
                 }
         }
 }
+*/
 
 struct Process {
     int pid,ppid,nson;
@@ -100,11 +102,14 @@ struct Process getinfo(int pid, bool isproc){
     ret.nson = 0;
     int ch;
     while ((fscanf(fp, "%d", &ch))!=EOF){
-        printf("ch=%d\n", ch);
         struct Process cur = getinfo(ch, true);
         ret.son[ret.nson ++] = &cur;
     }
     return ret;
+}
+
+void search(struct Process * cur, int depth){
+  printf("%*s%s(%d)", depth, "", cur->name, cur->pid);
 }
 
 int main(int argc, char *argv[])
@@ -130,8 +135,9 @@ int main(int argc, char *argv[])
         }
         printf("%d%d\n", issort, showpid);
 
-        struct Process tree = getinfo(1, true);
-        printf("pid=%d\nppid=%d\n%s\n", tree.pid, tree.ppid, tree.name);
+        struct Process cur = getinfo(1, true);
+        struct Process *root = &cur;
+        search(root, 0);
 /*
         DIR *dir;
         struct dirent *ent;
