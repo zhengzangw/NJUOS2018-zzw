@@ -199,8 +199,10 @@ void search(struct Process *cur, int type, bool isproc)
                         search(cur->thr[i], ith, false);
                 }
             } else if (cur->nthr>0){
+                if (cur->thr[0]->pid>1){
                 sprintf(tmp, "%d*[%s]", cur->thr[0]->pid, cur->thr[0]->name);
                 strcpy(cur->thr[0]->name, tmp);
+                }
                 int ith;
                 if (cur->nson==0) ith = 0; else ith = -1;
                 search(cur->thr[0], ith, false);
@@ -232,7 +234,6 @@ int main(int argc, char *argv[])
                         return -1;
                 }
         }
-        printf("%d%d\n", issort, showpid);
 
         struct Process *root = malloc(sizeof(struct Process));
         getinfo(root, 1);
