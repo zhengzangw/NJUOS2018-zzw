@@ -17,7 +17,6 @@ bool visit[32768];
 bool isnumber(char *s)
 {
         int length = strlen(s);
-        printf("%s", s);
         for (int i = 0; i < length; ++i) {
                 if (!isdigit(s[i])) {
                         return false;
