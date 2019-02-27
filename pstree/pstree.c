@@ -44,7 +44,7 @@ void search(int cur, int depth)
                 fp = fopen(filename, "r");
                 if (fp) {
                         while (fscanf(fp, "%d", &ch) != EOF) {
-                                search(chndentLine_enabled = 1, depth + 1);
+                                search(ch, depth + 1);
                         }
                         fclose(fp);
                 } else {
