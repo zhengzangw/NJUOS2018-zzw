@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
   while ((opt = getopt(argc, argv, "Vnp"))!=-1){
       switch (opt) {
           case 'V':
-            printf("pstree 1.0\n Copyright (C) 2019 Zheng Zangwei");
+            printf("pstree 1.0\n Copyright (C) 2019 Zheng Zangwei\n");
             return 0;
           case 'n':
             issort = true;
@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
           case 'p':
             showpid = true;
           default:
-            printf("No such option: %c", opt);
+            printf("No such option, only -V,-n,-p is available.\n", opt);
             return -1;
       }
   }
