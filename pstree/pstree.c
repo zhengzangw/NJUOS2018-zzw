@@ -96,6 +96,16 @@ void getinfo(struct Process *ret, int pid)
                 assert(0);
 }
 
+bool cpr(char *a, char *b){
+    int lena = strlen(a), lenb = strlen(b);
+    int len = lena < lenb ?lena : lenb;
+    for (int i=0;i<len;++i){
+        if (a[i]>b[i]) return true;
+        if (b[i]>a[i]) return false;
+    }
+    return lena>lenb;
+}
+
 char pre[512] = "";
 int stack[512];
 int head = 0;
@@ -165,7 +175,13 @@ void search(struct Process *cur, int type, bool isproc)
                             cur->son[j] = temp;
                         }
             } else {
-
+                for (int i=0; i<cur->nson; ++i)
+                    for (int j=i+1;j<cur->nson; ++j)
+                        if (cpr(cur->son[i]->name,cur->son[j]->name)){
+                            struct Process * temp = cur->son[i];
+                            cur->son[i] = cur->son[j];
+                            cur->son[j] = temp;
+                        }
             }
                 for (int i = 0; i < cur->nson; ++i) {
                         int ith = i;
