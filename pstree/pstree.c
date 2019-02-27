@@ -130,7 +130,11 @@ void search(struct Process *cur, int type, bool isproc)
 
         pre[++stack[head]] = '\0';
 
+        int realnthr = cur->nthr;
         if (isproc) {
+            if (showpid) {
+                if (cur->nthr>0) cur->nthr = 1;
+            }
                 for (int i = 0; i < cur->nson; ++i) {
                         int ith = i;
                         if (cur->nson > 1 && cur->nthr == 0
@@ -138,6 +142,7 @@ void search(struct Process *cur, int type, bool isproc)
                                 ith = -1;
                         search(cur->son[i], ith, true);
                 }
+            if (!showpid){
                 for (int i = 0; i < cur->nthr; ++i) {
                         int ith = i + cur->nson;
                         if (cur->nson + cur->nthr > 1
@@ -145,6 +150,12 @@ void search(struct Process *cur, int type, bool isproc)
                                 ith = -1;
                         search(cur->thr[i], ith, false);
                 }
+            } else if (cur->nthr>0){
+                sprintf(cur->thr[0]->name, "%d*[%s]", realnthr, cur->thr[0]->name);
+                int ith;
+                if (cur->nson==0) ith = 0; else ith = -1;
+                search(cur->thr[0], ith, false);
+            }
         }
         head--;
         pre[stack[head]] = '\0';
