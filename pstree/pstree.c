@@ -53,7 +53,7 @@ void search(int cur, int depth)
                         closedir(dir);
                 } else {
                         perror("");
-                        return -1;
+                        return;
                 }
                 // get child process
                 int ch;
