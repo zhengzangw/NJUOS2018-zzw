@@ -154,7 +154,7 @@ int main(int argc, char *argv[])
         }
         printf("%d%d\n", issort, showpid);
 
-        struct Process *root = malloc(sizeof(struct Process));
+        //struct Process *root = malloc(sizeof(struct Process));
         printf("HHH");
         //getinfo(root, 1);
         //search(root, 0);
