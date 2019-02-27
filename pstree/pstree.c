@@ -101,7 +101,11 @@ void search(struct Process *cur, int type)
             break;
     }
 
-        if (cur->nson+cur->nthr>1) printf("+"); else printf("-");
+    switch (cur->nson+cur->nthr){
+        case 0: break;
+        case 1: printf("-");
+        defualt: printf("+");
+    }
 
         stack[head+1] = stack[head]+strlen(tmp);
         head++;
