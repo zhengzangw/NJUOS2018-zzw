@@ -3,9 +3,20 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <dirent.h>
+#include <string.h>
+
 typedef int bool;
 #define true 1
 #define false 0
+
+bool isnumber(char* s, int length){
+    for (int i=0;i<length;++i){
+        if (!(s[i]>='0'&&s[i]<='9')){
+            return false;
+        }
+    }
+    return true;
+}
 
 int main(int argc, char *argv[]) {
   // getopt
@@ -32,7 +43,7 @@ int main(int argc, char *argv[]) {
   struct dirent *ent;
   if ((dir = opendir("/proc/"))!=NULL){
       while ((ent = readdir(dir))!=NULL){
-        if (isnumber(ent->d_name)){
+        if (isnumber(ent->d_name, strlen(ent->d_name))){
           printf("%s\n", ent->d_name);
         }
       closedir(dir);
