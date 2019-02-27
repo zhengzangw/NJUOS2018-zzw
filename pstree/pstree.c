@@ -87,7 +87,7 @@ void search(struct Process *cur, int depth)
         for (int i = 0; i < cur->nson; ++i) {
             search(cur->son[i], depth + 1);
         }
-        for (int i = 0; i < cur->nson; ++i) {
+        for (int i = 0; i < cur->nthr; ++i) {
             printf("%*s%s(%d)\n", depth+1, "", cur->name, cur->pid);
         }
 }
