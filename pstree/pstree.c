@@ -84,19 +84,33 @@ void getinfo(struct Process *ret, int pid)
 char pre[128]="";
 int stack[128];
 int head=0;
-void search(struct Process *cur)
+void search(struct Process *cur, int type)
 {
-        sprintf(tmp, "-%s(%d)-", cur->name, cur->pid);
-        printf("%s%s", pre, tmp);
+    switch (type){
+        case 0: //root
+            sprintf(tmp, "%s(%d)-", cur->name, cur->pid);
+            printf("%s%s", pre, tmp);
+            break;
+        case 1: //first of one subtree
+            sprintf(tmp, "-%s(%d)-", cur->name, cur->pid);
+            printf("%s", tmp);
+            break;
+        case 2: //others
+            sprintf(tmp, "-%s(%d)-", cur->name, cur->pid);
+            printf("%s%s", pre, tmp);
+            break;
+    }
+
         if (cur->nson+cur->nthr>1) printf("+"); else printf("-");
 
-        stack[head+1] = stack[head]+strlen(tmp)+1;
+        stack[head+1] = stack[head]+strlen(tmp);
         head++;
         for (int i=stack[head-1];i<stack[head];++i) pre[i]=' ';
-        pre[stack[head]] = '\0';
+        pre[stack[head]] = '|';
+        pre[++stack[head]] = '\0';
 
         for (int i = 0; i < cur->nson; ++i) {
-            search(cur->son[i]);
+            search(cur->son[i],i==0);
             printf("\n");
         }
         //for (int i = 0; i < cur->nthr; ++i) {
@@ -134,6 +148,6 @@ int main(int argc, char *argv[])
 
         struct Process *root = malloc(sizeof(struct Process));
         getinfo(root, 1);
-        search(root);
+        search(root, 0);
         return 0;
 }
