@@ -131,12 +131,12 @@ void search(struct Process *cur, int type, bool isproc)
         if (isproc){
         for (int i = 0; i < cur->nson; ++i) {
                 int ith = i;
-                if (cur->nson+cur->nthr>1 && cur->nson+cur->nthr-1==i) ith = -1;
+                if (cur->nson>1 && cur->nthr==0 && cur->nson==i) ith = -1;
                 search(cur->son[i], ith, true);
         }
         for (int i = 0; i < cur->nthr; ++i) {
-                int ith = i+cur->nson;
-                if (cur->nson+cur->nthr>1 && cur->nson+cur->nthr-1==i) ith = -1;
+                int ith = i;
+                if (cur->nson+cur->nthr>1 && cur->nthr-1==i) ith = -1;
                 search(cur->thr[i], ith, false);
         }
 }
