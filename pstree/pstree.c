@@ -101,7 +101,8 @@ void search(struct Process *cur, int type)
             break;
     }
 
-    switch (cur->nson+cur->nthr){
+    int chs = cur->nson;
+    switch (chs){
         case 0: break;
         case 1: printf("-");
         default: printf("+");
