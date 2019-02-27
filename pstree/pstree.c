@@ -121,6 +121,7 @@ void getinfo(struct Process * ret, int pid){
         }
         closedir(dir);
     } else assert(0);
+}
 
 void search(struct Process * cur, int depth){
   printf("%*s%s(%d)\n", depth, "", cur->name, cur->pid);
