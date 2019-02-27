@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <unistd.h>
 #include <getopt.h>
-typedef int bool
+typedef int bool;
 #define true 1
 #define false 0
 
