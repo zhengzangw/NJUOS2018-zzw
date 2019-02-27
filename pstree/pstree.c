@@ -88,7 +88,7 @@ void search(struct Process *cur, int depth)
             search(cur->son[i], depth + 1);
         }
         for (int i = 0; i < cur->nthr; ++i) {
-            printf("%*s%s(%d)\n", depth+1, "", cur->name, cur->pid);
+            printf("%*s%s(%d)\n", depth+1, "", cur->thr[i]->name, cur->thr[i]->pid);
         }
 }
 
@@ -117,6 +117,6 @@ int main(int argc, char *argv[])
 
         struct Process *root = malloc(sizeof(struct Process));
         getinfo(root, 1);
-        search(root, 0);
+        //search(root, 0);
         return 0;
 }
