@@ -71,26 +71,26 @@ void search(int cur, int depth)
         }
 }
 
-struct process {
+struct Process {
     int pic,ppic;
     char name[512];
     struct process* son[128];
     bool isproc;
 };
-struct process* tree = new struct process;
-struct process* cur  = tree;
 
-void getinfo(int pid, process * cur, bool isproc){
+struct Process getinfo(int pid, bool isproc){
+    struct Process ret;
     char statname[512], taskdirname[512], tmp[128];
     sprintf(statname, "/proc/%d/stat", pid);
     sprintf(taskdirname, "/proc/%d/task/", pid);
-    FILE *fp = fopen(statname);
-    fscanf(fp, "%d", &cur->pic);
-    fscanf(fp, "%s", &tmp);
-    tmp[strlen(tmp)-1]='\0';
-    cur->name = tmp+1;
+    FILE *fp = fopen(statname, "r");
+    fscanf(fp, "%d", &ret.pic);
     fscanf(fp, "%s", tmp);
-    fscanf(fp, "%d", &cur->ppic)
+    tmp[strlen(tmp)-1]='\0';
+    strcpy(ret.name, tmp+1);
+    fscanf(fp, "%s", tmp);
+    fscanf(fp, "%d", &ret.ppic);
+    return ret;
 }
 
 int main(int argc, char *argv[])
