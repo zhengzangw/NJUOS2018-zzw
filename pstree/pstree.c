@@ -67,6 +67,7 @@ void getinfo(struct Process *ret, int pid)
                         if (isnumber(ent->d_name)) {
                                 int tid = atoi(ent->d_name);
                                 if (tid != pid) {
+                                    if (showpid){
                                         ret->thr[ret->nthr] =
                                             malloc(sizeof(struct Process));
                                         sprintf(tmp, "{%s}", ret->name);
@@ -74,7 +75,18 @@ void getinfo(struct Process *ret, int pid)
                                         ret->thr[ret->nthr]->pid = tid;
                                         ret->thr[ret->nthr]->nthr =
                                             ret->thr[ret->nthr]->nson = 0;
+                                    }
                                         ret->nthr++;
+                                }
+                                if (!showpid && ret->nthr >0){
+                                        ret->thr[0] =
+                                            malloc(sizeof(struct Process));
+                                        sprintf(tmp, "{%s}", ret->name);
+                                        strcpy(ret->thr[0]->name, tmp);
+                                        ret->pid = ret->nthr;
+                                        ret->nthr = 1;
+                                        ret->thr[0]->nthr =
+                                            ret->thr[0]->nson = 0;
                                 }
 
                         }
@@ -131,11 +143,7 @@ void search(struct Process *cur, int type, bool isproc)
 
         pre[++stack[head]] = '\0';
 
-        int realnthr = cur->nthr;
         if (isproc) {
-            if (!showpid) {
-                if (cur->nthr>0) cur->nthr = 1;
-            }
                 for (int i = 0; i < cur->nson; ++i) {
                         int ith = i;
                         if (cur->nson > 1 && cur->nthr == 0
@@ -152,7 +160,7 @@ void search(struct Process *cur, int type, bool isproc)
                         search(cur->thr[i], ith, false);
                 }
             } else if (cur->nthr>0){
-                sprintf(tmp, "%d*[%s]", realnthr, cur->thr[0]->name);
+                sprintf(tmp, "%d*[%s]", cur->thr[0]->pid, cur->thr[0]->name);
                 strcpy(cur->thr[0]->name, tmp);
                 int ith;
                 if (cur->nson==0) ith = 0; else ith = -1;
