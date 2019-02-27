@@ -81,8 +81,8 @@ void getinfo(struct Process *ret, int pid)
                 assert(0);
 }
 
-char pre[128] = "";
-int stack[128];
+char pre[256] = "";
+int stack[256];
 int head = 0;
 bool isroot = true;
 void search(struct Process *cur, int type)
