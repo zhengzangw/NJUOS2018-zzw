@@ -43,7 +43,7 @@ void search(int cur, int depth){
     FILE *fp = fopen(filename, "r");
     if (fp) {
           fscanf(fp, "%d", &ch);
-          search(atoi(ch));
+          search(ch, depth+1);
           fclose(fp);
         } else {
           printf("Error on %s\n", filename);
