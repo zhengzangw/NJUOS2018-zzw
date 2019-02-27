@@ -113,9 +113,9 @@ void getinfo(struct Process * ret, int pid){
           int tid = atoi(ent->d_name);
           if (tid != pid) {
               ret->son[ret->nson] = malloc(sizeof(struct Process));
-              strcpy(ret->son[ret->nson]->name,(strcat("{", ret->name),"}"));
-          //    ret->son[ret->nson]->pid = tid;
-          //    ret->son[ret->nson]->isproc = false;
+              strcpy(ret->son[ret->nson]->name,strcat(strcat("{", ret->name),"}"));
+              ret->son[ret->nson]->pid = tid;
+              ret->son[ret->nson]->isproc = false;
               ret->nson ++;
            }
         }
