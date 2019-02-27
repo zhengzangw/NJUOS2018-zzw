@@ -111,7 +111,6 @@ void getinfo(struct Process * ret, int pid){
     struct dirent *ent;
     if ((dir = opendir(taskdirname)) != NULL) {
         while ((ent = readdir(dir)) != NULL) {
-          if (isnumber(ent->d_name, strlen(ent->d_name))){
             int tid = atoi(ent->d_name);
             if (tid != pid) {
               ret->son[ret->nson] = malloc(sizeof(struct Process));
