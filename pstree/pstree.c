@@ -84,10 +84,12 @@ void getinfo(struct Process *ret, int pid)
 void search(struct Process *cur, int depth, char pre[128], int prelen)
 {
         printf("-%s%s(%d)-", pre, cur->name, cur->pid);
-        if (cur->nson+cur->nthr>1) printf("+-"); else printf("--");
+        if (cur->nson+cur->nthr>1) printf("+"); else printf("-");
 
         int newprelen = prelen+strlen(cur->name)+2;
         printf("%d%d", newprelen, prelen);
+        pre[0] = ' ';
+        pre[1] = ' ';
         //for (int i=prelen;i<newprelen;++i) pre[i]=' ';
         //pre[newprelen] = '\0';
         //prelen = newprelen;
