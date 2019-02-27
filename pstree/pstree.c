@@ -32,7 +32,7 @@ struct Process {
         struct Process *thr[128];
 };
 
-char tmp[1024];
+char tmp[2048];
 void getinfo(struct Process *ret, int pid)
 {
         char childfile[512], statname[512], taskdirname[512];
