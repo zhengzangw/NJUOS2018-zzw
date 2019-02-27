@@ -20,6 +20,9 @@ int main(int argc, char *argv[]) {
             break;
           case 'p':
             showpid = true;
+          default:
+            Usage();
+            return -1;
       }
   }
   printf("%d%d", issort, showpid);
