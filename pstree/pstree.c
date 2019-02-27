@@ -156,6 +156,17 @@ void search(struct Process *cur, int type, bool isproc)
         pre[++stack[head]] = '\0';
 
         if (isproc) {
+            if (issort){
+                for (int i=0; i<cur->nson; ++i)
+                    for (int j=i+1;j<cur->nson; ++j)
+                        if (cur->son[i]->pid>cur->son[j]->pid){
+                            struct Process * temp = cur->son[i];
+                            cur->son[i] = cur->son[j];
+                            cur->son[j] = temp;
+                        }
+            } else {
+
+            }
                 for (int i = 0; i < cur->nson; ++i) {
                         int ith = i;
                         if (cur->nson > 1 && cur->nthr == 0
