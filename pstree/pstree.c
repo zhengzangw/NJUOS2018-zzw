@@ -116,22 +116,6 @@ int main(int argc, char *argv[])
 
         struct Process *root = malloc(sizeof(struct Process));
         getinfo(root, 1);
-        search(root, 0);
-/*
-        DIR *dir;
-        struct dirent *ent;
-        if ((dir = opendir("/proc/")) != NULL) {
-                while ((ent = readdir(dir)) != NULL) {
-                        if (isnumber(ent->d_name, strlen(ent->d_name))) {
-                                int cur = atoi(ent->d_name);
-                                search(cur, 0);
-                        }
-                }
-                closedir(dir);
-        } else {
-                perror("");
-                return -1;
-        }
-        */
+        //search(root, 0);
         return 0;
 }
