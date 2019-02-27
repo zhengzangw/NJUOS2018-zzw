@@ -85,6 +85,7 @@ void getinfo(struct Process * ret, int pid){
     sprintf(statname, "/proc/%d/stat", pid);
     sprintf(taskdirname, "/proc/%d/task/", pid);
     sprintf(childfile, "/proc/%d/task/%d/children", pid, pid);
+    printf("HHH");
 
 
     FILE *fp = fopen(statname, "r");
