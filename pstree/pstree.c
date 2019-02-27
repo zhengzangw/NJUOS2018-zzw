@@ -114,9 +114,9 @@ void search(struct Process *cur, int type, bool isproc)
                 switch (type) {
                 case 0:        //first of one subtree
             if (showpid)
-                sprintf(tmp, "%s(%d)", cur->name, cur->pid);
+                sprintf(tmp, "-%s(%d)", cur->name, cur->pid);
             else{
-                sprintf(tmp, "%s", cur->name);
+                sprintf(tmp, "-%s", cur->name);
                 }
                         stack[head + 1] = stack[head] + strlen(tmp) + 1;
                         head++;
