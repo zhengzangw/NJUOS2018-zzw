@@ -133,7 +133,7 @@ void search(struct Process *cur, int type, bool isproc)
 
         int realnthr = cur->nthr;
         if (isproc) {
-            if (showpid) {
+            if (!showpid) {
                 if (cur->nthr>0) cur->nthr = 1;
             }
                 for (int i = 0; i < cur->nson; ++i) {
@@ -143,7 +143,7 @@ void search(struct Process *cur, int type, bool isproc)
                                 ith = -1;
                         search(cur->son[i], ith, true);
                 }
-            if (!showpid){
+            if (showpid){
                 for (int i = 0; i < cur->nthr; ++i) {
                         int ith = i + cur->nson;
                         if (cur->nson + cur->nthr > 1
