@@ -107,6 +107,7 @@ void getinfo(struct Process * ret, int pid){
     }
 
 
+    printf("HHH");
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(taskdirname)) != NULL) {
@@ -121,6 +122,7 @@ void getinfo(struct Process * ret, int pid){
         }
         closedir(dir);
     } else assert(0);
+    printf("HHH");
 }
 
 void search(struct Process * cur, int depth){
