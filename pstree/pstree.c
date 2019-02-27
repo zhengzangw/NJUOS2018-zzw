@@ -39,6 +39,23 @@ void search(int cur, int depth)
 
                 printf("%*s%s(%d)\n", depth, "", procname, cur);
 
+                // get task
+                DIR *dir;
+                struct dirent *ent;
+                sprintf(filename, "/proc/%d/task/");
+                if ((dir = opendir(filename)) != NULL) {
+                        while ((ent = readdir(dir)) != NULL) {
+                                if (isnumber(ent->d_name, strlen(ent->d_name))) {
+                                        int curdd = atoi(ent->d_name);
+                                        printf("%*s%s(%d)\n", depth, "", procname, curdd)
+                                }
+                        }
+                        closedir(dir);
+                } else {
+                        perror("");
+                        return -1;
+                }
+                // get child process
                 int ch;
                 sprintf(filename, "/proc/%d/task/%d/children", cur, cur);
                 fp = fopen(filename, "r");
