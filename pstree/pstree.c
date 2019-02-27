@@ -26,10 +26,10 @@ bool isnumber(char *s)
 }
 
 struct Process {
-        int pid, ppid, nson;
+        int pid, ppid, nson, nthr;
         char name[512];
         struct Process *son[128];
-        bool isproc;
+        struct Process *thr[128];
 };
 
 char tmp[1024];
@@ -47,7 +47,6 @@ void getinfo(struct Process *ret, int pid)
         strcpy(ret->name, tmp + 1);
         fscanf(fp, "%s", tmp);
         fscanf(fp, "%d", &ret->ppid);   // Get ppid
-        ret->isproc = true;
         fclose(fp);
 
         fp = fopen(childfile, "r");
@@ -61,18 +60,18 @@ void getinfo(struct Process *ret, int pid)
 
         DIR *dir;
         struct dirent *ent;
+        ret->nthr = 0;
         if ((dir = opendir(taskdirname)) != NULL) {
                 while ((ent = readdir(dir)) != NULL) {
                         if (isnumber(ent->d_name)) {
                                 int tid = atoi(ent->d_name);
                                 if (tid != pid) {
-                                        ret->son[ret->nson] =
+                                        ret->thr[ret->nson] =
                                             malloc(sizeof(struct Process));
                                         sprintf(tmp, "{%s}", ret->name);
                                         strcpy(ret->son[ret->nson]->name, tmp);
-                                        ret->son[ret->nson]->pid = tid;
-                                        ret->son[ret->nson]->isproc = false;
-                                        ret->nson++;
+                                        ret->thr[ret->nson]->pid = tid;
+                                        ret->nthr++;
                                 }
 
                         }
@@ -86,8 +85,10 @@ void search(struct Process *cur, int depth)
 {
         printf("%*s%s(%d)\n", depth, "", cur->name, cur->pid);
         for (int i = 0; i < cur->nson; ++i) {
-                if (cur->isproc)
-                        search(cur->son[i], depth + 1);
+            search(cur->son[i], depth + 1);
+        }
+        for (int i = 0; i < cur->nson; ++i) {
+            printf("%*s%s(%d)\n", depth+1, "", cur->name, cur->pid);
         }
 }
 
