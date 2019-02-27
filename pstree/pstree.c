@@ -5,6 +5,7 @@
 #include <dirent.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 typedef int bool;
 #define true 1
@@ -13,9 +14,9 @@ typedef int bool;
 char filename[512], procname[256];
 bool visit[32768];
 
-#define isstrnumber(x) isnumber(x, strlen(x))
-bool isnumber(char *s, int length)
+bool isnumber(char *s)
 {
+    int length = strlen(s);
     printf("%s", s);
         for (int i = 0; i < length; ++i) {
                 if (!isdigit(s[i])) {
@@ -62,7 +63,7 @@ void getinfo(struct Process * ret, int pid){
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(taskdirname)) != NULL) {
-        while ((ent = readdir(dir)) != NULL && isstrnumber(ent->d_name)) {
+        while ((ent = readdir(dir)) != NULL && isnumber(ent->d_name)) {
             printf("HHH\n");
             int tid = atoi(ent->d_name);
             if (tid != pid) {
