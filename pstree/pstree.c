@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
       while ((ent = readdir(dir))!=NULL){
         if (isnumber(ent->d_name, strlen(ent->d_name))){
           sprintf(filename, "/proc/%s/comm", ent->d_name);
-          FILE *fp = fopen(filename, 'r');
+          FILE *fp = fopen(filename, "r");
           if (fp) {
             fscanf(fp, "%s", procname);
             fclose(fp);
