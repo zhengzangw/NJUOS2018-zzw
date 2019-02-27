@@ -126,7 +126,7 @@ void getinfo(struct Process * ret, int pid){
 void search(struct Process * cur, int depth){
   printf("%*s%s(%d)\n", depth, "", cur->name, cur->pid);
   for (int i=0; i<cur->nson; ++i){
-      search(cur->son[i], depth+1);
+      if (cur->isproc) search(cur->son[i], depth+1);
   }
 }
 
