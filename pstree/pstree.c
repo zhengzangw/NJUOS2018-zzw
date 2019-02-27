@@ -72,9 +72,9 @@ void search(int cur, int depth)
 }
 
 struct Process {
-    int pid,ppid;
+    int pid,ppid,nson;
     char name[512];
-    struct process* son[128];
+    struct Process* son[128];
     bool isproc;
 };
 
@@ -96,9 +96,11 @@ struct Process getinfo(int pid, bool isproc){
     fclose(fp);
 
     fp = fopen(childfile, "r");
+    ret.nson = 0;
     int ch;
     while ((fscanf(fp, "%d", &ch))!=EOF){
-        getinfo(ch, true);
+        struct Process cur = getinfo(ch, true);
+        ret.son[ret.nson ++] = &cur;
     }
     return ret;
 }
