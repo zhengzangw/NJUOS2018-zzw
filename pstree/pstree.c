@@ -103,6 +103,7 @@ void getinfo(struct Process * ret, int pid, bool isproc){
     while ((fscanf(fp, "%d", &ch))!=EOF){
         ret->son[ret->nson] = malloc(sizeof(struct Process));
         getinfo(ret->son[ret->nson], ch, true);
+        ret->nson++;
     }
 }
 
