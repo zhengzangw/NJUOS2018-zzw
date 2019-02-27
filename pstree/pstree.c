@@ -16,63 +16,14 @@ bool visit[32768];
 #define isstrnumber(x) isnumber(x, strlen(x))
 bool isnumber(char *s, int length)
 {
+    printf("%s", s);
         for (int i = 0; i < length; ++i) {
-                if (!(s[i] >= '0' && s[i] <= '9')) {
+                if (!isdigit(s[i])) {
                         return false;
                 }
         }
         return true;
 }
-
-/*
-void search(int cur, int depth)
-{
-        if (!visit[cur]) {
-                visit[cur] = 1;
-
-                sprintf(filename, "/proc/%d/comm", cur);
-                FILE *fp = fopen(filename, "r");
-                if (fp) {
-                        fscanf(fp, "%s", procname);
-                        fclose(fp);
-                } else {
-                        printf("Error on %s\n", filename);
-                }
-
-                printf("%*s%s(%d)\n", 4*depth, "", procname, cur);
-
-                // get task
-                DIR *dir;
-                struct dirent *ent;
-                sprintf(filename, "/proc/%d/task/", cur);
-                if ((dir = opendir(filename)) != NULL) {
-                        while ((ent = readdir(dir)) != NULL) {
-                                if (isnumber(ent->d_name, strlen(ent->d_name))) {
-                                        int curdd = atoi(ent->d_name);
-                                        if (curdd != cur)
-                                        printf("%*s%s(%d)\n", 4*(depth+1), "", procname, curdd);
-                                }
-                        }
-                        closedir(dir);
-                } else {
-                        perror("");
-                        return;
-                }
-                // get child process
-                int ch;
-                sprintf(filename, "/proc/%d/task/%d/children", cur, cur);
-                fp = fopen(filename, "r");
-                if (fp) {
-                        while (fscanf(fp, "%d", &ch) != EOF) {
-                                search(ch, depth + 1);
-                        }
-                        fclose(fp);
-                } else {
-                        printf("Error on %s\n", filename);
-                }
-        }
-}
-*/
 
 struct Process {
     int pid,ppid,nson;
