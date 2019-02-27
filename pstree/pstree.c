@@ -120,7 +120,6 @@ void getinfo(struct Process * ret, int pid){
               ret->son[ret->nson]->isproc = false;
               ret->nson ++;
             }
-          }
         }
         closedir(dir);
     } else assert(0);
