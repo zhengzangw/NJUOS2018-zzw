@@ -66,11 +66,11 @@ void getinfo(struct Process *ret, int pid)
                         if (isnumber(ent->d_name)) {
                                 int tid = atoi(ent->d_name);
                                 if (tid != pid) {
-                                        ret->thr[ret->nson] =
+                                        ret->thr[ret->nthr] =
                                             malloc(sizeof(struct Process));
                                         sprintf(tmp, "{%s}", ret->name);
-                                        strcpy(ret->son[ret->nson]->name, tmp);
-                                        ret->thr[ret->nson]->pid = tid;
+                                        strcpy(ret->thr[ret->nthr]->name, tmp);
+                                        ret->thr[ret->nthr]->pid = tid;
                                         ret->nthr++;
                                 }
 
@@ -117,6 +117,6 @@ int main(int argc, char *argv[])
 
         struct Process *root = malloc(sizeof(struct Process));
         getinfo(root, 1);
-        //search(root, 0);
+        search(root, 0);
         return 0;
 }
