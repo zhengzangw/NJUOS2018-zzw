@@ -71,7 +71,8 @@ void getinfo(struct Process *ret, int pid)
                                         sprintf(tmp, "{%s}", ret->name);
                                         strcpy(ret->thr[ret->nthr]->name, tmp);
                                         ret->thr[ret->nthr]->pid = tid;
-                                        ret->thr[ret->nthr]->nthr=ret->thr[ret->nthr]->nson = 0;
+                                        ret->thr[ret->nthr]->nthr =
+                                            ret->thr[ret->nthr]->nson = 0;
                                         ret->nthr++;
                                 }
 
@@ -94,13 +95,13 @@ void search(struct Process *cur, int type, bool isproc)
                 stack[++head] = strlen(tmp) + 1;
         } else {
                 switch (type) {
-                case 0: //first of one subtree
+                case 0:        //first of one subtree
                         sprintf(tmp, "-%s(%d)", cur->name, cur->pid);
                         stack[head + 1] = stack[head] + strlen(tmp) + 1;
                         head++;
                         break;
                 case -1:
-                        pre[stack[head]-1]='\\';
+                        pre[stack[head] - 1] = '\\';
                 default:
                         sprintf(tmp, "%s-%s(%d)", pre, cur->name, cur->pid);
                         stack[++head] = strlen(tmp) + 1;
@@ -108,13 +109,14 @@ void search(struct Process *cur, int type, bool isproc)
         }
 
         printf("%s", tmp);
-        if (type == -1) pre[stack[head-1]-1] = ' ';
+        if (type == -1)
+                pre[stack[head - 1] - 1] = ' ';
 
         for (int i = stack[head - 1]; i < stack[head]; ++i)
                 pre[i] = ' ';
         pre[stack[head]] = '|';
 
-        switch (cur->nson+cur->nthr) {
+        switch (cur->nson + cur->nthr) {
         case 0:
                 printf("\n");
                 break;
@@ -128,18 +130,22 @@ void search(struct Process *cur, int type, bool isproc)
 
         pre[++stack[head]] = '\0';
 
-        if (isproc){
-        for (int i = 0; i < cur->nson; ++i) {
-                int ith = i;
-                if (cur->nson>1 && cur->nthr==0 && cur->nson-1==i) ith = -1;
-                search(cur->son[i], ith, true);
+        if (isproc) {
+                for (int i = 0; i < cur->nson; ++i) {
+                        int ith = i;
+                        if (cur->nson > 1 && cur->nthr == 0
+                            && cur->nson - 1 == i)
+                                ith = -1;
+                        search(cur->son[i], ith, true);
+                }
+                for (int i = 0; i < cur->nthr; ++i) {
+                        int ith = i + cur->nson;
+                        if (cur->nson + cur->nthr > 1
+                            && cur->nthr - 1 + cur->nson == ith)
+                                ith = -1;
+                        search(cur->thr[i], ith, false);
+                }
         }
-        for (int i = 0; i < cur->nthr; ++i) {
-                int ith = i+cur->nson;
-                if (cur->nson+cur->nthr>1 && cur->nthr-1+cur->nson==ith) ith = -1;
-                search(cur->thr[i], ith, false);
-        }
-}
         head--;
         pre[stack[head]] = '\0';
 
