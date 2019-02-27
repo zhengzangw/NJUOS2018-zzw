@@ -73,9 +73,25 @@ void search(int cur, int depth)
 
 struct process {
     int pic,ppic;
-    char[128] name;
-    process* [128] son;
+    char name[512];
+    process* son[128];
+    bool isproc;
 };
+process* tree = new process;
+process* cur  = tree;
+
+void getinfo(int pid, process * cur, bool isproc){
+    char statname[512], taskdirname[512], tmp[128];
+    sprintf(statname, "/proc/%d/stat", pid);
+    sprintf(taskdirname, "/proc/%d/task/", pid);
+    FILE *fp = fopen(statname);
+    fscanf(fp, "%d", &cur->pic);
+    fscanf(fp, "%s", &tmp);
+    tmp[strlen(tmp)-1]='\0';
+    cur->name = tmp+1;
+    fscanf(fp, "%s", tmp);
+    fscanf(fp, "%d", &cur->ppic)
+}
 
 int main(int argc, char *argv[])
 {
@@ -100,6 +116,9 @@ int main(int argc, char *argv[])
         }
         printf("%d%d\n", issort, showpid);
 
+        getinfo(fp, cur, true);
+        printf("pid=%d\nppid=%d\n%s\n", pid, ppid, name);
+/*
         DIR *dir;
         struct dirent *ent;
         if ((dir = opendir("/proc/")) != NULL) {
@@ -114,5 +133,6 @@ int main(int argc, char *argv[])
                 perror("");
                 return -1;
         }
+        */
         return 0;
 }
