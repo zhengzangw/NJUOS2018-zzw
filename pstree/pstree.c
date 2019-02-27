@@ -83,7 +83,7 @@ void getinfo(struct Process *ret, int pid)
                                             malloc(sizeof(struct Process));
                                         sprintf(tmp, "{%s}", ret->name);
                                         strcpy(ret->thr[0]->name, tmp);
-                                        ret->pid = ret->nthr;
+                                        ret->thr[0]->pid = ret->nthr;
                                         ret->nthr = 1;
                                         ret->thr[0]->nthr =
                                             ret->thr[0]->nson = 0;
