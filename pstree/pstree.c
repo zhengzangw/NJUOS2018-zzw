@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
         if (isnumber(ent->d_name, strlen(ent->d_name))){
           printf("%s\n", ent->d_name);
         }
+      }
       closedir(dir);
   } else {
     perror("");
