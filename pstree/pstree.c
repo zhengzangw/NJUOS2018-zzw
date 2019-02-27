@@ -80,16 +80,26 @@ struct Process {
 
 struct Process getinfo(int pid, bool isproc){
     struct Process ret;
-    char statname[512], taskdirname[512], tmp[128];
+    char childfile[512], statname[512], taskdirname[512], tmp[128];
     sprintf(statname, "/proc/%d/stat", pid);
     sprintf(taskdirname, "/proc/%d/task/", pid);
+    sprintf(childfile, "/proc/%d/task/%d/children/", pid, pid);
+
     FILE *fp = fopen(statname, "r");
-    fscanf(fp, "%d", &ret.pid);
-    fscanf(fp, "%s", tmp);
+    fscanf(fp, "%d", &ret.pid); // Get pid
+    fscanf(fp, "%s", tmp); // Get name
     tmp[strlen(tmp)-1]='\0';
     strcpy(ret.name, tmp+1);
     fscanf(fp, "%s", tmp);
-    fscanf(fp, "%d", &ret.ppid);
+    fscanf(fp, "%d", &ret.ppid); // Get ppid
+    ret.isproc = isproc;
+    fclose(fp);
+
+    fp = fopen(childfile, "r");
+    int ch;
+    while ((fscanf(fp, "%d", &ch))!=EOF){
+        getinfo(ch, true);
+    }
     return ret;
 }
 
