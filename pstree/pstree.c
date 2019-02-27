@@ -81,24 +81,24 @@ void getinfo(struct Process *ret, int pid)
                 assert(0);
 }
 
-void search(struct Process *cur, int depth, char pre[128], int prelen)
+char pre[128]="";
+int stack[128];
+int head=0;
+void search(struct Process *cur)
 {
         printf("-%s%s(%d)-", pre, cur->name, cur->pid);
         if (cur->nson+cur->nthr>1) printf("+"); else printf("-");
 
-        int newprelen = prelen+strlen(cur->name)+2;
-        printf("%d%d", newprelen, prelen);
-        pre[0] = ' ';
-        pre[1] = ' ';
-        //for (int i=prelen;i<newprelen;++i) pre[i]=' ';
-        //pre[newprelen] = '\0';
-        //prelen = newprelen;
+        stack[head+1] = stack[head]+strlen(cur->name)+2;
+        head++;
+        for (int i=stack[head-1];i<stack[head];++i) pre[i]=' ';
+        pre[stack[head]] = '\0';
 
         //for (int i = 0; i < cur->nson; ++i) {
-        //    search(cur->son[i], depth + 1, pre, prelen);
+        //    search(cur->son[i], pre, prelen);
         //}
         for (int i = 0; i < cur->nthr; ++i) {
-            printf("%*s%s(%d)\n", depth+1, "", cur->thr[i]->name, cur->thr[i]->pid);
+            printf("%s%s(%d)\n", pre, cur->thr[i]->name, cur->thr[i]->pid);
         }
 }
 
@@ -129,6 +129,6 @@ int main(int argc, char *argv[])
 
         struct Process *root = malloc(sizeof(struct Process));
         getinfo(root, 1);
-        search(root, 0, "", 0);
+        search(root);
         return 0;
 }
