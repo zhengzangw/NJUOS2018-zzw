@@ -85,7 +85,6 @@ void getinfo(struct Process * ret, int pid){
     sprintf(statname, "/proc/%d/stat", pid);
     sprintf(taskdirname, "/proc/%d/task/", pid);
     sprintf(childfile, "/proc/%d/task/%d/children", pid, pid);
-    printf("HHH");
 
 
     FILE *fp = fopen(statname, "r");
@@ -156,6 +155,7 @@ int main(int argc, char *argv[])
         printf("%d%d\n", issort, showpid);
 
         struct Process *root = malloc(sizeof(struct Process));
+        printf("HHH");
         getinfo(root, 1);
         search(root, 0);
 /*
