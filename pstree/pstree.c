@@ -34,8 +34,22 @@ void search(int cur, int depth){
         } else {
         printf("Error on %s\n", filename);
         }
-        printf("%*s%s(%d)\n", depth, "", procname, cur);
     }
+
+    printf("%*s%s(%d)\n", depth, "", procname, cur);
+
+    int ch;
+    sprintf(filename, "/proc/%d/task/%d/children", cur, cur);
+    FILE *fp = fopen(filename, "r");
+    if (fp) {
+          fscanf(fp, "%d", &ch);
+          search(atoi(ch));
+          fclose(fp);
+        } else {
+          printf("Error on %s\n", filename);
+        }
+    }
+
 }
 
 int main(int argc, char *argv[]) {
