@@ -84,12 +84,12 @@ struct Process getinfo(int pid, bool isproc){
     sprintf(statname, "/proc/%d/stat", pid);
     sprintf(taskdirname, "/proc/%d/task/", pid);
     FILE *fp = fopen(statname, "r");
-    fscanf(fp, "%d", &ret.pic);
+    fscanf(fp, "%d", &ret.pid);
     fscanf(fp, "%s", tmp);
     tmp[strlen(tmp)-1]='\0';
     strcpy(ret.name, tmp+1);
     fscanf(fp, "%s", tmp);
-    fscanf(fp, "%d", &ret.ppic);
+    fscanf(fp, "%d", &ret.ppid);
     return ret;
 }
 
