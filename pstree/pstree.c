@@ -4,10 +4,14 @@
 #include <getopt.h>
 #include <dirent.h>
 #include <string.h>
+#include <stdlib.h>
 
 typedef int bool;
 #define true 1
 #define false 0
+
+char filename[512], procname[256];
+bool visit[32768];
 
 bool isnumber(char* s, int length){
     for (int i=0;i<length;++i){
@@ -16,6 +20,22 @@ bool isnumber(char* s, int length){
         }
     }
     return true;
+}
+
+void search(int cur){
+    if (!visit[cur]){
+      visit[cur] = 1;
+
+    sprintf(filename, "/proc/%d/comm", cur);
+    FILE *fp = fopen(filename, "r");
+    if (fp) {
+        fscanf(fp, "%s", procname);
+        fclose(fp);
+        } else {
+        printf("Error on %s\n", filename);
+        }
+        printf("%s(%d)\n", procname, cur);
+    }
 }
 
 int main(int argc, char *argv[]) {
@@ -41,19 +61,11 @@ int main(int argc, char *argv[]) {
 
   DIR *dir;
   struct dirent *ent;
-  char filename[512], procname[256];
   if ((dir = opendir("/proc/"))!=NULL){
       while ((ent = readdir(dir))!=NULL){
         if (isnumber(ent->d_name, strlen(ent->d_name))){
-          sprintf(filename, "/proc/%s/comm", ent->d_name);
-          FILE *fp = fopen(filename, "r");
-          if (fp) {
-            fscanf(fp, "%s", procname);
-            fclose(fp);
-          } else {
-            printf("Error on %s\n", filename);
-          }
-          printf("%s(%s)\n", procname, ent->d_name);
+          int cur = atoi(ent->d_name);
+          search(cur);
         }
       }
       closedir(dir);
