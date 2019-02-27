@@ -81,54 +81,59 @@ void getinfo(struct Process *ret, int pid)
                 assert(0);
 }
 
-char pre[128]="";
+char pre[128] = "";
 int stack[128];
-int head=0;
+int head = 0;
 bool isroot = true;
 void search(struct Process *cur, int type)
 {
-    if (isroot){
-        sprintf(tmp, "%s(%d)", cur->name, cur->pid);
-        isroot = false;
-    } else {
-    switch (type){
+        if (isroot) {
+                sprintf(tmp, "%s(%d)", cur->name, cur->pid);
+                isroot = false;
+                stack[++head] = strlen(tmp) + 1;
+        } else {
+                switch (type) {
+                case 0:
+                        sprintf(tmp, "-%s(%d)", cur->name, cur->pid);
+                        stack[head + 1] = stack[head] + strlen(tmp) + 1;
+                        head++;
+                        break;
+
+                default:       //first of one subtree
+                        sprintf(tmp, "%s-%s(%d)", pre, cur->name, cur->pid);
+                        stack[++head] = strlen(tmp) + 1;
+                }
+        }
+
+        for (int i = stack[head - 1]; i < stack[head]; ++i)
+                pre[i] = ' ';
+        pre[stack[head]] = '|';
+        pre[++stack[head]] = '\0';
+
+        printf("%s", tmp);
+        switch (cur->nson) {
         case 0:
-            sprintf(tmp, "-%s(%d)", cur->name, cur->pid);
-            stack[head+1] = stack[head]+strlen(tmp)+1;
-            head++;
-            break;
-
-        default: //first of one subtree
-            sprintf(tmp, "%s-%s(%d)",pre, cur->name, cur->pid);
-            stack[++head] = strlen(tmp)+1;
-    }
-            for (int i=stack[head-1];i<stack[head];++i) pre[i]=' ';
-            pre[stack[head]] = '|';
-            pre[++stack[head]] = '\0';
-    }
-
-    printf("%s", tmp);
-    switch (cur->nson){
-        case 0: printf("\n"); break;
-        case 1: printf("--");  break;
-        default: printf("-+");
-    }
-
+                printf("\n");
+                break;
+        case 1:
+                printf("--");
+                break;
+        default:
+                printf("-+");
+        }
 
         for (int i = 0; i < cur->nson; ++i) {
-            int ith = i==cur->nson-1?-1:i;
-            search(cur->son[i],ith);
+                int ith = i == cur->nson - 1 ? -1 : i;
+                search(cur->son[i], ith);
         }
         //for (int i = 0; i < cur->nthr; ++i) {
         //    printf("%s%s(%d)\n", pre, cur->thr[i]->name, cur->thr[i]->pid);
         //}
-    if (type>0)
-    head--;
-    pre[stack[head]] = '\0';
+        if (type > 0)
+                head--;
+        pre[stack[head]] = '\0';
 
 }
-
-
 
 int main(int argc, char *argv[])
 {
