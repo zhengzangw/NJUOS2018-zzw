@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
   if ((dir = opendir("/proc/"))!=NULL){
       while ((ent = readdir(dir))!=NULL){
         if (isnumber(ent->d_name, strlen(ent->d_name))){
-          sprintf(filename, "/proc/%s/comm", ent->d_name);
+          sprintf(filename, "%s", ent->d_name);
           FILE *fp = fopen(filename, "r");
           if (fp) {
             fscanf(fp, "%s", procname);
