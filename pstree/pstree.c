@@ -22,5 +22,6 @@ int main(int argc, char *argv[]) {
             showpid = true;
       }
   }
+  printf("%d%d", issort, showpid)
   return 0;
 }
