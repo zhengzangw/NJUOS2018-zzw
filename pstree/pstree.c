@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
       while ((ent = readdir(dir))!=NULL){
         printf("%s\n", ent->d_name);
       }
-      close(dir);
+      closedir(dir);
   } else {
     perror("");
     return -1;
