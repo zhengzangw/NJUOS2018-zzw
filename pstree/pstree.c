@@ -83,7 +83,7 @@ struct Process getinfo(int pid, bool isproc){
     char childfile[512], statname[512], taskdirname[512], tmp[128];
     sprintf(statname, "/proc/%d/stat", pid);
     sprintf(taskdirname, "/proc/%d/task/", pid);
-    sprintf(childfile, "/proc/%d/task/%d/children/", pid, pid);
+    sprintf(childfile, "/proc/%d/task/%d/children", pid, pid);
 
 
     FILE *fp = fopen(statname, "r");
