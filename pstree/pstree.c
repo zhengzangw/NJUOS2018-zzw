@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
             issort = true;
             break;
           case 'p':
-            showpid = true
+            showpid = true;
       }
   }
   return 0;
