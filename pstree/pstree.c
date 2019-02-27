@@ -85,7 +85,6 @@ struct Process getinfo(int pid, bool isproc){
     sprintf(taskdirname, "/proc/%d/task/", pid);
     sprintf(childfile, "/proc/%d/task/%d/children/", pid, pid);
 
-    printf("HHH\n");
 
     FILE *fp = fopen(statname, "r");
     fscanf(fp, "%d", &ret.pid); // Get pid
@@ -97,6 +96,7 @@ struct Process getinfo(int pid, bool isproc){
     ret.isproc = isproc;
     fclose(fp);
 
+    printf("HHH\n");
     fp = fopen(childfile, "r");
     ret.nson = 0;
     int ch;
