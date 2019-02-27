@@ -13,6 +13,7 @@ typedef int bool;
 
 char filename[512], procname[256];
 bool visit[32768];
+bool issort = false, showpid = false;
 
 bool isnumber(char *s)
 {
@@ -151,7 +152,8 @@ void search(struct Process *cur, int type, bool isproc)
                         search(cur->thr[i], ith, false);
                 }
             } else if (cur->nthr>0){
-                sprintf(cur->thr[0]->name, "%d*[%s]", realnthr, cur->thr[0]->name);
+                sprintf(tmp, "%d*[%s]", realnthr, cur->thr[0]->name);
+                strcpy(cur->thr[0]->name, tmp);
                 int ith;
                 if (cur->nson==0) ith = 0; else ith = -1;
                 search(cur->thr[0], ith, false);
@@ -165,7 +167,6 @@ void search(struct Process *cur, int type, bool isproc)
 int main(int argc, char *argv[])
 {
         // getopt
-        bool issort = false, showpid = false;
         int opt;
         while ((opt = getopt(argc, argv, "Vnp")) != -1) {
                 switch (opt) {
