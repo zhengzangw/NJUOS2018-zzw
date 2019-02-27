@@ -100,25 +100,25 @@ void getinfo(struct Process * ret, int pid){
     fp = fopen(childfile, "r");
     ret->nson = 0;
     int ch;
-    printf("HHH\n");
     while ((fscanf(fp, "%d", &ch))!=EOF){
         ret->son[ret->nson] = malloc(sizeof(struct Process));
         getinfo(ret->son[ret->nson], ch);
         ret->nson++;
-    printf("HHH\n");
     }
 
+    printf("HHH\n");
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(taskdirname)) != NULL) {
+    printf("HHH\n");
         while ((ent = readdir(dir)) != NULL) {
           int tid = atoi(ent->d_name);
-             if (tid != pid) {
-                ret->son[ret->nson] = malloc(sizeof(struct Process));
-                strcpy(ret->son[ret->nson]->name,(strcat("{", ret->name),"}"));
-                ret->son[ret->nson]->pid = tid;
-                ret->isproc = false;
-             }
+           if (tid != pid) {
+              ret->son[ret->nson] = malloc(sizeof(struct Process));
+              strcpy(ret->son[ret->nson]->name,(strcat("{", ret->name),"}"));
+              ret->son[ret->nson]->pid = tid;
+              ret->isproc = false;
+           }
         }
         closedir(dir);
     } else assert(0);
