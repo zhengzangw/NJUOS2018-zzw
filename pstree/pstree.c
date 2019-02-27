@@ -94,9 +94,10 @@ void search(struct Process *cur)
         for (int i=stack[head-1];i<stack[head];++i) pre[i]=' ';
         pre[stack[head]] = '\0';
 
-        //for (int i = 0; i < cur->nson; ++i) {
-        //    search(cur->son[i], pre, prelen);
-        //}
+        for (int i = 0; i < cur->nson; ++i) {
+            search(cur->son[i]);
+            printf("\n");
+        }
         for (int i = 0; i < cur->nthr; ++i) {
             printf("%s%s(%d)\n", pre, cur->thr[i]->name, cur->thr[i]->pid);
         }
