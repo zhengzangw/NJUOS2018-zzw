@@ -93,13 +93,13 @@ void search(struct Process *cur, int type)
                 stack[++head] = strlen(tmp) + 1;
         } else {
                 switch (type) {
-                case 0:
+                case 0: //first of one subtree
                         sprintf(tmp, "-%s(%d)", cur->name, cur->pid);
                         stack[head + 1] = stack[head] + strlen(tmp) + 1;
                         head++;
                         break;
-
-                default:       //first of one subtree
+                case -1:
+                default:
                         sprintf(tmp, "%s-%s(%d)", pre, cur->name, cur->pid);
                         stack[++head] = strlen(tmp) + 1;
                 }
@@ -123,7 +123,8 @@ void search(struct Process *cur, int type)
         }
 
         for (int i = 0; i < cur->nson; ++i) {
-                int ith = i == cur->nson - 1 ? -1 : i;
+                int ith = i;
+                if (cur->nson>1 && cur->nson-1==i) ith = -1;
                 search(cur->son[i], ith);
         }
         //for (int i = 0; i < cur->nthr; ++i) {
