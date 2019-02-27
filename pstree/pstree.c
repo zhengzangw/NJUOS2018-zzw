@@ -86,7 +86,7 @@ int stack[128];
 int head=0;
 void search(struct Process *cur)
 {
-        printf("-%s%s(%d)-", pre, cur->name, cur->pid);
+        printf("%s-%s(%d)-", pre, cur->name, cur->pid);
         if (cur->nson+cur->nthr>1) printf("+"); else printf("-");
 
         stack[head+1] = stack[head]+strlen(cur->name)+2;
