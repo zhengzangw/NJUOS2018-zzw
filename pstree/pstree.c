@@ -42,7 +42,7 @@ void search(int cur, int depth)
                 // get task
                 DIR *dir;
                 struct dirent *ent;
-                sprintf(filename, "/proc/%d/task/");
+                sprintf(filename, "/proc/%d/task/", cur);
                 if ((dir = opendir(filename)) != NULL) {
                         while ((ent = readdir(dir)) != NULL) {
                                 if (isnumber(ent->d_name, strlen(ent->d_name))) {
