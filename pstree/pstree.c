@@ -34,7 +34,6 @@ void search(int cur, int depth){
         } else {
         printf("Error on %s\n", filename);
         }
-    }
 
     printf("%*s%s(%d)\n", depth, "", procname, cur);
 
@@ -48,8 +47,7 @@ void search(int cur, int depth){
         } else {
           printf("Error on %s\n", filename);
         }
-    }
-
+  }
 }
 
 int main(int argc, char *argv[]) {
