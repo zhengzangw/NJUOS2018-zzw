@@ -99,6 +99,7 @@ struct Process getinfo(int pid, bool isproc){
     ret.nson = 0;
     int ch;
     while ((fscanf(fp, "%d", &ch))!=EOF){
+        printf("ch=%d\n", ch);
         struct Process cur = getinfo(ch, true);
         ret.son[ret.nson ++] = &cur;
     }
