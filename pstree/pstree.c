@@ -87,7 +87,6 @@ int head = 0;
 bool isroot = true;
 void search(struct Process *cur, int type)
 {
-        char div = '|';
         if (isroot) {
                 sprintf(tmp, "%s(%d)", cur->name, cur->pid);
                 isroot = false;
@@ -100,7 +99,7 @@ void search(struct Process *cur, int type)
                         head++;
                         break;
                 case -1:
-                        div = '\\';
+                        pre[stack[head]-1]='\\';
                 default:
                         sprintf(tmp, "%s-%s(%d)", pre, cur->name, cur->pid);
                         stack[++head] = strlen(tmp) + 1;
@@ -109,7 +108,7 @@ void search(struct Process *cur, int type)
 
         for (int i = stack[head - 1]; i < stack[head]; ++i)
                 pre[i] = ' ';
-        pre[stack[head]] = div;
+        pre[stack[head]] = '|';
         pre[++stack[head]] = '\0';
 
         printf("%s", tmp);
