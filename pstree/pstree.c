@@ -13,6 +13,7 @@ typedef int bool;
 char filename[512], procname[256];
 bool visit[32768];
 
+#define isstrnumber(x) isnumer(x, strlen(x))
 bool isnumber(char *s, int length)
 {
         for (int i = 0; i < length; ++i) {
@@ -110,7 +111,7 @@ void getinfo(struct Process * ret, int pid){
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(taskdirname)) != NULL) {
-        while ((ent = readdir(dir)) != NULL) {
+        while ((ent = readdir(dir)) != NULL && isstrnumber(ent->d_name)) {
             int tid = atoi(ent->d_name);
             if (tid != pid) {
               ret->son[ret->nson] = malloc(sizeof(struct Process));
