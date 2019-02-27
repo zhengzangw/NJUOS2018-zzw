@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
           case 'p':
             showpid = true;
           default:
-            printf("No such option, only -V,-n,-p is available.\n", opt);
+            printf("No such option, only -V,-n,-p is available.\n");
             return -1;
       }
   }
