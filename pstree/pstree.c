@@ -22,7 +22,7 @@ bool isnumber(char* s, int length){
     return true;
 }
 
-void search(int cur){
+void search(int cur, int depth){
     if (!visit[cur]){
       visit[cur] = 1;
 
@@ -34,7 +34,7 @@ void search(int cur){
         } else {
         printf("Error on %s\n", filename);
         }
-        printf("%s(%d)\n", procname, cur);
+        printf("%*%s%s(%d)\n", depth, "", procname, cur);
     }
 }
 
@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
       while ((ent = readdir(dir))!=NULL){
         if (isnumber(ent->d_name, strlen(ent->d_name))){
           int cur = atoi(ent->d_name);
-          search(cur);
+          search(cur, 0);
         }
       }
       closedir(dir);
