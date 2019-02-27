@@ -105,8 +105,9 @@ void search(struct Process *cur, int type, bool isproc)
         if (isroot) {
             if (showpid)
                 sprintf(tmp, "%s(%d)", cur->name, cur->pid);
-            else
+            else{
                 sprintf(tmp, "%s", cur->name);
+            }
                 isroot = false;
                 stack[++head] = strlen(tmp) + 1;
         } else {
@@ -114,8 +115,9 @@ void search(struct Process *cur, int type, bool isproc)
                 case 0:        //first of one subtree
             if (showpid)
                 sprintf(tmp, "%s(%d)", cur->name, cur->pid);
-            else
+            else{
                 sprintf(tmp, "%s", cur->name);
+                }
                         stack[head + 1] = stack[head] + strlen(tmp) + 1;
                         head++;
                         break;
@@ -124,8 +126,9 @@ void search(struct Process *cur, int type, bool isproc)
                 default:
                 if (showpid)
                         sprintf(tmp, "%s-%s(%d)", pre, cur->name, cur->pid);
-                else
+                else{
                     sprintf(tmp, "%s-%s", pre, cur->name);
+                    }
                         stack[++head] = strlen(tmp) + 1;
                 }
         }
