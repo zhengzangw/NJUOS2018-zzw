@@ -116,8 +116,8 @@ int main(int argc, char *argv[])
         }
         printf("%d%d\n", issort, showpid);
 
-        struct Process* tree = &(getinfo(1, true));
-        printf("pid=%d\nppid=%d\n%s\n", tree->pid, tree->ppid, tree->name);
+        struct Process tree = getinfo(1, true);
+        printf("pid=%d\nppid=%d\n%s\n", tree.pid, tree.ppid, tree.name);
 /*
         DIR *dir;
         struct dirent *ent;
