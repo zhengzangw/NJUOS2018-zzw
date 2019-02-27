@@ -71,6 +71,12 @@ void search(int cur, int depth)
         }
 }
 
+struct process {
+    int pic,ppic;
+    char[128] name;
+    process* [128] son;
+};
+
 int main(int argc, char *argv[])
 {
         // getopt
