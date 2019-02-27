@@ -99,9 +99,7 @@ struct Process getinfo(int pid, bool isproc){
     fp = fopen(childfile, "r");
     ret.nson = 0;
     int ch;
-    printf("HHH\n");
     while ((fscanf(fp, "%d", &ch))!=EOF){
-    printf("HHH\n");
         printf("ch=%d\n", ch);
         struct Process cur = getinfo(ch, true);
         ret.son[ret.nson ++] = &cur;
