@@ -86,33 +86,33 @@ int stack[128];
 int head=0;
 void search(struct Process *cur, int type)
 {
-    switch (type){
-        case 0: //root
-            sprintf(tmp, "%s(%d)-", cur->name, cur->pid);
-            printf("%s%s", pre, tmp);
-            break;
-        case 1: //first of one subtree
-            sprintf(tmp, "-%s(%d)-", cur->name, cur->pid);
-            printf("%s", tmp);
-            break;
-        default: //others
-            sprintf(tmp, "-%s(%d)-", cur->name, cur->pid);
-            printf("%s%s", pre, tmp);
-            break;
-    }
 
     int chs = cur->nson;
+    char tail[5] = "";
     switch (chs){
         case 0: break;
-        case 1: printf("-");
-        default: printf("+");
+        case 1: strcpy(tail, "--");  break;
+        default: strcpy(tail, "+-");
     }
 
-        stack[head+1] = stack[head]+strlen(tmp);
-        head++;
-        for (int i=stack[head-1];i<stack[head];++i) pre[i]=' ';
-        pre[stack[head]] = '|';
-        pre[++stack[head]] = '\0';
+    switch (type){
+        case 0: //root
+            sprintf(tmp, "%s(%d)", cur->name, cur->pid);
+            break;
+        case 1: //first of one subtree
+            sprintf(tmp, "-%s(%d)", cur->name, cur->pid);
+            break;
+        default: //others
+            sprintf(tmp, "%s-%s(%d)",pre, cur->name, cur->pid);
+            stack[++head] = strlen(tmp)+1;
+            break;
+    }
+
+    printf("%s%s%s", pre, tmp, tail);
+
+    for (int i=stack[head-1];i<stack[head];++i) pre[i]=' ';
+    pre[stack[head]] = '|';
+    pre[++stack[head]] = '\0';
 
         for (int i = 0; i < cur->nson; ++i) {
             search(cur->son[i],i==0?1:2);
