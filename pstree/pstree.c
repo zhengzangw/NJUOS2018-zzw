@@ -37,7 +37,7 @@ void search(int cur, int depth)
                         printf("Error on %s\n", filename);
                 }
 
-                printf("%*s%s(%d)\n", depth, "\t", procname, cur);
+                printf("%*s%s(%d)\n", 4*depth, "", procname, cur);
 
                 // get task
                 DIR *dir;
@@ -48,7 +48,7 @@ void search(int cur, int depth)
                                 if (isnumber(ent->d_name, strlen(ent->d_name))) {
                                         int curdd = atoi(ent->d_name);
                                         if (curdd != cur)
-                                        printf("%*s%s(%d)\n", depth+1, "\t", procname, curdd);
+                                        printf("%*s%s(%d)\n", 4*(depth+1), "", procname, curdd);
                                 }
                         }
                         closedir(dir);
