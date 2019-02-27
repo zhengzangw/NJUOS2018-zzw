@@ -41,12 +41,12 @@ int main(int argc, char *argv[]) {
 
   DIR *dir;
   struct dirent *ent;
-  char filename[128], procname[128];
+  char filename[256], procname[256];
   if ((dir = opendir("/proc/"))!=NULL){
       while ((ent = readdir(dir))!=NULL){
         if (isnumber(ent->d_name, strlen(ent->d_name))){
-          sprintf(filename, "%s", ent->d_name);
-          FILE *fp = fopen(filename, "r");
+          sprintf(filename, "/proc/%s/comm", ent->d_name);
+          FILE *fp = fopen(filename, 'r');
           if (fp) {
             fscanf(fp, "%s", procname);
             fclose(fp);
