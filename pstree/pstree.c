@@ -74,11 +74,11 @@ void search(int cur, int depth)
 struct process {
     int pic,ppic;
     char name[512];
-    process* son[128];
+    struct process* son[128];
     bool isproc;
 };
-process* tree = new struct process;
-process* cur  = tree;
+struct process* tree = new struct process;
+struct process* cur  = tree;
 
 void getinfo(int pid, process * cur, bool isproc){
     char statname[512], taskdirname[512], tmp[128];
