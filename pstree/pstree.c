@@ -90,7 +90,7 @@ void search(struct Process *cur, int type)
     int chs = cur->nson;
     char tail[5] = "";
     switch (chs){
-        case 0: printf("\n"); break;
+        case 0: strcpy(tail, "\n"); break;
         case 1: strcpy(tail, "--");  break;
         default: strcpy(tail, "-+");
     }
