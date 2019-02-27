@@ -95,7 +95,7 @@ void search(struct Process *cur, int type)
             sprintf(tmp, "-%s(%d)-", cur->name, cur->pid);
             printf("%s", tmp);
             break;
-        case 2: //others
+        default: //others
             sprintf(tmp, "-%s(%d)-", cur->name, cur->pid);
             printf("%s%s", pre, tmp);
             break;
@@ -110,7 +110,7 @@ void search(struct Process *cur, int type)
         pre[++stack[head]] = '\0';
 
         for (int i = 0; i < cur->nson; ++i) {
-            search(cur->son[i],i==0);
+            search(cur->son[i],i==0?1:2);
             printf("\n");
         }
         //for (int i = 0; i < cur->nthr; ++i) {
