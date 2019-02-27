@@ -13,7 +13,7 @@ typedef int bool;
 char filename[512], procname[256];
 bool visit[32768];
 
-#define isstrnumber(x) isnumer(x, strlen(x))
+#define isstrnumber(x) isnumber(x, strlen(x))
 bool isnumber(char *s, int length)
 {
         for (int i = 0; i < length; ++i) {
