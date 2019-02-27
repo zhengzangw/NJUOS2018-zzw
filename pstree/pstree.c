@@ -106,7 +106,6 @@ void getinfo(struct Process * ret, int pid){
         ret->nson++;
     }
 
-    /*
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(taskdirname)) != NULL) {
@@ -117,12 +116,12 @@ void getinfo(struct Process * ret, int pid){
               ret->son[ret->nson] = malloc(sizeof(struct Process));
               strcpy(ret->son[ret->nson]->name,(strcat("{", ret->name),"}"));
               ret->son[ret->nson]->pid = tid;
-              ret->isproc = false;
+              ret->son[ret->nson]->proc = false;
+              ret->nson ++;
            }
         }
         closedir(dir);
     } else assert(0);
-    */
 }
 
 void search(struct Process * cur, int depth){
