@@ -107,7 +107,7 @@ void search(struct Process *cur, int type)
         }
 
         printf("%s", tmp);
-        if (type == -1) pre[stack[head]-1] = ' ';
+        if (type == -1) pre[stack[head-1]-1] = ' ';
 
         for (int i = stack[head - 1]; i < stack[head]; ++i)
                 pre[i] = ' ';
