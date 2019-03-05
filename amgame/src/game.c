@@ -96,8 +96,8 @@ void screen_update_obs(struct Item obs){
 
 
 void init_obs(struct Item obs){
-    obs.x = width;
-    obs.y = 0;
+    obs.x = width-10;
+    obs.y = 10;
     obs.dx = -5;
     obs.dy = obs.ddx = obs.ddy =0;
     obs.w = 3;
