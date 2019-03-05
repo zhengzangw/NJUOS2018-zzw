@@ -86,7 +86,7 @@ void init_obs(struct Item* obs){
     } else {
     obs->y = rand()%(height/4)+rand()%(height/4);
     obs->dx = -1;
-    obs->ddx = 1;
+    obs->ddx = -1;
     obs->h = rand()%(height/3)+height/5;
     }
     if (obs->h+obs->y > height) obs->h = height-obs->h-1;
