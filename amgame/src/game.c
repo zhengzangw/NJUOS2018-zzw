@@ -89,8 +89,8 @@ void screen_update_player(){
 
 uint32_t white[1000];
 void screen_update_obs(struct Item obs){
-    clear_rect(obs.x, obs.y, obs.w, obs.h);
-    UPDATE(obs);
+    //clear_rect(obs.x, obs.y, obs.w, obs.h);
+    //UPDATE(obs);
     draw_rect(white, obs.x, obs.y, obs.w, obs.h);
 }
 
@@ -125,7 +125,6 @@ int main()
         player.x = width / 3;
         player.y = height / 3;
 
-        draw_rect(white, width-10, 10, 3, 30);
         init_obs(obs[head_obs]);
         while (1) {
                 while (uptime() < next_frame) ;
