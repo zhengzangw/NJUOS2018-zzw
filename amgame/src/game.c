@@ -2,24 +2,38 @@
 #include <klib.h>
 
 #define ISKEYDOWN(x) (((x)&0x8000))
+#define KEYCODE(x) ((x)&0x7fff)
 const int FPS = 1;
 static int weight, height, next_frame, key;
 
 void init_screen();
-void splash();
+void splash(int);
+
+int t = 0;
+
+void game_progress(){
+}
+
+void screen_update(){
+  t ^= 1;
+  splash(t);
+}
 
 int main() {
   // Operating system is a C program
   _ioe_init();
   init_screen();
 
-  splash();
   while (1) {
     while (uptime() < next_frame);
-    printf("%d\n", _KEY_W);
     while ((key = read_key())!=_KEY_NONE && ISKEYDOWN(key)){
-          printf("%d\n", key);
+        switch KEYCODE(key){
+          case _KEY_W: printf("Hello\n"); break;
+          default: break;
+        }
     }
+    game_progress();
+    screen_update();
     next_frame += 1000/FPS;
   }
 
@@ -45,10 +59,10 @@ void draw_srect(int x, int y, int w, int h, uint32_t color) {
   _io_write(_DEV_VIDEO, _DEVREG_VIDEO_FBCTL, &event, sizeof(event));
 }
 
-void splash() {
+void splash(int t) {
   for (int x = 0; x * SIDE <= weight; x ++) {
     for (int y = 0; y * SIDE <= height; y++) {
-      if ((x & 1) ^ (y & 1)) {
+      if (((x & 1) ^ (y & 1))==t) {
         draw_srect(x * SIDE, y * SIDE, SIDE, SIDE, 0xffff00); // white
       }
     }
