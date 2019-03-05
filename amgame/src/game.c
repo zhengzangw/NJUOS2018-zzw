@@ -15,6 +15,8 @@
     } while(0)
 #define clear_rect(x,y,w,h) draw_rect(black, x, y, w, h)
 #define INBOUND(item) (((item)->x>=10)&&((item)->y>=0)&&((item)->x+(item)->w<=width)&&((item)->y+(item)->h<=height))
+#define COLLIDE(player, item) (((player)->x+(player)->w>=(item)->x) && ((player)->x+(player)->w >= (item)->x+(item)->w)\
+        && ( ((player)->y>(item)->y && (player)->y<(item)->y+(item)->h)||((player)->y+(player)->h>(item)->y && (player)->y+(player)->h<(item)->y+(item)->h) ))
 #define FPS 10;
 #define VECT 12;
 #define _PLAYER_FLASH 8
@@ -81,9 +83,16 @@ void game_progress()
     int add;
     counter = (counter + 1) % _OBS_FLASH;
     if (!counter && num_obs<8) add = 1;
-    if (!INBOUND(&player)) fail = 1;
+    if (!INBOUND(&player)) {
+        fail = 1;
+        return;
+    }
 
     for (int i=0;i<10;++i){
+        if (COLLIDE(&player, &obs[i])) {
+            fail = 1;
+            return;
+        }
         if (obs[i].valid){
             if (!INBOUND(&obs[i])){
                 clear_rect(obs[i].x, obs[i].y, obs[i].w, obs[i].h);
