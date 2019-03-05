@@ -114,6 +114,7 @@ void game_progress()
 }
 
 void restart(){
+    fail = 0;
     clear_rect(player.x, player.y, player.w, player.h);
     for (int i=0;i<10;++i){
         if (obs[i].valid)
