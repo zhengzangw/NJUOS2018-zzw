@@ -1,8 +1,10 @@
 #include <game.h>
+#include <klib.h>
+
+static int weight, height;
 
 void init_screen();
 void splash();
-void read_key();
 
 int main() {
   // Operating system is a C program
@@ -12,11 +14,13 @@ int main() {
   splash();
   while (1) {
     read_key();
+    printf("%d\n",uptime());
   }
 
   return 0;
 }
 
+/*
 void read_key() {
   _DEV_INPUT_KBD_t event = { .keycode = _KEY_NONE };
   #define KEYNAME(key) \
@@ -31,17 +35,16 @@ void read_key() {
     puts("\n");
   }
 }
-
-int w, h;
+*/
 
 void init_screen() {
   _DEV_VIDEO_INFO_t info = {0};
   _io_read(_DEV_VIDEO, _DEVREG_VIDEO_INFO, &info, sizeof(info));
-  w = info.width;
-  h = info.height;
+  weight = info.width;
+  height = info.height;
 }
 
-void draw_rect(int x, int y, int w, int h, uint32_t color) {
+void draw_srect(int x, int y, int w, int h, uint32_t color) {
   uint32_t pixels[w * h]; // WARNING: allocated on stack
   _DEV_VIDEO_FBCTL_t event = {
     .x = x, .y = y, .w = w, .h = h, .sync = 1,
@@ -54,10 +57,10 @@ void draw_rect(int x, int y, int w, int h, uint32_t color) {
 }
 
 void splash() {
-  for (int x = 0; x * SIDE <= w; x ++) {
-    for (int y = 0; y * SIDE <= h; y++) {
+  for (int x = 0; x * SIDE <= weight; x ++) {
+    for (int y = 0; y * SIDE <= height; y++) {
       if ((x & 1) ^ (y & 1)) {
-        draw_rect(x * SIDE, y * SIDE, SIDE, SIDE, 0xffff00); // white
+        draw_srect(x * SIDE, y * SIDE, SIDE, SIDE, 0xffff00); // white
       }
     }
   }
