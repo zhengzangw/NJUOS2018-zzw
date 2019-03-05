@@ -9,6 +9,7 @@
 #define ISKEYDOWN(x) (((x)&0x8000))
 #define KEYCODE(x) ((x)&0x7fff)
 #define RAND(x) (rand()%(x))
+#define RANDOM(x,y) (RAND(x)+(y))
 #define UPDATE(item) \
     do { \
       item->dx += item->ddx; item->dy += item->ddy; item->x += item->dx; item->y += item->dy; \
@@ -104,7 +105,7 @@ void init_obs(struct Item* obs){
     obs->dx = -5;
     obs->dy = obs->ddx = obs->ddy =0;
     obs->w = 3;
-    obs->h = RAND(100);
+    obs->h = RAND(100)+100;
 }
 void game_progress()
 {
