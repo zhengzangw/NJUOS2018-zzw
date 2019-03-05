@@ -20,12 +20,12 @@ struct Item {
 uint32_t player_pixels[2][400] ={{
     B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
     B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
-    B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B, B, B,
-    B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B, B, B,
+    B, B, B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B,
+    B, B, B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B,
     B, B, W, W, R, R, R, R, W, W, R, R, R, R, W, W, B, B, B, B,
     B, B, W, W, R, R, R, R, W, W, R, R, R, R, W, W, B, B, B, B,
-    W, W, R, R, R, R, R, R, R, R, W, W, R, R, R, R, W, W, B, B,
-    W, W, R, R, R, R, R, R, R, R, W, W, R, R, R, R, W, W, B, B,
+    W, W, R, R, R, R, R, R, R, R, B, B, R, R, R, R, W, W, B, B,
+    W, W, R, R, R, R, R, R, R, R, B, B, R, R, R, R, W, W, B, B,
     W, W, R, R, R, R, R, R, R, R, R, R, R, R, R, R, W, W, B, B,
     W, W, R, R, R, R, R, R, R, R, R, R, R, R, R, R, W, W, B, B,
     B, B, W, W, R, R, R, R, R, R, R, R, R, R, W, W, B, B, B, B,
@@ -41,14 +41,14 @@ uint32_t player_pixels[2][400] ={{
     },{
     B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
     B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
-    B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B, B, B,
-    B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B, B, B,
+    B, B, B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B,
+    B, B, B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B,
     B, B, W, W, R, R, R, R, W, W, R, R, R, R, W, W, B, B, B, B,
     B, B, W, W, R, R, R, R, W, W, R, R, R, R, W, W, B, B, B, B,
-    W, W, R, R, R, R, R, R, R, R, W, W, R, R, R, R, W, W, B, B,
-    W, W, R, R, R, R, R, R, R, R, W, W, R, R, R, R, W, W, B, B,
-    W, W, R, R, R, R, R, R, R, R, R, R, R, R, R, R, W, W, B, B,
-    W, W, R, R, R, R, R, R, R, R, R, R, R, R, R, R, W, W, B, B,
+    W, W, R, R, W, W, W, W, R, R, R, R, R, R, R, R, W, W, B, B,
+    W, W, R, R, W, W, W, W, R, R, R, R, R, R, R, R, W, W, B, B,
+    W, W, R, R, W, W, R, R, R, R, R, R, R, R, R, R, W, W, B, B,
+    W, W, R, R, W, W, R, R, R, R, R, R, R, R, R, R, W, W, B, B,
     B, B, W, W, R, R, R, R, R, R, R, R, R, R, W, W, B, B, B, B,
     B, B, W, W, R, R, R, R, R, R, R, R, R, R, W, W, B, B, B, B,
     B, B, B, B, W, W, R, R, R, R, R, R, W, W, B, B, B, B, B, B,
@@ -76,11 +76,11 @@ void clear_rect(int x, int y, int w, int h)
 }
 
 void screen_update_player(){
-    int sw = 0;
-    if (player.dy<0) sw=1;
+    static int sw = 0;
+    sw = (sw + 1)%4;
     clear_rect(player.x, player.y, 20, 20);
     UPDATE(player);
-    draw_rect(player_pixels[sw], player.x, player.y, 20, 20);
+    draw_rect(player_pixels[sw<2], player.x, player.y, 20, 20);
 }
 
 
