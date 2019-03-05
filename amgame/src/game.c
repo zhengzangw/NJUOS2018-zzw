@@ -1,6 +1,9 @@
 #include <game.h>
 #include <klib.h>
 
+#define B 0xffffff
+#define W 0x000000
+#define R 0xff0000
 #define ISKEYDOWN(x) (((x)&0x8000))
 #define KEYCODE(x) ((x)&0x7fff)
 #define UPDATE(player) \
@@ -8,17 +11,30 @@
       player.dx += player.ddx; player.dy += player.ddy; player.x += player.dx; player.y += player.dy; \
     } while(0)
 const int FPS = 10;
+const int VECT = 10;
 static int width, height, next_frame, key;
 
 struct Item {
     int ddx, ddy, dx, dy, x, y;
+};
+uint32_t player_pixels[100] ={
+    B, B, W, W, B, W, W, B, B, B,
+    B, W, R, R, W, R, R, W, B, B,
+    W, R, R, R, R, W, R, R, W, B,
+    W, R, R, R, R, R, R, R, W, B,
+    B, W, R, R, R, R, R, W, B, B,
+    B, B, W, R, R, R, W, B, B, B,
+    B, B, B, W, R, W, B, B, B, B,
+    B, B, B, B, W, B, B, B, B, B,
+    B, B, B, B, B, B, B, B, B, B,
+    B, B, B, B, B, B, B, B, B, B
 };
 struct Item player ={
     .x = 0,
     .y = 0,
     .dy = 0,
     .ddx = 0,
-    .dx = 1,
+    .dx = 0,
     .ddy = 1
 };
 
@@ -35,12 +51,9 @@ void game_progress()
 int x = 0, y = 0;
 void screen_update()
 {
-        uint32_t pixels[100];
-        for (int i = 0; i < 100; ++i)
-                pixels[i] = 0xff00ff;
         clear_rect(player.x, player.y, 10, 10);
         UPDATE(player);
-        draw_rect(pixels, player.x, player.y, 10, 10);
+        draw_rect(player_pixels, player.x, player.y, 10, 10);
 }
 
 int main()
@@ -58,7 +71,7 @@ int main()
                 while ((key = read_key()) != _KEY_NONE) {
                     if (KEYCODE(key)==_KEY_SPACE){
                         if (ISKEYDOWN(key))
-                            player.dy = -10;
+                            player.dy = -VECT;
                     }
                 }
                 game_progress();
