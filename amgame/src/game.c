@@ -14,7 +14,7 @@
       item->dx += item->ddx; item->dy += item->ddy; item->x += item->dx; item->y += item->dy; \
     } while(0)
 #define clear_rect(x,y,w,h) draw_rect(black, x, y, w, h)
-#define INBOUND(item) (((item)->x>=0)&&((item)->y>=10)&&((item)->x+(item)->w<=width)&&((item)->y+(item)->h<=height))
+#define INBOUND(item) (((item)->x>=10)&&((item)->y>=0)&&((item)->x+(item)->w<=width)&&((item)->y+(item)->h<=height))
 #define FPS 10;
 #define VECT 12;
 #define _PLAYER_FLASH 8
@@ -81,7 +81,6 @@ void game_progress()
     int add;
     counter = (counter + 1) % _OBS_FLASH;
     if (!counter && num_obs<8) add = 1;
-    Log("add = %d", add);
     if (!INBOUND(&player)) fail = 1;
 
     for (int i=0;i<10;++i){
