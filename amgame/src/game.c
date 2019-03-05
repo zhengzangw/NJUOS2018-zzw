@@ -10,9 +10,17 @@
 const int FPS = 10;
 static int width, height, next_frame, key;
 
-struct Player {
+struct Item {
     int ddx, ddy, dx, dy, x, y;
-} player;
+};
+struct Item player ={
+    .x = 0,
+    .y = 0,
+    .dy = 0,
+    .ddx = 0,
+    .dx = 1,
+    .ddy = 1
+};
 
 uint32_t black[1000];
 void clear_rect(int x, int y, int w, int h)
@@ -44,17 +52,13 @@ int main()
 
         player.x = width / 3;
         player.y = height / 3;
-        player.dx = 1;
-        player.dy = 0;
-        player.ddx = 0;
-        player.ddy = 1;
 
         while (1) {
                 while (uptime() < next_frame) ;
                 while ((key = read_key()) != _KEY_NONE) {
                     if (KEYCODE(key)==_KEY_SPACE){
                         if (ISKEYDOWN(key))
-                            player.dy = -20;
+                            player.dy = -10;
                     }
                 }
                 game_progress();
