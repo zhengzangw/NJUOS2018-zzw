@@ -110,8 +110,8 @@ void game_progress()
 int x = 0, y = 0;
 void screen_update()
 {
-    screen_update_player();
     screen_update_obs(obs[head_obs]);
+    screen_update_player();
 }
 
 int main()
