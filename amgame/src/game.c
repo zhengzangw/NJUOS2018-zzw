@@ -17,7 +17,8 @@ static int width, height, next_frame, key;
 struct Item {
     int ddx, ddy, dx, dy, x, y;
 };
-uint32_t player_pixels[100] ={
+uint32_t player_pixels[2][100] ={{
+    B, B, B, B, B, B, B, B, B, B,
     B, B, W, W, B, W, W, B, B, B,
     B, W, R, R, W, R, R, W, B, B,
     W, R, R, R, R, W, R, R, W, B,
@@ -26,9 +27,19 @@ uint32_t player_pixels[100] ={
     B, B, W, R, R, R, W, B, B, B,
     B, B, B, W, R, W, B, B, B, B,
     B, B, B, B, W, B, B, B, B, B,
-    B, B, B, B, B, B, B, B, B, B,
     B, B, B, B, B, B, B, B, B, B
-};
+    },{
+    B, B, B, B, B, B, B, B, B, B,
+    B, B, W, W, B, W, W, B, B, B,
+    B, W, R, R, W, R, R, W, B, B,
+    W, R, W, W, R, R, R, R, W, B,
+    W, R, W, R, R, R, R, R, W, B,
+    B, W, R, R, R, R, R, W, B, B,
+    B, B, W, R, R, R, W, B, B, B,
+    B, B, B, W, R, W, B, B, B, B,
+    B, B, B, B, W, B, B, B, B, B,
+    B, B, B, B, B, B, B, B, B, B
+    }};
 struct Item player ={
     .x = 0,
     .y = 0,
@@ -44,6 +55,14 @@ void clear_rect(int x, int y, int w, int h)
         draw_rect(black, x, y, w, h);
 }
 
+void screen_update_player(){
+    static int sw = 0;
+    clear_rect(player.x, player.y, 10, 10);
+    UPDATE(player);
+    draw_rect(player_pixels[sw], player.x, player.y, 10, 10);
+}
+
+
 void game_progress()
 {
 }
@@ -51,9 +70,7 @@ void game_progress()
 int x = 0, y = 0;
 void screen_update()
 {
-        clear_rect(player.x, player.y, 10, 10);
-        UPDATE(player);
-        draw_rect(player_pixels, player.x, player.y, 10, 10);
+    screen_update_player();
 }
 
 int main()
