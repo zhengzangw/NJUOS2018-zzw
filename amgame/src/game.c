@@ -11,11 +11,11 @@
       player.dx += player.ddx; player.dy += player.ddy; player.x += player.dx; player.y += player.dy; \
     } while(0)
 const int FPS = 10;
-const int VECT = 10;
+const int VECT = 15;
 static int width, height, next_frame, key;
 
 struct Item {
-    int ddx, ddy, dx, dy, x, y;
+    int ddx, ddy, dx, dy, x, y, w, h;
 };
 uint32_t player_pixels[2][400] ={{
     B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
@@ -66,8 +66,12 @@ struct Item player ={
     .dy = 0,
     .ddx = 0,
     .dx = 0,
-    .ddy = 1
+    .ddy = 1,
+    .w = 20,
+    .h = 20
 };
+int num_obs, head_obs;
+struct Item obs[5];
 
 uint32_t black[1000];
 void clear_rect(int x, int y, int w, int h)
@@ -78,26 +82,42 @@ void clear_rect(int x, int y, int w, int h)
 void screen_update_player(){
     static int sw = 0;
     sw = (sw + 1)%8;
-    clear_rect(player.x, player.y, 20, 20);
+    clear_rect(player.x, player.y, player.w, player.h);
     UPDATE(player);
-    draw_rect(player_pixels[sw<4], player.x, player.y, 20, 20);
+    draw_rect(player_pixels[sw<4], player.x, player.y, player.w, player.h);
+}
+
+uint32_t white[1000];
+void screen_update_obs(struct Item obs){
+    clear_rect(obs.x, obs.y, obs.w, obs.h);
+    UPDATE(obs);
+    draw_rect(white, obs.x, obs.y, obs.w, obs.h);
 }
 
 
+void init_obs(struct Item obs){
+    obs.x = width;
+    obs.y = 0;
+    obs.dx = -5;
+    obs.dy = obs.ddx = obs.ddy =0;
+}
 void game_progress()
 {
+  init_obs(obs[head_obs]);
 }
 
 int x = 0, y = 0;
 void screen_update()
 {
     screen_update_player();
+    screen_update_obs(obs[head_obs]);
 }
 
 int main()
 {
         // Operating system is a C program
         _ioe_init();
+        for (int i=0;i<1000;++i){ white[i] = W; }
         width = screen_width();
         height = screen_height();
 
