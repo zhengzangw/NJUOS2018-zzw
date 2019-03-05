@@ -24,7 +24,7 @@
 #define VECT 10
 #define GRAVITY 2
 #define _PLAYER_FLASH 8
-#define _OBS_FLASH 10
+#define _OBS_FLASH 30
 static int width, height, next_frame, key, fail, num_obs;
 uint32_t black[1000],white[1000];
 uint32_t player_pixels[2][400] ={HEART1,HEART2};
@@ -147,7 +147,7 @@ int main()
                     if (KEYCODE(key)==_KEY_SPACE){
                         if (ISKEYDOWN(key)){
                             player.dy = -VECT;
-                            player.ddy = -1;
+                            player.ddy = -2;
                         }
                         else
                             player.ddy = GRAVITY;
