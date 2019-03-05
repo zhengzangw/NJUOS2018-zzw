@@ -115,12 +115,13 @@ int main()
         // Operating system is a C program
         // Initialization
         _ioe_init();
-        srand(100);
         for (int i=0;i<1000;++i){ white[i] = ORANGE; }
         width = screen_width();
         height = screen_height();
         player.x = width / 3;
         player.y = height / 3;
+        srand(100);
+        Log("%d", uptime());
 
         // Game Start
         while (1) {
