@@ -106,6 +106,7 @@ void init_obs(struct Item* obs){
     obs->dy = obs->ddx = obs->ddy =0;
     obs->w = 3;
     obs->h = RAND(300)+100;
+    printf("%d", obs->h);
 }
 void game_progress()
 {
