@@ -57,7 +57,7 @@ void clear_rect(int x, int y, int w, int h)
 
 void screen_update_player(){
     int sw = 0;
-    if (player.ddy<0) sw=1;
+    if (player.dy<0) sw=1;
     clear_rect(player.x, player.y, 10, 10);
     UPDATE(player);
     draw_rect(player_pixels[sw], player.x, player.y, 10, 10);
