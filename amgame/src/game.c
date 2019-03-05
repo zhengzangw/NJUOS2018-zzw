@@ -127,7 +127,7 @@ int main()
 
         player.x = width / 3;
         player.y = height / 3;
-        srand(uptime());
+        srand(100);
 
         init_obs(&obs[head_obs]);
         while (1) {
