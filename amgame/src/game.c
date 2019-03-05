@@ -208,7 +208,7 @@ int main()
                                 }
                         }
                         game_progress();
-                        //if (fail) break;
+                        if (fail) break;
                         screen_update();
                         next_frame += 1000 / FPS;
                 }
