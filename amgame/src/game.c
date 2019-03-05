@@ -125,6 +125,7 @@ int main()
         player.x = width / 3;
         player.y = height / 3;
 
+        draw_rect(white, width-10, 10, 3, 30);
         init_obs(obs[head_obs]);
         while (1) {
                 while (uptime() < next_frame) ;
