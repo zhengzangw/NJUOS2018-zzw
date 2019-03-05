@@ -63,7 +63,7 @@ void init_obs(struct Item* obs){
     obs->dx = -5;
     obs->dy = obs->ddx = obs->ddy =0;
     obs->w = 3;
-    obs->h = rand()%300+100;
+    obs->h = rand()%(height/2)+height/4;
     Log("%d", obs->h);
 }
 
