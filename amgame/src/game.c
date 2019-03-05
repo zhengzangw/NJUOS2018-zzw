@@ -201,11 +201,11 @@ int main()
         }
         width = screen_width();
         height = screen_height();
-        srand(100);
 
         // Game Start
         while (1) {
                 while (uptime() < next_frame) ;
+                srand(uptime());
                 restart();
                 int first_press = 1;
                 while (1) {
