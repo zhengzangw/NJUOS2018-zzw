@@ -21,7 +21,7 @@
                                (player)->y+(player)->h>(item)->y && \
                                (item)->y  +(item)->h  >(player)->y)
 #define FPS 10
-#define VECT 20
+#define VECT 10
 #define GRAVITY 2
 #define _PLAYER_FLASH 8
 #define _OBS_FLASH 10
@@ -127,8 +127,12 @@ int main()
                 while (uptime() < next_frame) ;
                 while ((key = read_key()) != _KEY_NONE) {
                     if (KEYCODE(key)==_KEY_SPACE){
-                        if (ISKEYDOWN(key))
+                        if (ISKEYDOWN(key)){
                             player.dy = -VECT;
+                            player.ddy = -1;
+                        }
+                        else
+                            player.ddy = GRAVITY;
                     }
                 }
                 game_progress();
