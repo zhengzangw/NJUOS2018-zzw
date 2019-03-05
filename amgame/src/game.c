@@ -3,8 +3,12 @@
 
 #define ISKEYDOWN(x) (((x)&0x8000))
 #define KEYCODE(x) ((x)&0x7fff)
+#define UPDATE(player) \
+    do { \
+      player.x += player.dx; player.y += player.dy; player.dx = player.dy = 0; \
+    } while(0)
 const int FPS = 1;
-static int weight, height, next_frame, key;
+static int width, height, next_frame, key;
 
 struct Player {
     int dx, dy;
@@ -24,24 +28,27 @@ void screen_update(){
   uint32_t pixels[100];
   for (int i=0;i<100;++i) pixels[i] = 0xff00ff;
   clear_rect(player.x, player.y, 10, 10);
-  player.x += player.dx; player.y += player.dy; player.dx = player.dy = 0;
+  UPDATE(player);
   draw_rect(pixels, player.x, player.y, 10, 10);
 }
 
 int main() {
   // Operating system is a C program
   _ioe_init();
-  weight = screen_width();
+  width = screen_width();
   height = screen_height();
 
-  player.x = weight/2;
+  player.x = width/2;
   player.y = height/2;
 
   while (1) {
     while (uptime() < next_frame);
     while ((key = read_key())!=_KEY_NONE && ISKEYDOWN(key)){
         switch KEYCODE(key){
-          case _KEY_W: player.dx=1; break;
+          case _KEY_W: player.dy=10; break;
+          case _KEY_S: player.dy=-10; break;
+          case _KEY_A: player.dx=-10; break;
+          case _KEY_D: player.dx=10; break;
           default: break;
         }
     }
