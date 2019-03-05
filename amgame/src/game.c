@@ -208,9 +208,10 @@ int main()
                 srand(uptime());
                 restart();
                 int first_press = 1;
+                int pause = 0;
                 while (1) {
                         while (uptime() < next_frame) ;
-                        while ((key = read_key()) != _KEY_NONE) {
+                        while ((key = read_key()) != _KEY_NONE || pause) {
                                 if (KEYCODE(key) == _KEY_SPACE) {
                                         if (ISKEYDOWN(key)) {
                                                 if (first_press) {
@@ -222,6 +223,11 @@ int main()
                                                 first_press = 1;
                                                 player.ddy = GRAVITY;
                                         }
+                                }
+                                if (KEYCODE(key) == _KEY_P){
+                                    if (!ISKEYDOWN(key)){
+                                        pause ^= 1;
+                                    }
                                 }
                         }
                         game_progress();
