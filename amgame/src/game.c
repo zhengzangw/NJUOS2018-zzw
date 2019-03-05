@@ -54,7 +54,7 @@ int main()
                 while ((key = read_key()) != _KEY_NONE) {
                     if (KEYCODE(key)==_KEY_SPACE){
                         if (ISKEYDOWN(key))
-                            player.dy = 20;
+                            player.dy = -20;
                     }
                 }
                 game_progress();
