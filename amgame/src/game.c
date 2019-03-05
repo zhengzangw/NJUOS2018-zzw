@@ -5,7 +5,7 @@
 #define KEYCODE(x) ((x)&0x7fff)
 #define UPDATE(player) \
     do { \
-      player.x += player.dx; player.y += player.dy; player.dx = player.dy = 0; \
+      player.x += player.dx; player.y += player.dy; \
     } while(0)
 const int FPS = 50;
 const int STEP = 5;
@@ -50,10 +50,13 @@ int main()
 
         while (1) {
                 while (uptime() < next_frame) ;
-                int hold_space = 0;
                 while ((key = read_key()) != _KEY_NONE) {
-                    if (KEYCODE(key)==_KEY_SPACE && ISKEYDOWN(key) && !hold_space)
-                      player.dy = -5;
+                    if (KEYCODE(key)==_KEY_SPACE){
+                        if (ISKEYDOWN(key))
+                            player.dy = -5;
+                        else
+                            player.dy = 0;
+                    }
                 }
                 game_progress();
                 screen_update();
