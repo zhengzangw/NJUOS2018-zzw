@@ -69,7 +69,7 @@ void init_obs(struct Item* obs){
 
 void game_progress()
 {
-    if (head_obs==0) init_obs(&obs[head_obs]);
+    if (head_obs==0) init_obs(&obs[head_obs++]);
 }
 
 int main()
