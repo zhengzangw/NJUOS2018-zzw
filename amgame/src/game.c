@@ -7,7 +7,7 @@
     do { \
       player.dx += player.ddx; player.dy += player.ddy; player.x += player.dx; player.y += player.dy; \
     } while(0)
-const int FPS = 5;
+const int FPS = 10;
 static int width, height, next_frame, key;
 
 struct Player {
@@ -42,7 +42,7 @@ int main()
         width = screen_width();
         height = screen_height();
 
-        player.x = width / 3 * 2;
+        player.x = width / 3;
         player.y = height / 3;
         player.dx = 1;
         player.dy = 0;
