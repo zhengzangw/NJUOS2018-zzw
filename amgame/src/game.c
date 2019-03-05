@@ -45,6 +45,7 @@ int main() {
   while (1) {
     while (uptime() < next_frame);
     while ((key = read_key())!=_KEY_NONE && ISKEYDOWN(key)){
+    printf("%d\n", key);
         switch KEYCODE(key){
           case _KEY_W: player.dy=-5; break;
           case _KEY_S: player.dy=5; break;
