@@ -1,7 +1,8 @@
 #include <game.h>
 #include <klib.h>
 
-static int weight, height;
+const int FPS = 1;
+static int weight, height, next_frame;
 
 void init_screen();
 void splash();
@@ -13,8 +14,9 @@ int main() {
 
   splash();
   while (1) {
-    read_key();
-    printf("%d\n",uptime());
+    while (uptime() < next_frame);
+    printf("Hello\n");
+    next_frame += 1000/FPS;
   }
 
   return 0;
