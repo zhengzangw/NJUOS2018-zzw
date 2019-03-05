@@ -7,7 +7,8 @@
     do { \
       player.x += player.dx; player.y += player.dy; player.dx = player.dy = 0; \
     } while(0)
-const int FPS = 1;
+const int FPS = 50;
+const int STEP = 5;
 static int width, height, next_frame, key;
 
 struct Player {
@@ -45,10 +46,10 @@ int main() {
     while (uptime() < next_frame);
     while ((key = read_key())!=_KEY_NONE && ISKEYDOWN(key)){
         switch KEYCODE(key){
-          case _KEY_W: player.dy=10; break;
-          case _KEY_S: player.dy=-10; break;
-          case _KEY_A: player.dx=-10; break;
-          case _KEY_D: player.dx=10; break;
+          case _KEY_W: player.dy=-5; break;
+          case _KEY_S: player.dy=5; break;
+          case _KEY_A: player.dx=-5; break;
+          case _KEY_D: player.dx=5; break;
           default: break;
         }
     }
