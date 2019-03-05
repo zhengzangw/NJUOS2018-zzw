@@ -9,7 +9,7 @@
 #define R 0xff0000
 #define ISKEYDOWN(x) (((x)&0x8000))
 #define KEYCODE(x) ((x)&0x7fff)
-#define UPDATE(item) \
+#define update(item) \
     do { \
       item->dx += item->ddx; item->dy += item->ddy; item->x += item->dx; item->y += item->dy; \
     } while(0)
@@ -17,13 +17,16 @@
 #define INBOUND(item) (((item)->x>=0)&&((item)->y>=0)&&((item)->x+(item)->w<=width)&&((item)->y+(item)->h<=height))
 #define FPS 10;
 #define VECT 12;
-static int width, height, next_frame, key, fail;
+#define _PLAYER_FLASH 8
+#define _OBS_FLASH 20
+static int width, height, next_frame, key, fail, num_obs;
 uint32_t black[1000],white[1000];
 uint32_t player_pixels[2][400] ={HEART1,HEART2};
 
 struct Item {
     int ddx, ddy, dx, dy, x, y, w, h, valid;
 };
+struct Item obs[10];
 struct Item player ={
     .x = 0,
     .y = 0,
@@ -32,22 +35,22 @@ struct Item player ={
     .dx = 0,
     .ddy = 1,
     .w = 20,
-    .h = 20
+    .h = 20,
+    .valid = 1
 };
-int num_obs, head_obs;
-struct Item obs[5];
 
+// Screen Update
 void screen_update_player(struct Item* player){
-    static int sw = 0;
-    sw = (sw + 1)%8;
+    static int counter = 0;
+    counter = (counter + 1)%_PLAYER_FLASH;
     clear_rect(player->x, player->y, player->w, player->h);
-    UPDATE(player);
-    draw_rect(player_pixels[sw<4], player->x, player->y, player->w, player->h);
+    update(player);
+    draw_rect(player_pixels[counter<4], player->x, player->y, player->w, player->h);
 }
 
 void screen_update_obs(struct Item* obs){
     clear_rect(obs->x, obs->y, obs->w, obs->h);
-    UPDATE(obs);
+    update(obs);
     draw_rect(white, obs->x, obs->y, obs->w, obs->h);
 }
 
@@ -65,13 +68,28 @@ void init_obs(struct Item* obs){
     obs->dy = obs->ddx = obs->ddy =0;
     obs->w = 3;
     obs->h = rand()%(height/2)+height/4;
-    Log("%d", obs->h);
+    obs->valid = 1;
 }
 
 void game_progress()
 {
+    static int counter = 0;
+    int add;
+    counter = (counter + 1) % _OBS_FLASH;
+    if (!counter && num_obs<8) add = 1;
     if (!INBOUND(&player)) fail = 1;
-    if (head_obs==0) init_obs(&obs[head_obs++]);
+
+    for (int i=0;i<10;++i){
+        if (obs[i].valid){
+            if (!INBOUND(&obs[i])){
+                obs[i].valid = 0;
+            } else if (add){
+              add = 0;
+              init_obs(&obs[i]);
+              num_obs++;
+            }
+        }
+    }
 }
 
 int main()
