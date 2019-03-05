@@ -168,17 +168,20 @@ int main()
         while (uptime() < next_frame) ;
         restart();
         next_frame += 1000 / FPS;
+        int first_press = 1;
         while (1) {
                 while (uptime() < next_frame) ;
                 while ((key = read_key()) != _KEY_NONE) {
                     if (KEYCODE(key)==_KEY_SPACE){
                         if (ISKEYDOWN(key)){
-                            Log("DOWN\n");
-                            player.dy = R_VEC;
+                            if (first_press) {
+                                player.dy = R_VEC;
+                                first_press = 0;
+                            }
                             player.ddy = R_GRA;
                         }
                         else {
-                            Log("UP\n");
+                            first_press = 1;
                             player.ddy = GRAVITY;
                     }
                     }
