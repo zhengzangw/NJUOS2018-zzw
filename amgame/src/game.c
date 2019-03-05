@@ -8,10 +8,12 @@ int main() {
   // Operating system is a C program
   _ioe_init();
   init_screen();
+
   splash();
   while (1) {
     read_key();
   }
+
   return 0;
 }
 
@@ -55,7 +57,7 @@ void splash() {
   for (int x = 0; x * SIDE <= w; x ++) {
     for (int y = 0; y * SIDE <= h; y++) {
       if ((x & 1) ^ (y & 1)) {
-        draw_rect(x * SIDE, y * SIDE, SIDE, SIDE, 0xffffff); // white
+        draw_rect(x * SIDE, y * SIDE, SIDE, SIDE, 0xffff00); // white
       }
     }
   }
