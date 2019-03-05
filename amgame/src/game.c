@@ -16,9 +16,9 @@ int main() {
   splash();
   while (1) {
     while (uptime() < next_frame);
+    printf("%d\n", _KEY_W);
     while ((key = read_key())!=_KEY_NONE && ISKEYDOWN(key)){
-        if (key == _KEY_W)
-          printf("hello\n");
+          printf("%d\n", key);
     }
     next_frame += 1000/FPS;
   }
