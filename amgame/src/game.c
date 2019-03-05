@@ -211,7 +211,7 @@ int main()
                 int pause = 0;
                 while (1) {
                         while (uptime() < next_frame) ;
-                        while ((key = read_key()) != _KEY_NONE || pause) {
+                        while ((key = read_key()) != _KEY_NONE) {
                                 if (KEYCODE(key) == _KEY_SPACE) {
                                         if (ISKEYDOWN(key)) {
                                                 if (first_press) {
@@ -230,9 +230,9 @@ int main()
                                     }
                                 }
                         }
-                        game_progress();
+                        if (!pause) game_progress();
                         if (fail) break;
-                        screen_update();
+                        if (!pause) screen_update();
                         next_frame += 1000 / FPS;
                 }
                 if (score>max_score) max_score = score;
