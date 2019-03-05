@@ -175,6 +175,17 @@ int main()
 {
         // Operating system is a C program
         // Initialization
+        printf("*****    Welcome to Game: Flappy Determination *****\n");
+        printf("*   Use SPACE to control your determination (the   *\n");
+        printf("*   read heart) to steer steer away from obstacles *\n");
+        printf("*   Tips: Don't overweight or overestimate your    *\n");
+        printf("*   destination (means you should not fly too high *\n");
+        printf("*   or too low.                                    *\n");
+        printf("*   REGARDS: Flappy Bird; NJU OS courses by jyy    *\n");
+        printf("*   Copyright@2019 zhengzangwei                    *\n");
+        printf("*   e-mail:zhengzangw@163.com                      *\n");
+        printf("****************************************************\n");
+
         _ioe_init();
         for (int i = 0; i < 1000; ++i) {
                 orange[i] = ORANGE;
