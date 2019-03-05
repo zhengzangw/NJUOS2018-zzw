@@ -89,7 +89,7 @@ void init_obs(struct Item *obs)
         switch (rand() % 7) {
         case 1:
         case 2:
-                obs->y = rand() % (height / 2);
+                obs->y = rand() % (height / 3);
                 obs->h = rand() % (height / 2) + height / 5;
                 obs->dx = -(rand() % 7) - 3;
                 obs->ddx = 0;
@@ -116,7 +116,7 @@ void init_obs(struct Item *obs)
                 break;
         }
         if (obs->h + obs->y >= height)
-                obs->h = height - obs->h - 5;
+                obs->h = height - obs->y - 5;
         obs->valid = 1;
 }
 
