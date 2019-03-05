@@ -48,7 +48,10 @@ void screen_update_player(struct Item* player){
 void screen_update_obs(struct Item* obs){
     clear_rect(obs->x, obs->y, obs->w, obs->h);
     update(obs);
+    if (obs->ddx)
     draw_rect(white, obs->x, obs->y, obs->w, obs->h);
+    else
+    draw_rect(orange, obs->x, obs->y, obs->w, obs->h);
 }
 
 void screen_update()
@@ -168,7 +171,7 @@ int main()
                 screen_update();
                 next_frame += 1000 / FPS;
         }
-        next_frame += 2000;
+        next_frame += 1500;
         }
         return 0;
 }
