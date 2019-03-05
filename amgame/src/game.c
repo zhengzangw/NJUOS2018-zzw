@@ -27,7 +27,7 @@
 #define _PLAYER_FLASH 8
 #define _OBS_FLASH 15
 static int width, height, next_frame, key, fail, num_obs;
-uint32_t black[1000],white[1000];
+uint32_t black[1000],white[1000],orange[1000];
 uint32_t player_pixels[2][400] ={HEART1,HEART2};
 
 struct Item {
@@ -76,12 +76,19 @@ void init_player(struct Item* player){
 
 void init_obs(struct Item* obs){
     obs->x = width-10;
-    obs->y = rand()%(height/2);
-    obs->dx = -(rand()%7)-3;
-    obs->ddx = -rand()%2;
     obs->dy = obs->ddy =0;
     obs->w = width/200;
+    if (rand()%4){
+    obs->y = rand()%(height/4)+rand()%(height/4);
+    obs->dx = -(rand()%7)-3;
+    obs->ddx = 0;
     obs->h = rand()%(height/2)+height/5;
+    } else {
+    obs->y = rand()%(height/4)+rand()%(height/4);
+    obs->dx = -1;
+    obs->ddx = 1;
+    obs->h = rand()%(height/3)+height/5;
+    }
     if (obs->h+obs->y > height) obs->h = height-obs->h-1;
     obs->valid = 1;
 }
@@ -133,7 +140,8 @@ int main()
         // Operating system is a C program
         // Initialization
         _ioe_init();
-        for (int i=0;i<1000;++i){ white[i] = ORANGE; }
+        for (int i=0;i<1000;++i){ orange[i] = ORANGE; }
+        for (int i=0;i<1000;++i){ white[i] = W; }
         width = screen_width();
         height = screen_height();
         srand(100);
