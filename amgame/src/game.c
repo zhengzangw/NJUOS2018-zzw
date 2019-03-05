@@ -5,7 +5,7 @@
 #define KEYCODE(x) ((x)&0x7fff)
 #define UPDATE(player) \
     do { \
-      player.x += player.dx; player.y += player.dy; \
+      player.dx += player.ddx; player.dy += player.ddy; player.x += player.dx; player.y += player.dy; \
     } while(0)
 const int FPS = 50;
 const int STEP = 5;
