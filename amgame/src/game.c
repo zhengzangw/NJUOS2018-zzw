@@ -2,7 +2,7 @@
 #include <klib.h>
 
 const int FPS = 1;
-static int weight, height, next_frame;
+static int weight, height, next_frame, key;
 
 void init_screen();
 void splash();
@@ -15,7 +15,9 @@ int main() {
   splash();
   while (1) {
     while (uptime() < next_frame);
-    printf("Hello\n");
+    while ((key = read_key())!=_KEY_NONE){
+        printf("hello\n");
+    }
     next_frame += 1000/FPS;
   }
 
