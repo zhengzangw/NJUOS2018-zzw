@@ -70,7 +70,7 @@ void screen_update()
 
 // Game Progress
 void init_obs(struct Item* obs){
-    obs->x = width-1;
+    obs->x = width-10;
     obs->y = rand()%(height/2);
     obs->dx = -(rand()%7)+3;
     obs->dy = obs->ddx = obs->ddy =0;
