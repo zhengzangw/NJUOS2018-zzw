@@ -114,6 +114,7 @@ void game_progress()
         }
         if (obs[i].valid){
             if (!INBOUND(&obs[i])){
+                Log("t = %d", obs[i].ddx);
                 clear_rect(obs[i].x, obs[i].y, obs[i].w, obs[i].h);
                 obs[i].valid = 0;
                 num_obs--;
