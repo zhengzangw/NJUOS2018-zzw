@@ -71,12 +71,11 @@ void screen_update()
 // Game Progress
 void init_obs(struct Item* obs){
     obs->x = width-1;
-    obs->y = rand()%(height/2);
-    obs->dx = -(rand()%5)+5;
+    obs->y = 0;
+    obs->dx = -(rand()%10);
     obs->dy = obs->ddx = obs->ddy =0;
-    obs->w = rand()%3+1;
+    obs->w = 3;
     obs->h = rand()%(height/2)+height/4;
-    //if (obs->h+obs->y>height) obs->h = height-obs->y-1;
     obs->valid = 1;
 }
 
