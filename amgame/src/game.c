@@ -87,6 +87,7 @@ void game_progress()
     for (int i=0;i<10;++i){
         if (obs[i].valid){
             if (!INBOUND(&obs[i])){
+                clear_rect(obs[i].x, obs[i].y, obs[i].w, obs[i].h);
                 obs[i].valid = 0;
             }
         } else if (add){
