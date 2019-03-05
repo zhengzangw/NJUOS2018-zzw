@@ -190,8 +190,8 @@ int main()
         while (1) {
                 while (uptime() < next_frame) ;
                 restart();
+                int first_press = 1;
                 while (1) {
-                        int first_press = 1;
                         while (uptime() < next_frame) ;
                         while ((key = read_key()) != _KEY_NONE) {
                                 if (KEYCODE(key) == _KEY_SPACE) {
