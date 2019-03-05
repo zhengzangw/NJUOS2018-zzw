@@ -1,8 +1,8 @@
 #include <game.h>
 #include <klib.h>
 
-#define B 0xffffff
-#define W 0x000000
+#define W 0xffffff
+#define B 0x000000
 #define R 0xff0000
 #define ISKEYDOWN(x) (((x)&0x8000))
 #define KEYCODE(x) ((x)&0x7fff)
