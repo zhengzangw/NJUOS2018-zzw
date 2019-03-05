@@ -7,8 +7,7 @@
     do { \
       player.dx += player.ddx; player.dy += player.ddy; player.x += player.dx; player.y += player.dy; \
     } while(0)
-const int FPS = 50;
-const int STEP = 5;
+const int FPS = 5;
 static int width, height, next_frame, key;
 
 struct Player {
@@ -43,8 +42,10 @@ int main()
         width = screen_width();
         height = screen_height();
 
-        player.x = width / 2;
-        player.y = height / 2;
+        player.x = width / 3 * 2;
+        player.y = height / 3;
+        player.dx = 1;
+        player.dy = 0;
         player.ddx = 0;
         player.ddy = 1;
 
@@ -60,7 +61,7 @@ int main()
                 }
                 game_progress();
                 screen_update();
-                next_frame += 1000 / 10;
+                next_frame += 1000 / FPS;
         }
 
         return 0;
