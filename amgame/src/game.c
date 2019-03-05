@@ -60,7 +60,7 @@ int main()
                 }
                 game_progress();
                 screen_update();
-                next_frame += 1000 / FPS;
+                next_frame += 1000 / 10;
         }
 
         return 0;
