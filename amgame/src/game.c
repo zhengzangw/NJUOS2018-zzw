@@ -179,7 +179,8 @@ int main()
         printf("*****    Welcome to Game: Flappy Determination *****\n");
         printf("*                                                  *\n");
         printf("*   Use SPACE to control your determination (the   *\n");
-        printf("*   read heart) to steer steer away from obstacles *\n");
+        printf("*   read heart) to steer steer away from obstacles.*\n");
+        printf("*   Use P to pause.                                *\n");
         printf("*                                                  *\n");
         printf("*   Tips: Don't overweight or overestimate your    *\n");
         printf("*   destination (means you should not fly too high *\n");
