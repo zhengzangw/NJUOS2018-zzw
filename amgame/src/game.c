@@ -46,7 +46,7 @@ int main()
         player.x = width / 2;
         player.y = height / 2;
         player.ddx = 0;
-        player.ddy = -1;
+        player.ddy = 0.1;
 
         while (1) {
                 while (uptime() < next_frame) ;
