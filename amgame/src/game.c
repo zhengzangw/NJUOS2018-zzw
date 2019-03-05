@@ -121,13 +121,13 @@ int main()
 {
         // Operating system is a C program
         _ioe_init();
-        srand(time(NULL));
         for (int i=0;i<1000;++i){ white[i] = R; }
         width = screen_width();
         height = screen_height();
 
         player.x = width / 3;
         player.y = height / 3;
+        srand(uptime());
 
         init_obs(&obs[head_obs]);
         while (1) {
