@@ -60,6 +60,7 @@ void screen_update_player(){
     clear_rect(player.x, player.y, 10, 10);
     UPDATE(player);
     draw_rect(player_pixels[sw], player.x, player.y, 10, 10);
+    sw ^= 1;
 }
 
 
