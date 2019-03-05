@@ -26,12 +26,12 @@
 #define GRAVITY 2
 #define _PLAYER_FLASH 8
 #define _OBS_FLASH 15
-static int width, height, next_frame, key, fail, num_obs;
+static int width, height, next_frame, key, fail, num_obs, score, max_score;
 uint32_t black[1000], white[1000], orange[1000];
 uint32_t player_pixels[2][400] = { HEART1, HEART2 };
 
 struct Item {
-        int ddx, ddy, dx, dy, x, y, w, h, valid;
+        int ddx, ddy, dx, dy, x, y, w, h, valid, count;
 };
 struct Item obs[10];
 struct Item player;
@@ -118,6 +118,7 @@ void init_obs(struct Item *obs)
         if (obs->h + obs->y >= height)
                 obs->h = height - obs->y - 5;
         obs->valid = 1;
+        obs->count = 1;
 }
 
 void game_progress()
@@ -138,6 +139,10 @@ void game_progress()
                         return;
                 }
                 if (obs[i].valid) {
+                if (obs[i].x<player.x && obs[i].count){
+                    obs[i].count = 0;
+                    score ++;
+                }
                         if (!INBOUND(&obs[i])) {
                                 clear_rect(obs[i].x, obs[i].y, obs[i].w,
                                            obs[i].h);
@@ -163,6 +168,7 @@ void restart()
         }
         init_player(&player);
         num_obs = 0;
+        score = 0;
 }
 
 int main()
@@ -184,9 +190,8 @@ int main()
         while (1) {
                 while (uptime() < next_frame) ;
                 restart();
-                next_frame += 1000 / FPS;
-                int first_press = 1;
                 while (1) {
+                        int first_press = 1;
                         while (uptime() < next_frame) ;
                         while ((key = read_key()) != _KEY_NONE) {
                                 if (KEYCODE(key) == _KEY_SPACE) {
@@ -207,6 +212,11 @@ int main()
                         screen_update();
                         next_frame += 1000 / FPS;
                 }
+                if (score>max_score) max_score = score;
+                printf("---------------------------\n");
+                printf("Your score is %d\n", score);
+                printf("Best score is %d\n", max_score);
+                printf("---------------------------\n");
                 next_frame += 1500;
         }
         return 0;
