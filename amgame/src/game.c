@@ -22,7 +22,7 @@
 #define FPS 10;
 #define VECT 12;
 #define _PLAYER_FLASH 8
-#define _OBS_FLASH 20
+#define _OBS_FLASH 150
 static int width, height, next_frame, key, fail, num_obs;
 uint32_t black[1000],white[1000];
 uint32_t player_pixels[2][400] ={HEART1,HEART2};
