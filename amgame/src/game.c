@@ -175,15 +175,18 @@ int main()
 {
         // Operating system is a C program
         // Initialization
+        printf("\n\n");
         printf("*****    Welcome to Game: Flappy Determination *****\n");
         printf("*   Use SPACE to control your determination (the   *\n");
         printf("*   read heart) to steer steer away from obstacles *\n");
         printf("*   Tips: Don't overweight or overestimate your    *\n");
         printf("*   destination (means you should not fly too high *\n");
         printf("*   or too low.                                    *\n");
+        printf("*                                                  *\n");
         printf("*   REGARDS: Flappy Bird; NJU OS courses by jyy    *\n");
+        printf("*                                                  *\n");
         printf("*   Copyright@2019 zhengzangwei                    *\n");
-        printf("*   e-mail:zhengzangw@163.com                      *\n");
+        printf("*   E-mail:zhengzangw@163.com                      *\n");
         printf("****************************************************\n");
 
         _ioe_init();
@@ -224,7 +227,7 @@ int main()
                         next_frame += 1000 / FPS;
                 }
                 if (score>max_score) max_score = score;
-                printf("---------------------------\n");
+                printf("\n---------------------------\n");
                 printf("Your score is %d\n", score);
                 printf("Best score is %d\n", max_score);
                 printf("---------------------------\n");
