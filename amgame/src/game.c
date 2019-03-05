@@ -110,7 +110,7 @@ void init_obs(struct Item *obs)
         case 5:
         case 6:
                 obs->h = rand() % (height / 2) + height / 5;
-                obs->y = height - rand() % (height / 2);
+                obs->y = height - rand() % (height / 2) - height/5;
                 obs->dx = -(rand() % 7) - 3;
                 obs->ddx = 0;
                 break;
