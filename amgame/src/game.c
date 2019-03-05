@@ -62,8 +62,8 @@ void screen_update()
 
 // Game Progress
 void init_player(struct Item* player){
-    player->x = 0;
-    player->y = 0;
+    player->x = width / 3;
+    player->y = height / 3;
     player->dy = 0;
     player->ddx = 0;
     player->dx = 0;
@@ -131,8 +131,6 @@ int main()
         for (int i=0;i<1000;++i){ white[i] = ORANGE; }
         width = screen_width();
         height = screen_height();
-        player.x = width / 3;
-        player.y = height / 3;
         srand(100);
 
         // Game Start
