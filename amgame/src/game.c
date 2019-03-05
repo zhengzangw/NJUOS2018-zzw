@@ -61,7 +61,7 @@ void screen_update()
 void init_obs(struct Item* obs){
     obs->x = width;
     obs->y = 0;
-    obs->dx = -5;
+    obs->dx = -(rand()%10);
     obs->dy = obs->ddx = obs->ddy =0;
     obs->w = 3;
     obs->h = rand()%(height/2)+height/4;
