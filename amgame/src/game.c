@@ -17,30 +17,14 @@ int main() {
   while (1) {
     while (uptime() < next_frame);
     while ((key = read_key())!=_KEY_NONE && ISKEYDOWN(key)){
-        printf("hello\n");
+        if (key == _KEY_W)
+          printf("hello\n");
     }
     next_frame += 1000/FPS;
   }
 
   return 0;
 }
-
-/*
-void read_key() {
-  _DEV_INPUT_KBD_t event = { .keycode = _KEY_NONE };
-  #define KEYNAME(key) \
-    [_KEY_##key] = #key,
-  static const char *key_names[] = {
-    _KEYS(KEYNAME)
-  };
-  _io_read(_DEV_INPUT, _DEVREG_INPUT_KBD, &event, sizeof(event));
-  if (event.keycode != _KEY_NONE && event.keydown) {
-    puts("Key pressed: ");
-    puts(key_names[event.keycode]);
-    puts("\n");
-  }
-}
-*/
 
 void init_screen() {
   _DEV_VIDEO_INFO_t info = {0};
