@@ -22,7 +22,7 @@
                                (item)->y  +(item)->h  >(player)->y)
 #define FPS 10
 #define R_VEC -5
-#define R_GRA -5
+#define R_GRA -3
 #define GRAVITY 2
 #define _PLAYER_FLASH 8
 #define _OBS_FLASH 15
@@ -75,6 +75,7 @@ void init_player(struct Item* player){
 };
 
 void init_obs(struct Item* obs){
+    Log("%d\n", width);
     obs->x = width-10;
     obs->y = rand()%(height/2);
     obs->dx = -(rand()%7)-3;
