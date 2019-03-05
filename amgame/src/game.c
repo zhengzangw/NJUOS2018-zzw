@@ -3,8 +3,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define DEBUG
-
+//Global Define
 #define W 0xffffff
 #define B 0x000000
 #define R 0xff0000
@@ -14,9 +13,12 @@
     do { \
       item->dx += item->ddx; item->dy += item->ddy; item->x += item->dx; item->y += item->dy; \
     } while(0)
-const int FPS = 10;
-const int VECT = 12;
+#define clear_rect(x,y,w,h) draw_rect(black, x, y, w, h)
+#define FPS 10;
+#define VECT 12;
 static int width, height, next_frame, key;
+uint32_t black[1000],white[1000];
+uint32_t player_pixels[2][400] ={HEART1,HEART2};
 
 struct Item {
     int ddx, ddy, dx, dy, x, y, w, h, valid;
@@ -31,15 +33,8 @@ struct Item player ={
     .w = 20,
     .h = 20
 };
-uint32_t player_pixels[2][400] ={HEART1,HEART2};
 int num_obs, head_obs;
 struct Item obs[5];
-
-uint32_t black[1000];
-void clear_rect(int x, int y, int w, int h)
-{
-        draw_rect(black, x, y, w, h);
-}
 
 void screen_update_player(struct Item* player){
     static int sw = 0;
@@ -49,14 +44,19 @@ void screen_update_player(struct Item* player){
     draw_rect(player_pixels[sw<4], player->x, player->y, player->w, player->h);
 }
 
-uint32_t white[1000];
 void screen_update_obs(struct Item* obs){
     clear_rect(obs->x, obs->y, obs->w, obs->h);
     UPDATE(obs);
     draw_rect(white, obs->x, obs->y, obs->w, obs->h);
 }
 
+void screen_update()
+{
+    screen_update_obs(&obs[0]);
+    screen_update_player(&player);
+}
 
+// Game Progress
 void init_obs(struct Item* obs){
     obs->x = width;
     obs->y = 0;
@@ -66,30 +66,25 @@ void init_obs(struct Item* obs){
     obs->h = rand()%300+100;
     Log("%d", obs->h);
 }
+
 void game_progress()
 {
-}
-
-int x = 0, y = 0;
-void screen_update()
-{
-    screen_update_obs(&obs[head_obs]);
-    screen_update_player(&player);
+    if (head_obs==0) init_obs(&obs[head_obs]);
 }
 
 int main()
 {
         // Operating system is a C program
+        // Initialization
         _ioe_init();
+        srand(100);
         for (int i=0;i<1000;++i){ white[i] = R; }
         width = screen_width();
         height = screen_height();
-
         player.x = width / 3;
         player.y = height / 3;
-        srand(100);
-        init_obs(&obs[head_obs]);
 
+        // Game Start
         while (1) {
                 while (uptime() < next_frame) ;
                 while ((key = read_key()) != _KEY_NONE) {
@@ -101,7 +96,6 @@ int main()
                 game_progress();
                 screen_update();
                 next_frame += 1000 / FPS;
-                Watch(next_frame);
         }
         return 0;
 }
