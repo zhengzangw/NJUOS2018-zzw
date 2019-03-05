@@ -19,8 +19,9 @@
                                (item)->x  +(item)->w  >(player)->x && \
                                (player)->y+(player)->h>(item)->y && \
                                (item)->y  +(item)->h  >(player)->y)
-#define FPS 10;
-#define VECT 12;
+#define FPS 10
+#define VECT 20
+#define GRAVITY 2
 #define _PLAYER_FLASH 8
 #define _OBS_FLASH 10
 static int width, height, next_frame, key, fail, num_obs;
@@ -37,7 +38,7 @@ struct Item player ={
     .dy = 0,
     .ddx = 0,
     .dx = 0,
-    .ddy = 1,
+    .ddy = GRAVITY,
     .w = 20,
     .h = 20,
     .valid = 1
