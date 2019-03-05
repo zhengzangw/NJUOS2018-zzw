@@ -91,6 +91,7 @@ uint32_t white[1000];
 void screen_update_obs(struct Item obs){
     //clear_rect(obs.x, obs.y, obs.w, obs.h);
     //UPDATE(obs);
+    printf("%d %d %d\n", obs.x, obs.y, obs.w);
     draw_rect(white, obs.x, obs.y, obs.w, obs.h);
 }
 
