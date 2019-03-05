@@ -86,30 +86,34 @@ void init_obs(struct Item *obs)
         obs->x = width - 10;
         obs->dy = obs->ddy = 0;
         obs->w = width / 200;
-        switch (rand() % 3) {
+        switch (rand() % 7) {
         case 1:
-
+        case 2:
                 obs->y = rand() % (height / 2);
+                obs->h = rand() % (height / 2) + height / 5;
                 obs->dx = -(rand() % 7) - 3;
                 obs->ddx = 0;
-                obs->h = rand() % (height / 2) + height / 5;
                 break;
 
-        case 2:
-                obs->y = rand() % (height / 4) + rand() % (height / 4);
+        case 3:
+                obs->y = rand() % (height / 2);
+                obs->h = rand() % (height / 3) + height / 5;
                 obs->dx = -1;
                 obs->ddx = -1;
-                obs->h = rand() % (height / 3) + height / 5;
                 break;
-        case 3:
+        case 4:
+                obs->h = rand() % (height / 3) + height / 5;
+                obs->y = height - rand() % (height / 2);
+                obs->dx = -1;
+                obs->ddx = -1;
+                break;
+        case 5:
+        case 6:
                 obs->h = rand() % (height / 2) + height / 5;
                 obs->y = height - rand() % (height / 2);
                 obs->dx = -(rand() % 7) - 3;
                 obs->ddx = 0;
                 break;
-        }
-        if (rand() % 3) {
-        } else {
         }
         if (obs->h + obs->y > height)
                 obs->h = height - obs->h - 1;
