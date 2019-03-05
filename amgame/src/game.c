@@ -1,7 +1,7 @@
 #include <game.h>
 #include <klib.h>
 
-#define ISKEYDOWN(x) (((x)&0x8000)==1)
+#define ISKEYDOWN(x) (((x)&0x8000))
 const int FPS = 1;
 static int weight, height, next_frame, key;
 
@@ -16,7 +16,6 @@ int main() {
   splash();
   while (1) {
     while (uptime() < next_frame);
-    printf("%d", key);
     while ((key = read_key())!=_KEY_NONE && ISKEYDOWN(key)){
         printf("hello\n");
     }
