@@ -79,9 +79,10 @@ void init_obs(struct Item* obs){
     obs->x = width-10;
     obs->y = rand()%(height/2);
     obs->dx = -(rand()%7)-3;
-    obs->dy = obs->ddx = obs->ddy =0;
-    obs->w = rand()%3+1;
-    obs->h = rand()%(height/2)+height/4;
+    obs->ddx = rand()%2;
+    obs->dy = obs->ddy =0;
+    obs->w = width/200;
+    obs->h = rand()%(height/2)+height/5;
     if (obs->h+obs->y > height) obs->h = height-obs->h-1;
     obs->valid = 1;
 }
