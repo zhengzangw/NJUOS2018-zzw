@@ -129,6 +129,7 @@ int main()
         player.x = width / 3;
         player.y = height / 3;
         srand(uptime());
+        printf("%d\n", rand());
 
         init_obs(&obs[head_obs]);
         while (1) {
