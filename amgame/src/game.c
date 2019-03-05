@@ -137,7 +137,9 @@ int main()
 
         // Game Start
         while (1) {
+        while (uptime() < next_frame) ;
         restart();
+        next_frame += 1000 / FPS;
         while (1) {
                 while (uptime() < next_frame) ;
                 while ((key = read_key()) != _KEY_NONE) {
