@@ -11,7 +11,7 @@
       player.dx += player.ddx; player.dy += player.ddy; player.x += player.dx; player.y += player.dy; \
     } while(0)
 const int FPS = 10;
-const int VECT = 15;
+const int VECT = 12;
 static int width, height, next_frame, key;
 
 struct Item {
@@ -100,6 +100,8 @@ void init_obs(struct Item obs){
     obs.y = 0;
     obs.dx = -5;
     obs.dy = obs.ddx = obs.ddy =0;
+    obs.w = 3;
+    obs.h = 30;
 }
 void game_progress()
 {
