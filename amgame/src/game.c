@@ -33,17 +33,7 @@ struct Item {
     int ddx, ddy, dx, dy, x, y, w, h, valid;
 };
 struct Item obs[10];
-struct Item player ={
-    .x = 0,
-    .y = 0,
-    .dy = 0,
-    .ddx = 0,
-    .dx = 0,
-    .ddy = GRAVITY,
-    .w = 20,
-    .h = 20,
-    .valid = 1
-};
+struct Item player;
 
 // Screen Update
 void screen_update_player(struct Item* player){
@@ -71,6 +61,18 @@ void screen_update()
 }
 
 // Game Progress
+void init_player(struct Item* player){
+    player->x = 0;
+    player->y = 0;
+    player->dy = 0;
+    player->ddx = 0;
+    player->dx = 0;
+    player->ddy = GRAVITY;
+    player->w = 20;
+    player->h = 20;
+    player->valid = 1;
+};
+
 void init_obs(struct Item* obs){
     obs->x = width-10;
     obs->y = rand()%(height/2);
@@ -101,6 +103,7 @@ void game_progress()
             if (!INBOUND(&obs[i])){
                 clear_rect(obs[i].x, obs[i].y, obs[i].w, obs[i].h);
                 obs[i].valid = 0;
+                num_obs--;
             }
         } else if (add){
               add = 0;
@@ -108,6 +111,16 @@ void game_progress()
               num_obs++;
         }
     }
+}
+
+void restart(){
+    init_player(&player);
+    for (int i=0;i<10;++i){
+        if (obs[i].valid)
+                clear_rect(obs[i].x, obs[i].y, obs[i].w, obs[i].h);
+                obs[i].valid = 0;
+    }
+    num_obs=0;
 }
 
 int main()
@@ -121,9 +134,10 @@ int main()
         player.x = width / 3;
         player.y = height / 3;
         srand(100);
-        Log("%d", uptime());
 
         // Game Start
+        while (1) {
+        restart();
         while (1) {
                 while (uptime() < next_frame) ;
                 while ((key = read_key()) != _KEY_NONE) {
@@ -141,6 +155,6 @@ int main()
                 screen_update();
                 next_frame += 1000 / FPS;
         }
-        while (1) {}
+        }
         return 0;
 }
