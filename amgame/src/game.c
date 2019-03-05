@@ -89,7 +89,7 @@ void game_progress()
     }
 
     for (int i=0;i<10;++i){
-        if (COLLIDE(&player, &obs[i])) {
+        if (obs[i].valid && COLLIDE(&player, &obs[i])) {
             fail = 1;
             return;
         }
