@@ -77,6 +77,7 @@ void game_progress()
     int add;
     counter = (counter + 1) % _OBS_FLASH;
     if (!counter && num_obs<8) add = 1;
+    Log("counter = %d", counter);
     if (!INBOUND(&player)) fail = 1;
 
     for (int i=0;i<10;++i){
