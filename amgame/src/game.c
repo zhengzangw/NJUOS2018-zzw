@@ -15,8 +15,10 @@
     } while(0)
 #define clear_rect(x,y,w,h) draw_rect(black, x, y, w, h)
 #define INBOUND(item) (((item)->x>=10)&&((item)->y>=0)&&((item)->x+(item)->w<=width)&&((item)->y+(item)->h<=height))
-#define COLLIDE(player, item) (((player)->x+(player)->w>=(item)->x) && ((player)->x+(player)->w >= (item)->x+(item)->w)\
-        && ( ((player)->y>(item)->y && (player)->y<(item)->y+(item)->h)||((player)->y+(player)->h>(item)->y && (player)->y+(player)->h<(item)->y+(item)->h) ))
+#define COLLIDE(player, item) ((player)->x+(player)->w>(item)->x && \
+                               (item)->x  +(item)->w  >(player)->x && \
+                               (player)->y+(player)->h>(item)->y && \
+                               (item)->y  +(item)->h  >(player)->y)
 #define FPS 10;
 #define VECT 12;
 #define _PLAYER_FLASH 8
