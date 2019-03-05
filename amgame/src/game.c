@@ -6,9 +6,9 @@
 #define R 0xff0000
 #define ISKEYDOWN(x) (((x)&0x8000))
 #define KEYCODE(x) ((x)&0x7fff)
-#define UPDATE(player) \
+#define UPDATE(item) \
     do { \
-      player.dx += player.ddx; player.dy += player.ddy; player.x += player.dx; player.y += player.dy; \
+      item->dx += item->ddx; item->dy += item->ddy; item->x += item->dx; item->y += item->dy; \
     } while(0)
 const int FPS = 10;
 const int VECT = 12;
@@ -79,19 +79,19 @@ void clear_rect(int x, int y, int w, int h)
         draw_rect(black, x, y, w, h);
 }
 
-void screen_update_player(){
+void screen_update_player(struct Item* player){
     static int sw = 0;
     sw = (sw + 1)%8;
-    clear_rect(player.x, player.y, player.w, player.h);
+    clear_rect(player->x, player->y, player->w, player->h);
     UPDATE(player);
-    draw_rect(player_pixels[sw<4], player.x, player.y, player.w, player.h);
+    draw_rect(player_pixels[sw<4], player->x, player->y, player->w, player->h);
 }
 
 uint32_t white[1000];
-void screen_update_obs(struct Item obs){
-    clear_rect(obs.x, obs.y, obs.w, obs.h);
+void screen_update_obs(struct Item* obs){
+    clear_rect(obs->x, obs->y, obs->w, obs->h);
     UPDATE(obs);
-    draw_rect(white, obs.x, obs.y, obs.w, obs.h);
+    draw_rect(white, obs->x, obs->y, obs->w, obs->h);
 }
 
 
@@ -110,8 +110,8 @@ void game_progress()
 int x = 0, y = 0;
 void screen_update()
 {
-    screen_update_obs(obs[head_obs]);
-    screen_update_player();
+    screen_update_obs(&obs[head_obs]);
+    screen_update_player(&player);
 }
 
 int main()
