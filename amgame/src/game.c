@@ -9,7 +9,6 @@
 #define ISKEYDOWN(x) (((x)&0x8000))
 #define KEYCODE(x) ((x)&0x7fff)
 #define RAND(x) (rand()%(x))
-#define RANDOM(x,y) (RAND(x)+(y))
 #define UPDATE(item) \
     do { \
       item->dx += item->ddx; item->dy += item->ddy; item->x += item->dx; item->y += item->dy; \
