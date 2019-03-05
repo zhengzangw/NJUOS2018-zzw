@@ -114,12 +114,13 @@ void game_progress()
 }
 
 void restart(){
-    init_player(&player);
+    clear_rect(player.x, player.y, player.w, player.h);
     for (int i=0;i<10;++i){
         if (obs[i].valid)
                 clear_rect(obs[i].x, obs[i].y, obs[i].w, obs[i].h);
                 obs[i].valid = 0;
     }
+    init_player(&player);
     num_obs=0;
 }
 
