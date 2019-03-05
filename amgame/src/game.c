@@ -153,6 +153,7 @@ int main()
                 screen_update();
                 next_frame += 1000 / FPS;
         }
+        next_frame += 2000;
         }
         return 0;
 }
