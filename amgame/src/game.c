@@ -88,11 +88,11 @@ void game_progress()
         if (obs[i].valid){
             if (!INBOUND(&obs[i])){
                 obs[i].valid = 0;
-            } else if (add){
+            }
+        } else if (add){
               add = 0;
               init_obs(&obs[i]);
               num_obs++;
-            }
         }
     }
 }
