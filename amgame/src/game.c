@@ -177,6 +177,7 @@ int main()
         // Initialization
         printf("\n\n");
         printf("*****    Welcome to Game: Flappy Determination *****\n");
+        printf("*                                                  *\n");
         printf("*   Use SPACE to control your determination (the   *\n");
         printf("*   read heart) to steer steer away from obstacles *\n");
         printf("*   Tips: Don't overweight or overestimate your    *\n");
@@ -187,6 +188,7 @@ int main()
         printf("*                                                  *\n");
         printf("*   Copyright@2019 zhengzangwei                    *\n");
         printf("*   E-mail:zhengzangw@163.com                      *\n");
+        printf("*                                                  *\n");
         printf("****************************************************\n");
 
         _ioe_init();
