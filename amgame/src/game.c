@@ -56,8 +56,12 @@ void screen_update_obs(struct Item* obs){
 
 void screen_update()
 {
-    screen_update_obs(&obs[0]);
     screen_update_player(&player);
+    for (int i=0;i<10;++i){
+        if (obs[i].valid){
+          screen_update_obs(&obs[i]);
+        }
+    }
 }
 
 // Game Progress
@@ -77,7 +81,6 @@ void game_progress()
     int add;
     counter = (counter + 1) % _OBS_FLASH;
     if (!counter && num_obs<8) add = 1;
-    Log("counter = %d", counter);
     if (!INBOUND(&player)) fail = 1;
 
     for (int i=0;i<10;++i){
