@@ -12,8 +12,7 @@ const int STEP = 5;
 static int width, height, next_frame, key;
 
 struct Player {
-        int dx, dy;
-        int x, y;
+        int ddx, ddy, dx, dy, x, y;
 } player;
 
 uint32_t black[1000];
@@ -46,27 +45,15 @@ int main()
 
         player.x = width / 2;
         player.y = height / 2;
+        player.ddx = 0;
+        player.ddy = -1;
 
         while (1) {
                 while (uptime() < next_frame) ;
-                while ((key = read_key()) != _KEY_NONE && ISKEYDOWN(key)) {
-                        switch KEYCODE
-                                (key) {
-                        case _KEY_W:
-                                player.dy = -5;
-                                break;
-                        case _KEY_S:
-                                player.dy = 5;
-                                break;
-                        case _KEY_A:
-                                player.dx = -5;
-                                break;
-                        case _KEY_D:
-                                player.dx = 5;
-                                break;
-                        default:
-                                break;
-                                }
+                int hold_space = 0;
+                while ((key = read_key()) != _KEY_NONE) {
+                    if (KEYCODE(key)==_KEY_SPACE && ISKEYDOWN(key) && !hold_space)
+                      player.dy = -5;
                 }
                 game_progress();
                 screen_update();
