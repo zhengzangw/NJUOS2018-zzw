@@ -82,7 +82,7 @@ void init_obs(struct Item* obs){
 void game_progress()
 {
     static int counter = 0;
-    int add;
+    int add = 0;
     counter = (counter + 1) % _OBS_FLASH;
     if (!counter && num_obs<8) add = 1;
     if (!INBOUND(&player)) {
