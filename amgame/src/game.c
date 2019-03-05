@@ -80,7 +80,7 @@ void screen_update_player(){
     if (player.dy==-VECT) sw=1;
     clear_rect(player.x, player.y, 20, 20);
     UPDATE(player);
-    draw_rect(player_pixels[sw], player.x, player.y, 10, 10);
+    draw_rect(player_pixels[sw], player.x, player.y, 20, 20);
 }
 
 
