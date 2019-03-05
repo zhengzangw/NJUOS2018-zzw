@@ -101,7 +101,7 @@ int main()
                 game_progress();
                 screen_update();
                 next_frame += 1000 / FPS;
+                Watch(next_frame);
         }
-	Assert(0, "H\n");
         return 0;
 }

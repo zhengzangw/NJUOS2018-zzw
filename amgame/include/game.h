@@ -56,6 +56,9 @@ static inline void puts(const char *s) {
     printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
         __FILE__, __LINE__, __func__, ## __VA_ARGS__)
 
+#define Watch(x) \
+    Log(#x " = %d\n", x);
+
 #define Assert(cond, ...) \
   do { \
     if (!(cond)) { \
