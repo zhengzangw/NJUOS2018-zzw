@@ -21,7 +21,8 @@
                                (player)->y+(player)->h>(item)->y && \
                                (item)->y  +(item)->h  >(player)->y)
 #define FPS 10
-#define VECT 10
+#define R_VEC -5
+#define R_GRA -5
 #define GRAVITY 2
 #define _PLAYER_FLASH 8
 #define _OBS_FLASH 15
@@ -146,8 +147,8 @@ int main()
                 while ((key = read_key()) != _KEY_NONE) {
                     if (KEYCODE(key)==_KEY_SPACE){
                         if (ISKEYDOWN(key)){
-                            player.dy = -VECT;
-                            player.ddy = -2;
+                            player.dy = R_VEC;
+                            player.ddy = R_GRA;
                         }
                         else
                             player.ddy = GRAVITY;
