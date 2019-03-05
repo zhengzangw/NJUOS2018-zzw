@@ -14,9 +14,10 @@
       item->dx += item->ddx; item->dy += item->ddy; item->x += item->dx; item->y += item->dy; \
     } while(0)
 #define clear_rect(x,y,w,h) draw_rect(black, x, y, w, h)
+#define INBOUND(item) (((item)->x>=0)&&((item)->y>=0)&&((item)->x+(item)->w<=width)&&((item)->y+(item)->h<=height))
 #define FPS 10;
 #define VECT 12;
-static int width, height, next_frame, key;
+static int width, height, next_frame, key, fail;
 uint32_t black[1000],white[1000];
 uint32_t player_pixels[2][400] ={HEART1,HEART2};
 
@@ -69,6 +70,7 @@ void init_obs(struct Item* obs){
 
 void game_progress()
 {
+    if (!INBOUND(&player)) fail = 1;
     if (head_obs==0) init_obs(&obs[head_obs++]);
 }
 
@@ -94,8 +96,10 @@ int main()
                     }
                 }
                 game_progress();
+                if (fail) break;
                 screen_update();
                 next_frame += 1000 / FPS;
         }
+        while (1) {}
         return 0;
 }
