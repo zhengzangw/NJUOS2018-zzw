@@ -19,6 +19,16 @@ static int width, height, next_frame, key;
 struct Item {
     int ddx, ddy, dx, dy, x, y, w, h;
 };
+struct Item player ={
+    .x = 0,
+    .y = 0,
+    .dy = 0,
+    .ddx = 0,
+    .dx = 0,
+    .ddy = 1,
+    .w = 20,
+    .h = 20
+};
 uint32_t player_pixels[2][400] ={{
     B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
     B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
@@ -62,16 +72,6 @@ uint32_t player_pixels[2][400] ={{
     B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
     B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B
     }};
-struct Item player ={
-    .x = 0,
-    .y = 0,
-    .dy = 0,
-    .ddx = 0,
-    .dx = 0,
-    .ddy = 1,
-    .w = 20,
-    .h = 20
-};
 int num_obs, head_obs;
 struct Item obs[5];
 
@@ -108,6 +108,9 @@ void init_obs(struct Item* obs){
 }
 void game_progress()
 {
+    if (num_obs<4){
+        init_obs(&obs[head_obs]);
+    }
 }
 
 int x = 0, y = 0;
@@ -129,7 +132,6 @@ int main()
         player.y = height / 3;
         srand(100);
 
-        init_obs(&obs[head_obs]);
         while (1) {
                 while (uptime() < next_frame) ;
                 while ((key = read_key()) != _KEY_NONE) {
