@@ -27,129 +27,138 @@
 #define _PLAYER_FLASH 8
 #define _OBS_FLASH 15
 static int width, height, next_frame, key, fail, num_obs;
-uint32_t black[1000],white[1000],orange[1000];
-uint32_t player_pixels[2][400] ={HEART1,HEART2};
+uint32_t black[1000], white[1000], orange[1000];
+uint32_t player_pixels[2][400] = { HEART1, HEART2 };
 
 struct Item {
-    int ddx, ddy, dx, dy, x, y, w, h, valid;
+        int ddx, ddy, dx, dy, x, y, w, h, valid;
 };
 struct Item obs[10];
 struct Item player;
 
 // Screen Update
-void screen_update_player(struct Item* player){
-    static int counter = 0;
-    counter = (counter + 1)%_PLAYER_FLASH;
-    clear_rect(player->x, player->y, player->w, player->h);
-    update(player);
-    draw_rect(player_pixels[counter<4], player->x, player->y, player->w, player->h);
+void screen_update_player(struct Item *player)
+{
+        static int counter = 0;
+        counter = (counter + 1) % _PLAYER_FLASH;
+        clear_rect(player->x, player->y, player->w, player->h);
+        update(player);
+        draw_rect(player_pixels[counter < 4], player->x, player->y, player->w,
+                  player->h);
 }
 
-void screen_update_obs(struct Item* obs){
-    clear_rect(obs->x, obs->y, obs->w, obs->h);
-    update(obs);
-    if (obs->ddx)
-    draw_rect(white, obs->x, obs->y, obs->w, obs->h);
-    else
-    draw_rect(orange, obs->x, obs->y, obs->w, obs->h);
+void screen_update_obs(struct Item *obs)
+{
+        clear_rect(obs->x, obs->y, obs->w, obs->h);
+        update(obs);
+        if (obs->ddx)
+                draw_rect(white, obs->x, obs->y, obs->w, obs->h);
+        else
+                draw_rect(orange, obs->x, obs->y, obs->w, obs->h);
 }
 
 void screen_update()
 {
-    screen_update_player(&player);
-    for (int i=0;i<10;++i){
-        if (obs[i].valid){
-          screen_update_obs(&obs[i]);
+        screen_update_player(&player);
+        for (int i = 0; i < 10; ++i) {
+                if (obs[i].valid) {
+                        screen_update_obs(&obs[i]);
+                }
         }
-    }
 }
 
 // Game Progress
-void init_player(struct Item* player){
-    player->x = width / 3;
-    player->y = height / 3;
-    player->dy = 0;
-    player->ddx = 0;
-    player->dx = 0;
-    player->ddy = GRAVITY;
-    player->w = 20;
-    player->h = 20;
-    player->valid = 1;
+void init_player(struct Item *player)
+{
+        player->x = width / 3;
+        player->y = height / 3;
+        player->dy = 0;
+        player->ddx = 0;
+        player->dx = 0;
+        player->ddy = GRAVITY;
+        player->w = 20;
+        player->h = 20;
+        player->valid = 1;
 };
 
-void init_obs(struct Item* obs){
-    obs->x = width-10;
-    obs->dy = obs->ddy =0;
-    obs->w = width/200;
-    switch(rand()%3){
+void init_obs(struct Item *obs)
+{
+        obs->x = width - 10;
+        obs->dy = obs->ddy = 0;
+        obs->w = width / 200;
+        switch (rand() % 3) {
         case 1:
 
-    obs->y = rand()%(height/2);
-    obs->dx = -(rand()%7)-3;
-    obs->ddx = 0;
-    obs->h = rand()%(height/2)+height/5;
-            break;
+                obs->y = rand() % (height / 2);
+                obs->dx = -(rand() % 7) - 3;
+                obs->ddx = 0;
+                obs->h = rand() % (height / 2) + height / 5;
+                break;
 
         case 2:
-    obs->y = rand()%(height/4)+rand()%(height/4);
-    obs->dx = -1;
-    obs->ddx = -1;
-    obs->h = rand()%(height/3)+height/5;
-break;
+                obs->y = rand() % (height / 4) + rand() % (height / 4);
+                obs->dx = -1;
+                obs->ddx = -1;
+                obs->h = rand() % (height / 3) + height / 5;
+                break;
         case 3:
-    obs->h = rand()%(height/2)+height/5;
-    obs->y = height - rand()%(height/2);
-    obs->dx = -(rand()%7)-3;
-    obs->ddx = 0;
-break;
-    }
-    if (rand()%3){
-    } else {
-    }
-    if (obs->h+obs->y > height) obs->h = height-obs->h-1;
-    obs->valid = 1;
+                obs->h = rand() % (height / 2) + height / 5;
+                obs->y = height - rand() % (height / 2);
+                obs->dx = -(rand() % 7) - 3;
+                obs->ddx = 0;
+                break;
+        }
+        if (rand() % 3) {
+        } else {
+        }
+        if (obs->h + obs->y > height)
+                obs->h = height - obs->h - 1;
+        obs->valid = 1;
 }
 
 void game_progress()
 {
-    static int counter = 0;
-    int add = 0;
-    counter = (counter + 1) % _OBS_FLASH;
-    if (!counter && num_obs<8) add = 1;
-    if (!INBOUND(&player)) {
-        fail = 1;
-        return;
-    }
+        static int counter = 0;
+        int add = 0;
+        counter = (counter + 1) % _OBS_FLASH;
+        if (!counter && num_obs < 8)
+                add = 1;
+        if (!INBOUND(&player)) {
+                fail = 1;
+                return;
+        }
 
-    for (int i=0;i<10;++i){
-        if (obs[i].valid && COLLIDE(&player, &obs[i])) {
-            fail = 1;
-            return;
+        for (int i = 0; i < 10; ++i) {
+                if (obs[i].valid && COLLIDE(&player, &obs[i])) {
+                        fail = 1;
+                        return;
+                }
+                if (obs[i].valid) {
+                        if (!INBOUND(&obs[i])) {
+                                clear_rect(obs[i].x, obs[i].y, obs[i].w,
+                                           obs[i].h);
+                                obs[i].valid = 0;
+                                num_obs--;
+                        }
+                } else if (add) {
+                        add = 0;
+                        init_obs(&obs[i]);
+                        num_obs++;
+                }
         }
-        if (obs[i].valid){
-            if (!INBOUND(&obs[i])){
-                clear_rect(obs[i].x, obs[i].y, obs[i].w, obs[i].h);
-                obs[i].valid = 0;
-                num_obs--;
-            }
-        } else if (add){
-              add = 0;
-              init_obs(&obs[i]);
-              num_obs++;
-        }
-    }
 }
 
-void restart(){
-    fail = 0;
-    clear_rect(player.x, player.y, player.w, player.h);
-    for (int i=0;i<10;++i){
-        if (obs[i].valid)
-                clear_rect(obs[i].x, obs[i].y, obs[i].w, obs[i].h);
+void restart()
+{
+        fail = 0;
+        clear_rect(player.x, player.y, player.w, player.h);
+        for (int i = 0; i < 10; ++i) {
+                if (obs[i].valid)
+                        clear_rect(obs[i].x, obs[i].y, obs[i].w, obs[i].h);
                 obs[i].valid = 0;
-    }
-    init_player(&player);
-    num_obs=0;
+        }
+        init_player(&player);
+        num_obs = 0;
 }
 
 int main()
@@ -157,41 +166,44 @@ int main()
         // Operating system is a C program
         // Initialization
         _ioe_init();
-        for (int i=0;i<1000;++i){ orange[i] = ORANGE; }
-        for (int i=0;i<1000;++i){ white[i] = W; }
+        for (int i = 0; i < 1000; ++i) {
+                orange[i] = ORANGE;
+        }
+        for (int i = 0; i < 1000; ++i) {
+                white[i] = W;
+        }
         width = screen_width();
         height = screen_height();
         srand(100);
 
         // Game Start
         while (1) {
-        while (uptime() < next_frame) ;
-        restart();
-        next_frame += 1000 / FPS;
-        int first_press = 1;
-        while (1) {
                 while (uptime() < next_frame) ;
-                while ((key = read_key()) != _KEY_NONE) {
-                    if (KEYCODE(key)==_KEY_SPACE){
-                        if (ISKEYDOWN(key)){
-                            if (first_press) {
-                                player.dy = R_VEC;
-                                first_press = 0;
-                            }
-                            player.ddy = R_GRA;
-                        }
-                        else {
-                            first_press = 1;
-                            player.ddy = GRAVITY;
-                    }
-                    }
-                }
-                game_progress();
-                //if (fail) break;
-                screen_update();
+                restart();
                 next_frame += 1000 / FPS;
-        }
-        next_frame += 1500;
+                int first_press = 1;
+                while (1) {
+                        while (uptime() < next_frame) ;
+                        while ((key = read_key()) != _KEY_NONE) {
+                                if (KEYCODE(key) == _KEY_SPACE) {
+                                        if (ISKEYDOWN(key)) {
+                                                if (first_press) {
+                                                        player.dy = R_VEC;
+                                                        first_press = 0;
+                                                }
+                                                player.ddy = R_GRA;
+                                        } else {
+                                                first_press = 1;
+                                                player.ddy = GRAVITY;
+                                        }
+                                }
+                        }
+                        game_progress();
+                        //if (fail) break;
+                        screen_update();
+                        next_frame += 1000 / FPS;
+                }
+                next_frame += 1500;
         }
         return 0;
 }
