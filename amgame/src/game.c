@@ -173,11 +173,14 @@ int main()
                 while ((key = read_key()) != _KEY_NONE) {
                     if (KEYCODE(key)==_KEY_SPACE){
                         if (ISKEYDOWN(key)){
+                            Log("DOWN\n");
                             player.dy = R_VEC;
                             player.ddy = R_GRA;
                         }
-                        else
+                        else {
+                            Log("UP\n");
                             player.ddy = GRAVITY;
+                    }
                     }
                 }
                 game_progress();
