@@ -118,7 +118,7 @@ int main()
 {
         // Operating system is a C program
         _ioe_init();
-        for (int i=0;i<1000;++i){ white[i] = W; }
+        for (int i=0;i<1000;++i){ white[i] = R; }
         width = screen_width();
         height = screen_height();
 
