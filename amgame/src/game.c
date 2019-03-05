@@ -3,6 +3,8 @@
 #include <time.h>
 #include <stdlib.h>
 
+#define DEBUG
+
 #define W 0xffffff
 #define B 0x000000
 #define R 0xff0000
@@ -17,7 +19,7 @@ const int VECT = 12;
 static int width, height, next_frame, key;
 
 struct Item {
-    int ddx, ddy, dx, dy, x, y, w, h;
+    int ddx, ddy, dx, dy, x, y, w, h, valid;
 };
 struct Item player ={
     .x = 0,
@@ -29,49 +31,7 @@ struct Item player ={
     .w = 20,
     .h = 20
 };
-uint32_t player_pixels[2][400] ={{
-    B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
-    B, B, B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B,
-    B, B, B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B,
-    B, B, W, W, R, R, R, R, W, W, R, R, R, R, W, W, B, B, B, B,
-    B, B, W, W, R, R, R, R, W, W, R, R, R, R, W, W, B, B, B, B,
-    W, W, R, R, R, R, R, R, R, R, W, W, R, R, R, R, W, W, B, B,
-    W, W, R, R, R, R, R, R, R, R, W, W, R, R, R, R, W, W, B, B,
-    W, W, R, R, R, R, R, R, R, R, R, R, R, R, R, R, W, W, B, B,
-    W, W, R, R, R, R, R, R, R, R, R, R, R, R, R, R, W, W, B, B,
-    B, B, W, W, R, R, R, R, R, R, R, R, R, R, W, W, B, B, B, B,
-    B, B, W, W, R, R, R, R, R, R, R, R, R, R, W, W, B, B, B, B,
-    B, B, B, B, W, W, R, R, R, R, R, R, W, W, B, B, B, B, B, B,
-    B, B, B, B, W, W, R, R, R, R, R, R, W, W, B, B, B, B, B, B,
-    B, B, B, B, B, B, W, W, R, R, W, W, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, W, W, R, R, W, W, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, B, B, W, W, B, B, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, B, B, W, W, B, B, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B
-    },{
-    B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
-    B, B, B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B,
-    B, B, B, B, W, W, W, W, B, B, W, W, W, W, B, B, B, B, B, B,
-    B, B, W, W, R, R, R, R, W, W, R, R, R, R, W, W, B, B, B, B,
-    B, B, W, W, R, R, R, R, W, W, R, R, R, R, W, W, B, B, B, B,
-    W, W, R, R, W, W, W, W, R, R, R, R, R, R, R, R, W, W, B, B,
-    W, W, R, R, W, W, W, W, R, R, R, R, R, R, R, R, W, W, B, B,
-    W, W, R, R, W, W, R, R, R, R, R, R, R, R, R, R, W, W, B, B,
-    W, W, R, R, W, W, R, R, R, R, R, R, R, R, R, R, W, W, B, B,
-    B, B, W, W, R, R, R, R, R, R, R, R, R, R, W, W, B, B, B, B,
-    B, B, W, W, R, R, R, R, R, R, R, R, R, R, W, W, B, B, B, B,
-    B, B, B, B, W, W, R, R, R, R, R, R, W, W, B, B, B, B, B, B,
-    B, B, B, B, W, W, R, R, R, R, R, R, W, W, B, B, B, B, B, B,
-    B, B, B, B, B, B, W, W, R, R, W, W, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, W, W, R, R, W, W, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, B, B, W, W, B, B, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, B, B, W, W, B, B, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B,
-    B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B, B
-    }};
+uint32_t player_pixels[2][400] ={HEART1,HEART2};
 int num_obs, head_obs;
 struct Item obs[5];
 
@@ -104,7 +64,7 @@ void init_obs(struct Item* obs){
     obs->dy = obs->ddx = obs->ddy =0;
     obs->w = 3;
     obs->h = rand()%300+100;
-    printf("%d", obs->h);
+    Log("%d", obs->h);
 }
 void game_progress()
 {
@@ -144,6 +104,6 @@ int main()
                 screen_update();
                 next_frame += 1000 / FPS;
         }
-
+	Assert(0, "H\n");
         return 0;
 }
