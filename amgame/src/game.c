@@ -16,6 +16,7 @@ int main() {
   splash();
   while (1) {
     while (uptime() < next_frame);
+    printf("%d", key);
     while ((key = read_key())!=_KEY_NONE && ISKEYDOWN(key)){
         printf("hello\n");
     }
