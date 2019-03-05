@@ -77,10 +77,10 @@ void clear_rect(int x, int y, int w, int h)
 
 void screen_update_player(){
     static int sw = 0;
-    sw = (sw + 1)%4;
+    sw = (sw + 1)%8;
     clear_rect(player.x, player.y, 20, 20);
     UPDATE(player);
-    draw_rect(player_pixels[sw<2], player.x, player.y, 20, 20);
+    draw_rect(player_pixels[sw<4], player.x, player.y, 20, 20);
 }
 
 
