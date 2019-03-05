@@ -115,8 +115,8 @@ void init_obs(struct Item *obs)
                 obs->ddx = 0;
                 break;
         }
-        if (obs->h + obs->y > height)
-                obs->h = height - obs->h - 1;
+        if (obs->h + obs->y >= height)
+                obs->h = height - obs->h - 5;
         obs->valid = 1;
 }
 
