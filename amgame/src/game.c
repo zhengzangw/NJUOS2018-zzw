@@ -1,11 +1,14 @@
 #include <game.h>
 #include <klib.h>
+#include <time.h>
+#include <stdlib.h>
 
 #define W 0xffffff
 #define B 0x000000
 #define R 0xff0000
 #define ISKEYDOWN(x) (((x)&0x8000))
 #define KEYCODE(x) ((x)&0x7fff)
+#define RAND(x) (rand()%(x))
 #define UPDATE(item) \
     do { \
       item->dx += item->ddx; item->dy += item->ddy; item->x += item->dx; item->y += item->dy; \
@@ -101,7 +104,7 @@ void init_obs(struct Item* obs){
     obs->dx = -5;
     obs->dy = obs->ddx = obs->ddy =0;
     obs->w = 3;
-    obs->h = 30;
+    obs->h = RAND(100);
 }
 void game_progress()
 {
