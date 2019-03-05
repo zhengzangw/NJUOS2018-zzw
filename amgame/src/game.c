@@ -76,7 +76,7 @@ void init_obs(struct Item* obs){
     obs->dy = obs->ddx = obs->ddy =0;
     obs->w = rand()%3+1;
     obs->h = rand()%(height/2)+height/4;
-    if (obs->h+obs->y>height) obs->h = height-obs->y-1;
+    //if (obs->h+obs->y>height) obs->h = height-obs->y-1;
     obs->valid = 1;
 }
 
