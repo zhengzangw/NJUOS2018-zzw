@@ -7,6 +7,7 @@
 #define W 0xffffff
 #define B 0x000000
 #define R 0xff0000
+#define ORANGE 0xff7D00
 #define ISKEYDOWN(x) (((x)&0x8000))
 #define KEYCODE(x) ((x)&0x7fff)
 #define update(item) \
@@ -115,7 +116,7 @@ int main()
         // Initialization
         _ioe_init();
         srand(100);
-        for (int i=0;i<1000;++i){ white[i] = R; }
+        for (int i=0;i<1000;++i){ white[i] = ORANGE; }
         width = screen_width();
         height = screen_height();
         player.x = width / 3;
