@@ -79,8 +79,6 @@ void co_init() {
   strcpy(crs[0].name, "main");
   crs[0].stackptr = NULL;
   co_num = cur = 0;
-  sprintf(crs[2].stack+1000,"AAAAAH!");
-  assert(0);
 }
 
 struct co* co_start(const char *name, func_t func, void *arg) {
@@ -97,6 +95,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     changeframe(cur, co_num);
     cur = co_num;
     Log("bef func");
+  sprintf(crs[2].stack+1000,"AAAAAH!");
     debug();
     func_(arg_); // Test #2 hangs
     crs[cur].done = 1;
