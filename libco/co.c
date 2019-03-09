@@ -59,7 +59,7 @@ void co_yield() {
   int id = rand()%(co_num+1);
 
   int ind = setjmp(crs[cur].env);
-  //printf("ind = %d\n", ind);
+  printf("ind = %d\n", ind);
   if (!ind){
         changeframe(cur, id);
         cur = id;
