@@ -58,32 +58,18 @@ void co_init() {
 
 struct co* co_start(const char *name, func_t func, void *arg) {
   crs[++co_num].done = 0;
-  crs[co_num].stackptr = crs[co_num].stack;
+  crs[co_num].stackptr = START_OF_STACK(crs[co_num].stack);
   strcpy(crs[co_num].name, name);
   int pre = cur;
   cur = co_num;
 
-  debug;
-
   int ind = setjmp(crs[pre].env);
   if (!ind){
-    //printf("bef: %s, %p\n", (char *)arg, func);
     nothing(func, arg);
-  debug;
-  void *sp;
-  printf("pre = %d, co_num = %d\n", pre, co_num);
-  asm volatile("mov " SP ", %0; mov %1, " SP :
-               "=g"(sp):
-               "g"(crs[co_num].stackptr));
-  printf("sp *= %p\n", sp);
-  //  changeframe(pre,co_num);
-  crs[0].stackptr = sp;
-  printf("stackptr %d: %p\n", 0, crs[0].stackptr);
-  debug;
-  printf("stackptr %d: %p\n", 0, crs[0].stackptr);
-  printf("stackptr %d: %p\n", 0, crs[0].stackptr);
-  printf("stackptr %d: %p\n", 0, crs[0].stackptr);
-   assert(0);
+    changeframe(pre,co_num);
+    debug;
+    assert(0);
+
     func(arg); // Test #2 hangs
     crs[co_num].done = 1;
   }
