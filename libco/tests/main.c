@@ -58,6 +58,7 @@ static void do_produce(Queue *queue) {
     memset(item->data, 0, 10);
     sprintf(item->data, "libco-%d", g_count++);
     q_push(queue, item);
+    printf("Leave\n");
 }
 
 static void producer(void *arg) {
@@ -98,7 +99,6 @@ static void test_2() {
     Queue *queue = q_new();
 
     struct co *thd1 = co_start("producer-1", producer, queue);
-    printf("Test begin\n");
     struct co *thd2 = co_start("producer-2", producer, queue);
     struct co *thd3 = co_start("consumer-1", consumer, queue);
     struct co *thd4 = co_start("consumer-2", consumer, queue);
