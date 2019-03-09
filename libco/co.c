@@ -57,17 +57,13 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 }
 
 void co_yield() {
-  int id = rand()%(co_num+1);
+  int id = rand()%(co_num);
 
-  int ind = setjmp(coroutines[co_num-1].env);
+  int ind = setjmp(coroutines[id].env);
   if (!ind){
-      if (!id){
-        changeframe(main_stack);
-        longjmp(main_env, 1);
-      } else {
-        changeframe(START_OF_STACK(coroutines[id-1].stack));
-        longjmp(coroutines[id-1].env, 1);
-      }
+        changeframe(id);
+        longjmp(coroutines[id].env, 1);
+        restoreframe(id);
   }
 }
 
