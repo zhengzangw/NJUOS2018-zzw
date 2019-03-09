@@ -53,7 +53,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
                "g"(START_OF_STACK(coroutines[co_num].stack)));
    // changeframe(START_OF_STACK(coroutines[co_num].stack));
     //printf("%p %p %p\n",coroutines, coroutines[co_num].stack, START_OF_STACK(coroutines[co_num].stack));
-    //printf("*******************\n");
+    printf("*******************\n");
     func(arg); // Test #2 hangs
     coroutines[co_num].done = 1;
   }
