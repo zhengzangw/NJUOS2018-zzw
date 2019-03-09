@@ -37,6 +37,7 @@ static inline void changeframe(void * stack){
 void co_init() {
   asm volatile("mov " SP ", %0" :
                "=g"(main_stack));
+  coroutines[1][1] = 1;
 }
 
 struct co* co_start(const char *name, func_t func, void *arg) {
