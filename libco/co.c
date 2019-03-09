@@ -46,13 +46,14 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 
   int ind = setjmp(crs[cur].env);
   if (!ind){
-    printf("bef: %s\n, %p\n", (char *)arg, func);
+    printf("bef: %s, %p\n", (char *)arg, func);
     changeframe(cur,co_num);
     cur = co_num;
     printf("bef: %s, %p\n", (char *)arg, func);
     func(arg); // Test #2 hangs
     crs[co_num].done = 1;
   }
+  printf("before res: %d\n", cur);
   restoreframe(cur);
 
   return &(crs[co_num]);
