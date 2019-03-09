@@ -26,7 +26,7 @@ struct co {
   char done;
 };
 struct co coroutines[MAX_CO];
-int co_num;
+int co_num = 1;
 
 static inline void changeframe(void * stack){
   asm volatile("mov %0, " SP :
@@ -43,7 +43,6 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   printf("======================\n");
   coroutines[co_num].done = 0;
   strcpy(coroutines[co_num].name, name);
-  func(arg);
 
   int ind = setjmp(main_env);
   if (!ind){
