@@ -66,6 +66,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   int ind = setjmp(crs[pre].env);
   if (!ind){
     nothing(func, arg);
+    debug;
     changeframe(pre,co_num);
     debug;
     assert(0);
