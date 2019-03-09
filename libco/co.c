@@ -44,11 +44,11 @@ void nothing(func_t func, void *arg){
 
 static int times;
 #define debug do {\
-    printf("id = %d\n", id);\
     printf("DEBUG #%d\n", ++times);\
     void* sp;\
     asm volatile("mov " SP ", %0": "=g"(sp));\
     printf("SP = %p\n", sp);\
+    printf("id = %d\n", id);\
     for (int i=0;i<3;++i){\
         printf("stackptr %d: %p\n", i, crs[i].stackptr);\
     }\
