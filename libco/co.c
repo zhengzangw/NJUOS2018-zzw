@@ -66,7 +66,7 @@ struct co {
   jmp_buf env;
   char done;
   void *stackptr;
-  char stack[32 KB];
+  char stack[8 KB];
 };
 struct co crs[MAX_CO];
 int co_num, cur;
@@ -106,7 +106,6 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 }
 
 void co_yield() {
-    Log("Y");
   int pre = cur;
   do {
     cur = rand()%(co_num+1);
