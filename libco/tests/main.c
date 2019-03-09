@@ -50,14 +50,14 @@ static void do_produce(Queue *queue) {
         fprintf(stderr, "New item failure\n");
         return;
     }
-    item->data = tmp; //(char*)malloc(10);
+    item->data = (char*)malloc(10);
     if (!item->data) {
         fprintf(stderr, "New data failure\n");
         free(item);
         return;
     }
     memset(item->data, 0, 10);
-    sprintf(item->data, "libco");
+    sprintf(tmp, "libco-%d", g_count++);
     q_push(queue, item);
 }
 
@@ -123,7 +123,7 @@ int main() {
     co_init();
 
     printf("Test #1. Expect: (X|Y){0, 1, 2, ..., 199}\n");
-    //test_1();
+    test_1();
 
     printf("\nTest #2. Expect: (libco-){200, 201, 202, ..., 399}\n");
     test_2();
