@@ -40,6 +40,7 @@ void co_init() {
 }
 
 struct co* co_start(const char *name, func_t func, void *arg) {
+    printf("======================\n");
   coroutines[co_num].done = 0;
   strcpy(coroutines[co_num].name, name);
 
