@@ -41,6 +41,7 @@ static void test_1() {
 // -----------------------------------------------
 
 static int g_running = 1;
+static char tmp[20];
 
 static void do_produce(Queue *queue) {
     assert(!q_is_full(queue));
@@ -49,7 +50,7 @@ static void do_produce(Queue *queue) {
         fprintf(stderr, "New item failure\n");
         return;
     }
-    item->data = (char*)malloc(10);
+    item->data = tmp; //(char*)malloc(10);
     if (!item->data) {
         fprintf(stderr, "New data failure\n");
         free(item);
