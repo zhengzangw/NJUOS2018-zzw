@@ -61,10 +61,8 @@ static int times;
 #define restoreframe(num)\
   asm volatile("mov %0," SP : : "g"(crs[num].stackptr))
 
-#include <types.h>
-
 struct co {
-  uint_8 stack[4 KB];
+  char stack[4 KB];
   char name[64];
   jmp_buf env;
   char done;
