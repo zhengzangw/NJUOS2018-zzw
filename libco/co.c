@@ -67,7 +67,7 @@ void co_yield() {
         changeframe(id);
         longjmp(coroutines[id].env, 1);
   }
-  restoreframe(id);
+  //restoreframe(id);
   printf("End of yield\n");
 }
 
