@@ -14,14 +14,10 @@ static int get_count() {
     return g_count;
 }
 
-
-    char tmp[20];
 static void work_loop(void *arg) {
     const char *s = (const char*)arg;
-    printf("%p\n", tmp);
-    sprintf(tmp, "aaaa");
     for (int i = 0; i < 100; ++i) {
-        printf("%s%d \n", tmp, get_count());
+        printf("%s%d  ", s, get_count());
         add_count();
         co_yield();
     }
@@ -60,9 +56,7 @@ static void do_produce(Queue *queue) {
         return;
     }
     memset(item->data, 0, 10);
-    printf("Lock\n");
     sprintf(item->data, "libco-%d", g_count++);
-    printf("Unlock\n");
     q_push(queue, item);
 }
 
@@ -72,7 +66,6 @@ static void producer(void *arg) {
         if (!q_is_full(queue)) {
             // co_yield();
             do_produce(queue);
-
             i += 1;
         }
         co_yield();
@@ -131,7 +124,7 @@ int main() {
     test_1();
 
     printf("\nTest #2. Expect: (libco-){200, 201, 202, ..., 399}\n");
-    //test_2();
+    test_2();
 
     printf("\n");
 
