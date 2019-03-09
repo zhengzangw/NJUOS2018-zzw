@@ -14,11 +14,12 @@ static int get_count() {
     return g_count;
 }
 
+
+    char tmp[20];
 static void work_loop(void *arg) {
     const char *s = (const char*)arg;
-    char tmp[20];
     printf("%p\n", tmp);
-    sprintf(tmp, "%s", s);
+    sprintf(tmp, "aaaa");
     for (int i = 0; i < 100; ++i) {
         printf("%s%d \n", tmp, get_count());
         add_count();
