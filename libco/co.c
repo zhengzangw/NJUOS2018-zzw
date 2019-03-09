@@ -49,10 +49,10 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   int pre = cur;
   cur = co_num;
 
-    printf("bef: %s, %p\n", (char *)arg, func);
 
   int ind = setjmp(crs[pre].env);
   if (!ind){
+    printf("bef: %s, %p\n", (char *)arg, func);
     changeframe(pre,co_num);
     printf("bef: %s, %p\n", (char *)arg, func);
     func(arg); // Test #2 hangs
