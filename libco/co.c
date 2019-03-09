@@ -58,6 +58,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 
 void co_yield() {
   int id = rand()%(co_num+1);
+  printf("id=%d\n", id);
 
   int ind = setjmp(coroutines[cur_co].env);
   if (!ind){
