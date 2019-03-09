@@ -38,15 +38,15 @@ void nothing(func_t func, void *arg){
 }
 
 static int times;
-void debug(){
-    printf("DEBUG #%d\n", ++times);
-    void* sp;
-    asm volatile("mov " SP ", %0": "=g"(sp));
-    printf("SP = %p\n", sp);
-    for (int i=0;i<3;++i){
-        printf("stackptr %d: %p\n", i, crs[i].stackptr);
-    }
-}
+#define debug do {\
+    printf("DEBUG #%d\n", ++times);\
+    void* sp;\
+    asm volatile("mov " SP ", %0": "=g"(sp));\
+    printf("SP = %p\n", sp);\
+    for (int i=0;i<3;++i){\
+        printf("stackptr %d: %p\n", i, crs[i].stackptr);\
+    }\
+} while (0);
 
 void co_init() {
   strcpy(crs[0].name, "main");
@@ -60,14 +60,14 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   int pre = cur;
   cur = co_num;
 
-  debug();
+  debug;
 
   int ind = setjmp(crs[pre].env);
   if (!ind){
     //printf("bef: %s, %p\n", (char *)arg, func);
     nothing(func, arg);
     changeframe(pre,co_num);
-  debug();
+  debug;
     func(arg); // Test #2 hangs
     crs[co_num].done = 1;
   }
@@ -80,7 +80,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 void co_yield() {
   int id = rand()%(co_num+1);
   printf("id = %d, cur=%d\n", id, cur);
-  debug();
+  debug;
 
   int ind = setjmp(crs[1].env);
   printf("ind = %d\n", ind);
