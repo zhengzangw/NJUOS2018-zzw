@@ -46,6 +46,7 @@ static int times;
     for (int i=0;i<3;++i){\
         printf("stackptr %d: %p\n", i, crs[i].stackptr);\
     }\
+    printf("\n");\
 } while (0);
 
 void co_init() {
@@ -66,6 +67,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   if (!ind){
     //printf("bef: %s, %p\n", (char *)arg, func);
     nothing(func, arg);
+  debug;
     changeframe(pre,co_num);
   debug;
     func(arg); // Test #2 hangs
