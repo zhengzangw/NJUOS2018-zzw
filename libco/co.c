@@ -51,6 +51,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     func(arg); // Test #2 hangs
     coroutines[co_num].done = 1;
   }
+  printf("***\n");
   restoreframe(co_num);
 
   return &(coroutines[co_num]);
@@ -67,7 +68,7 @@ void co_yield() {
         changeframe(id);
         longjmp(coroutines[id].env, 1);
   }
-  //restoreframe(id);
+  restoreframe(id);
   printf("End of yield\n");
 }
 
