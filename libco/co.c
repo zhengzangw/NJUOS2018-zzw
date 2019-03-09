@@ -70,15 +70,12 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   strcpy(crs[co_num].name, name);
   int pre = cur;
   cur = co_num;
-  int now = cur;
 
   int ind = setjmp(crs[pre].env);
   if (!ind){
     changeframe(pre,co_num);
     func_(arg_); // Test #2 hangs
-    restoreframe(cur);
-    printf("now = %d\n", now);
-    crs[now].done = 1;
+    crs[cur].done = 1;
     co_yield();
   }
   restoreframe(cur);
