@@ -44,7 +44,7 @@ void nothing(func_t func, void *arg){
 
 static int times;
 #define debug do {\
-    printf("id = %d\n", id);
+    printf("id = %d\n", id);\
     printf("DEBUG #%d\n", ++times);\
     void* sp;\
     asm volatile("mov " SP ", %0": "=g"(sp));\
