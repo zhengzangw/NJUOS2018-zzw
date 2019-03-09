@@ -56,6 +56,7 @@ static void do_produce(Queue *queue) {
         return;
     }
     memset(item->data, 0, 10);
+    printf("%p\n", item);
     sprintf(item->data, "libco-%d", g_count++);
     q_push(queue, item);
 }
@@ -65,7 +66,7 @@ static void producer(void *arg) {
     for (int i = 0; i < 100; ) {
         if (!q_is_full(queue)) {
             // co_yield();
-//            do_produce(queue);
+            do_produce(queue);
 
             i += 1;
         }
