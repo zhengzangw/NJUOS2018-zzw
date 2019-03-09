@@ -69,6 +69,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     //printf("bef: %s, %p\n", (char *)arg, func);
     nothing(func, arg);
   debug;
+  debug;
   printf("pre = %d, co_num = %d\n", pre, co_num);
     changeframe(pre,co_num);
   printf("pre = %d, co_num = %d\n", pre, co_num);
