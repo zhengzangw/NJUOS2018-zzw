@@ -20,9 +20,9 @@
 struct co {
   char name[64];
   jmp_buf env;
-  char stack[32 KB];
   char done;
   void *stackptr;
+  char stack[32 KB];
 };
 struct co crs[MAX_CO];
 int co_num, cur;
