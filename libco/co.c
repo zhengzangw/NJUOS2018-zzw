@@ -54,7 +54,8 @@ struct co* co_start(const char *name, func_t func, void *arg) {
    // changeframe(START_OF_STACK(coroutines[co_num].stack));
     //printf("%p %p %p\n",coroutines, coroutines[co_num].stack, START_OF_STACK(coroutines[co_num].stack));
     //printf("*******************\n");
-    func("x"); // Test #2 hangs
+    char temp[10] = "x";
+    func(temp); // Test #2 hangs
     coroutines[co_num].done = 1;
   }
   co_num++;
