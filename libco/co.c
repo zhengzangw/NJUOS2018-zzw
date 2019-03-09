@@ -44,7 +44,7 @@ void nothing(func_t func, void *arg){
   return;
 }
 
-static int times;
+//static int times;
 #define debug do {\
     printf("DEBUG #%d\n", ++times);\
     void* sp;\
@@ -87,17 +87,14 @@ void co_yield() {
   cur = rand()%(co_num+1);
 
   int ind = setjmp(crs[pre].env);
-  printf("ind = %d, pre = %d, cur = %d\n", ind, pre, cur);
+  //printf("ind = %d, pre = %d, cur = %d\n", ind, pre, cur);
   if (!ind){
-  debug;
         changeframe(pre, cur);
-  printf("cur = %d\n", cur);
-  debug;
+  //printf("cur = %d\n", cur);
         longjmp(crs[cur].env, 1);
   }
   printf("bef res, cur = %d\n", cur);
   restoreframe(cur);
-  debug;
   printf("End of yield\n");
 }
 
