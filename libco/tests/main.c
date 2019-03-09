@@ -61,6 +61,7 @@ static void do_produce(Queue *queue) {
 }
 
 static void producer(void *arg) {
+    printf("Enter\n");
     Queue *queue = (Queue*)arg;
     for (int i = 0; i < 100; ) {
         if (!q_is_full(queue)) {
