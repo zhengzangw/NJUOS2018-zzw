@@ -37,7 +37,12 @@ void nothing(func_t func, void *arg){
   return;
 }
 
+static int times;
 void debug(){
+    printf("DEBUG #%d\n", ++times);
+    void* sp;
+    asm volatile("mov " SP ", %0": "=g"(sp));
+    printf("SP = %p\n", sp);
     for (int i=0;i<3;++i){
         printf("stackptr %d: %p\n", i, crs[i].stackptr);
     }
