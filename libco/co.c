@@ -46,7 +46,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   strcpy(coroutines[co_num].name, name);
 
   int ind = setjmp(mainco.env);
-  printf("ind=%d", ind);
+  printf("ind=%d\n", ind);
   if (!ind){
     changeframe(co_num);
     func(arg); // Test #2 hangs
