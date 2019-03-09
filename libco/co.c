@@ -32,8 +32,10 @@ func_t func_;
 void * arg_;
 
 #define changeframe(old, new)\
-  asm volatile("mov " SP ", %0; mov %1, " SP :\
-               "=g"(crs[old].stackptr):\
+  asm volatile("mov " SP ", %0" :\
+               "=g"(crs[old].stackptr));\
+  asm volatile("mov %0, " SP :\
+               :\
                "g"(crs[new].stackptr))
 #define restoreframe(num)\
   asm volatile("mov %0," SP : : "g"(crs[num].stackptr))
@@ -88,7 +90,7 @@ void co_yield() {
   printf("ind = %d, pre = %d, cur = %d\n", ind, pre, cur);
   if (!ind){
   debug;
-        changeframe(1, cur);
+        changeframe(pre, cur);
   printf("cur = %d\n", cur);
   debug;
         longjmp(crs[cur].env, 1);
