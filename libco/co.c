@@ -44,6 +44,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   crs[co_num].stackptr = crs[co_num].stack;
   strcpy(crs[co_num].name, name);
 
+  printf("cur = %d\n", cur);
   int ind = setjmp(crs[cur].env);
   if (!ind){
     printf("bef: %s, %p\n", (char *)arg, func);
@@ -63,7 +64,7 @@ void co_yield() {
   int id = rand()%(co_num+1);
   printf("id = %d, cur=%d\n", id, cur);
 
-  int ind = setjmp(crs[2].env);
+  int ind = setjmp(crs[1].env);
   printf("ind = %d\n", ind);
   if (!ind){
         printf("***\n");
