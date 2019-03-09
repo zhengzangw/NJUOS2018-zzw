@@ -104,6 +104,7 @@ void co_yield() {
 void co_wait(struct co *thd) {
     printf("wait\n");
     while (!thd->done){
+        printf("name = %s\n", thd->name);
         int ind = setjmp(crs[cur].env);
         if (!ind){
           co_yield();
