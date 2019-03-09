@@ -48,11 +48,8 @@ static int times;
     void* sp;\
     asm volatile("mov " SP ", %0": "=g"(sp));\
     printf("SP = %p\n", sp);\
-    printf("id = %d\n", id);\
     for (int i=0;i<3;++i){\
-        printf("id = %d\n", id);\
         printf("stackptr %d: %p\n", i, crs[i].stackptr);\
-        printf("id = %d\n", id);\
     }\
     printf("\n");\
 } while (0);
@@ -90,17 +87,11 @@ void co_yield() {
   int id = rand()%(co_num+1);
   int pre = cur;
   cur = id;
-  printf("id = %d, cur=%d, pre=%d, cur=%d\n", id, cur, pre, cur);
-  debug;
 
   int ind = setjmp(crs[pre].env);
   if (!ind){
-        printf("id = %d\n", id);
         changeframe(pre, id);
-        printf("id = %d\n", id);
-        debug;
-        printf("id = %d\n", id);
-        longjmp(crs[id].env, 1);
+        longjmp(crs[cur].env, 1);
   }
   printf("bef res, cur = %d\n", cur);
   restoreframe(cur);
