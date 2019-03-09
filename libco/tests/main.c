@@ -55,9 +55,9 @@ static void do_produce(Queue *queue) {
         free(item);
         return;
     }
-    printf("F\n");
     memset(item->data, 0, 10);
     sprintf(item->data, "libco-%d", g_count++);
+    printf("F\n");
     q_push(queue, item);
 }
 
