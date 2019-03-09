@@ -24,7 +24,7 @@ struct co {
   jmp_buf env;
   char done;
   void *stackptr;
-  char stack[64 KB];
+  char stack[32 KB];
 };
 struct co crs[MAX_CO];
 int co_num, cur;
@@ -99,7 +99,10 @@ void co_yield() {
 void co_wait(struct co *thd) {
     printf("wait\n");
     while (!thd->done){
-        co_yield();
+        int ind = setjmp(crs[cur].env);
+        if (!ind){
+          co_yield();
+        }
     }
 }
 
