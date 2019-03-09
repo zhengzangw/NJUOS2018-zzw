@@ -96,6 +96,7 @@ void co_yield() {
   }
   printf("bef res, cur = %d\n", cur);
   restoreframe(cur);
+  debug;
   printf("End of yield\n");
 }
 
