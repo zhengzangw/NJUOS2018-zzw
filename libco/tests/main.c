@@ -42,7 +42,7 @@ static void test_1() {
 
 static int g_running = 1;
 
-static void do_produce(Queue *queue) {
+static inline void do_produce(Queue *queue) {
     assert(!q_is_full(queue));
     Item *item = (Item*)malloc(sizeof(Item));
     if (!item) {
