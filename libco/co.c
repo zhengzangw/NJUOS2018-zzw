@@ -57,6 +57,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 
 void co_yield() {
   int id = rand()%(co_num+1);
+  int old_co = cur_co;
 
   int ind = setjmp(coroutines[cur_co].env);
   printf("ind = %d\n", ind);
@@ -66,7 +67,7 @@ void co_yield() {
         changeframe(id);
         longjmp(coroutines[id].env, 1);
   }
-  restoreframe(cur_co);
+  restoreframe(old_co);
 }
 
 void co_wait(struct co *thd) {
