@@ -46,6 +46,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   strcpy(coroutines[co_num].name, name);
 
   int ind = setjmp(mainco.env);
+  printf("ind=%d", ind);
   if (!ind){
     changeframe(co_num);
     func(arg); // Test #2 hangs
@@ -57,7 +58,6 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 
 void co_yield() {
   int id = rand()%(co_num+1);
-  printf("id=%d\n", id);
 
   int ind = setjmp(coroutines[id].env);
   if (!ind){
