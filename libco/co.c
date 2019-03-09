@@ -53,7 +53,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     coroutines[co_num].done = 1;
     restoreframe(co_num);
   }
-  return &(coroutines[co_num-1]);
+  return &(coroutines[co_num]);
 }
 
 void co_yield() {
