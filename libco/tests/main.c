@@ -66,8 +66,9 @@ static void producer(void *arg) {
     for (int i = 0; i < 100; ) {
         if (!q_is_full(queue)) {
             // co_yield();
+            printf("Enter!\n");
             do_produce(queue);
-    printf("Enter!\n");
+            printf("Enter!\n");
 
             i += 1;
         }
