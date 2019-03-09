@@ -93,6 +93,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   if (!ind){
     changeframe(cur, co_num);
     cur = co_num;
+    Log("bef func");
     func_(arg_); // Test #2 hangs
     crs[cur].done = 1;
     co_yield();
