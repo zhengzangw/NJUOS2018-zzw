@@ -68,6 +68,7 @@ static void producer(void *arg) {
             do_produce(queue);
             i += 1;
         }
+        printf("bef yield\n");
         co_yield();
     }
 }
