@@ -51,6 +51,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     func(arg); // Test #2 hangs
     coroutines[co_num].done = 1;
   }
+  printf("In co_start\n");
   restoreframe(0);
 
   return &(coroutines[co_num]);
