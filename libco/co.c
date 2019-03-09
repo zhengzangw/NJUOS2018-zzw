@@ -70,8 +70,11 @@ void co_yield() {
 
 void co_wait(struct co *thd) {
     printf("wait\n");
-    if (!thd->done) {
-      co_yield();
+    while (!thd->done){
+      int ind = setjmp(mainco.env);
+      if (!ind){
+        co_yield();
+      }
     }
 }
 
