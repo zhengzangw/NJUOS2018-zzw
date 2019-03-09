@@ -87,7 +87,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   strcpy(crs[co_num].name, name);
   crs[++co_num].done = 0;
   crs[co_num].stackptr = START_OF_STACK(crs[co_num].stack);
-  Log("%lu\n", sizeof(crs[co_num].stack));
+  Log("%llx\n", (long long)sizeof(crs[co_num].stack));
 
   int ind = setjmp(crs[cur].env);
   Log("ind = %d, cur = %d, co_num = %d\n", ind, cur, co_num);
