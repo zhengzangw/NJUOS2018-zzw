@@ -71,7 +71,10 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   debug;
   debug;
   printf("pre = %d, co_num = %d\n", pre, co_num);
-    changeframe(pre,co_num);
+  asm volatile("mov " SP ", %0; mov %1, " SP :
+               "=g"(crs[pre].stackptr):
+               "g"(crs[co_num].stackptr));
+  //  changeframe(pre,co_num);
   printf("pre = %d, co_num = %d\n", pre, co_num);
   debug;
     func(arg); // Test #2 hangs
