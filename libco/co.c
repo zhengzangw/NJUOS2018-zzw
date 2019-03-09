@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "co.h"
+#include <assert.h>
 
 #define KB * 1024LL
 #define MB KB * 1024LL
@@ -78,6 +79,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   //  changeframe(pre,co_num);
   printf("pre = %d, co_num = %d\n", pre, co_num);
   debug;
+   assert(0);
     func(arg); // Test #2 hangs
     crs[co_num].done = 1;
   }
