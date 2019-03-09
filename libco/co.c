@@ -66,8 +66,6 @@ void co_yield() {
         changeframe(id);
         longjmp(coroutines[id].env, 1);
   }
-  restoreframe(cur_co);
-  printf("res\n");
 }
 
 void co_wait(struct co *thd) {
