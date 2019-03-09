@@ -101,12 +101,12 @@ static void test_2() {
     Queue *queue = q_new();
 
     struct co *thd1 = co_start("producer-1", producer, queue);
-    //struct co *thd2 = co_start("producer-2", producer, queue);
+    struct co *thd2 = co_start("producer-2", producer, queue);
     struct co *thd3 = co_start("consumer-1", consumer, queue);
     struct co *thd4 = co_start("consumer-2", consumer, queue);
 
     co_wait(thd1);
-    //co_wait(thd2);
+    co_wait(thd2);
 
     g_running = 0;
 
