@@ -28,10 +28,10 @@ struct co {
 struct co coroutines[MAX_CO];
 int co_num;
 
-static inline void changeframe(void * stack){
-  asm volatile("mov %0, " SP :
-               :
-               "g"(stack));
+#define changeframe(stack) {\
+  asm volatile("mov %0, " SP :\
+               :\
+               "g"(stack));\
 }
 
 void co_init() {
@@ -46,7 +46,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 
   int ind = setjmp(main_env);
   if (!ind){
-    //changeframe(START_OF_STACK(coroutines[co_num].stack));
+    changeframe(START_OF_STACK(coroutines[co_num].stack));
     printf("%p %p\n", coroutines[co_num].stack, START_OF_STACK(coroutines[co_num].stack));
     printf("*******************\n");
     func(arg); // Test #2 hangs
