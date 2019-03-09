@@ -59,6 +59,7 @@ static void do_produce(Queue *queue) {
     }
     memset(item->data, 0, 10);
     printf("Lock\n");
+    g_count++;
     strcpy(item->data, ttmp);
     //sprintf(tmp, "libco-%d", g_count++);
     printf("Unlock\n");
