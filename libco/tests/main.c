@@ -108,7 +108,7 @@ static void test_2() {
     struct co *thd4 = co_start("consumer-2", consumer, queue);
 
     co_wait(thd1);
-    co_wait(thd2);
+    //co_wait(thd2);
 
     g_running = 0;
 
