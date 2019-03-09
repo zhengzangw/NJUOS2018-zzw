@@ -93,9 +93,7 @@ void co_yield() {
   //printf("cur = %d\n", cur);
         longjmp(crs[cur].env, 1);
   }
-  printf("bef res, cur = %d\n", cur);
   restoreframe(cur);
-  printf("End of yield\n");
 }
 
 void co_wait(struct co *thd) {
