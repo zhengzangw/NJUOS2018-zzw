@@ -44,7 +44,9 @@ void nothing(func_t func, void *arg){
 
 static int times;
 #define debug do {\
+    printf("id = %d\n", id);
     printf("DEBUG #%d\n", ++times);\
+        printf("id = %d\n", id);
     void* sp;\
     asm volatile("mov " SP ", %0": "=g"(sp));\
     printf("SP = %p\n", sp);\
@@ -52,6 +54,7 @@ static int times;
         printf("stackptr %d: %p\n", i, crs[i].stackptr);\
     }\
     printf("\n");\
+        printf("id = %d\n", id);
 } while (0);
 
 void co_init() {
@@ -95,6 +98,7 @@ void co_yield() {
         printf("id = %d\n", id);
         changeframe(pre, id);
         printf("id = %d\n", id);
+        debug;
         printf("id = %d\n", id);
         longjmp(crs[id].env, 1);
   }
