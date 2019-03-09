@@ -45,7 +45,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   strcpy(coroutines[co_num].name, name);
 
   int ind = setjmp(main_env);
-  if (ind){
+  if (!ind){
     changeframe(START_OF_STACK(coroutines[co_num].stack));
     func(arg); // Test #2 hangs
     coroutines[co_num].done = 1;
