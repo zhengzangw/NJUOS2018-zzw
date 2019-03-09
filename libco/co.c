@@ -63,6 +63,7 @@ void co_yield() {
   int ind = setjmp(coroutines[cur_co].env);
   if (!ind){
         cur_co = id;
+        printf("bef change\n");
         changeframe(id);
         longjmp(coroutines[id].env, 1);
   }
@@ -71,10 +72,7 @@ void co_yield() {
 void co_wait(struct co *thd) {
     printf("wait\n");
     while (!thd->done){
-      int ind = setjmp(mainco.env);
-      if (!ind){
         co_yield();
-      }
     }
 }
 
