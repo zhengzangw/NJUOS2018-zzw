@@ -52,8 +52,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     coroutines[co_num].done = 1;
   }
   printf("***\n");
-  restoreframe(co_num);
-  printf("$$$\n");
+  //restoreframe(co_num);
 
   return &(coroutines[co_num]);
 }
