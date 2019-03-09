@@ -72,13 +72,9 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   int pre = cur;
   cur = co_num;
 
-  debug;
-  printf("%p %p\n", &arg, &func);
-
   int ind = setjmp(crs[pre].env);
   if (!ind){
     changeframe(pre,co_num);
-
     func_(arg_); // Test #2 hangs
     crs[co_num].done = 1;
   }
