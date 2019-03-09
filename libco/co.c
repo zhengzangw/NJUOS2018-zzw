@@ -77,9 +77,9 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     func_(arg_); // Test #2 hangs
     printf("Alert!\n");
     crs[co_num].done = 1;
+    co_yield();
   }
   restoreframe(cur);
-    printf("After res\n");
 
   return &(crs[co_num]);
 }
