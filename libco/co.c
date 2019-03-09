@@ -37,6 +37,12 @@ void nothing(func_t func, void *arg){
   return;
 }
 
+void debug(){
+    for (int i=0;i<3;++i){
+        printf("stackptr %d: %p\n", i, crs[i].stackptr);
+    }
+}
+
 void co_init() {
   strcpy(crs[0].name, "main");
   co_num = cur = 0;
@@ -49,12 +55,14 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   int pre = cur;
   cur = co_num;
 
+  debug();
 
   int ind = setjmp(crs[pre].env);
   if (!ind){
     //printf("bef: %s, %p\n", (char *)arg, func);
     nothing(func, arg);
     changeframe(pre,co_num);
+  debug();
     func(arg); // Test #2 hangs
     crs[co_num].done = 1;
   }
@@ -67,6 +75,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 void co_yield() {
   int id = rand()%(co_num+1);
   printf("id = %d, cur=%d\n", id, cur);
+  debug();
 
   int ind = setjmp(crs[1].env);
   printf("ind = %d\n", ind);
