@@ -61,7 +61,7 @@ void co_yield() {
 
   int ind = setjmp(coroutines[cur_co].env);
   if (!ind){
-        cur_co = co_num;
+        cur_co = id;
         changeframe(id);
         longjmp(coroutines[id].env, 1);
   }
