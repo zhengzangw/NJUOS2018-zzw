@@ -16,8 +16,7 @@
   #define SP "%%rsp"
 #endif
 
-void *main_stack;
-jmp_buf main_env;
+#define mainco coroutines[0]
 
 struct co {
   char name[64];
@@ -29,33 +28,29 @@ struct co {
 struct co coroutines[MAX_CO];
 int co_num;
 
-static inline void changeframe(void * stack){
-  asm volatile("mov %0, " SP :
-               :
-               "g"(stack));
-}
+#define changeframe(co_num)\
+  asm volatile("mov " SP ", %0; mov %1, " SP :\
+               "=g"(coroutines[co_num].stack_back):\
+               "g"(START_OF_STACK(coroutines[co_num].stack)))
+#define restoreframe(co_num)\
+  asm volatile("mov %0," SP : : "g"(coroutines[co_num].stack_back))
+
 
 void co_init() {
-  asm volatile("mov " SP ", %0" :
-               "=g"(main_stack));
-  coroutines[1].stack[1] = 1;
+  strcpy(coroutines[co_num].name, "main");
+  co_num++;
 }
 
 struct co* co_start(const char *name, func_t func, void *arg) {
-  printf("======================\n");
   coroutines[co_num].done = 0;
   strcpy(coroutines[co_num].name, name);
 
-  int ind = setjmp(main_env);
+  int ind = setjmp(mainco.env);
   if (!ind){
-  asm volatile("mov " SP ", %0; mov %1, " SP :
-               "=g"(coroutines[co_num].stack_back):
-               "g"(START_OF_STACK(coroutines[co_num].stack)));
-   // changeframe(START_OF_STACK(coroutines[co_num].stack));
-    printf("%p %p %p\n",coroutines, coroutines[co_num].stack, START_OF_STACK(coroutines[co_num].stack));
-    printf("*******************\n");
+    changeframe(co_num);
     func(arg); // Test #2 hangs
     coroutines[co_num].done = 1;
+    restoreframe(co_num);
   }
   co_num++;
   return &(coroutines[co_num-1]);
