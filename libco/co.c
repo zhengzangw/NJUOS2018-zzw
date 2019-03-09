@@ -62,9 +62,9 @@ static int times;
   asm volatile("mov %0," SP : : "g"(crs[num].stackptr))
 
 struct co {
-  char stack[1 KB];
   char name[64];
   jmp_buf env;
+  char stack[1 KB];
   char done;
   void *stackptr;
 };
