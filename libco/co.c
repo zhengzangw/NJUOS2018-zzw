@@ -45,6 +45,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 
   int ind = setjmp(crs[cur].env);
   if (!ind){
+    printf("beff\n");
     changeframe(cur,co_num);
     cur = co_num;
     printf("bef\n");
