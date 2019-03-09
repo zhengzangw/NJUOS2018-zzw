@@ -41,11 +41,11 @@ void co_init() {
 
 struct co* co_start(const char *name, func_t func, void *arg) {
   crs[++co_num].done = 0;
+  crs[co_num].stackptr = crs[co_num].stack;
   strcpy(crs[co_num].name, name);
 
   int ind = setjmp(crs[cur].env);
   if (!ind){
-    printf("beff\n");
     changeframe(cur,co_num);
     cur = co_num;
     printf("bef\n");
