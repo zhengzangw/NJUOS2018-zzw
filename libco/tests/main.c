@@ -56,24 +56,16 @@ static void do_produce(Queue *queue) {
         return;
     }
     memset(item->data, 0, 10);
-    printf("F1\n");
-    printf("libco-%d\n", g_count);
-    printf("%s\n", (char *)item->data);
-    printf("%lu\n", sizeof(item->data));
     sprintf(item->data, "libco-%d", g_count++);
-    printf("F2\n");
     q_push(queue, item);
 }
 
 static void producer(void *arg) {
-    printf("Enter\n");
     Queue *queue = (Queue*)arg;
     for (int i = 0; i < 100; ) {
         if (!q_is_full(queue)) {
             // co_yield();
-            printf("Enter1\n");
             do_produce(queue);
-            printf("Enter2\n");
 
             i += 1;
         }
@@ -130,10 +122,10 @@ int main() {
     co_init();
 
     printf("Test #1. Expect: (X|Y){0, 1, 2, ..., 199}\n");
-    //test_1();
+    test_1();
 
     printf("\nTest #2. Expect: (libco-){200, 201, 202, ..., 399}\n");
-    test_2();
+    //test_2();
 
     printf("\n");
 
