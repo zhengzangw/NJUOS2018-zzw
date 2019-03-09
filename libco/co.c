@@ -75,7 +75,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     func_(arg_); // Test #2 hangs
     crs[co_num].done = 1;
   }
-  printf("before res: %d\n", cur);
+  printf("before res: cur = %d!\n", cur);
   restoreframe(cur);
 
   return &(crs[co_num]);
@@ -87,15 +87,13 @@ void co_yield() {
   cur = id;
   printf("id = %d, cur=%d\n", id, cur);
   debug;
-  debug;
 
-  int ind = setjmp(crs[1].env);
+  int ind = setjmp(crs[pre].env);
   if (!ind){
         changeframe(pre, id);
         debug;
         longjmp(crs[id].env, 1);
   }
-        debug;
   printf("bef res, cur = %d\n", cur);
   restoreframe(cur);
   //printf("End of yield\n");
