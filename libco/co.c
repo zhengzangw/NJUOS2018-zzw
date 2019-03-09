@@ -51,8 +51,8 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     func(arg); // Test #2 hangs
     coroutines[co_num].done = 1;
   }
-
   restoreframe(0);
+
   return &(coroutines[co_num]);
 }
 
@@ -68,6 +68,7 @@ void co_yield() {
         longjmp(coroutines[id].env, 1);
   }
   restoreframe(cur_co);
+  printf("res\n");
 }
 
 void co_wait(struct co *thd) {
