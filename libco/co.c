@@ -53,6 +53,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   }
   printf("***\n");
   restoreframe(co_num);
+  printf("$$$\n");
 
   return &(coroutines[co_num]);
 }
