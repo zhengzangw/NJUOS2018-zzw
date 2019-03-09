@@ -11,7 +11,6 @@
 #define MAX_CO 10
 #define START_OF_STACK(stack) ((stack)+sizeof(stack))
 
-#define DEBUG
 #ifdef DEBUG
 #define Log(format, ...) \
         printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
@@ -95,7 +94,6 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     changeframe(cur, co_num);
     cur = co_num;
     Log("Alert!");
-  sprintf(crs[2].stack+300,"AAAAAH!");
     Log("bef func");
     debug();
     func_(arg_); // Test #2 hangs
