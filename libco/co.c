@@ -64,9 +64,9 @@ static int times;
 struct co {
   char name[64];
   jmp_buf env;
-  char stack[1 KB];
   char done;
   void *stackptr;
+  char stack[1 KB];
 };
 struct co crs[MAX_CO];
 int co_num, cur;
