@@ -88,7 +88,7 @@ void co_yield() {
   do {
     cur = rand()%(co_num+1);
   } while (crs[cur].done);
-  printf("cur = %d\n", cur);
+  //printf("cur = %d\n", cur);
 
   int ind = setjmp(crs[pre].env);
   //printf("ind = %d, pre = %d, cur = %d\n", ind, pre, cur);
@@ -101,9 +101,9 @@ void co_yield() {
 }
 
 void co_wait(struct co *thd) {
-    printf("wait\n");
+    //printf("wait\n");
     while (!thd->done){
-        printf("name = %s\n", thd->name);
+        //printf("name = %s\n", thd->name);
         int ind = setjmp(crs[cur].env);
         if (!ind){
           co_yield();
