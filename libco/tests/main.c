@@ -42,7 +42,7 @@ static void test_1() {
 
 static int g_running = 1;
 
-static inline void do_produce(Queue *queue) {
+static void do_produce(Queue *queue) {
     assert(!q_is_full(queue));
     Item *item = (Item*)malloc(sizeof(Item));
     if (!item) {
@@ -65,7 +65,7 @@ static void producer(void *arg) {
     for (int i = 0; i < 100; ) {
         if (!q_is_full(queue)) {
             // co_yield();
-            do_produce(queue);
+//            do_produce(queue);
 
             i += 1;
         }
