@@ -29,13 +29,13 @@ static struct co coroutines[MAX_CO];
 static int co_num;
 
 static inline void changeframe(void * stack){
-  asm volatile("mov %1, " SP :
+  __asm__ volatile("mov %1, " SP :
                :
                "g"(stack));
 }
 
 void co_init() {
-  asm volatile("mov " SP ", %0" :
+  __asm__ volatile("mov " SP ", %0" :
                "=g"(main_stack));
 }
 
