@@ -75,6 +75,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   if (!ind){
     changeframe(pre,co_num);
     func_(arg_); // Test #2 hangs
+    printf("Alert!\n");
     crs[co_num].done = 1;
   }
   restoreframe(cur);
