@@ -59,7 +59,7 @@ static void do_produce(Queue *queue) {
     printf("Lock\n");
     sprintf(item->data, "libco-%d", g_count++);
     printf("Unlock\n");
-    //q_push(queue, item);
+    q_push(queue, item);
 }
 
 static void producer(void *arg) {
