@@ -52,6 +52,7 @@ static int times;
     for (int i=0;i<3;++i){\
         printf("stackptr %d: %p\n", i, crs[i].stackptr);\
     }\
+    printf("id = %d\n", id);\
     printf("\n");\
 } while (0);
 
