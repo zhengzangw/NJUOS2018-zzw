@@ -87,6 +87,7 @@ void co_yield() {
   cur = id;
   printf("id = %d, cur=%d\n", id, cur);
   debug;
+  assert(0);
 
   int ind = setjmp(crs[1].env);
   if (!ind){
