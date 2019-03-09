@@ -87,6 +87,7 @@ void co_yield() {
   int id = rand()%(co_num+1);
   int pre = cur;
   cur = id;
+  debug;
 
   int ind = setjmp(crs[pre].env);
   if (!ind){
