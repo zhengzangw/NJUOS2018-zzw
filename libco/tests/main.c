@@ -60,7 +60,7 @@ static void do_produce(Queue *queue) {
     memset(item->data, 0, 10);
     printf("Lock\n");
     g_count++;
-    sprintf(tmp, ttmp);
+    printf("libco-%d", g_count++);
     printf("Unlock\n");
     q_push(queue, item);
 }
