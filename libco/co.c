@@ -94,6 +94,7 @@ void co_yield() {
   if (!ind){
         changeframe(pre, id);
         debug;
+        printf("id = %d\n", id);
         longjmp(crs[id].env, 1);
   }
   printf("bef res, cur = %d\n", cur);
