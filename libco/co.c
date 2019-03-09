@@ -68,9 +68,9 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     //printf("bef: %s, %p\n", (char *)arg, func);
     nothing(func, arg);
   debug;
-  printf("pre = %d\n", pre);
+  printf("pre = %d\n, co_num = %d\n", pre, co_num);
     changeframe(pre,co_num);
-  printf("pre = %d\n", pre);
+  printf("pre = %d\n, co_num = %d\n", pre, co_num);
   debug;
     func(arg); // Test #2 hangs
     crs[co_num].done = 1;
