@@ -27,8 +27,9 @@ struct co crs[MAX_CO];
 int co_num, cur;
 
 #define changeframe(old, new)\
-  asm volatile("mov " SP ", %0; mov %1, " SP :\
-               "=g"(crs[old].stackptr):\
+  asm volatile("mov " SP ", %0": "=g"(crs[old].stackptr));\
+  asm volatile("mov %0, " SP :\
+               :\
                "g"(crs[new].stackptr))
 #define restoreframe(num)\
   asm volatile("mov %0," SP : : "g"(crs[num].stackptr))
@@ -68,9 +69,9 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     //printf("bef: %s, %p\n", (char *)arg, func);
     nothing(func, arg);
   debug;
-  printf("pre = %d\n, co_num = %d\n", pre, co_num);
+  printf("pre = %d, co_num = %d\n", pre, co_num);
     changeframe(pre,co_num);
-  printf("pre = %d\n, co_num = %d\n", pre, co_num);
+  printf("pre = %d, co_num = %d\n", pre, co_num);
   debug;
     func(arg); // Test #2 hangs
     crs[co_num].done = 1;
