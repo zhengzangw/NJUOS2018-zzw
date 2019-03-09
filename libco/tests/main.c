@@ -96,6 +96,7 @@ static void consumer(void *arg) {
 static void test_2() {
 
     Queue *queue = q_new();
+    printf("Test begin\n");
 
     struct co *thd1 = co_start("producer-1", producer, queue);
     struct co *thd2 = co_start("producer-2", producer, queue);
