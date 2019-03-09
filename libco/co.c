@@ -27,9 +27,8 @@ struct co crs[MAX_CO];
 int co_num, cur;
 
 #define changeframe(old, new)\
-  asm volatile("mov " SP ", %0": "=g"(crs[old].stackptr));\
-  asm volatile("mov %0, " SP :\
-               :\
+  asm volatile("mov " SP ", %0; mov %1, " SP :\
+               "=g"(crs[old].stackptr):\
                "g"(crs[new].stackptr))
 #define restoreframe(num)\
   asm volatile("mov %0," SP : : "g"(crs[num].stackptr))
@@ -52,6 +51,7 @@ static int times;
 
 void co_init() {
   strcpy(crs[0].name, "main");
+  crs[0].stackptr = NULL;
   co_num = cur = 0;
 }
 
