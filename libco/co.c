@@ -28,14 +28,13 @@
 #define TODO() panic("please implement me")
 static int times;
 #define debug() do {\
-    Log("DEBUG #%d\n", ++times);\
+    Log("DEBUG #%d", ++times);\
     void* sp;\
     asm volatile("mov " SP ", %0": "=g"(sp));\
-    Log("SP = %p\n", sp);\
+    Log("SP = %p", sp);\
     for (int i=0;i<3;++i){\
-        Log("stackptr %d: %p\n", i, crs[i].stackptr);\
+        Log("stackptr %d: %p", i, crs[i].stackptr);\
     }\
-    Log("\n");\
 } while (0);
 #else
 #define Log(format, ...)
@@ -109,7 +108,7 @@ void co_yield() {
   } while (crs[cur].done);
 
   int ind = setjmp(crs[pre].env);
-  Log("ind = %d, pre = %d, cur = %d\n", ind, pre, cur);
+  Log("ind = %d, pre = %d, cur = %d", ind, pre, cur);
   debug();
   if (!ind){
         changeframe(pre, cur);
@@ -120,7 +119,7 @@ void co_yield() {
 
 void co_wait(struct co *thd) {
     while (!thd->done){
-        Log("name = %s\n", thd->name);
+        Log("name = %s", thd->name);
         int ind = setjmp(crs[cur].env);
         if (!ind){
           co_yield();
