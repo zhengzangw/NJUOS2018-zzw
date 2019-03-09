@@ -77,7 +77,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
                "g"(crs[co_num].stackptr));
   printf("sp *= %p\n", sp);
   //  changeframe(pre,co_num);
-  printf("pre = %d, co_num = %d\n", pre, co_num);
+  crs[pre].stackptr = sp;
   debug;
    assert(0);
     func(arg); // Test #2 hangs
