@@ -24,7 +24,7 @@ struct co {
   void *stack_back;
 };
 struct co coroutines[MAX_CO];
-int co_num;
+int co_num, cur_co;
 
 #define mainco coroutines[0]
 #define changeframe(num)\
@@ -37,7 +37,7 @@ int co_num;
 
 void co_init() {
   strcpy(coroutines[0].name, "main");
-  co_num = 0;
+  co_num = cur_co = 0;
 }
 
 struct co* co_start(const char *name, func_t func, void *arg) {
@@ -47,6 +47,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   int ind = setjmp(mainco.env);
   printf("ind=%d\n", ind);
   if (!ind){
+    cur_co = co_num;
     changeframe(co_num);
     func(arg); // Test #2 hangs
     coroutines[co_num].done = 1;
@@ -58,12 +59,11 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 void co_yield() {
   int id = rand()%(co_num+1);
 
-  int ind = setjmp(coroutines[id].env);
+  int ind = setjmp(coroutines[cur_co].env);
   if (!ind){
-        printf("change to id=%d\n", id);
+        cur_co = co_num;
         changeframe(id);
         longjmp(coroutines[id].env, 1);
-        restoreframe(id);
   }
 }
 
