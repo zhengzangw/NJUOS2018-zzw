@@ -88,7 +88,7 @@ void co_yield() {
   int pre = cur;
   do {
     cur = rand()%(co_num+1);
-  } while (!crs[cur].done);
+  } while (crs[cur].done);
   printf("cur = %d\n", cur);
 
   int ind = setjmp(crs[pre].env);
