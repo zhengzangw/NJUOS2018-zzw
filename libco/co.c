@@ -11,6 +11,7 @@
 #define MAX_CO 10
 #define START_OF_STACK(stack) ((stack)+sizeof(stack))
 
+#define DEBUG
 #ifdef DEBUG
 #define Log(format, ...) \
         printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
@@ -27,14 +28,14 @@
 #define TODO() panic("please implement me")
 static int times;
 #define debug() do {\
-    printf("DEBUG #%d\n", ++times);\
+    Log("DEBUG #%d\n", ++times);\
     void* sp;\
     asm volatile("mov " SP ", %0": "=g"(sp));\
-    printf("SP = %p\n", sp);\
+    Log("SP = %p\n", sp);\
     for (int i=0;i<3;++i){\
-        printf("stackptr %d: %p\n", i, crs[i].stackptr);\
+        Log("stackptr %d: %p\n", i, crs[i].stackptr);\
     }\
-    printf("\n");\
+    Log("\n");\
 } while (0);
 #else
 #define Log(format, ...)
@@ -109,6 +110,7 @@ void co_yield() {
 
   int ind = setjmp(crs[pre].env);
   Log("ind = %d, pre = %d, cur = %d\n", ind, pre, cur);
+  debug();
   if (!ind){
         changeframe(pre, cur);
         longjmp(crs[cur].env, 1);
