@@ -51,7 +51,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   if (!ind){
     changeframe(cur,co_num);
     cur = co_num;
-    printf("bef: %s, %p\n", (char *)arg, func);
+    printf("bef: %s, %p\n", (char *)arg_, func_);
     func_(arg_); // Test #2 hangs
     crs[co_num].done = 1;
   }
