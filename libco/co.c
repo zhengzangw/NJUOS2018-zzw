@@ -9,7 +9,7 @@
 #define MB KB * 1024LL
 #define GB MB * 1024LL
 #define MAX_CO 10
-#define START_OF_STACK(stack) ((stack)+sizeof(stack)-1)
+#define START_OF_STACK(stack) ((stack)+sizeof(stack)+1)
 
 #define DEBUG
 #ifdef DEBUG
