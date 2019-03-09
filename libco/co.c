@@ -16,8 +16,6 @@
   #define SP "%%rsp"
 #endif
 
-#define mainco coroutines[0]
-
 struct co {
   char name[64];
   jmp_buf env;
@@ -28,12 +26,13 @@ struct co {
 struct co coroutines[MAX_CO];
 int co_num;
 
-#define changeframe(co_num)\
+#define mainco coroutines[0]
+#define changeframe(num)\
   asm volatile("mov " SP ", %0; mov %1, " SP :\
-               "=g"(coroutines[co_num].stack_back):\
-               "g"(START_OF_STACK(coroutines[co_num].stack)))
-#define restoreframe(co_num)\
-  asm volatile("mov %0," SP : : "g"(coroutines[co_num].stack_back))
+               "=g"(coroutines[num].stack_back):\
+               "g"(START_OF_STACK(coroutines[num].stack)))
+#define restoreframe(num)\
+  asm volatile("mov %0," SP : : "g"(coroutines[num].stack_back))
 
 
 void co_init() {
