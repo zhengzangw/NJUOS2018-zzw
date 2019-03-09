@@ -89,6 +89,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   crs[co_num].stackptr = START_OF_STACK(crs[co_num].stack);
 
   int ind = setjmp(crs[cur].env);
+  Log("ind = %d\n", ind);
   if (!ind){
     changeframe(cur, co_num);
     cur = co_num;
