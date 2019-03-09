@@ -60,9 +60,9 @@ void co_yield() {
   int id = rand()%(co_num+1);
 
   int ind = setjmp(coroutines[cur_co].env);
-  printf("ind = %d\n", ind);
+  //printf("ind = %d\n", ind);
   if (!ind){
-        printf("bef jmp, cur_co=%d, id=%d\n", cur_co, id);
+        //printf("bef jmp, cur_co=%d, id=%d\n", cur_co, id);
         cur_co = id;
         changeframe(id);
         longjmp(coroutines[id].env, 1);
