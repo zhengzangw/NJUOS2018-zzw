@@ -96,7 +96,7 @@ void co_yield() {
   }
   printf("bef res, cur = %d\n", cur);
   restoreframe(cur);
-  //printf("End of yield\n");
+  printf("End of yield\n");
 }
 
 void co_wait(struct co *thd) {
