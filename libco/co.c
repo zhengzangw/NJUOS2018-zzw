@@ -46,7 +46,6 @@ static int times;
 #define debug do {\
     printf("id = %d\n", id);
     printf("DEBUG #%d\n", ++times);\
-        printf("id = %d\n", id);
     void* sp;\
     asm volatile("mov " SP ", %0": "=g"(sp));\
     printf("SP = %p\n", sp);\
@@ -54,7 +53,6 @@ static int times;
         printf("stackptr %d: %p\n", i, crs[i].stackptr);\
     }\
     printf("\n");\
-        printf("id = %d\n", id);
 } while (0);
 
 void co_init() {
