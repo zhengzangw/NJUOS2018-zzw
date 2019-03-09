@@ -66,7 +66,7 @@ struct co {
   jmp_buf env;
   char done;
   void *stackptr;
-  char stack[32 KB];
+  char stack[64 KB];
 };
 struct co crs[MAX_CO];
 int co_num, cur;
