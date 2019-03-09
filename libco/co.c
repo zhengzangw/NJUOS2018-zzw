@@ -77,7 +77,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     changeframe(pre,co_num);
     func_(arg_); // Test #2 hangs
     restoreframe(cur);
-    printf("pre = %d\n", pre);
+    printf("now = %d\n", now);
     crs[now].done = 1;
     co_yield();
   }
