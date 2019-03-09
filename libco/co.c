@@ -25,8 +25,8 @@ struct co {
   char stack[32 KB];
   char done;
 };
-static struct co coroutines[MAX_CO];
-static int co_num;
+struct co coroutines[MAX_CO];
+int co_num;
 
 static inline void changeframe(void * stack){
   asm volatile("mov %0, " SP :
