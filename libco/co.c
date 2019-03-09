@@ -37,12 +37,12 @@ int co_num;
 
 
 void co_init() {
-  strcpy(coroutines[co_num].name, "main");
-  co_num++;
+  strcpy(coroutines[0].name, "main");
+  co_num = 0;
 }
 
 struct co* co_start(const char *name, func_t func, void *arg) {
-  coroutines[co_num].done = 0;
+  coroutines[++co_num].done = 0;
   strcpy(coroutines[co_num].name, name);
 
   int ind = setjmp(mainco.env);
@@ -52,13 +52,11 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     coroutines[co_num].done = 1;
     restoreframe(co_num);
   }
-  co_num++;
   return &(coroutines[co_num-1]);
 }
 
 void co_yield() {
-  printf("%d ", co_num);
-  int id = rand()%(co_num);
+  int id = rand()%(co_num+1);
 
   int ind = setjmp(coroutines[id].env);
   if (!ind){
