@@ -81,6 +81,8 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   printf("stackptr %d: %p\n", 0, crs[0].stackptr);\
   debug;
   printf("stackptr %d: %p\n", 0, crs[0].stackptr);\
+  printf("stackptr %d: %p\n", 0, crs[0].stackptr);\
+  printf("stackptr %d: %p\n", 0, crs[0].stackptr);\
    assert(0);
     func(arg); // Test #2 hangs
     crs[co_num].done = 1;
