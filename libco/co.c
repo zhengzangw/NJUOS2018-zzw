@@ -61,7 +61,7 @@ void co_yield() {
 
   int ind = setjmp(coroutines[id].env);
   if (!ind){
-        printf("HHH\n");
+        printf("change to id=%d\n", id);
         changeframe(id);
         longjmp(coroutines[id].env, 1);
         restoreframe(id);
