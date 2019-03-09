@@ -61,7 +61,6 @@ static void do_produce(Queue *queue) {
 }
 
 static void producer(void *arg) {
-    printf("Enter\n");
     Queue *queue = (Queue*)arg;
     for (int i = 0; i < 100; ) {
         if (!q_is_full(queue)) {
@@ -69,7 +68,6 @@ static void producer(void *arg) {
             do_produce(queue);
             i += 1;
         }
-        printf("bef yield\n");
         co_yield();
     }
 }
@@ -101,7 +99,6 @@ static void test_2() {
 
     struct co *thd1 = co_start("producer-1", producer, queue);
     struct co *thd2 = co_start("producer-2", producer, queue);
-    printf("end\n");
     struct co *thd3 = co_start("consumer-1", consumer, queue);
     struct co *thd4 = co_start("consumer-2", consumer, queue);
 
@@ -124,7 +121,7 @@ int main() {
     co_init();
 
     printf("Test #1. Expect: (X|Y){0, 1, 2, ..., 199}\n");
-    //test_1();
+    test_1();
 
     printf("\nTest #2. Expect: (libco-){200, 201, 202, ..., 399}\n");
     test_2();

@@ -104,6 +104,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 }
 
 void co_yield() {
+    Log("Y");
   int pre = cur;
   do {
     cur = rand()%(co_num+1);
