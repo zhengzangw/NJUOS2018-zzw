@@ -40,14 +40,13 @@ void co_init() {
 }
 
 struct co* co_start(const char *name, func_t func, void *arg) {
-    printf("======================\n");
+  printf("======================\n");
   coroutines[co_num].done = 0;
   strcpy(coroutines[co_num].name, name);
 
   int ind = setjmp(main_env);
   if (ind){
     changeframe(START_OF_STACK(coroutines[co_num].stack));
-    printf("======================\n");
     func(arg); // Test #2 hangs
     coroutines[co_num].done = 1;
   }
