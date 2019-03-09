@@ -64,7 +64,7 @@ void co_init() {
 }
 
 struct co* co_start(const char *name, func_t func, void *arg) {
-  func_ = func; arg_ = arg_;
+  func_ = func; arg_ = arg;
 
   crs[++co_num].done = 0;
   crs[co_num].stackptr = START_OF_STACK(crs[co_num].stack);
