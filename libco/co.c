@@ -50,6 +50,7 @@ static int times;
     printf("SP = %p\n", sp);\
     printf("id = %d\n", id);\
     for (int i=0;i<3;++i){\
+        printf("id = %d\n", id);\
         printf("stackptr %d: %p\n", i, crs[i].stackptr);\
         printf("id = %d\n", id);\
     }\
