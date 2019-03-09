@@ -33,6 +33,9 @@ int co_num, cur;
 #define restoreframe(num)\
   asm volatile("mov %0," SP : : "g"(crs[num].stackptr))
 
+void nothing(func_t func, void *arg){
+  return;
+}
 
 void co_init() {
   strcpy(crs[0].name, "main");
@@ -46,15 +49,13 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   int pre = cur;
   cur = co_num;
 
-  void *arg_ = arg;
-  func_t func_ = func;
 
   int ind = setjmp(crs[pre].env);
   if (!ind){
-    printf("bef: %s, %p\n", (char *)arg_, func_);
+    printf("bef: %s, %p\n", (char *)arg, func);
     changeframe(pre,co_num);
-    printf("bef: %s, %p\n", (char *)arg_, func_);
-    func_(arg_); // Test #2 hangs
+    printf("bef: %s, %p\n", (char *)arg, func);
+    func(arg); // Test #2 hangs
     crs[co_num].done = 1;
   }
   printf("before res: %d\n", cur);
