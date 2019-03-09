@@ -42,6 +42,7 @@ static void test_1() {
 
 static int g_running = 1;
 static char tmp[20];
+const char ttmp[] = "Ah!";
 
 static void do_produce(Queue *queue) {
     assert(!q_is_full(queue));
@@ -58,7 +59,8 @@ static void do_produce(Queue *queue) {
     }
     memset(item->data, 0, 10);
     printf("Lock\n");
-    sprintf(tmp, "h");
+    strcpy(tmp, ttmp);
+    //sprintf(tmp, "libco-%d", g_count++);
     printf("Unlock\n");
     q_push(queue, item);
 }
