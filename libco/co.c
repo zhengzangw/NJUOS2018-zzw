@@ -24,6 +24,7 @@ struct co {
   jmp_buf env;
   char stack[32 KB];
   char done;
+  void *stack_back;
 };
 struct co coroutines[MAX_CO];
 int co_num;
@@ -47,8 +48,8 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 
   int ind = setjmp(main_env);
   if (!ind){
-  asm volatile("mov %0, " SP :
-               :
+  asm volatile("mov " SP ", %0; mov %1, " SP :
+               "=g"(coroutines[co_num].stack_back):
                "g"(START_OF_STACK(coroutines[co_num].stack)));
    // changeframe(START_OF_STACK(coroutines[co_num].stack));
     //printf("%p %p %p\n",coroutines, coroutines[co_num].stack, START_OF_STACK(coroutines[co_num].stack));
