@@ -94,6 +94,7 @@ void co_yield() {
         debug;
         longjmp(crs[id].env, 1);
   }
+        debug;
   printf("bef res, cur = %d\n", cur);
   restoreframe(cur);
   //printf("End of yield\n");
