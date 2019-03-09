@@ -43,8 +43,8 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   crs[++co_num].done = 0;
   crs[co_num].stackptr = crs[co_num].stack;
   strcpy(crs[co_num].name, name);
-  void *arg_ = arg;
-  func_t func_ = func;
+  volatile void *arg_ = arg;
+  volatile func_t func_ = func;
 
   printf("cur = %d\n", cur);
   int ind = setjmp(crs[cur].env);
