@@ -79,6 +79,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
     crs[co_num].done = 1;
   }
   restoreframe(cur);
+    printf("After res\n");
 
   return &(crs[co_num]);
 }

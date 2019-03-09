@@ -21,13 +21,10 @@ static void work_loop(void *arg) {
         add_count();
         co_yield();
     }
-    printf("bef exit\n");
 }
 
 static void work(void *arg) {
-    printf("Enter\n");
     work_loop(arg);
-    printf("Leave\n");
 }
 
 static void test_1() {
