@@ -86,7 +86,9 @@ struct co* co_start(const char *name, func_t func, void *arg) {
 
 void co_yield() {
   int pre = cur;
-  cur = rand()%(co_num+1);
+  do {
+    cur = rand()%(co_num+1);
+  } while (!crs[cur].done);
   printf("cur = %d\n", cur);
 
   int ind = setjmp(crs[pre].env);
