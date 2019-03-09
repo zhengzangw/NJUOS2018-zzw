@@ -28,6 +28,8 @@ struct co {
 };
 struct co crs[MAX_CO];
 int co_num, cur;
+func_t func_;
+void * arg_;
 
 #define changeframe(old, new)\
   asm volatile("mov " SP ", %0; mov %1, " SP :\
@@ -62,6 +64,8 @@ void co_init() {
 }
 
 struct co* co_start(const char *name, func_t func, void *arg) {
+  func_ = func; arg_ = arg_;
+
   crs[++co_num].done = 0;
   crs[co_num].stackptr = START_OF_STACK(crs[co_num].stack);
   strcpy(crs[co_num].name, name);
@@ -75,8 +79,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   if (!ind){
     changeframe(pre,co_num);
 
-    printf("%s %p\n", (char *)arg, func);
-    func(arg); // Test #2 hangs
+    func_(arg_); // Test #2 hangs
     crs[co_num].done = 1;
   }
   printf("before res: %d\n", cur);
