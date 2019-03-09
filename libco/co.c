@@ -9,9 +9,9 @@
 #define MB KB * 1024LL
 #define GB MB * 1024LL
 #define MAX_CO 10
-#define START_OF_STACK(stack) ((stack)+sizeof(stack)+1)
+#define START_OF_STACK(stack) ((stack)+sizeof(stack))
 
-//#define DEBUG
+#define DEBUG
 #ifdef DEBUG
 #define Log(format, ...) \
         printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
