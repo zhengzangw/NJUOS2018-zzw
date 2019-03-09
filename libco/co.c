@@ -86,16 +86,11 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   strcpy(crs[co_num].name, name);
   crs[++co_num].done = 0;
   crs[co_num].stackptr = START_OF_STACK(crs[co_num].stack);
-  Log("%llx\n", (long long)sizeof(crs[co_num].stack));
 
   int ind = setjmp(crs[cur].env);
-  Log("ind = %d, cur = %d, co_num = %d\n", ind, cur, co_num);
   if (!ind){
     changeframe(cur, co_num);
     cur = co_num;
-    Log("Alert!");
-    Log("bef func");
-    debug();
     func_(arg_); // Test #2 hangs
     crs[cur].done = 1;
     co_yield();
@@ -112,7 +107,6 @@ void co_yield() {
   } while (crs[cur].done);
 
   int ind = setjmp(crs[pre].env);
-  Log("ind = %d, pre = %d, cur = %d", ind, pre, cur);
   debug();
   if (!ind){
         changeframe(pre, cur);
@@ -123,7 +117,6 @@ void co_yield() {
 
 void co_wait(struct co *thd) {
     while (!thd->done){
-        Log("name = %s", thd->name);
         int ind = setjmp(crs[cur].env);
         if (!ind){
           co_yield();
