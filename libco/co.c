@@ -94,6 +94,7 @@ struct co* co_start(const char *name, func_t func, void *arg) {
   if (!ind){
     changeframe(cur, co_num);
     cur = co_num;
+    Log("Alert!");
   sprintf(crs[2].stack+1000,"AAAAAH!");
     Log("bef func");
     debug();
