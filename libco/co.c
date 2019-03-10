@@ -44,11 +44,11 @@ static int times;
 #endif
 
 #if defined(__i386__)
-  #define SP "%%esp"
-  #define BP "%%ebp"
+#define SP "%%esp"
+#define BP "%%ebp"
 #elif defined(__x86_64__)
-  #define SP "%%rsp"
-  #define BP "%%rbp"
+#define SP "%%rsp"
+#define BP "%%rbp"
 #endif
 
 #define changeframe(old, new)\
@@ -61,66 +61,70 @@ static int times;
   asm volatile("mov %0," SP : : "g"(crs[num].stackptr))
 
 struct co {
-  char name[64];
-  jmp_buf env;
-  char done;
-  void *stackptr;
-  char stack[32 KB];
+        char name[64];
+        jmp_buf env;
+        char done;
+        void *stackptr;
+        char stack[32 KB];
 };
 struct co crs[MAX_CO];
 int co_num, cur;
 
 //Variable storing local variable
 func_t func_;
-void * arg_;
+void *arg_;
 
-void co_init() {
-  strcpy(crs[0].name, "main");
-  crs[0].stackptr = NULL;
-  co_num = cur = 0;
+void co_init()
+{
+        strcpy(crs[0].name, "main");
+        crs[0].stackptr = NULL;
+        co_num = cur = 0;
 }
 
-struct co* co_start(const char *name, func_t func, void *arg) {
-  func_ = func; arg_ = arg;
+struct co *co_start(const char *name, func_t func, void *arg)
+{
+        func_ = func;
+        arg_ = arg;
 
-  strcpy(crs[co_num].name, name);
-  crs[++co_num].done = 0;
-  crs[co_num].stackptr = START_OF_STACK(crs[co_num].stack);
+        strcpy(crs[co_num].name, name);
+        crs[++co_num].done = 0;
+        crs[co_num].stackptr = START_OF_STACK(crs[co_num].stack);
 
-  int ind = setjmp(crs[cur].env);
-  if (!ind){
-    changeframe(cur, co_num);
-    cur = co_num;
-    func_(arg_); // Test #2 hangs
-    crs[cur].done = 1;
-    co_yield();
-  }
-  restoreframe(cur);
-
-  return &(crs[co_num]);
-}
-
-void co_yield() {
-  int pre = cur;
-  do {
-    cur = rand()%(co_num+1);
-  } while (crs[cur].done);
-
-  int ind = setjmp(crs[pre].env);
-  debug();
-  if (!ind){
-        changeframe(pre, cur);
-        longjmp(crs[cur].env, 1);
-  }
-  restoreframe(cur);
-}
-
-void co_wait(struct co *thd) {
-    while (!thd->done){
         int ind = setjmp(crs[cur].env);
-        if (!ind){
-          co_yield();
+        if (!ind) {
+                changeframe(cur, co_num);
+                cur = co_num;
+                func_(arg_);    // Test #2 hangs
+                crs[cur].done = 1;
+                co_yield();
         }
-    }
+        restoreframe(cur);
+
+        return &(crs[co_num]);
 }
 
+void co_yield()
+{
+        int pre = cur;
+        do {
+                cur = rand() % (co_num + 1);
+        } while (crs[cur].done);
+
+        int ind = setjmp(crs[pre].env);
+        debug();
+        if (!ind) {
+                changeframe(pre, cur);
+                longjmp(crs[cur].env, 1);
+        }
+        restoreframe(cur);
+}
+
+void co_wait(struct co *thd)
+{
+        while (!thd->done) {
+                int ind = setjmp(crs[cur].env);
+                if (!ind) {
+                        co_yield();
+                }
+        }
+}
