@@ -65,7 +65,7 @@ struct co {
         jmp_buf env;
         char done;
         void *stackptr;
-        char stack[32 KB];
+        char stack[32 KB] __attribute__ (( aligned(16) ));
 };
 struct co crs[MAX_CO];
 int co_num, cur;
@@ -86,8 +86,9 @@ struct co *co_start(const char *name, func_t func, void *arg)
         func_ = func;
         arg_ = arg;
 
+        co_num++;
         strcpy(crs[co_num].name, name);
-        crs[++co_num].done = 0;
+        crs[co_num].done = 0;
         crs[co_num].stackptr = START_OF_STACK(crs[co_num].stack);
 
         int ind = setjmp(crs[cur].env);
