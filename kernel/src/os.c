@@ -5,7 +5,7 @@
 lock_t lock0;
 static void os_init() {
   pmm->init();
-  init(lock0);
+  init(&lock0);
 }
 
 static void hello() {
