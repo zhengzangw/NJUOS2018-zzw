@@ -16,4 +16,4 @@ void unlock(lock_t *mutex){
     //sti();
 }
 
-#define lprintf(L,...) lock(L); printf(...); unlock(L);
+#define lprintf(L,...) lock(L); printf(__VA_ARGS__); unlock(L);
