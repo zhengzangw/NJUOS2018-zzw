@@ -14,7 +14,7 @@ void list_init(uintptr_t pm_start, uintptr_t pm_end) {
 }
 
 // Add a node after p and return content start ptr
-void *add_node(struct node *p) {
+void *add_node(struct node *p, size_t size) {
     struct node *tmp;
     tmp = (void *)p->end;
     tmp->start = p->end;
