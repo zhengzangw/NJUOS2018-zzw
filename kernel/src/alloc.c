@@ -33,7 +33,7 @@ static void pmm_init() {
 }
 
 static void *kalloc(size_t size) {
-void *ret==NULL;
+void *ret=NULL;
 lock(&alloc_lock);
 #ifdef CORRECTNESS_FIRST
   
