@@ -3,6 +3,7 @@
 #include <lock.h>
 
 #define DEBUG
+#define Lognode(node) printf("Node: start=%p, end=%p\n", node->start, node->end)
 //#define CORRECTNESS_FIRST
 
 static uintptr_t pm_start, pm_end, start;
@@ -30,6 +31,8 @@ static void pmm_init() {
 
 #ifdef DEBUG
   lock(&alloc_lock);
+  Lognode(head);
+  Lognode(tail);
   printf("pm_start = %p\npm_end = %p\nsize of heap=%p\n", pm_start, pm_end, pm_end-pm_start);
   unlock(&alloc_lock);
 #endif
@@ -72,7 +75,7 @@ lock(&alloc_lock);
       }
     }
 
-    if (flag){
+    if (!flag){
       printf("No enough space. FAIL!\n");
       ret = NULL;
     }
