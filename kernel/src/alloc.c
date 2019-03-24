@@ -92,7 +92,7 @@ static void kfree(void *ptr) {
   return;
 #else
 lock(&alloc_lock);
-  printf("free: ");
+  printf("free %p: ", ptr);
   struct node *p = (struct node *)ptr;
   Lognode(p);
   p->next->pre = p->pre;
