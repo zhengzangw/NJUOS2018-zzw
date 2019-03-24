@@ -12,7 +12,7 @@ struct node {
   struct node *next, *pre;
   uintptr_t start, end;
 };
-struct node* head,tail;
+struct node *head, *tail;
 
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
@@ -57,7 +57,7 @@ lock(&alloc_lock);
     char flag = 0;
     struct node *tmp;
     for (struct node*p=head;p!=tail;p=p->next){
-      if (p->next->start-p->end>=size+sizeof(node)){
+      if (p->next->start-p->end>=size+sizeof(struct node)){
         tmp = p->end;
         tmp->start = p->end;
         tmp->end = tmp->start + size;
@@ -74,7 +74,7 @@ lock(&alloc_lock);
       printf("No enough space. FAIL!\n");
       ret = NULL;
     } else {
-      ret = (void *)(tmp->start + sizeof(node));
+      ret = (void *)(tmp->start + sizeof(struct node));
       printf("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], tmp->start, tmp->end);
     }
   
