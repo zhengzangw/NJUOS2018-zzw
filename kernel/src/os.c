@@ -1,20 +1,20 @@
 #include <common.h>
 #include <klib.h>
-//#include "lock.h"
+#include "lock.h"
 
-LOCKDEF(tmp);
-
+lock_t lock_hello;
 static void os_init() {
   pmm->init();
+  init(&lock_hello);
 }
 
 static void hello() {
-  tmp_lock();
+  lock(&lock_hello);
   for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
     _putc(*ptr);
   }
   _putc("12345678"[_cpu()]); _putc('\n');
-  tmp_unlock();
+  unlock(&lock_hello);
 }
 
 static void os_run() {
