@@ -29,7 +29,7 @@ static void test() {
       for (int i=0;i<100;++i){
         str[i] = 'A'+i%24;
       }
-      if (rand()%5==0)
+      if (rand()%3==0)
         pmm->free(str);
     } else {
       break;

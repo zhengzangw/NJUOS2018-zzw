@@ -76,8 +76,8 @@ static void kfree(void *ptr) {
   return;
 #else
 struct node *p = (struct node *)((uintptr_t)ptr - BIAS);
+assert(p->next->pre==p);
 lock(&alloc_lock);
-  assert(p->next->pre==p);
   printf("free %p: ", ptr);
   Lognode(p);
   delete_node(p);
