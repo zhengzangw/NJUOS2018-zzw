@@ -31,8 +31,7 @@ static void test() {
       for (int i=0;i<100;++i){
         str[i] = 'A'+i%24;
       }
-      if (rand()%2){
-        pmm->free(str);
+      pmm->free(str);
       }
     }
   }
