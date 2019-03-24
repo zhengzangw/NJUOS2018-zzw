@@ -19,8 +19,9 @@ static void hello() {
 
 static void test() {
   lock(&lock_test);
-  char *str = pmm->alloc(rand()%1024);
-  for (int i=0;i<strlen(str);++i){
+  int len = rand()%1024;
+  char *str = pmm->alloc(len);
+  for (int i=0;i<len;++i){
     str[i] = 'A'+i%24;
   }
   
