@@ -1,7 +1,6 @@
 #include <common.h>
 #include <klib.h>
 #include "lock.h"
-#include "alloc.c"
 
 lock_t lock_hello;
 static void os_init() {
@@ -19,7 +18,7 @@ static void hello() {
 }
 
 static void test() {
-  char *str = kalloc(rand()%1024);
+  char *str = pmm->kalloc(rand()%1024);
   for (int i=0;i<strlen(str);++i){
     str[i] = 'A'+i%24;
   }
