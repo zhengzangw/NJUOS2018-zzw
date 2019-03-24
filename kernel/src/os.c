@@ -22,8 +22,9 @@ static void hello() {
 */
 
 static void test() {
+  int base = 0x10000;
   while (1){
-    int len = 0x10000 * (rand()%10)+1;
+    int len = base * (rand()%5)+(rand()%100);
     char *str = pmm->alloc(len);
     if (str){
       for (int i=0;i<len;++i){
@@ -32,7 +33,7 @@ static void test() {
       if (rand()%3==0)
         pmm->free(str);
     } else {
-      break;
+      base = 0;
     }
   }
 }
