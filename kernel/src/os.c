@@ -26,7 +26,7 @@ static void test() {
     int len = 0x10000 * (rand()%10)+1;
     char *str = pmm->alloc(len);
     if (str){
-      for (int i=0;i<100;++i){
+      for (int i=0;i<len;++i){
         str[i] = 'A'+i%24;
       }
       if (rand()%3==0)
