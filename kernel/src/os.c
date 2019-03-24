@@ -24,7 +24,7 @@ static void hello() {
 static void test() {
   while (1){
     int len = 0x100000;
-    char *str = pmm->alloc(len);
+    volatile char *str = pmm->alloc(len);
     //Logcpu();
     //printf("%s\n", str);
   }
