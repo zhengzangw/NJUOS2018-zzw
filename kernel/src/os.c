@@ -2,7 +2,7 @@
 #include <klib.h>
 #include "lock.h"
 
-lock_t lock0;
+extern lock_t lock0;
 static void os_init() {
   pmm->init();
   init(&lock0);
