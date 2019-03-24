@@ -29,7 +29,8 @@ static void test() {
       for (int i=0;i<100;++i){
         str[i] = 'A'+i%24;
       }
-      pmm->free(str);
+      if (rand()%5==0)
+        pmm->free(str);
     }
   }
 }
