@@ -9,12 +9,12 @@ static void os_init() {
 }
 
 static void hello() {
-  lock(lock0)
+  lock(&lock0)
   for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
     _putc(*ptr);
   }
   _putc("12345678"[_cpu()]); _putc('\n');
-  unlock(lock0);
+  unlock(&lock0);
 }
 
 static void os_run() {
