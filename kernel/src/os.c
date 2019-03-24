@@ -18,12 +18,14 @@ static void hello() {
 }
 
 static void test() {
+  lock(&lock_test);
   char *str = pmm->alloc(rand()%1024);
   for (int i=0;i<strlen(str);++i){
     str[i] = 'A'+i%24;
   }
   
-  lprintf(&lock_test, "%s\n", str);
+  printf("%s\n", str);
+  unlock(&lock_test);
 }
 
 static void os_run() {
