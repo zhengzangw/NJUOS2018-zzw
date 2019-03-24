@@ -2,6 +2,8 @@
 #include <klib.h>
 #include <lock.h>
 
+#define Logcpu() printf("cpu #%c:\n", "12345678"[_cpu()]);
+
 lock_t lock_test;
 static void os_init() {
   pmm->init();
@@ -23,7 +25,10 @@ static void test() {
   while (1){
     int len = 0x100000;
     char *str = pmm->alloc(len);
-    str[0] = 'c';
+    for (int i=0;i<100;++i){
+      str[i] = 'A'+i%24;
+    }
+
     //printf("%s\n", str);
   }
 }
