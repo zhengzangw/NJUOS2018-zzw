@@ -2,20 +2,19 @@
 #include <klib.h>
 #include <lock.h>
 
-lock_t lock_hello,lock_test;
+lock_t lock_test;
 static void os_init() {
   pmm->init();
-  init(&lock_hello);
   init(&lock_test);
 }
 
 static void hello() {
-  lock(&lock_hello);
+  lock(&lock_test);
   for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
     _putc(*ptr);
   }
   _putc("12345678"[_cpu()]); _putc('\n');
-  unlock(&lock_hello);
+  unlock(&lock_test);
 }
 
 static void test() {

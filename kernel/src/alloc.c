@@ -1,9 +1,8 @@
 #include <common.h>
 #include <klib.h>
-#include <lock.h>
+//#include <lock.h>
 
 static uintptr_t pm_start, pm_end;
-
 
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
