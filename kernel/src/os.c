@@ -2,10 +2,11 @@
 #include <klib.h>
 #include "lock.h"
 
-lock_t lock_hello;
+lock_t lock_hello,lock_test;
 static void os_init() {
   pmm->init();
   init(&lock_hello);
+  init(&lock_test);
 }
 
 static void hello() {
@@ -22,7 +23,8 @@ static void test() {
   for (int i=0;i<strlen(str);++i){
     str[i] = 'A'+i%24;
   }
-  printf("%s\n", str);
+  
+  lprintf(&lock_test, "%s\n", str);
 }
 
 static void os_run() {
