@@ -24,7 +24,7 @@ static void hello() {
 static void test() {
   int base = 0x10000;
   while (1){
-    int len = base * (rand()%5)+(rand()%100);
+    int len = base * (rand()%5)+(rand()%0x100);
     char *str = pmm->alloc(len);
     if (str){
       for (int i=0;i<len;++i){
