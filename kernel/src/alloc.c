@@ -22,12 +22,12 @@ static void pmm_init() {
 static void *kalloc(size_t size) {
 #ifdef CORRECTNESS_FIRST
   lock(&debug_lock);
-  start += size;
-  void *ret = (void *)start;
-  if (ret >= pm_end) assert(0);
-  printf("cpu = %c, address = %p\n", "12345678"[_cpu()], ret);
+    start += size;
+    if (start >= pm_end) assert(0);
+    void *ret = (void *)start;
+    printf("cpu = %c, address = %p\n", "12345678"[_cpu()], ret);
   unlock(&debug_lock);
-  return ret;
+  return start;
 #else
 
 #endif
