@@ -22,10 +22,13 @@ static void pmm_init() {
 static void *kalloc(size_t size) {
 #ifdef CORRECTNESS_FIRST
   lock(&debug_lock);
+    printf("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], start, start+size);
+    if (start+size >= pm_end) {
+      printf("No enough space. FAIL!\n");
+      assert(0);
+    }
     start += size;
-    if (start >= pm_end) assert(0);
     void *ret = (void *)start;
-    printf("cpu = %c, address = %p\n", "12345678"[_cpu()], ret);
   unlock(&debug_lock);
   return ret;
 #else
