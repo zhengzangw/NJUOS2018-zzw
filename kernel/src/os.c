@@ -22,8 +22,6 @@ static void hello() {
 */
 
 static void test() {
-  lock(&lock_test);
-
   while (1){
     int len = 0x100000;
     char *str = pmm->alloc(len);
@@ -33,8 +31,6 @@ static void test() {
     //Logcpu();
     //printf("%s\n", str);
   }
-
-  unlock(&lock_test);
 }
 
 static void os_run() {
