@@ -33,7 +33,7 @@ static void pmm_init() {
 }
 
 static void *kalloc(size_t size) {
-void *ret;
+void *ret==NULL;
 lock(&alloc_lock);
 #ifdef CORRECTNESS_FIRST
   
@@ -43,7 +43,6 @@ lock(&alloc_lock);
 
   if (start+size >= pm_end) {
     printf("No enough space. FAIL!\n");
-    ret = NULL;
   } else {
     start += size;
     ret = (void *)start;
@@ -60,9 +59,8 @@ lock(&alloc_lock);
       }
     }
 
-    if (p==tail){
+    if (ret==NULL){
       printf("No enough space. FAIL!\n");
-      ret = NULL;
     }
   
 #endif
