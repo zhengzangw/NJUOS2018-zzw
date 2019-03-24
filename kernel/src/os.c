@@ -31,6 +31,8 @@ static void test() {
       }
       if (rand()%5==0)
         pmm->free(str);
+    } else {
+      break;
     }
   }
 }
