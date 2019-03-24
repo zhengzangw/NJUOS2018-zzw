@@ -31,6 +31,11 @@ static void *kalloc(size_t size) {
 }
 
 static void kfree(void *ptr) {
+#ifdef CORRECTNESS_FIRST
+  return;
+#else
+
+#endif
 }
 
 MODULE_DEF(pmm) {
