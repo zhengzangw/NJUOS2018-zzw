@@ -22,7 +22,7 @@ static void pmm_init() {
   init(&alloc_lock);
 
   head = (void *)pm_start;
-  tail = (void *)(pm_end-sizeof(node));
+  tail = (void *)(pm_end-sizeof(struct node));
   head->next = tail; head->pre = NULL;
   tail->next = NULL; tail->pre = head;
   head->start = pm_start; head->end = head->start+sizeof(struct node);
