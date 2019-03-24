@@ -1,20 +1,16 @@
 #include <common.h>
 #include <klib.h>
 #include <lock.h>
+#include <list.h>
 
 #define DEBUG
-#define Lognode(node) printf("Node: start=%p, end=%p\n", node->start, node->end)
-#define BIAS sizeof(struct node)
 //#define CORRECTNESS_FIRST
+#ifdef CORRECTNESS_FIRST
+static uintptr_t start;
+#endif
 
-static uintptr_t pm_start, pm_end, start;
+static uintptr_t pm_start, pm_end;
 static lock_t alloc_lock;
-
-struct node {
-  struct node *next, *pre;
-  uintptr_t start, end;
-};
-struct node *head, *tail;
 
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
@@ -23,12 +19,8 @@ static void pmm_init() {
 
   init(&alloc_lock);
 
-  head = (void *)pm_start;
-  tail = (void *)(pm_end-BIAS);
-  head->next = tail; head->pre = NULL;
-  tail->next = NULL; tail->pre = head;
-  head->start = pm_start; head->end = head->start+BIAS;
-  tail->start = pm_end-BIAS; tail->end = tail->start+BIAS;
+  list_init(pm_start, pm_end);
+  
 
 #ifdef DEBUG
   lock(&alloc_lock);
