@@ -7,6 +7,7 @@ struct node {
   uintptr_t start, end;
 };
 struct node *head, *tail;
+void list_init(uintptr_t pm_start, uintptr_t pm_end);
 
 #define BIAS sizeof(struct node)
 #define Lognode(node) printf("Node: start=%p, end=%p\n", node->start, node->end)
