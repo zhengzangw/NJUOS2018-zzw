@@ -32,7 +32,6 @@ static void test() {
         str[i] = 'A'+i%24;
       }
       pmm->free(str);
-      }
     }
   }
 }
