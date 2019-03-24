@@ -91,9 +91,13 @@ static void kfree(void *ptr) {
 #ifdef CORRECTNESS_FIRST
   return;
 #else
+lock(&alloc_lock);
+  printf("free: ");
   struct node *p = (struct node *)ptr;
+  Lognode(p);
   p->next->pre = p->pre;
   p->pre->next = p->next;
+unlock(&alloc_lock);
 #endif
 }
 
