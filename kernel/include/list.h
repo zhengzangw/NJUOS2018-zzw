@@ -8,6 +8,8 @@ struct node {
 };
 struct node *head, *tail;
 void list_init(uintptr_t pm_start, uintptr_t pm_end);
+void add_node(struct node* p);
+void delete_node(struct node *p);
 
 #define BIAS sizeof(struct node)
 #define Lognode(node) printf("Node: start=%p, end=%p\n", node->start, node->end)
