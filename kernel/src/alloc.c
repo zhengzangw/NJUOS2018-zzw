@@ -24,7 +24,7 @@ static void *kalloc(size_t size) {
   lock(&debug_lock);
   start += size;
   void *ret = (void *)start;
-  printf("address = %p\n", ret);
+  printf("cpu = %c, address = %p\n", "12345678"[_cpu()], ret);
   unlock(&debug_lock);
   return ret;
 #else
