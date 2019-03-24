@@ -26,10 +26,10 @@ static void *kalloc(size_t size) {
     printf("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], start, start+size);
     if (start+size >= pm_end) {
       printf("No enough space. FAIL!\n");
-      *ret = NULL;
+      ret = NULL;
     } else {
       start += size;
-      *ret = (void *)start;
+      ret = (void *)start;
     }
   unlock(&debug_lock);
   return ret;
