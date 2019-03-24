@@ -22,8 +22,8 @@ static void hello() {
 static void test() {
   while (1){
     int len = 0x100000;
-    pmm->alloc(len);
-
+    char *str = pmm->alloc(len);
+    str[0] = 'c';
     //printf("%s\n", str);
   }
 }
