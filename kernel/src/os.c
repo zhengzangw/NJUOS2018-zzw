@@ -18,7 +18,7 @@ static void hello() {
 }
 
 static void test() {
-  char *str = pmm->kalloc(rand()%1024);
+  char *str = pmm->alloc(rand()%1024);
   for (int i=0;i<strlen(str);++i){
     str[i] = 'A'+i%24;
   }
