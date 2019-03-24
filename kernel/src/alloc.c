@@ -25,8 +25,8 @@ static void pmm_init() {
   tail = (void *)(pm_end-sizeof(node));
   head->next = tail; head->pre = NULL;
   tail->next = NULL; tail->pre = head;
-  head->start = pm_start; head->end = head->start+sizeof(node);
-  tail->start = pm_end-sizeof(node); tail->end = tail->start+sizeof(node);
+  head->start = pm_start; head->end = head->start+sizeof(struct node);
+  tail->start = pm_end-sizeof(struct node); tail->end = tail->start+sizeof(struct node);
 
 #ifdef DEBUG
   lock(&alloc_lock);
