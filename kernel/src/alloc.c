@@ -10,7 +10,7 @@ static lock_t debug_lock;
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
-  start = 0;
+  start = pm_start;
 
   init(&debug_lock);
 
