@@ -7,12 +7,10 @@ static void os_init() {
 
 pthread_mutex_t lock;
 static void hello() {
-  pthread_mutex_lock(&lock);
-  for (const char *ptr = "Hello from CPU #"; *ptr; ptr++) {
+  for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
     _putc(*ptr);
   }
   _putc("12345678"[_cpu()]); _putc('\n');
-  pthread_mutex_unlock(&lock);
 }
 
 static void os_run() {
