@@ -17,8 +17,17 @@ static void hello() {
   unlock(&lock_hello);
 }
 
+static void test() {
+  char *str = kalloc(rand()%1024);
+  for (int i=0;i<strlen(str);++i){
+    str[i] = 'A'+i%24;
+  }
+  printf("%s\n", str);
+}
+
 static void os_run() {
   hello();
+  test();
   _intr_write(1);
   while (1) {
     _yield();
