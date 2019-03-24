@@ -58,7 +58,7 @@ lock(&alloc_lock);
     struct node *tmp;
     for (struct node*p=head;p!=tail;p=p->next){
       if (p->next->start-p->end>=size+sizeof(struct node)){
-        tmp = p->end;
+        tmp = (void *)p->end;
         tmp->start = p->end;
         tmp->end = tmp->start + size;
         tmp->pre = p;
@@ -66,6 +66,8 @@ lock(&alloc_lock);
         p->next->pre = tmp;
         p->next = tmp;
         flag = 1;
+        ret = (void *)(tmp->start + sizeof(struct node));
+        printf("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], tmp->start, tmp->end);
         break;
       }
     }
@@ -73,9 +75,6 @@ lock(&alloc_lock);
     if (flag){
       printf("No enough space. FAIL!\n");
       ret = NULL;
-    } else {
-      ret = (void *)(tmp->start + sizeof(struct node));
-      printf("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], tmp->start, tmp->end);
     }
   
 #endif
