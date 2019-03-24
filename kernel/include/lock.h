@@ -1,5 +1,5 @@
-#ifndef LOCK_H
-#define LOCK_H
+#ifndef ASFDSG
+#define ASFDSG
 
 intptr_t atomic_xchg(volatile intptr_t *addr, intptr_t newval) {
   intptr_t result;
