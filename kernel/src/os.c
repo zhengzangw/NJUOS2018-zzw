@@ -10,6 +10,7 @@ static void os_init() {
   init(&lock_test);
 }
 
+/*
 static void hello() {
   lock(&lock_test);
   for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
@@ -18,6 +19,7 @@ static void hello() {
   _putc("12345678"[_cpu()]); _putc('\n');
   unlock(&lock_test);
 }
+*/
 
 static void test() {
   lock(&lock_test);
