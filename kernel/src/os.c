@@ -1,6 +1,5 @@
 #include <common.h>
 #include <klib.h>
-#include <lock.h>
 
 lock_t lock_test;
 static void os_init() {

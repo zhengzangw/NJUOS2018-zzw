@@ -1,4 +1,5 @@
 #ifndef LOCK_H
+#define LOCK_H
 typedef struct __lock_t {int flag;} lock_t;
 //void cli() { __asm__ __volatile__ ("cli");}
 //void sti() { __asm__ __volatile__ ("sti");}
