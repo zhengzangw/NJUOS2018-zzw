@@ -2,12 +2,15 @@
 #include <klib.h>
 #include <lock.h>
 
-static uintptr_t pm_start, pm_end;
+#define CORRECTNESS_FIRST
+
+static uintptr_t pm_start, pm_end, start;
 static lock_t debug_lock;
 
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
+  start = 0;
 
   init(&debug_lock);
 
@@ -17,7 +20,15 @@ static void pmm_init() {
 }
 
 static void *kalloc(size_t size) {
-  return NULL;
+#ifdef CORRECTNESS_FIRST
+  lock(&debug_lock);
+  start += size;
+  void *ret = start;
+  unlock(&debug_lock);
+  return start;
+#else
+
+#endif
 }
 
 static void kfree(void *ptr) {
