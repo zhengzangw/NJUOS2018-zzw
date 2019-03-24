@@ -31,7 +31,7 @@ static void test() {
       str[i] = 'A'+i%24;
     }
     Logcpu();
-    printf("%s\n", str);
+    //printf("%s\n", str);
   }
 
   unlock(&lock_test);

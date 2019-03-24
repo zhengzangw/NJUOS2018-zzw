@@ -23,8 +23,10 @@ static void *kalloc(size_t size) {
 #ifdef CORRECTNESS_FIRST
   lock(&debug_lock);
   start += size;
+  void *ret = start;
+  printf("address = %p\n", ret);
   unlock(&debug_lock);
-  return (void *)start;
+  return ret;
 #else
 
 #endif
