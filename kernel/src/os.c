@@ -1,6 +1,6 @@
 #include <common.h>
 #include <klib.h>
-#include <pthread.h>
+#include <unistd.h>
 
 static void os_init() {
   pmm->init();
