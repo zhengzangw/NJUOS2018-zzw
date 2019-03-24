@@ -3,7 +3,7 @@
 #include <lock.h>
 
 #define DEBUG
-#define CORRECTNESS_FIRST
+//#define CORRECTNESS_FIRST
 
 static uintptr_t pm_start, pm_end, start;
 static lock_t alloc_lock;
