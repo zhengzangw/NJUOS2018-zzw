@@ -1,16 +1,20 @@
 #include <common.h>
 #include <klib.h>
+#include <lock.h>
 
+lock_t lock0;
 static void os_init() {
   pmm->init();
+  init(lock0);
 }
 
-pthread_mutex_t lock;
 static void hello() {
+  lock(lock0)
   for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
     _putc(*ptr);
   }
   _putc("12345678"[_cpu()]); _putc('\n');
+  unlock(lock0);
 }
 
 static void os_run() {
