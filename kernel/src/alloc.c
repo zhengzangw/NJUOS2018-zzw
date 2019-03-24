@@ -9,7 +9,7 @@ static uintptr_t pm_start, pm_end, start;
 static lock_t alloc_lock;
 
 struct node {
-  struct *node next,pre;
+  struct node* next,pre;
   uintptr_t start, end;
 };
 struct node* head,tail;
