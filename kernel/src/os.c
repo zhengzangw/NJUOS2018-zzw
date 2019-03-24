@@ -2,7 +2,7 @@
 #include <klib.h>
 #include <lock.h>
 
-#define Logcpu() printf("cpu #%d:\n", "12345678"[_cpu()]);
+#define Logcpu() printf("cpu #%c:\n", "12345678"[_cpu()]);
 
 lock_t lock_test;
 static void os_init() {
@@ -30,7 +30,7 @@ static void test() {
     for (int i=0;i<len;++i){
       str[i] = 'A'+i%24;
     }
-    Logcpu();
+    //Logcpu();
     //printf("%s\n", str);
   }
 
