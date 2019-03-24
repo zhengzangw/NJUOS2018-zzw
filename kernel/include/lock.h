@@ -18,4 +18,5 @@ void unlock(lock_t *mutex){
     _atomic_xchg(&mutex->flag, 0);    
     //sti();
 }
+
 #endif
