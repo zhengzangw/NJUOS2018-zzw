@@ -8,3 +8,19 @@ void list_init(uintptr_t pm_start, uintptr_t pm_end){
     head->start = pm_start; head->end = head->start+BIAS;
     tail->start = pm_end-BIAS; tail->end = tail->start+BIAS; 
 }
+
+void add_node(struct node* p){
+    struct node *tmp;
+    tmp = (void *)p->end;
+    tmp->start = p->end;
+    tmp->end = tmp->start + size+ BIAS;
+    tmp->pre = p;
+    tmp->next = p->next;
+    p->next->pre = tmp;
+    p->next = tmp;
+}
+
+void delete_node(struct node *p){
+    p->next->pre = p->pre;
+    p->pre->next = p->next;
+}
