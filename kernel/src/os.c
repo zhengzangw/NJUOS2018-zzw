@@ -5,8 +5,8 @@
 lock_t lock_hello,lock_test;
 static void os_init() {
   pmm->init();
-  lock_init(&lock_hello);
-  lock_init(&lock_test);
+  init(&lock_hello);
+  init(&lock_test);
 }
 
 static void hello() {
