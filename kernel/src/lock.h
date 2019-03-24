@@ -2,7 +2,7 @@ typedef struct __lock_t {int flag;} lock_t;
 //void cli() { __asm__ __volatile__ ("cli");}
 //void sti() { __asm__ __volatile__ ("sti");}
 
-void init(lock_t *mutex) {
+void lock_init(lock_t *mutex) {
     mutex->flag = 0;
 }
 

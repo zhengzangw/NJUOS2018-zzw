@@ -9,7 +9,7 @@ static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
 
-  init(&debug_lock);
+  lock_init(&debug_lock);
 
   lock(&debug_lock);
   printf("pm_start = %p\npm_end = %p\nsize of heap=%p\n", pm_start, pm_end, pm_end-pm_start);
