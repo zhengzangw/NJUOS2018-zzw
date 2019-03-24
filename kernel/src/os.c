@@ -24,7 +24,10 @@ static void hello() {
 static void test() {
   while (1){
     int len = 0x100000;
-    pmm->alloc(len);
+    char *str = pmm->alloc(len);
+    for (int i=0;i<100;++i){
+      str[i] = 'A'+i%24;
+    }
     //Logcpu();
     //printf("%s\n", str);
   }
