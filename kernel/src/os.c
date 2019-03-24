@@ -22,8 +22,7 @@ static void hello() {
 */
 
 static void test() {
-  int t=0;
-  while (t<3){
+  while (1){
     t++;
     int len = 0x100000;
     char *str = pmm->alloc(len);
