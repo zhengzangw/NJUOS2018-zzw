@@ -1,6 +1,6 @@
 #include <common.h>
 #include <klib.h>
-#include <lock.h>
+#include "lock.h"
 
 lock_t lock0;
 static void os_init() {
