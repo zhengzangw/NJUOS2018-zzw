@@ -93,7 +93,7 @@ static void kfree(void *ptr) {
 #else
 lock(&alloc_lock);
   printf("free %p: ", ptr);
-  struct node *p = (struct node *)ptr - BIAS;
+  struct node *p = (struct node *)((uintptr_t)ptr - BIAS);
   Lognode(p);
   p->next->pre = p->pre;
   p->pre->next = p->next;
