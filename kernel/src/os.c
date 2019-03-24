@@ -22,7 +22,9 @@ static void hello() {
 */
 
 static void test() {
-  while (1){
+  int t=0;
+  while (t<3){
+    t++;
     int len = 0x100000;
     char *str = pmm->alloc(len);
     if (str){
