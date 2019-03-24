@@ -23,9 +23,8 @@ static void *kalloc(size_t size) {
 #ifdef CORRECTNESS_FIRST
   lock(&debug_lock);
   start += size;
-  void *ret = start;
   unlock(&debug_lock);
-  return start;
+  return (void *)start;
 #else
 
 #endif
