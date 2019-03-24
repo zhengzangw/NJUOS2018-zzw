@@ -1,6 +1,7 @@
 #include <common.h>
 #include <klib.h>
 
+
 lock_t lock_test;
 static void os_init() {
   pmm->init();
