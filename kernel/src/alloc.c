@@ -51,7 +51,10 @@ lock(&alloc_lock);
 #else
 
     for (struct node*p=head;p!=tail;p=p->next){
-      assert(p->next->pre==p);
+      if (p->next->pre!=p){
+        printf("%p != %p\n", p->next->pre, p);
+        assert(0);
+      }
       if (p->next->start-p->end>=size+BIAS){
         ret = add_node(p, size);
         printf("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], p->next->start, p->next->end);

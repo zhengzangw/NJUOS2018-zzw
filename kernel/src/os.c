@@ -23,7 +23,7 @@ static void hello() {
 
 static void test() {
   while (1){
-    int len = 0x10000 * (rand()%10);
+    int len = 0x10000 * (rand()%10)+1;
     char *str = pmm->alloc(len);
     if (str){
       for (int i=0;i<100;++i){
