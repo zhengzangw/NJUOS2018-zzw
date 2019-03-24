@@ -91,7 +91,7 @@ static void kfree(void *ptr) {
 #ifdef CORRECTNESS_FIRST
   return;
 #else
-  struct node *p = (struct node *)prt;
+  struct node *p = (struct node *)ptr;
   p->next->pre = p->pre;
   p->pre->next = p->next;
 #endif
