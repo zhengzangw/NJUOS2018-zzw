@@ -15,7 +15,7 @@ static lock_t alloc_lock;
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
-  start = pm_start;
+  //start = pm_start;
 
   init(&alloc_lock);
 
