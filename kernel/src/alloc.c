@@ -61,6 +61,7 @@ lock(&alloc_lock);
     char flag = 0;
     struct node *tmp;
     for (struct node*p=head;p!=tail;p=p->next){
+      assert(p->next->pre==p);
       if (p->next->start-p->end>=size+BIAS){
         tmp = (void *)p->end;
         tmp->start = p->end;
