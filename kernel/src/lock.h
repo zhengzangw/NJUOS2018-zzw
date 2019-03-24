@@ -7,11 +7,11 @@ void init(lock_t *mutex) {
 }
 
 void lock(lock_t *mutex) {
-    cli();
+    //cli();
     while (_atomic_xchg(&mutex->flag, 1));
 }
 
 void unlock(lock_t *mutex){
     _atomic_xchg(&mutex->flag, 0);    
-    sti();
+    //sti();
 }
