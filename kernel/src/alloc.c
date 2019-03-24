@@ -4,6 +4,7 @@
 
 #define DEBUG
 #define Lognode(node) printf("Node: start=%p, end=%p\n", node->start, node->end)
+#define BIAS sizeof(struct node)
 //#define CORRECTNESS_FIRST
 
 static uintptr_t pm_start, pm_end, start;
@@ -23,11 +24,11 @@ static void pmm_init() {
   init(&alloc_lock);
 
   head = (void *)pm_start;
-  tail = (void *)(pm_end-sizeof(struct node));
+  tail = (void *)(pm_end-BIAS);
   head->next = tail; head->pre = NULL;
   tail->next = NULL; tail->pre = head;
-  head->start = pm_start; head->end = head->start+sizeof(struct node);
-  tail->start = pm_end-sizeof(struct node); tail->end = tail->start+sizeof(struct node);
+  head->start = pm_start; head->end = head->start+BIAS;
+  tail->start = pm_end-BIAS; tail->end = tail->start+BIAS;
 
 #ifdef DEBUG
   lock(&alloc_lock);
@@ -60,16 +61,16 @@ lock(&alloc_lock);
     char flag = 0;
     struct node *tmp;
     for (struct node*p=head;p!=tail;p=p->next){
-      if (p->next->start-p->end>=size+sizeof(struct node)){
+      if (p->next->start-p->end>=size+BIAS){
         tmp = (void *)p->end;
         tmp->start = p->end;
-        tmp->end = tmp->start + size;
+        tmp->end = tmp->start + size+BIAS;
         tmp->pre = p;
         tmp->next = p->next;
         p->next->pre = tmp;
         p->next = tmp;
         flag = 1;
-        ret = (void *)(tmp->start + sizeof(struct node));
+        ret = (void *)(tmp->start + BIAS);
         printf("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], tmp->start, tmp->end);
         break;
       }
