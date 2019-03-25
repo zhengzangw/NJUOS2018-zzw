@@ -57,7 +57,9 @@ lock(&alloc_lock);
       }
       if (p->next->start-p->end>=size+BIAS){
         ret = add_node(p, size);
+#ifdef DEBUG
         printf("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], p->next->start, p->next->end);
+#endif
         break;
       }
     }
@@ -78,8 +80,10 @@ static void kfree(void *ptr) {
 struct node *p = (struct node *)((uintptr_t)ptr - BIAS);
 lock(&alloc_lock);
   assert(p->next->pre==p);
+#ifdef DEBUG
   printf("free %p: ", ptr);
   Lognode(p);
+#endif
   delete_node(p);
 unlock(&alloc_lock);
 #endif
