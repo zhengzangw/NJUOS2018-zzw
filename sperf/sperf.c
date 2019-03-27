@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 int main(int argc, char *argv[]) {
+  argv[0] = "strace";
   execve("/usr/bin/strace", argv, NULL);
   return 0;
 }
