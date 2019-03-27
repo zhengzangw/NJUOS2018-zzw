@@ -7,6 +7,6 @@
 
 int main(int argc, char *argv[]) {
   argv[0] = "ls";
-  execve("/usr/bin/ls", argv, NULL);
+  execve("/bin/ls", argv, NULL);
   return 0;
 }
