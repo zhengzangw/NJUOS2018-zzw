@@ -7,6 +7,9 @@
 
 int main(int argc, char *argv[]) {
   argv[0] = "ls";
-  execve("/bin/ls", argv, NULL);
+  if (execve("/usr/bin/strace", argv, NULL)==-1){
+     perror("Execve Failed!");
+     exit(1);
+  }
   return 0;
 }
