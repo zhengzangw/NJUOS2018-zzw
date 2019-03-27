@@ -8,11 +8,10 @@
 #include <string.h>
 
 int main(int argc, char *argv[]) {
-  char nargv[256][256];
-  strcpy(nargv[0],"strace");
-  for (int i=1;i<argc;++i) strcpy(nargv[i],argv[i]);
-  nargv[argc] = NULL;
-  for (int i=0;nargv[i]!=NULL;++i){
+  char *nargv[256];
+  nargv[0] = "strace";
+  for (int i=1;i<argc;++i) nargv[i] = argv[i];
+  for (int i=0;i<argc;++i){
       printf("%s\n", nargv[i]);
   }
   if (execve("/usr/bin/strace", argv, NULL)==-1){
