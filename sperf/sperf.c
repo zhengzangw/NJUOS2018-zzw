@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[]) {
   char *nargv[256];
-  nargv[0] = "strace";
+  nargv[0] = "/usr/bin/strace";
   for (int i=1;i<argc;++i) nargv[i] = argv[i];
   for (int i=0;i<argc;++i){
       printf("%s\n", nargv[i]);
