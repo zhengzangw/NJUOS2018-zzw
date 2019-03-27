@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 int main(int argc, char *argv[]) {
-  argv[0] = "ls";
+  argv[0] = "strace";
   if (execve("/usr/bin/strace", argv, NULL)==-1){
      perror("Execve Failed!");
      exit(1);
