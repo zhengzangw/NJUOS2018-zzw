@@ -7,6 +7,6 @@
 
 int main(int argc, char *argv[]) {
   printf("%s\n", argv[1]);
-  execve("/bin/strace", argv+1, NULL);
+  execvpe("strace", argv+1, NULL);
   return 0;
 }
