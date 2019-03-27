@@ -7,7 +7,13 @@
 #include <stdlib.h>
 
 int main(int argc, char *argv[]) {
-  argv[0] = "strace";
+  char nargv[256][256];
+  nargv[0] = "strace";
+  for (int i=1;i<argc;++i) nargv[i] = argv[i];
+  nargv[argc] = NULL;
+  for (int i=0;nargv[i]!=NULL;++i){
+      printf("%s\n", nargv[i]);
+  }
   if (execve("/usr/bin/strace", argv, NULL)==-1){
      perror("Execve Failed!");
      exit(1);
