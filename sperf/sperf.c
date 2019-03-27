@@ -9,12 +9,11 @@
 
 int main(int argc, char *argv[]) {
   char *nargv[256];
-  nargv[0] = "/usr/bin/strace";
-  for (int i=1;i<argc;++i) nargv[i] = argv[i];
-  for (int i=0;i<argc;++i){
-      printf("%s\n", nargv[i]);
-  }
-  if (execve("/usr/bin/strace", argv, NULL)==-1){
+  nargv[0] = "/bin/sh";
+  nargv[1] = "strace";
+  nargv[2] = "-c";
+  for (int i=3;i<argc+2;++i) nargv[i] = argv[i];
+  if (execve("/bin/sh", argv, NULL)==-1){
      perror("Execve Failed!");
      exit(1);
   }
