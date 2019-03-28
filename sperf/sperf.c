@@ -8,12 +8,12 @@
 #include <string.h>
 
 char *nargv[256];
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[], char *env[]) {
   printf("%d\n", argc);
   nargv[0] = "/usr/bin/strace";
   for (int i=1;i<argc;++i) nargv[i] = argv[i];
   nargv[argc] = NULL;
-  if (execve("/usr/bin/strace", nargv, NULL)==-1){
+  if (execve("/usr/bin/strace", nargv, env)==-1){
      perror("Execve Failed!");
      exit(1);
   }
