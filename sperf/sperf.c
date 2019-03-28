@@ -94,11 +94,11 @@ void draw_graph()
         total_time += info[i].time;
         if (!odd){
           int w = (double)X*Y*info[i].time/sum/(X-x);
-          draw_rect(x,y,X,y+w,i);
+          draw_rect(x,y,X,y+w-3,i);
           y += w;
         } else {
           int w = (double)X*Y*info[i].time/sum/(Y-y);
-          draw_rect(x,y,x+w,Y,i);
+          draw_rect(x,y,x+w-2,Y,i);
           x += w;
         }
     }
