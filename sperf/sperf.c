@@ -46,6 +46,19 @@ void sort(){
             }
 }
 
+#define RESET "\e[0m"
+#define RED "\e[033m"
+
+void draw_graph()
+{
+    for (int i=0; i<10; ++i){
+        for (int j=0; j<10; ++j){
+            printf(RED " " RESET);
+        }
+        printf("\n");
+        }
+}
+
 void draw_table()
 {
         printf("\e[H");
@@ -56,20 +69,9 @@ void draw_table()
         }
         printf("******************\n");
         printf("total time: %10.5lf\n", sum);
+        draw_graph();
 }
 
-#define RESET "\e[0m"
-#define RED "\e[033m"
-
-void draw_graph()
-{
-    for (int i=0; i<100; ++i){
-        for (int j=0; j<100; ++j){
-            printf(RED " " RESET);
-        }
-        printf("\n");
-        }
-}
 
 void signal_callback_handler(int signum) {
     printf("    TERMINATED    \n");
@@ -148,7 +150,6 @@ int main(int argc, char *argv[], char *env[])
                         if (now - begin >= 1) {
                                 sort();
                                 draw_table();
-                                draw_graph();
                                 begin = now;
                         }
                 }
