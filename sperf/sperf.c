@@ -29,7 +29,6 @@ int main(int argc, char *argv[], char *env[]) {
      execlp("ls", "ls", "-1", NULL);
   } else {
      dup2(flides[0], STDIN_FILENO);
-     close(flides[1]);
      execlp("wc", "wc", "-l", NULL);
   }
 
