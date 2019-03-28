@@ -63,9 +63,11 @@ void draw_table()
 
 void draw_graph()
 {
-    for (int i=0; i<100; ++i)
+    for (int i=0; i<100; ++i){
         for (int j=0; j<100; ++j){
             printf(RED " " RESET);
+        }
+        printf("\n");
         }
 }
 
