@@ -29,7 +29,7 @@ int main(int argc, char *argv[], char *env[]) {
      execlp("ls", "ls", "-1", NULL);
   } else {
      char tmp[256];
-     fscanf(flides[0], "%s", tmp);
+     read(flides[0], "%s", tmp);
      fprintf(stdout, "HINT: %s\n", tmp);
   }
 
