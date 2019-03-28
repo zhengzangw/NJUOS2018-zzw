@@ -58,13 +58,14 @@ void draw_table()
         printf("total time: %10.5lf\n", sum);
 }
 
-#define ESC(x) "\e[" ##x "m"
+#define RESET "\e[0m"
+#define RED "\e[033m"
 
 void draw_graph()
 {
     for (int i=0; i<100; ++i)
         for (int j=0; j<100; ++j){
-            printf(ESC(31) " " ESC(0));
+            printf(RED " " RESET);
         }
 }
 
