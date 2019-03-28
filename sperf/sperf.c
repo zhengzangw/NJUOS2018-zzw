@@ -115,7 +115,7 @@ int main(int argc, char *argv[], char *env[])
                         info[loc(name)].time += dur;
 
                         clock_t now = clock();
-                        printf("%ld\n", now-begin);
+                        printf("%lf\n", (double)(now-begin)/CLOCKS_PER_SEC);
                         if ((double)(now - begin) / CLOCKS_PER_SEC >= 1) {
                                 draw_table();
                                 begin = now;
