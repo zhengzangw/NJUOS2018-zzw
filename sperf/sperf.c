@@ -87,7 +87,10 @@ int main(int argc, char *argv[], char *env[]) {
         for (t=0;t<strlen(tmp);++t){
             if (tmp[t]=='(') break;
         }
-        if (t==strlen(tmp)) assert(0);
+        if (t==strlen(tmp)) {
+            printf("%s", tmp);
+assert(0);
+        }
         strncpy(name, tmp, t);
         name[t] = '\0';
 
