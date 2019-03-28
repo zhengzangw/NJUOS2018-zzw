@@ -54,7 +54,7 @@ int main(int argc, char *argv[], char *env[]) {
             if (tmp[t]=='(') break;
         }
         strncpy(name, tmp, t);
-        name[t+1] = NULL;
+        name[t+1] = '\0';
         fprintf(stdout, "HINT: %s\n", name);
       }
   }
