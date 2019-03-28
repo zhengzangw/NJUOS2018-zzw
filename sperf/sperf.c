@@ -59,7 +59,7 @@ int main(int argc, char *argv[], char *env[])
         for (int i = 1; i < argc; ++i)
                 argv_new[i + 1] = argv[i];
         argv_new[argc + 1] = NULL;
-        clock_t begin = clock();
+        time_t begin = time();
 
         int flides[2];
         if (pipe(flides) != 0) {
@@ -114,9 +114,9 @@ int main(int argc, char *argv[], char *env[])
                         sscanf(tmp + t + 1, "%lf", &dur);
                         info[loc(name)].time += dur;
 
-                        clock_t now = clock();
-                        printf("%lf\n", (double)(now-begin)/CLOCKS_PER_SEC);
-                        if ((double)(now - begin) / CLOCKS_PER_SEC >= 1) {
+                        time_t now = clock();
+                        printf("%ld\n", now-begin);
+                        if (now - begin >= 1) {
                                 draw_table();
                                 begin = now;
                         }
