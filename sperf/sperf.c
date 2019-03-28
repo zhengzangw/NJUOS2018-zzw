@@ -120,7 +120,8 @@ void draw_graph()
           x += w;
         }
     }
-    draw_label(x,y,X,Y,-1);
+    set_others();
+    draw_label(x,y,X,Y,h_info);
     draw_rect(x,y,X,Y,h_info);
 }
 
