@@ -93,13 +93,13 @@ void draw_graph()
         if (total_time/sum>0.8) break;
         total_time += info[i].time;
         if (!odd){
-          int w = (double)X*Y*info[i].time/sum/(X-x);
+          int w = (double)X*Y*info[i].time/sum/(X-x)-3;
           draw_rect(x,y,X,y+w,i);
-          y += w+3;
+          y += w;
         } else {
-          int w = (double)X*Y*info[i].time/sum/(Y-y);
+          int w = (double)X*Y*info[i].time/sum/(Y-y)-2;
           draw_rect(x,y,x+w,Y,i);
-          x += w+2;
+          x += w;
         }
     }
     draw_rect(x,y,X,Y,-1);
