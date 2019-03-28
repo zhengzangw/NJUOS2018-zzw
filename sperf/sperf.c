@@ -28,8 +28,9 @@ int main(int argc, char *argv[], char *env[]) {
      //execve("/usr/bin/strace", argv_new, env);
      execlp("ls", "ls", "-1", NULL);
   } else {
-     dup2(flides[0], STDIN_FILENO);
-     execlp("wc", "wc", "-l", NULL);
+     char tmp[256];
+     fscanf(flides[0], "%s", tmp);
+     fprintf(STDOUT_FILENO, "HINT: %s\n", tmp);
   }
 
   return 0;
