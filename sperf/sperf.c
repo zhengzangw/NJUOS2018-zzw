@@ -58,7 +58,6 @@ void draw_rect(int x, int y, int s, int t, int num){
     for (int i = 0; i < s-x; ++i) {
     move(x + i, y);
         for (int j = 0; j < t-y; ++j) {
-            assert(0);
             printf("\e[%dm " RESET, num==-1?101:info[num].color);
         }
     printf("\n");
@@ -79,6 +78,9 @@ void draw_graph()
     int x = 0;
     int y = 0;
     int odd = 0;
+    for (int i = 0; i < h_info; ++i) {
+      sum += info[i].time;
+    }
     double total_time = 0;
     for (int i=0;i<h_info;++i,odd^=1){
         if (total_time/sum>0.7) break;
