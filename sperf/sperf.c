@@ -49,13 +49,21 @@ int main(int argc, char *argv[], char *env[]) {
       for (int i=0;i<100;++i){
         usleep(1000);
         fgets(tmp, 1024, input);
+
         int t;
         for (t=0;t<strlen(tmp);++t){
             if (tmp[t]=='(') break;
         }
         strncpy(name, tmp, t);
         name[t+1] = '\0';
-        fprintf(stdout, "HINT: %s\n", name);
+
+        double dur;
+        for (t=strlen(tmp)-1;t>=0;--t){
+            if (tmp[t]=='<') break;
+        }
+        sscanf(tmp+t+1,"%lf", &dur);
+
+        fprintf(stdout, "%s:%lf\n", name, dur);
       }
   }
 
