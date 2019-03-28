@@ -13,7 +13,7 @@ struct Syscall{
   double time;
 } info[1024];
 int h_info;
-char tmp[1024], name[1024];
+char tmp[1024], ttmp[1024], name[1024];
 
 int loc(char *name){
     int i;
@@ -67,7 +67,11 @@ int main(int argc, char *argv[], char *env[]) {
 
       clear();
       while (true){
-        fgets(tmp, 1024, input);
+
+        do {
+        memset(tmp, 0, sizeof(tmp));
+        fgets(ttmp, 1024, input);
+        strcat(tmp, ttmp);
 
         if (strncmp(tmp, "/usr/bin/strace", 15)==0){
             printf("%s+++  Fail to run sperf +++\n", tmp);
@@ -75,8 +79,9 @@ int main(int argc, char *argv[], char *env[]) {
             exit(1);
         }
         if (strncmp(tmp, "+++", 3)==0){
-            break;
+            exit(1);
         }
+        } while (tmp[strlen(tmp)-2]=='>');
 
         int t;
         for (t=0;t<strlen(tmp);++t){
