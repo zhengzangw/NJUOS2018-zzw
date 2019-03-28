@@ -48,7 +48,7 @@ void sort(){
 
 #define RESET "\e[0m"
 #define RED "\e[041m"
-#define move(x,y) printf("\e[%d;%dm", x, y)
+#define move(x,y) printf("\e[%d;%dH", x, y)
 
 void draw_graph()
 {
