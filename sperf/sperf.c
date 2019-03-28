@@ -22,6 +22,7 @@ char tmp[1024], ttmp[1024], name[1024];
 int color_set[] = {41,42,43,44,45,46,47,101};
 #define COLORNUM 7
 int color_p = 0;
+int ws_row, ws_col, ws_ratio;
 
 int loc(char *name)
 {
@@ -85,10 +86,10 @@ void set_others(){
     info[h_info].color = 101;
 }
 
-#define SX 2
-#define SY 3
-#define X 32
-#define Y 83
+#define SX 1
+#define SY (SX*ws_ratio)
+#define X (ws_row*3/5)
+#define Y (ws_col*3/5)
 void clear_graph(){
     move(SX,SY);
     for (int i=0; i<=X+10; ++i){
@@ -153,13 +154,16 @@ void signal_callback_handler(int signum)
 #define draw sort(); draw_graph
 #endif
 
+
 int main(int argc, char *argv[], char *env[])
 {
         //new argv
         struct winsize w;
         ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-        printf("%d,%d\n", w.ws_row,w.ws_col);
-        assert(0);
+        ws_row = w.ws_row;
+        ws_col = w.ws_col;
+        ws_ratio = ws_col/ws_row;
+
         char *argv_new[argc + 2];
         argv_new[0] = "/usr/bin/strace";
         argv_new[1] = "-Txx";
