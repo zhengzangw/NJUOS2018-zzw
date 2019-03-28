@@ -79,6 +79,7 @@ void draw_graph()
     int y = 0;
     int odd = 0;
     clear_graph();
+    sum = 0;
     for (int i = 0; i < h_info; ++i) {
       sum += info[i].time;
     }
