@@ -47,7 +47,7 @@ void sort(){
 }
 
 #define RESET "\e[0m"
-#define RED "\e[033m"
+#define RED "\e[041m"
 
 void draw_graph()
 {
