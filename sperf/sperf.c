@@ -38,7 +38,7 @@ void draw_table(){
 }
 
 #define clear() printf("\e[?25l\e[2J")
-#define show() printf("\e[?25h\e[2J")
+#define show() printf("\e[?25h")
 
 int main(int argc, char *argv[], char *env[]) {
   //new argv
