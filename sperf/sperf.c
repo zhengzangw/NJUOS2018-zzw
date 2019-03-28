@@ -80,7 +80,6 @@ void draw_graph()
           int w = (double)X*Y*info[i].time/sum/(Y-y);
           draw_rect(x,y,x+w,Y,i);
           x += w;
-          printf("%d\n", info[i].color);
         }
     }
 }
