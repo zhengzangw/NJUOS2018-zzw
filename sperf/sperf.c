@@ -34,7 +34,7 @@ void draw_table(){
       fprintf(stdout, "%s: %10lf\n", info[i].name, info[i].time);
       sum += info[i].time;
   }
-  fprintf(stdout, "SUM: %10lf\n", sum);
+  fprintf(stdout, "SUM: %10lf", sum);
 }
 
 int main(int argc, char *argv[], char *env[]) {
@@ -76,8 +76,8 @@ int main(int argc, char *argv[], char *env[]) {
         sscanf(tmp+t+1,"%lf", &dur);
         info[loc(name)].time += dur;
 
+        printf("D\n");
         if (time(NULL)-system_time>=1){
-            printf("D\n");
             draw_table();
             system_time = time(NULL);
         }
