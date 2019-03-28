@@ -82,7 +82,7 @@ int main(int argc, char *argv[], char *env[]) {
             if (tmp[t]=='(') break;
         }
         if (t==strlen(tmp)) continue;
-        strncpy(name, tmp, t-1);
+        strncpy(name, tmp, t);
         name[t] = '\0';
 
         double dur;
