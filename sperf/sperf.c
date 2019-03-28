@@ -36,7 +36,7 @@ int loc(char *name)
 }
 
 #define clear() printf("\e[H\e[J\e[?25l")
-#define show() printf("\e[?25h")
+#define show() printf("\e[J\e[?25h")
 
 void sort()
 {
