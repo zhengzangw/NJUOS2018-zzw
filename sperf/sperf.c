@@ -74,7 +74,7 @@ int main(int argc, char *argv[], char *env[])
                         memset(tmp, 0, sizeof(tmp));
                         do {
                                 fgets(ttmp, 1024, input);
-                                assert(ttmp !=NULL);
+                                printf("%s", ttmp);
                                 strcat(tmp, ttmp);
 
                                 if (strncmp(ttmp, "/usr/bin/strace", 15) == 0) {
