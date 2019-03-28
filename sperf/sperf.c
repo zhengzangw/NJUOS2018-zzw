@@ -68,6 +68,14 @@ int main(int argc, char *argv[], char *env[]) {
       while (true){
         fgets(tmp, 1024, input);
 
+        if (strncmp(tmp, "strace", 6)==0){
+            printf("%s", tmp);
+            break;
+        }
+        if (strncmp(tmp, "+++", 3)==0){
+            break;
+        }
+
         int t;
         for (t=0;t<strlen(tmp);++t){
             if (tmp[t]=='(') break;
