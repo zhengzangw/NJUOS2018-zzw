@@ -70,7 +70,8 @@ int main(int argc, char *argv[], char *env[]) {
 
         if (strncmp(tmp, "strace", 6)==0){
             printf("%s", tmp);
-            break;
+            show();
+            exit(1);
         }
         if (strncmp(tmp, "+++", 3)==0){
             break;
