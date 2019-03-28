@@ -64,8 +64,8 @@ void draw_rect(int x, int y, int s, int t, int num){
     }
 }
 
-#define X 100
-#define Y 100
+#define X 50
+#define Y 50
 void draw_graph()
 {
     int x = 0;
