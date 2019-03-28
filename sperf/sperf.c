@@ -12,7 +12,7 @@ struct Syscall{
   double time;
 } info[1024];
 int h_info;
-char tmp[1024], name[1024], tail[1024];
+char tmp[1024], name[1024];
 
 int loc(char *name){
     int i;
@@ -63,7 +63,9 @@ int main(int argc, char *argv[], char *env[]) {
         }
         sscanf(tmp+t+1,"%lf", &dur);
 
-        fprintf(stdout, "%s:%lf\n", name, dur);
+        info[loc(name)].time += dur;
+
+        fprintf(stdout, "%s:%lf\n", name, info[loc(name)].time);
       }
   }
 
