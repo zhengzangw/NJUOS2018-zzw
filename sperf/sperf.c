@@ -96,7 +96,6 @@ int main(int argc, char *argv[], char *env[]) {
 
         clock_t now = clock();
         if ((double)(now - begin)/CLOCKS_PER_SEC>=0.5){
-            assert(0);
             draw_table();
             begin = now;
         }
