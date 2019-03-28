@@ -44,7 +44,7 @@ int main(int argc, char *argv[], char *env[]) {
   argv_new[1] = "-Txx";
   for (int i=1;i<argc;++i) argv_new[i+1] = argv[i];
   argv_new[argc+1] = NULL;
-  clock_t system_time = time(NULL);
+  clock_t begin = clock();
 
   int flides[2];
   if (pipe(flides)!=0){
@@ -76,11 +76,10 @@ int main(int argc, char *argv[], char *env[]) {
         sscanf(tmp+t+1,"%lf", &dur);
         info[loc(name)].time += dur;
 
-        printf("%ld:%ld\n", system_time, time(NULL));
-        if (time(NULL)-system_time>=1){
-        printf("D\n");
+        clock_t now = clock();
+        if ((now - begin)/CLOCKS_PER_SEC>=1){
             draw_table();
-            system_time = time(NULL);
+            begin = now;
         }
       }
 
