@@ -30,7 +30,7 @@ int main(int argc, char *argv[], char *env[]) {
   } else {
      char tmp[256];
      fscanf(flides[0], "%s", tmp);
-     fprintf(STDOUT_FILENO, "HINT: %s\n", tmp);
+     fprintf(stdout, "HINT: %s\n", tmp);
   }
 
   return 0;
