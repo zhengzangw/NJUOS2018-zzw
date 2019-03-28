@@ -65,7 +65,7 @@ int main(int argc, char *argv[], char *env[]) {
 
         info[loc(name)].time += dur;
 
-        fprintf(stdout, "%s:%lf,%lf\n", name,dur, info[loc(name)].time);
+        fprintf(stdout, "%s:%lf,%lf, %d\n", name,dur, info[loc(name)].time, loc(name));
       }
   }
 
