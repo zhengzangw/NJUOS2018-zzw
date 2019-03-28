@@ -73,12 +73,12 @@ int main(int argc, char *argv[], char *env[]) {
         fgets(ttmp, 1024, input);
         strcat(tmp, ttmp);
 
-        if (strncmp(tmp, "/usr/bin/strace", 15)==0){
+        if (strncmp(ttmp, "/usr/bin/strace", 15)==0){
             printf("%s+++  Fail to run sperf +++\n", tmp);
             show();
             exit(1);
         }
-        if (strncmp(tmp, "+++", 3)==0){
+        if (strncmp(ttmp, "+++", 3)==0){
             exit(1);
         }
         } while (tmp[strlen(tmp)-2]!='>');
