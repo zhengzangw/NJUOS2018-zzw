@@ -56,6 +56,7 @@ void draw_graph()
     int y = 10;
     move(x,y);
     for (int i=0; i<10; ++i){
+        move(x+i,y);
         for (int j=0; j<10; ++j){
             printf(RED " " RESET);
         }
