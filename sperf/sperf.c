@@ -53,12 +53,12 @@ void sort()
 #define move(x,y) printf("\e[%d;%dH", x, y)
 double sum;
 
-void draw_rect(int x, int y, int s, int t){
+void draw_rect(int x, int y, int s, int t, int num){
     move(x, y);
     for (int i = 0; i < s-x; ++i) {
     move(x + i, y);
         for (int j = 0; j < t-y; ++j) {
-            printf("\e[%dm " RESET, info[i].color);
+            printf("\e[%dm " RESET, info[num].color);
         }
     printf("\n");
     }
@@ -71,11 +71,11 @@ void draw_graph()
     for (int i=0;i<2;++i,odd^=1){
         if (odd){
           int w = 10*info[i].time/sum;
-          draw_rect(x,y,10,y+w);
+          draw_rect(x,y,10,y+w,i);
           y += w;
         } else {
           int w = 10*info[i].time/sum;
-          draw_rect(x,y,x+w,10);
+          draw_rect(x,y,x+w,10,i);
           x += w;
         }
     }
