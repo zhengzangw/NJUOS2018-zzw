@@ -114,6 +114,7 @@ void signal_callback_handler(int signum)
         exit(signum);
 }
 
+#define TABLE
 #ifdef TABLE
 #define draw draw_table
 #else
