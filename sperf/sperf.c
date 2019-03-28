@@ -114,9 +114,8 @@ int main(int argc, char *argv[], char *env[])
                         sscanf(tmp + t + 1, "%lf", &dur);
                         info[loc(name)].time += dur;
 
-                        draw_table();
                         clock_t now = clock();
-                        if ((double)(now - begin) / CLOCKS_PER_SEC >= 0.1) {
+                        if ((double)(now - begin) / CLOCKS_PER_SEC >= 0.01) {
                                 draw_table();
                                 begin = now;
                         }
