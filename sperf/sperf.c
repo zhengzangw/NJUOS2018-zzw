@@ -58,7 +58,7 @@ void draw_rect(int x, int y, int s, int t, int num){
     for (int i = 0; i < s-x; ++i) {
     move(x + i, y);
         for (int j = 0; j < t-y; ++j) {
-            printf("\e[%dm " RESET, num==-1?91:info[num].color);
+            printf("\e[%dm " RESET, num==-1?101:info[num].color);
         }
     printf("\n");
     }
