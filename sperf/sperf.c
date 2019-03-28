@@ -68,8 +68,8 @@ int main(int argc, char *argv[], char *env[]) {
       clear();
       while (true){
 
-        do {
         memset(tmp, 0, sizeof(tmp));
+        do {
         fgets(ttmp, 1024, input);
         strcat(tmp, ttmp);
 
