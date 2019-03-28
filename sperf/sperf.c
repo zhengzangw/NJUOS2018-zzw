@@ -136,7 +136,7 @@ void draw_table()
 
 void signal_callback_handler(int signum)
 {
-        move(X+2,Y/2);
+        move(X+1,Y/2);
         printf("TERMINATED\n");
         show();
         exit(signum);
@@ -187,8 +187,7 @@ int main(int argc, char *argv[], char *env[])
                                 }
                                 if (strncmp(ttmp, "+++", 3) == 0) {
                                         draw();
-                                        show();
-                                        exit(0);
+                                        signal_callback_handler(0);
                                 }
                         } while (tmp[strlen(tmp) - 2] != '>');
 
