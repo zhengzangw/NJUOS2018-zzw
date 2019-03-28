@@ -58,9 +58,14 @@ void draw_table()
         printf("total time: %10.5lf\n", sum);
 }
 
+#define ESC(x) "\e[" ##x "m"
+
 void draw_graph()
 {
-
+    for (int i=0; i<100; ++i)
+        for (int j=0; j<100; ++j){
+            printf(ESC(31) " " ESC(0));
+        }
 }
 
 void signal_callback_handler(int signum) {
