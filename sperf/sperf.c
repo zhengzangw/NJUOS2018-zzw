@@ -69,6 +69,7 @@ void draw_label(int x, int y, int s, int t, int num){
     int len = num==-1?6:strlen(info[num].name);
     move((s+x)/2, (t+y)/2-len/2);
     printf("\e[%dm%s" RESET, num==-1?101:info[num].color, num==-1?other:info[num].name);
+    fflush(stdout);
 }
 
 #define SX 2
