@@ -69,7 +69,7 @@ int main(int argc, char *argv[], char *env[]) {
         fgets(tmp, 1024, input);
 
         if (strncmp(tmp, "/usr/bin/strace", 15)==0){
-            printf("%s\n+++  Fail to run sperf +++\n", tmp);
+            printf("%s+++  Fail to run sperf +++\n", tmp);
             show();
             exit(1);
         }
@@ -82,7 +82,6 @@ int main(int argc, char *argv[], char *env[]) {
             if (tmp[t]=='(') break;
         }
         if (t==strlen(tmp)) break;
-        strncpy(name, tmp, t);
         name[t] = '\0';
 
         double dur;
