@@ -88,6 +88,7 @@ int main(int argc, char *argv[], char *env[]) {
         for (t=strlen(tmp)-1;t>=0;--t){
             if (tmp[t]=='<') break;
         }
+        if (t==0) continue;
         sscanf(tmp+t+1,"%lf", &dur);
         info[loc(name)].time += dur;
 
