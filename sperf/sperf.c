@@ -48,7 +48,7 @@ void sort(){
 
 void draw_table()
 {
-        printf("\ec");
+        printf("\e[c\e[H");
         double sum = 0;
         for (int i = 0; i < h_info; ++i) {
                 fprintf(stdout, "%s: %10lf\n", info[i].name, info[i].time);
