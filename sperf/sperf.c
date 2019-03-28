@@ -33,7 +33,7 @@ int loc(char *name)
         return i;
 }
 
-#define clear() printf("\e[c\e[H\e[?25l")
+#define clear() printf("\e[2J\e[H\e[?25l")
 #define show() printf("\e[?25h")
 
 void sort(){
@@ -48,7 +48,7 @@ void sort(){
 
 void draw_table()
 {
-        clear();
+        printf("\e[c");
         double sum = 0;
         for (int i = 0; i < h_info; ++i) {
                 fprintf(stdout, "%s: %10lf\n", info[i].name, info[i].time);
