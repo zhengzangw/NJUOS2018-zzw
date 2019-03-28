@@ -66,7 +66,7 @@ void draw_rect(int x, int y, int s, int t, int num){
 
 void draw_label(int x, int y, int s, int t, int num){
     int len = strlen(info[num].name);
-    move((x-s)/2, (y-t)/2-len/2);
+    move((s-x)/2, (t-y)/2-len/2);
     printf("%s", info[num].name);
 }
 
