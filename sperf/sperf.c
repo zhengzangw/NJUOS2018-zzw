@@ -94,7 +94,7 @@ void draw_graph()
         } else {
           int w = (double)X*Y*info[i].time/sum/(Y-y);
           draw_rect(x,y,x+w,Y,i);
-          x += w+2;
+          x += w+1;
         }
     }
     draw_rect(x,y,X,Y,-1);
