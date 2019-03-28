@@ -58,7 +58,7 @@ void draw_rect(int x, int y, int s, int t, int num){
     for (int i = 0; i < s-x; ++i) {
     move(x + i, y);
         for (int j = 0; j < t-y; ++j) {
-            printf("\e[%dm " RESET, info[num].color);
+            printf("\e[%dm " RESET, num==-1?91:info[num].color);
         }
     printf("\n");
     }
@@ -71,7 +71,9 @@ void draw_graph()
     int x = 0;
     int y = 0;
     int odd = 0;
-    for (int i=0;i<3;++i,odd^=1){
+    double total_time;
+    for (int i=0;i<h_info;++i,odd^=1){
+        if (total_time/sum<0.3) break;
         if (!odd){
           int w = (double)X*Y*info[i].time/sum/(X-x);
           draw_rect(x,y,X,y+w,i);
@@ -82,6 +84,7 @@ void draw_graph()
           x += w+1;
         }
     }
+    draw_rect(x,y,X,Y,-1);
 }
 
 void draw_table()
