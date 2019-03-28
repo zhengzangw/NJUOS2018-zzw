@@ -19,7 +19,7 @@ struct Syscall info[1024];
 int h_info;
 char tmp[1024], ttmp[1024], name[1024];
 int color_set[] = {41,42,43,44,45,46,47,101};
-#define COLORNUM 6
+#define COLORNUM 7
 int color_p = 0;
 
 int loc(char *name)
@@ -86,7 +86,7 @@ void set_others(){
 
 #define SX 2
 #define SY 3
-#define X 42
+#define X 62
 #define Y 83
 void clear_graph(){
     move(SX,SY);
