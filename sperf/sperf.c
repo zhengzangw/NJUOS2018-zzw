@@ -36,7 +36,7 @@ int loc(char *name)
 
 void sort(){
     for (int i=0;i<h_info;++i)
-        for (int j=0;j<i;++j)
+        for (int j=i+1;j<h_info;++j)
             if (info[i].time<info[j].time){
                 struct Syscall tmp = info[i];
                 info[i] = info[j];
