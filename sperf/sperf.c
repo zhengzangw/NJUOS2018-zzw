@@ -28,7 +28,7 @@ int loc(char *name){
     return i;
 }
 
-#define clear() printf("\e[?25l\e[2J")
+#define clear() printf("\e[?25l\e[2J\e[H")
 #define show() printf("\e[?25h")
 
 void draw_table(){
