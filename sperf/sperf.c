@@ -81,8 +81,7 @@ int main(int argc, char *argv[], char *env[]) {
         if (strncmp(tmp, "+++", 3)==0){
             exit(1);
         }
-        printf("%c\n", tmp[strlen(tmp)-2]);
-        } while (tmp[strlen(tmp)-2]=='>');
+        } while (tmp[strlen(tmp)-2]!='>');
 
         int t;
         for (t=0;t<strlen(tmp);++t){
