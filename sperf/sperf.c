@@ -71,7 +71,7 @@ void draw_graph()
     int x = 0;
     int y = 0;
     int odd = 0;
-    for (int i=0;i<2;++i,odd^=1){
+    for (int i=0;i<3;++i,odd^=1){
         if (odd){
           int w = (double)X*Y*info[i].time/sum/(X-x);
           draw_rect(x,y,X,y+w,i);
@@ -81,7 +81,6 @@ void draw_graph()
           draw_rect(x,y,x+w,Y,i);
           x += w;
           printf("%d\n", info[i].color);
-          assert(0);
         }
     }
 }
