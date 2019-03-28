@@ -72,7 +72,7 @@ void draw_graph()
     int y = 0;
     int odd = 0;
     for (int i=0;i<3;++i,odd^=1){
-        if (odd){
+        if (!odd){
           int w = (double)X*Y*info[i].time/sum/(X-x);
           draw_rect(x,y,X,y+w,i);
           y += w+1;
