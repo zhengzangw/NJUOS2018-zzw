@@ -67,8 +67,10 @@ int main(int argc, char *argv[], char *env[]) {
         sscanf(tmp+t+1,"%lf", &dur);
 
         info[loc(name)].time += dur;
+      }
 
-        fprintf(stdout, "%s:%lf,%lf, %d\n", name,dur, info[loc(name)].time, loc(name));
+      for (int i=0;i<h_info;++i){
+          fprintf(stdout, "%s: %10lf", info[i].name, info[i].time);
       }
   }
 
