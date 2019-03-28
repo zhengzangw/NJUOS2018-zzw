@@ -68,10 +68,11 @@ void draw_rect(int x, int y, int s, int t, int num){
 #define Y 80
 void clear_graph(){
     printf("\e[H");
-    for (int i=0; i<=X; ++i)
+    for (int i=0; i<=X; ++i){
         move(i, 0);
         for (int j=0; j<=Y; ++j)
             printf(RESET " ");
+    }
 }
 
 void draw_graph()
