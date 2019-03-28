@@ -34,11 +34,11 @@ void draw_table(){
       fprintf(stdout, "%s: %10lf\n", info[i].name, info[i].time);
       sum += info[i].time;
   }
-  fprintf(stdout, "SUM: %10lf", sum);
+  fprintf(stdout, "SUM: %10lf\n", sum);
 }
 
-#define clear() printf("\e[?25l;2J")
-#define show() printf("\e[?25h;2J")
+#define clear() printf("\e[?25l\e[2J")
+#define show() printf("\e[?25h\e[2J")
 
 int main(int argc, char *argv[], char *env[]) {
   //new argv
