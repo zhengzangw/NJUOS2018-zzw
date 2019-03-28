@@ -29,7 +29,7 @@ int loc(char *name)
         }
         if (i == h_info) {
                 strcpy(info[i].name, name);
-                info[i].color = 41 + (h_info==0?0:info[i-1].color+1)%41;
+                info[i].color = 41 + (h_info==0?0:info[i-1].color%41+1)%6;
                 h_info++;
         }
         return i;
