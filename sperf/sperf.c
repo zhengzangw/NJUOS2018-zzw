@@ -62,11 +62,13 @@ int main(int argc, char *argv[], char *env[]) {
      close(STDOUT_FILENO);
      execve("/usr/bin/strace", argv_new, env);
   } else {
-      FILE* input = fdopen(flides[0], "r");
       clear();
 
       while (true){
-        fgets(tmp, 1024, input);
+        int len = 0;
+        do {
+          read(flides[0], tmp+len, 1);
+        } while (tmp[len]!='>');
 
         int t;
         for (t=0;t<strlen(tmp);++t){
