@@ -58,7 +58,7 @@ int main(int argc, char *argv[], char *env[]) {
   } else {
       FILE* input = fdopen(flides[0], "r");
 
-      for (int i=0;i<100;++i){
+      for (int i=0;i<1;++i){
         usleep(1000000);
         fgets(tmp, 1024, input);
 
