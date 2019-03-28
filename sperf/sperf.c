@@ -63,6 +63,9 @@ void draw_rect(int x, int y, int s, int t, int num){
     printf("\n");
     }
 }
+
+#define X 100
+#define Y 100
 void draw_graph()
 {
     int x = 0;
@@ -70,11 +73,11 @@ void draw_graph()
     int odd = 0;
     for (int i=0;i<2;++i,odd^=1){
         if (odd){
-          int w = 10*info[i].time/sum;
+          int w = X*Y*info[i].time/sum/(X-x);
           draw_rect(x,y,10,y+w,i);
           y += w;
         } else {
-          int w = 10*info[i].time/sum;
+          int w = X*Y*info[i].time/sum/(Y-y);
           draw_rect(x,y,x+w,10,i);
           x += w;
         }
