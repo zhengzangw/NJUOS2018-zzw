@@ -75,11 +75,11 @@ void draw_graph()
         if (odd){
           int w = (double)X*Y*info[i].time/sum/(X-x);
           draw_rect(x,y,X,y+w,i);
-          y += w;
+          y += w+1;
         } else {
           int w = (double)X*Y*info[i].time/sum/(Y-y);
           draw_rect(x,y,x+w,Y,i);
-          x += w;
+          x += w+1;
         }
     }
 }
