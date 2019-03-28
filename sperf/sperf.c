@@ -51,10 +51,16 @@ void draw_table()
         printf("\e[H");
         double sum = 0;
         for (int i = 0; i < h_info; ++i) {
-                fprintf(stdout, "%s: %10lf\n", info[i].name, info[i].time);
+                printf("%s: %10lf\n", info[i].name, info[i].time);
                 sum += info[i].time;
         }
-        fprintf(stdout, "SUM: %10lf\n", sum);
+        printf("******************");
+        printf("total time: %10.5lf\n", sum);
+}
+
+void draw_graph()
+{
+
 }
 
 void signal_callback_handler(int signum) {
