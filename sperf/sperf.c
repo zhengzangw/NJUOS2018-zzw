@@ -6,14 +6,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <regex.h>
 
 struct Syscall{
   char name[64];
   double time;
 } info[1024];
 int h_info;
-char tmp[1024];
+char tmp[1024], name[1024], time[1024];
 
 int loc(char *name){
     int i;
@@ -46,10 +45,16 @@ int main(int argc, char *argv[], char *env[]) {
      execve("/usr/bin/strace", argv_new, env);
   } else {
       FILE* input = fdopen(flides[0], "r");
+
       for (int i=0;i<100;++i){
         usleep(1000);
         fgets(tmp, 1024, input);
-        fprintf(stdout, "HINT: %s\n", tmp);
+        int t;
+        for (t=0;t<strlen(tmp);++t){
+            if (tmp[t]=='(') break;
+        }
+        strncpy(name, tmp, t);
+        fprintf(stdout, "HINT: %s\n", name);
       }
   }
 
