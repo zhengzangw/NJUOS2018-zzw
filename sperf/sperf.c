@@ -77,8 +77,8 @@ int main(int argc, char *argv[], char *env[]) {
         info[loc(name)].time += dur;
 
         clock_t now = clock();
+        printf("%ld\n", now - begin);
         if ((now - begin)/CLOCKS_PER_SEC>=1){
-        printf("%ld\n", CLOCKS_PER_SEC);
             draw_table();
             begin = now;
         }
