@@ -111,6 +111,7 @@ void draw_graph()
         }
     }
     draw_rect(x,y,X,Y,-1);
+    draw_label(x,y,X,Y,-1);
 }
 
 void draw_table()
