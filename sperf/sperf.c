@@ -35,7 +35,7 @@ int loc(char *name)
 
 void draw_table()
 {
-        clear();
+        printf("\e[2J");
         double sum = 0;
         for (int i = 0; i < h_info; ++i) {
                 fprintf(stdout, "%s: %10lf\n", info[i].name, info[i].time);
@@ -115,8 +115,8 @@ int main(int argc, char *argv[], char *env[])
                         info[loc(name)].time += dur;
 
                         clock_t now = clock();
-                        printf("%ld\n", clock());
-                        if ((double)(now - begin) / CLOCKS_PER_SEC >= 0.01) {
+                        printf("%ld\n", now-begin);
+                        if ((double)(now - begin) / CLOCKS_PER_SEC >= 1) {
                                 draw_table();
                                 begin = now;
                         }
