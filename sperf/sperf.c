@@ -86,9 +86,9 @@ void set_others(){
 #define Y 83
 void clear_graph(){
     move(SX,SY);
-    for (int i=0; i<=X; ++i){
+    for (int i=0; i<=X+10; ++i){
         move(i, 0);
-        for (int j=0; j<=Y; ++j)
+        for (int j=0; j<=Y+10; ++j)
             printf(RESET " ");
     }
 }
