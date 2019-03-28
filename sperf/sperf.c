@@ -37,6 +37,9 @@ void draw_table(){
   fprintf(stdout, "SUM: %10lf", sum);
 }
 
+#define clear() printf("\e[?25l;2J")
+#define show() printf("\e[?25h;2J")
+
 int main(int argc, char *argv[], char *env[]) {
   //new argv
   char *argv_new[argc+2];
@@ -58,6 +61,7 @@ int main(int argc, char *argv[], char *env[]) {
      execve("/usr/bin/strace", argv_new, env);
   } else {
       FILE* input = fdopen(flides[0], "r");
+      clear();
 
       while (true){
         fgets(tmp, 1024, input);
@@ -84,6 +88,7 @@ int main(int argc, char *argv[], char *env[]) {
         }
       }
      draw_table();
+     show();
   }
 
   return 0;
