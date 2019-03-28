@@ -73,12 +73,12 @@ void draw_graph()
     int odd = 0;
     for (int i=0;i<2;++i,odd^=1){
         if (odd){
-          int w = X*Y*info[i].time/sum/(X-x);
-          draw_rect(x,y,10,y+w,i);
+          int w = (double)X*Y*info[i].time/sum/(X-x);
+          draw_rect(x,y,X,y+w,i);
           y += w;
         } else {
-          int w = X*Y*info[i].time/sum/(Y-y);
-          draw_rect(x,y,x+w,10,i);
+          int w = (double)X*Y*info[i].time/sum/(Y-y);
+          draw_rect(x,y,x+w,Y,i);
           x += w;
         }
     }
