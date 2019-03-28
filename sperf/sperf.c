@@ -58,6 +58,7 @@ void draw_rect(int x, int y, int s, int t, int num){
     for (int i = 0; i < s-x; ++i) {
     move(x + i, y);
         for (int j = 0; j < t-y; ++j) {
+            assert(0);
             printf("\e[%dm " RESET, num==-1?101:info[num].color);
         }
     printf("\n");
@@ -114,7 +115,6 @@ void signal_callback_handler(int signum)
         exit(signum);
 }
 
-#define TABLE
 #ifdef TABLE
 #define draw draw_table
 #else
