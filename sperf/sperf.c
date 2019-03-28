@@ -9,6 +9,7 @@
 #include <string.h>
 #include <signal.h>
 #include <stdint.h>
+#include <sys/ioctl.h>
 
 struct Syscall {
         char name[64];
@@ -155,6 +156,9 @@ void signal_callback_handler(int signum)
 int main(int argc, char *argv[], char *env[])
 {
         //new argv
+        struct winsize w;
+        ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+        printf("%d,%d\n", w.ws_row,w.ws_col);
         char *argv_new[argc + 2];
         argv_new[0] = "/usr/bin/strace";
         argv_new[1] = "-Txx";
