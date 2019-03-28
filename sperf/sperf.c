@@ -18,6 +18,9 @@ struct Syscall {
 struct Syscall info[1024];
 int h_info;
 char tmp[1024], ttmp[1024], name[1024];
+int color_set[] = {31,32,33,34,35,36,37,101,102,103,104,105,106,107};
+#define COLORNUM 14
+int color_p = 0;
 
 int loc(char *name)
 {
@@ -29,7 +32,8 @@ int loc(char *name)
         }
         if (i == h_info) {
                 strcpy(info[i].name, name);
-                info[i].color = 41 + (h_info==0?0:info[i-1].color%41+1)%6;
+                info[i].color = color_set[color_p];
+                color_p = (color_p + 1)%COLORNUM;
                 h_info++;
         }
         return i;
