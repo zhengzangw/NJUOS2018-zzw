@@ -143,9 +143,9 @@ void signal_callback_handler(int signum)
 }
 
 #ifdef TABLE
-#define draw draw_table
+#define draw sort(); draw_table
 #else
-#define draw draw_graph
+#define draw sort(); draw_graph
 #endif
 
 int main(int argc, char *argv[], char *env[])
@@ -216,7 +216,6 @@ int main(int argc, char *argv[], char *env[])
                         // draw output
                         time_t now = time(NULL);
                         if (now - begin >= 1) {
-                                sort();
                                 draw();
                                 begin = now;
                         }
