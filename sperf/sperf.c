@@ -36,7 +36,7 @@ int loc(char *name)
 }
 
 #define clear() printf("\e[H\e[J\e[?25l")
-#define show() printf("\e[2J\e[?25h")
+#define show() printf("\e[?25h")
 
 void sort()
 {
@@ -136,6 +136,7 @@ void draw_table()
 
 void signal_callback_handler(int signum)
 {
+        move(X+2,Y);
         printf("    TERMINATED    \n");
         show();
         exit(signum);
