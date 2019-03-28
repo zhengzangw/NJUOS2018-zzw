@@ -78,7 +78,8 @@ int main(int argc, char *argv[], char *env[]) {
 
         if (time(NULL)-system_time>=1){
             draw_table();
-            system_time = time(NULL)
+            system_time = time(NULL);
+        }
       }
 
   }
