@@ -44,6 +44,7 @@ int main(int argc, char *argv[], char *env[]) {
   argv_new[1] = "-Txx";
   for (int i=1;i<argc;++i) argv_new[i+1] = argv[i];
   argv_new[argc+1] = NULL;
+  clock_t system_time = time(NULL);
 
   int flides[2];
   if (pipe(flides)!=0){
@@ -75,8 +76,9 @@ int main(int argc, char *argv[], char *env[]) {
         sscanf(tmp+t+1,"%lf", &dur);
         info[loc(name)].time += dur;
 
-        draw_table();
-        usleep(1000000);
+        if (time(NULL)-system_time>=1){
+            draw_table();
+            system_time = time(NULL)
       }
 
   }
