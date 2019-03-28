@@ -47,7 +47,7 @@ void draw_table()
 void signal_callback_handler(int signum) {
     printf("    TERMINATED    \n");
     show();
-    exit(sigma);
+    exit(signum);
 }
 
 int main(int argc, char *argv[], char *env[])
