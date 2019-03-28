@@ -88,8 +88,8 @@ void set_others(){
 
 #define SX 1
 #define SY (SX*ws_ratio)
-#define X (ws_row*3/5)
-#define Y (ws_col*3/5)
+#define X (ws_row*4/5)
+#define Y (ws_col*4/5)
 void clear_graph(){
     move(SX,SY);
     for (int i=0; i<=X+10; ++i){
