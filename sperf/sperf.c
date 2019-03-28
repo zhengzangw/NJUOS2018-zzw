@@ -136,8 +136,8 @@ void draw_table()
 
 void signal_callback_handler(int signum)
 {
-        move(X+2,Y);
-        printf("    TERMINATED    \n");
+        move(X+2,Y/2);
+        printf("TERMINATED\n");
         show();
         exit(signum);
 }
