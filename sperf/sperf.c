@@ -104,7 +104,6 @@ void draw_table()
         }
         printf("******************\n");
         printf("total time: %10.5lf\n", sum);
-        draw_graph();
 }
 
 void signal_callback_handler(int signum)
@@ -184,7 +183,7 @@ int main(int argc, char *argv[], char *env[])
                         time_t now = time(NULL);
                         if (now - begin >= 1) {
                                 sort();
-                                draw_table();
+                                draw_graph();
                                 begin = now;
                         }
                 }
