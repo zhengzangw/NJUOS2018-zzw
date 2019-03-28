@@ -23,6 +23,7 @@ int main(int argc, char *argv[], char *env[]) {
   int pid = fork();
   if (pid == 0){
      dup2(flides[1], STDERR_FILENO);
+     close(STDOUT_FILENO);
      execve("/usr/bin/strace", argv_new, env);
   } else {
      FILE* input = fdopen(flides[0], "r");
