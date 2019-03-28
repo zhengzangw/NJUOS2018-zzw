@@ -44,6 +44,12 @@ void draw_table()
         fprintf(stdout, "SUM: %10lf\n", sum);
 }
 
+void signal_callback_handler(int signum) {
+    printf("    TERMINATED    \n");
+    show();
+    exit(sigma);
+}
+
 int main(int argc, char *argv[], char *env[])
 {
         //new argv
@@ -74,15 +80,17 @@ int main(int argc, char *argv[], char *env[])
                         memset(tmp, 0, sizeof(tmp));
                         do {
                                 fgets(ttmp, 1024, input);
-                                printf("%s", ttmp);
                                 strcat(tmp, ttmp);
 
                                 if (strncmp(ttmp, "/usr/bin/strace", 15) == 0) {
                                         printf("%s+++  Fail to run sperf +++\n",
                                                tmp);
-                                        show();
+                                        signal_callback_handler(1);
                                 }
                                 if (strncmp(ttmp, "+++", 3) == 0) {
+                                    draw_table();
+                                    show();
+                                    exit();
                                 }
                         } while (tmp[strlen(tmp) - 2] != '>');
 
@@ -112,8 +120,6 @@ int main(int argc, char *argv[], char *env[])
                                 begin = now;
                         }
                 }
-                draw_table();
-                show();
         }
 
         return 0;
