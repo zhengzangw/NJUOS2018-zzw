@@ -74,6 +74,7 @@ void clear_graph(){
 
 void draw_graph()
 {
+    printf("\e[H");
     int x = 0;
     int y = 0;
     int odd = 0;
