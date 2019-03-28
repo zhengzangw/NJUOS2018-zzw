@@ -64,10 +64,12 @@ void draw_rect(int x, int y, int s, int t, int num){
     }
 }
 
-#define X 40
-#define Y 80
+#define SX 2
+#define SY 3
+#define X 42
+#define Y 83
 void clear_graph(){
-    printf("\e[H");
+    move(SX,SY);
     for (int i=0; i<=X; ++i){
         move(i, 0);
         for (int j=0; j<=Y; ++j)
@@ -77,9 +79,9 @@ void clear_graph(){
 
 void draw_graph()
 {
-    printf("\e[H");
-    int x = 0;
-    int y = 0;
+    int x = SX;
+    int y = SY;
+    move(x,y);
     int odd = 0;
     clear_graph();
     sum = 0;
