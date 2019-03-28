@@ -146,6 +146,7 @@ int main(int argc, char *argv[], char *env[])
                         if (now - begin >= 1) {
                                 sort();
                                 draw_table();
+                                draw_graph();
                                 begin = now;
                         }
                 }
