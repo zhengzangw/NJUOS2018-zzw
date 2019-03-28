@@ -64,8 +64,8 @@ void draw_rect(int x, int y, int s, int t, int num){
     }
 }
 
-#define X 30
-#define Y 50
+#define X 40
+#define Y 80
 void clear_graph(){
     for (int i=0; i<X; ++i)
         for (int j=0; j<Y; ++j)
@@ -89,11 +89,11 @@ void draw_graph()
         if (!odd){
           int w = (double)X*Y*info[i].time/sum/(X-x);
           draw_rect(x,y,X,y+w,i);
-          y += w+1;
+          y += w+2;
         } else {
           int w = (double)X*Y*info[i].time/sum/(Y-y);
           draw_rect(x,y,x+w,Y,i);
-          x += w+1;
+          x += w+2;
         }
     }
     draw_rect(x,y,X,Y,-1);
