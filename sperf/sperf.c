@@ -64,6 +64,12 @@ void draw_rect(int x, int y, int s, int t, int num){
     }
 }
 
+void draw_label(int x, int y, int s, int t, int num){
+    int len = strlen(info[num].name);
+    move((x-s)/2, (y-t)/2-len/2);
+    printf("%s", info[num].name);
+}
+
 #define SX 2
 #define SY 3
 #define X 42
@@ -95,10 +101,12 @@ void draw_graph()
         if (!odd){
           int w = (double)X*Y*info[i].time/sum/(X-x);
           draw_rect(x,y,X,y+w-3,i);
+          draw_label(x,y,X,y+w-3,i);
           y += w;
         } else {
           int w = (double)X*Y*info[i].time/sum/(Y-y);
           draw_rect(x,y,x+w-2,Y,i);
+          draw_label(x,y,x+w-2,Y,i);
           x += w;
         }
     }
