@@ -81,6 +81,7 @@ void draw_graph()
           draw_rect(x,y,x+w,Y,i);
           x += w;
           printf("%d\n", info[i].color);
+          assert(0);
         }
     }
 }
