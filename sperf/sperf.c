@@ -48,9 +48,13 @@ void sort(){
 
 #define RESET "\e[0m"
 #define RED "\e[041m"
+#define move(x,y) printf("\e[" #x ";" #y "m")
 
 void draw_graph()
 {
+    int x = 10;
+    int y = 10;
+    move(x,y);
     for (int i=0; i<10; ++i){
         for (int j=0; j<10; ++j){
             printf(RED " " RESET);
