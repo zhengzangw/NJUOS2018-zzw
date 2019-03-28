@@ -66,13 +66,18 @@ void draw_rect(int x, int y, int s, int t, int num){
 
 char *other = "others";
 void draw_label(int x, int y, int s, int t, int num){
-    assert(num==-1);
     int len = num==-1?6:strlen(info[num].name);
     move((s+x)/2, (t+y)/2-len/2);
     printf("\e[%dm%s" RESET, num==-1?101:info[num].color, num==-1?other:info[num].name);
     move((s+x)/2+1, (t+y)/2-4);
     printf("\e[%dm(%3.2lf%%)" RESET, num==-1?101:info[num].color, num==-1?total_time*100/sum:info[num].time*100/sum);
     fflush(stdout);
+}
+
+void set_others(){
+    strcpy(info[h_info].name, "others");
+    info[h_info].time = sum - total_time;
+    info[h_info].color = 101;
 }
 
 #define SX 2
@@ -116,7 +121,7 @@ void draw_graph()
         }
     }
     draw_label(x,y,X,Y,-1);
-    draw_rect(x,y,X,Y,-1);
+    draw_rect(x,y,X,Y,h_info);
 }
 
 void draw_table()
