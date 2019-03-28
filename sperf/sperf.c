@@ -110,8 +110,8 @@ void draw_graph()
           x += w;
         }
     }
-    draw_rect(x,y,X,Y,-1);
     draw_label(x,y,X,Y,-1);
+    draw_rect(x,y,X,Y,-1);
 }
 
 void draw_table()
