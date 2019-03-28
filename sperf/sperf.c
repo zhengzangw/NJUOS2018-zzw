@@ -66,9 +66,8 @@ void draw_graph()
 {
     int x = 0;
     int y = 0;
-    for (int i=0; i<h_info; ++i){
-      int w = info[i].time/sum;
-    }
+    int w = 100*info[0].time/sum;
+    draw_rect(x,y,x+w,10);
 }
 
 void draw_table()
