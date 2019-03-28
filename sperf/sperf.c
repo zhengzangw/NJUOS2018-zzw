@@ -56,9 +56,9 @@ double total_time,sum;
 
 void draw_rect(int x, int y, int s, int t, int num){
     move(x, y);
-    for (int i = 0; i < s-x; ++i) {
+    for (int i = 0; i <= s-x; ++i) {
     move(x + i, y);
-        for (int j = 0; j < t-y; ++j) {
+        for (int j = 0; j <= t-y; ++j) {
             printf("\e[%dm " RESET, info[num].color);
         }
     printf("\n");
@@ -109,11 +109,11 @@ void draw_graph()
         if (total_time/sum>0.9) break;
         total_time += info[i].time;
         if (!odd){
-          int w = (double)X*Y*info[i].time/sum/(X-x);
+          int w = (double)X*Y*info[i].time/sum/(X-x+1);
           draw_rect_label(x,y,X,y+w-3,i);
           y += w;
         } else {
-          int w = (double)X*Y*info[i].time/sum/(Y-y);
+          int w = (double)X*Y*info[i].time/sum/(Y-y+1);
           draw_rect_label(x,y,x+w-2,Y,i);
           x += w;
         }
