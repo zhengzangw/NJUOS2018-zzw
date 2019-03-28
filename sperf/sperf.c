@@ -67,8 +67,10 @@ void draw_rect(int x, int y, int s, int t, int num){
 #define X 40
 #define Y 80
 void clear_graph(){
-    for (int i=0; i<X; ++i)
-        for (int j=0; j<Y; ++j)
+    move(0,0);
+    for (int i=0; i<=X; ++i)
+        move(i, 0);
+        for (int j=0; j<=Y; ++j)
             printf(" ");
 }
 
