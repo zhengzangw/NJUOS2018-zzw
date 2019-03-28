@@ -77,7 +77,7 @@ int main(int argc, char *argv[], char *env[]) {
         info[loc(name)].time += dur;
 
         if (time(NULL)-system_time>=1){
-            printf("D\n")
+            printf("D\n");
             draw_table();
             system_time = time(NULL);
         }
