@@ -19,7 +19,7 @@ struct Syscall info[1024];
 int h_info;
 char tmp[1024], ttmp[1024], name[1024];
 int color_set[] = {41,42,43,44,45,46,47,101,102,103};
-#define COLORNUM 13
+#define COLORNUM 10
 int color_p = 0;
 
 int loc(char *name)
