@@ -59,7 +59,6 @@ int main(int argc, char *argv[], char *env[]) {
       FILE* input = fdopen(flides[0], "r");
 
       for (int i=0;i<1;++i){
-        usleep(1000000);
         fgets(tmp, 1024, input);
 
         int t;
@@ -77,6 +76,7 @@ int main(int argc, char *argv[], char *env[]) {
         info[loc(name)].time += dur;
 
         draw_table();
+        usleep(1000000);
       }
 
   }
