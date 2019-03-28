@@ -69,9 +69,12 @@ int main(int argc, char *argv[], char *env[]) {
         info[loc(name)].time += dur;
       }
 
+      double sum = 0;
       for (int i=0;i<h_info;++i){
           fprintf(stdout, "%s: %10lf\n", info[i].name, info[i].time);
+          sum += info[i].time;
       }
+      fprintf(stdout, "SUM: %10lf", sum);
   }
 
   return 0;
