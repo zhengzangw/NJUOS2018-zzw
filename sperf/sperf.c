@@ -36,38 +36,45 @@ int loc(char *name)
 #define clear() printf("\e[H\e[J\e[?25l")
 #define show() printf("\e[?25h")
 
-void sort(){
-    for (int i=0;i<h_info;++i)
-        for (int j=i+1;j<h_info;++j)
-            if (info[i].time<info[j].time){
-                struct Syscall tmp = info[i];
-                info[i] = info[j];
-                info[j] = tmp;
-            }
+void sort()
+{
+        for (int i = 0; i < h_info; ++i)
+                for (int j = i + 1; j < h_info; ++j)
+                        if (info[i].time < info[j].time) {
+                                struct Syscall tmp = info[i];
+                                info[i] = info[j];
+                                info[j] = tmp;
+                        }
 }
 
 #define RESET "\e[0m"
 #define RED "\e[041m"
 #define move(x,y) printf("\e[%d;%dH", x, y)
+double sum;
 
-void draw_graph()
-{
-    int x = 10;
-    int y = 10;
-    move(x,y);
-    for (int i=0; i<10; ++i){
-        move(x+i,y);
-        for (int j=0; j<10; ++j){
+void draw_rect(int x, int y, int s, int t){
+    move(x, y);
+    for (int i = 0; i < s-x; ++i) {
+    move(x + i, y);
+        for (int j = 0; j < t-y; ++j) {
             printf(RED " " RESET);
         }
-        printf("\n");
-        }
+    printf("\n");
+    }
+}
+void draw_graph()
+{
+    int x = 0;
+    int y = 0;
+    for (int i=0; i<h_info; ++i){
+      int w = info[i].time/sum;
+    }
 }
 
 void draw_table()
 {
         printf("\e[H");
-        double sum = 0;
+        sum = 0;
         for (int i = 0; i < h_info; ++i) {
                 printf("%s: %10lf\n", info[i].name, info[i].time);
                 sum += info[i].time;
@@ -77,11 +84,11 @@ void draw_table()
         draw_graph();
 }
 
-
-void signal_callback_handler(int signum) {
-    printf("    TERMINATED    \n");
-    show();
-    exit(signum);
+void signal_callback_handler(int signum)
+{
+        printf("    TERMINATED    \n");
+        show();
+        exit(signum);
 }
 
 int main(int argc, char *argv[], char *env[])
@@ -122,9 +129,9 @@ int main(int argc, char *argv[], char *env[])
                                         signal_callback_handler(1);
                                 }
                                 if (strncmp(ttmp, "+++", 3) == 0) {
-                                    draw_table();
-                                    show();
-                                    exit(0);
+                                        draw_table();
+                                        show();
+                                        exit(0);
                                 }
                         } while (tmp[strlen(tmp) - 2] != '>');
 
