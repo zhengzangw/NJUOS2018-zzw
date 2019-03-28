@@ -67,9 +67,10 @@ int main(int argc, char *argv[], char *env[]) {
 
       while (true){
         fgets(tmp, 1024, input);
+        printf("%s", tmp);
+        exit(1);
 
         if (strncmp(tmp, "strace", 6)==0){
-            printf("T\n");
             printf("%s", tmp);
             show();
             exit(1);
