@@ -21,7 +21,10 @@ int loc(char *name){
             break;
         }
     }
-    if (i==h_info) h_info ++;
+    if (i==h_info) {
+        strcpy(info[i], name);
+        h_info ++;
+    }
     return i;
 }
 
