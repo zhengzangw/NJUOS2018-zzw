@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <stdbool.h>
@@ -93,9 +94,9 @@ int main(int argc, char *argv[], char *env[]) {
         sscanf(tmp+t+1,"%lf", &dur);
         info[loc(name)].time += dur;
 
-     draw_table();
         clock_t now = clock();
         if ((now - begin)/CLOCKS_PER_SEC>=1){
+            assert(0);
             draw_table();
             begin = now;
         }
