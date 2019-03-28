@@ -66,6 +66,7 @@ int main(int argc, char *argv[], char *env[]) {
         for (t=0;t<strlen(tmp);++t){
             if (tmp[t]=='(') break;
         }
+        if (t==strlen(tmp)) break;
         strncpy(name, tmp, t);
         name[t] = '\0';
 
@@ -77,13 +78,12 @@ int main(int argc, char *argv[], char *env[]) {
         info[loc(name)].time += dur;
 
         clock_t now = clock();
-        printf("%ld\n", now - begin);
         if ((now - begin)/CLOCKS_PER_SEC>=1){
             draw_table();
             begin = now;
         }
       }
-
+     draw_table();
   }
 
   return 0;
