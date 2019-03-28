@@ -106,7 +106,7 @@ void draw_graph()
     }
     total_time = 0;
     for (int i=0;i<h_info;++i,odd^=1){
-        if (total_time/sum>0.8) break;
+        if (total_time/sum>0.9) break;
         total_time += info[i].time;
         if (!odd){
           int w = (double)X*Y*info[i].time/sum/(X-x);
