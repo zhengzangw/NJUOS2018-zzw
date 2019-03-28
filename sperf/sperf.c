@@ -28,6 +28,15 @@ int loc(char *name){
     return i;
 }
 
+void draw_table(){
+  double sum = 0;
+  for (int i=0;i<h_info;++i){
+      fprintf(stdout, "%s: %10lf\n", info[i].name, info[i].time);
+      sum += info[i].time;
+  }
+  fprintf(stdout, "SUM: %10lf", sum);
+}
+
 int main(int argc, char *argv[], char *env[]) {
   //new argv
   char *argv_new[argc+2];
@@ -50,7 +59,7 @@ int main(int argc, char *argv[], char *env[]) {
       FILE* input = fdopen(flides[0], "r");
 
       for (int i=0;i<100;++i){
-        usleep(1000);
+        usleep(10000000);
         fgets(tmp, 1024, input);
 
         int t;
@@ -65,16 +74,11 @@ int main(int argc, char *argv[], char *env[]) {
             if (tmp[t]=='<') break;
         }
         sscanf(tmp+t+1,"%lf", &dur);
-
         info[loc(name)].time += dur;
+
+        draw_table();
       }
 
-      double sum = 0;
-      for (int i=0;i<h_info;++i){
-          fprintf(stdout, "%s: %10lf\n", info[i].name, info[i].time);
-          sum += info[i].time;
-      }
-      fprintf(stdout, "SUM: %10lf", sum);
   }
 
   return 0;
