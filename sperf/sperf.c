@@ -159,6 +159,7 @@ int main(int argc, char *argv[], char *env[])
         struct winsize w;
         ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
         printf("%d,%d\n", w.ws_row,w.ws_col);
+        assert(0);
         char *argv_new[argc + 2];
         argv_new[0] = "/usr/bin/strace";
         argv_new[1] = "-Txx";
