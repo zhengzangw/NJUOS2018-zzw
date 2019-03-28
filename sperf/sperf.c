@@ -25,6 +25,7 @@ int main(int argc, char *argv[], char *env[]) {
   int pid = fork();
   if (pid == 0){
      dup2(flides[1], STDOUT_FILENO);
+     close(flides[0]);
      //execve("/usr/bin/strace", argv_new, env);
      execlp("ls", "ls", "-1", NULL);
   } else {
