@@ -54,7 +54,7 @@ void draw_table()
                 printf("%s: %10lf\n", info[i].name, info[i].time);
                 sum += info[i].time;
         }
-        printf("******************");
+        printf("******************\n");
         printf("total time: %10.5lf\n", sum);
 }
 
