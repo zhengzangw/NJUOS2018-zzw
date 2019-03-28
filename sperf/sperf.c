@@ -51,6 +51,7 @@ void sort()
 
 #define RESET "\e[0m"
 #define move(x,y) printf("\e[%d;%dH", x, y)
+#define draw_rect_label(x,y,s,t,num) draw_rect(x,y,s,t,num); draw_label(x,y,s,t,num)
 double total_time,sum;
 
 void draw_rect(int x, int y, int s, int t, int num){
@@ -58,19 +59,18 @@ void draw_rect(int x, int y, int s, int t, int num){
     for (int i = 0; i < s-x; ++i) {
     move(x + i, y);
         for (int j = 0; j < t-y; ++j) {
-            printf("\e[%dm " RESET, num==-1?101:info[num].color);
+            printf("\e[%dm " RESET, info[num].color);
         }
     printf("\n");
     }
 }
 
-char *other = "others";
 void draw_label(int x, int y, int s, int t, int num){
-    int len = num==-1?6:strlen(info[num].name);
+    int len = strlen(info[num].name);
     move((s+x)/2, (t+y)/2-len/2);
-    printf("\e[%dm%s" RESET, num==-1?101:info[num].color, num==-1?other:info[num].name);
+    printf("\e[%dm%s" RESET, info[num].color, info[num].name);
     move((s+x)/2+1, (t+y)/2-4);
-    printf("\e[%dm(%3.2lf%%)" RESET, num==-1?101:info[num].color, num==-1?total_time*100/sum:info[num].time*100/sum);
+    printf("\e[%dm(%3.2lf%%)" RESET, info[num].color, info[num].time*100/sum);
     fflush(stdout);
 }
 
@@ -110,19 +110,16 @@ void draw_graph()
         total_time += info[i].time;
         if (!odd){
           int w = (double)X*Y*info[i].time/sum/(X-x);
-          draw_rect(x,y,X,y+w-3,i);
-          draw_label(x,y,X,y+w-3,i);
+          draw_rect_label(x,y,X,y+w-3,i);
           y += w;
         } else {
           int w = (double)X*Y*info[i].time/sum/(Y-y);
-          draw_rect(x,y,x+w-2,Y,i);
-          draw_label(x,y,x+w-2,Y,i);
+          draw_rect_label(x,y,x+w-2,Y,i);
           x += w;
         }
     }
     set_others();
-    draw_label(x,y,X,Y,h_info);
-    draw_rect(x,y,X,Y,h_info);
+    draw_rect_label(x,y,X,Y,h_info);
 }
 
 void draw_table()
