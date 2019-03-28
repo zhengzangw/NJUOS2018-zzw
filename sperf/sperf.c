@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <regex.h>
 
 int main(int argc, char *argv[], char *env[]) {
   //new argv
@@ -26,10 +27,13 @@ int main(int argc, char *argv[], char *env[]) {
      close(STDOUT_FILENO);
      execve("/usr/bin/strace", argv_new, env);
   } else {
-     FILE* input = fdopen(flides[0], "r");
-     char tmp[256];
-     fscanf(input, "%s", tmp);
-     fprintf(stdout, "HINT: %s\n", tmp);
+      char tmp[256];
+      FILE* input = fdopen(flides[0], "r");
+      for (int i=0;i<100;++i){
+        usleep(1000);
+        fscanf(input, "%s", tmp);
+        fprintf(stdout, "HINT: %s\n", tmp);
+      }
   }
 
   return 0;
