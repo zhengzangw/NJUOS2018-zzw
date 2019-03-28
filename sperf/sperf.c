@@ -11,7 +11,8 @@
 struct Syscall {
         char name[64];
         double time;
-} info[1024];
+};
+struct Syscall info[1024];
 int h_info;
 char tmp[1024], ttmp[1024], name[1024];
 
@@ -32,6 +33,16 @@ int loc(char *name)
 
 #define clear() printf("\e[2J\e[H\e[?25l")
 #define show() printf("\e[?25h")
+
+void sort(){
+    for (int i=0;i<h_info;++i)
+        for (int j=0;j<i;++j)
+            if (info[i].time<info[j].time){
+                struct Syscall tmp = info[i];
+                info[i] = info[j];
+                info[j] = tmp;
+            }
+}
 
 void draw_table()
 {
@@ -73,10 +84,9 @@ int main(int argc, char *argv[], char *env[])
                 execve("/usr/bin/strace", argv_new, env);
         } else {
                 FILE *input = fdopen(flides[0], "r");
-
                 clear();
                 while (true) {
-
+                        // read
                         memset(tmp, 0, sizeof(tmp));
                         do {
                                 fgets(ttmp, 1024, input);
@@ -94,6 +104,7 @@ int main(int argc, char *argv[], char *env[])
                                 }
                         } while (tmp[strlen(tmp) - 2] != '>');
 
+                        // parse name
                         int t;
                         for (t = 0; t < strlen(tmp); ++t) {
                                 if (tmp[t] == '(')
@@ -104,6 +115,7 @@ int main(int argc, char *argv[], char *env[])
                         strncpy(name, tmp, t);
                         name[t] = '\0';
 
+                        // parse time
                         double dur;
                         for (t = strlen(tmp) - 1; t >= 0; --t) {
                                 if (tmp[t] == '<')
@@ -114,8 +126,10 @@ int main(int argc, char *argv[], char *env[])
                         sscanf(tmp + t + 1, "%lf", &dur);
                         info[loc(name)].time += dur;
 
+                        // draw output
                         time_t now = time(NULL);
                         if (now - begin >= 1) {
+                                sort();
                                 draw_table();
                                 begin = now;
                         }
