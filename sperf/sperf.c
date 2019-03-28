@@ -8,6 +8,24 @@
 #include <string.h>
 #include <regex.h>
 
+struct Syscall{
+  char name[64];
+  double time;
+} info[1024];
+int h_info;
+char tmp[1024];
+
+int loc(char *name){
+    int i;
+    for (i=0;i<h_info;++i){
+        if (strcmp(name, info[i].name)==0){
+            break;
+        }
+    }
+    if (i==h_info) h_info ++;
+    return i;
+}
+
 int main(int argc, char *argv[], char *env[]) {
   //new argv
   char *argv_new[argc+2];
@@ -27,11 +45,10 @@ int main(int argc, char *argv[], char *env[]) {
      close(STDOUT_FILENO);
      execve("/usr/bin/strace", argv_new, env);
   } else {
-      char tmp[256];
       FILE* input = fdopen(flides[0], "r");
       for (int i=0;i<100;++i){
         usleep(1000);
-        fscanf(input, "%s", tmp);
+        fgets(tmp, 1024, input);
         fprintf(stdout, "HINT: %s\n", tmp);
       }
   }
