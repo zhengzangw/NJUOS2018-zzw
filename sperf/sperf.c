@@ -86,7 +86,7 @@ void set_others(){
 
 #define SX 2
 #define SY 3
-#define X 22
+#define X 32
 #define Y 83
 void clear_graph(){
     move(SX,SY);
