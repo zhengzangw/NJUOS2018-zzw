@@ -13,6 +13,7 @@
 struct Syscall {
         char name[64];
         double time;
+        int color;
 };
 struct Syscall info[1024];
 int h_info;
@@ -28,6 +29,7 @@ int loc(char *name)
         }
         if (i == h_info) {
                 strcpy(info[i].name, name);
+                info[i].color = 31 + (h_info==0?0:info[i].color+1)%6;
                 h_info++;
         }
         return i;
@@ -48,7 +50,6 @@ void sort()
 }
 
 #define RESET "\e[0m"
-#define RED "\e[041m"
 #define move(x,y) printf("\e[%d;%dH", x, y)
 double sum;
 
@@ -57,7 +58,7 @@ void draw_rect(int x, int y, int s, int t){
     for (int i = 0; i < s-x; ++i) {
     move(x + i, y);
         for (int j = 0; j < t-y; ++j) {
-            printf(RED " " RESET);
+            printf("\e[%dm " RESET, info[i].color);
         }
     printf("\n");
     }
