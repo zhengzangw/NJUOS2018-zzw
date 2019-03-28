@@ -76,6 +76,7 @@ int main(int argc, char *argv[], char *env[]) {
         sscanf(tmp+t+1,"%lf", &dur);
         info[loc(name)].time += dur;
 
+        printf("%ld%ld", system_time, time(NULL));
         if (time(NULL)-system_time>=1){
         printf("D\n");
             draw_table();
