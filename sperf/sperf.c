@@ -115,7 +115,6 @@ int main(int argc, char *argv[], char *env[])
                         info[loc(name)].time += dur;
 
                         time_t now = time(NULL);
-                        printf("%ld\n", now-begin);
                         if (now - begin >= 1) {
                                 draw_table();
                                 begin = now;
