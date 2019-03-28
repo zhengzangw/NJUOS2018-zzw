@@ -67,7 +67,7 @@ void draw_graph()
     int x = 0;
     int y = 0;
     int w = 100*info[0].time/sum;
-    draw_rect(x,y,x+w,10);
+    draw_rect(x,y,10,y+w);
 }
 
 void draw_table()
