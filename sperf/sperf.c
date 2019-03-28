@@ -90,7 +90,7 @@ int main(int argc, char *argv[], char *env[])
                                 if (strncmp(ttmp, "+++", 3) == 0) {
                                     draw_table();
                                     show();
-                                    exit();
+                                    exit(0);
                                 }
                         } while (tmp[strlen(tmp) - 2] != '>');
 
