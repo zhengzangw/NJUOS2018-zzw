@@ -29,7 +29,7 @@ int loc(char *name){
     return i;
 }
 
-#define clear() printf("\e[?25l\e[2J\e[H")
+#define clear() printf("\e[2J\e[H\e[?25l")
 #define show() printf("\e[?25h")
 
 void draw_table(){
@@ -64,8 +64,8 @@ int main(int argc, char *argv[], char *env[]) {
      execve("/usr/bin/strace", argv_new, env);
   } else {
       FILE* input = fdopen(flides[0], "r");
-      clear();
 
+      clear();
       while (true){
         fgets(tmp, 1024, input);
 
@@ -95,7 +95,7 @@ int main(int argc, char *argv[], char *env[]) {
         info[loc(name)].time += dur;
 
         clock_t now = clock();
-        if ((double)(now - begin)/CLOCKS_PER_SEC>=0.5){
+        if ((double)(now - begin)/CLOCKS_PER_SEC>=0.25){
             draw_table();
             begin = now;
         }
