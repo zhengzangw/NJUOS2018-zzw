@@ -81,10 +81,8 @@ int main(int argc, char *argv[], char *env[])
                                         printf("%s+++  Fail to run sperf +++\n",
                                                tmp);
                                         show();
-                                        exit(1);
                                 }
                                 if (strncmp(ttmp, "+++", 3) == 0) {
-                                        exit(1);
                                 }
                         } while (tmp[strlen(tmp) - 2] != '>');
 
