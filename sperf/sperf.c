@@ -98,7 +98,7 @@ int main(int argc, char *argv[], char *env[]) {
             begin = now;
         }
       }
-     draw_table();
+     //draw_table();
      show();
   }
 
