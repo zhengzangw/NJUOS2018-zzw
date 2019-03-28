@@ -71,6 +71,7 @@ int main(int argc, char *argv[], char *env[])
                 argv_new[i + 1] = argv[i];
         argv_new[argc + 1] = NULL;
         time_t begin = time(NULL);
+        signal(SIGINT, signal_callback_handler);
 
         int flides[2];
         if (pipe(flides) != 0) {
