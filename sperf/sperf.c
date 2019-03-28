@@ -22,7 +22,7 @@ int loc(char *name){
         }
     }
     if (i==h_info) {
-        strcpy(info[i], name);
+        strcpy(info[i].name, name);
         h_info ++;
     }
     return i;
