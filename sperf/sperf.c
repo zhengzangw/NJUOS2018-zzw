@@ -71,7 +71,7 @@ void clear_graph(){
     for (int i=0; i<=X; ++i)
         move(i, 0);
         for (int j=0; j<=Y; ++j)
-            printf(" ");
+            printf(RESET " ");
 }
 
 void draw_graph()
