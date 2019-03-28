@@ -12,7 +12,7 @@ struct Syscall{
   double time;
 } info[1024];
 int h_info;
-char tmp[1024], name[1024], time[1024];
+char tmp[1024], name[1024], tail[1024];
 
 int loc(char *name){
     int i;
