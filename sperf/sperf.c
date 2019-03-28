@@ -51,7 +51,7 @@ void sort()
 
 #define RESET "\e[0m"
 #define move(x,y) printf("\e[%d;%dH", x, y)
-double sum;
+double total_time,sum;
 
 void draw_rect(int x, int y, int s, int t, int num){
     move(x, y);
@@ -69,6 +69,8 @@ void draw_label(int x, int y, int s, int t, int num){
     int len = num==-1?6:strlen(info[num].name);
     move((s+x)/2, (t+y)/2-len/2);
     printf("\e[%dm%s" RESET, num==-1?101:info[num].color, num==-1?other:info[num].name);
+    move((s+x)/2+1, (t+y)/2-len/2);
+    printf("\e[%dm(%3.2lf\%)" RESET, num==-1?101:info[num].color, num==-1?total_time*100/sum:info[num].time*100/sum);
     fflush(stdout);
 }
 
@@ -96,7 +98,7 @@ void draw_graph()
     for (int i = 0; i < h_info; ++i) {
       sum += info[i].time;
     }
-    double total_time = 0;
+    total_time = 0;
     for (int i=0;i<h_info;++i,odd^=1){
         if (total_time/sum>0.8) break;
         total_time += info[i].time;
