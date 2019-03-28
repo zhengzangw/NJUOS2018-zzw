@@ -24,12 +24,11 @@ int main(int argc, char *argv[], char *env[]) {
   }
   int pid = fork();
   if (pid == 0){
-     close(1);
-     dup2(flides[1], 1);
+     dup2(flides[1], STDOUT_FILENO);
      //execve("/usr/bin/strace", argv_new, env);
      execlp("ls", "ls", -1, NULL);
   } else {
-     close(0);
+     printf("T\n");
      dup2(flides[0], 0);
      execlp("wc", "wc", "-l", NULL);
   }
