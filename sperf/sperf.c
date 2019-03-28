@@ -59,7 +59,7 @@ int main(int argc, char *argv[], char *env[]) {
       FILE* input = fdopen(flides[0], "r");
 
       for (int i=0;i<100;++i){
-        usleep(10000000);
+        usleep(1000000);
         fgets(tmp, 1024, input);
 
         int t;
