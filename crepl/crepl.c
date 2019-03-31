@@ -23,6 +23,7 @@ int main(int argc, char *argv[], char *env[]) {
       if (strncmp(buf,"int", 3)==0) isfunc = 1;
       else {
         sprintf(buf2, "int %s(){return (%s);}", wrapper, buf);
+        buf[strlen(buf)-1] = '\0';
       }
 
       //Prepare temp file
