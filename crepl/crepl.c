@@ -52,7 +52,7 @@ int main(int argc, char *argv[], char *env[]) {
         execve(argv_new[0], argv_new, env);
       } else {
         //wait
-        int pid_ch = wait(&status);
+        wait(&status);
         int ret = WEXITSTATUS(status);
 
         // Deal with result
