@@ -13,10 +13,8 @@ int main(int argc, char *argv[], char *env[]) {
       printf(">> ");
       scanf("%s", buf);
 
-      char name[]="tmpfileXXXXXX";
-      int fd=mkstemp(name);
-      printf("%d %s\n",fd, name);
-      assert(0);
+      char tmpname[]="tmpfileXXXXXX";
+      int fd=mkstemp(tmpname);
 
       int pid = fork();
       int status;
@@ -24,7 +22,7 @@ int main(int argc, char *argv[], char *env[]) {
         printf("Child:\n");
         char *argv_new[3];
         argv_new[0] = "/bin/cp";
-        argv_new[1] = name;
+        argv_new[1] = tmpname;
         argv_new[2] = "my.txt";
         execve("/bin/cp", argv_new, env);
       } else {
@@ -33,6 +31,7 @@ int main(int argc, char *argv[], char *env[]) {
         printf("child's pid=%d, exit = %d", pid_ch, ret);
       }
 
+      unlink(tmpname);
 
       printf("  %s\n", buf);
     }
