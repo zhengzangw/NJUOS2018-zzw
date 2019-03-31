@@ -5,32 +5,40 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <assert.h>
+#include <string.h>
 
 char buf[20000];
+char *argv_new[10];
 int main(int argc, char *argv[], char *env[]) {
 
     while (true){
       printf(">> ");
       scanf("%s", buf);
 
+      //Prepare temp file
       char tmpname[]="tmpfileXXXXXX";
       int fd=mkstemp(tmpname);
       write(fd, buf, 10000);
+      char tmpo[30];
+      strcpy(tmpo, tmpname);
+      strcat(tmpo, ".o");
+
+      //Prepare Varible
+      argv_new[0] = "/usr/bin/gcc";
+      argv_new[1] = tmpname;
+      argv_new[2] = "-o";
+      argv_new[3] = tmpo;
+      argv_new[4] = NULL;
 
       int pid = fork();
       int status;
       if (pid == 0){
-        printf("Child:\n");
-        char *argv_new[4];
-        argv_new[0] = "/bin/cp";
-        argv_new[1] = tmpname;
-        argv_new[2] = "my.txt";
-        argv_new[3] = NULL;
         execve("/bin/cp", argv_new, env);
       } else {
         int pid_ch = wait(&status);
         int ret = WEXITSTATUS(status);
-        printf("child's pid=%d, exit = %d\n", pid_ch, ret);
+
+        printf("(main)child's pid=%d, exit = %d\n", pid_ch, ret);
       }
 
       unlink(tmpname);
