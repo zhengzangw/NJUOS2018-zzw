@@ -33,7 +33,7 @@ int main(int argc, char *argv[], char *env[]) {
       int pid = fork();
       int status;
       if (pid == 0){
-        execve("/bin/cp", argv_new, env);
+        execve(argv_new[0], argv_new, env);
       } else {
         int pid_ch = wait(&status);
         int ret = WEXITSTATUS(status);
