@@ -49,7 +49,7 @@ int main(int argc, char *argv[], char *env[]) {
       int pid = fork();
       int status;
       if (pid == 0){
-        //close(STDERR_FILENO);
+        close(STDERR_FILENO);
         execve(argv_new[0], argv_new, env);
       } else {
         //wait
