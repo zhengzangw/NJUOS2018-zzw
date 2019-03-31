@@ -25,10 +25,11 @@ int main(int argc, char *argv[], char *env[]) {
 
       //Prepare Varible
       argv_new[0] = "/usr/bin/gcc";
-      argv_new[1] = tmpname;
-      argv_new[2] = "-o";
-      argv_new[3] = tmpo;
-      argv_new[4] = NULL;
+      argv_new[1] = "-c";
+      argv_new[2] = tmpname;
+      argv_new[3] = "-o";
+      argv_new[4] = tmpo;
+      argv_new[5] = NULL;
 
       int pid = fork();
       int status;
