@@ -21,16 +21,16 @@ int main(int argc, char *argv[], char *env[]) {
       int status;
       if (pid == 0){
         printf("Child:\n");
-        char *argv_new[3];
+        char *argv_new[4];
         argv_new[0] = "/bin/cp";
         argv_new[1] = tmpname;
         argv_new[2] = "my.txt";
+        argv_new[3] = NULL;
         execve("/bin/cp", argv_new, env);
       } else {
         int pid_ch = wait(&status);
         int ret = WEXITSTATUS(status);
         printf("child's pid=%d, exit = %d\n", pid_ch, ret);
-        assert(0);
       }
 
       unlink(tmpname);
