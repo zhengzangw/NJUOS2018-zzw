@@ -30,6 +30,7 @@ int main(int argc, char *argv[], char *env[]) {
         int pid_ch = wait(&status);
         int ret = WEXITSTATUS(status);
         printf("child's pid=%d, exit = %d", pid_ch, ret);
+        assert(0);
       }
 
       unlink(tmpname);
