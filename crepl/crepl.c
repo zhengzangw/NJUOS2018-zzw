@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <assert.h>
 #include <string.h>
+#include <dlfcn.h>
 
 char buf[20000];
 char *argv_new[10];
@@ -19,7 +20,7 @@ int main(int argc, char *argv[], char *env[]) {
       char tmpname[]="tmpfileXXXXXX";
       int fd=mkstemp(tmpname);
       write(fd, buf, 10000);
-      char tmpo[]="tmpfile.o";
+      char tmpo[]="tmpfile.so";
 
       //Prepare Varible
       argv_new[0] = "/usr/bin/gcc";
@@ -39,7 +40,7 @@ int main(int argc, char *argv[], char *env[]) {
       } else {
         int pid_ch = wait(&status);
         int ret = WEXITSTATUS(status);
-        if (ret!=0) printf("Compile Error!");
+        if (ret!=0) printf("  Compile Error!\n");
 
         printf("(main)child's pid=%d, exit = %d\n", pid_ch, ret);
       }
