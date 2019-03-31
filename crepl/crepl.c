@@ -9,7 +9,7 @@
 #include <dlfcn.h>
 #include <fcntl.h>
 
-char buf[20000],buf2[20000];
+char buf[20000],buf2[20000],funcname[100];
 char *argv_new[20];
 bool isfunc;
 char wrapper[] = "__expr_wrap_123";
@@ -21,7 +21,15 @@ int main(int argc, char *argv[], char *env[]) {
       //Get input
       fgets(buf, 10000, stdin);
       if (feof(stdin)) break;
-      if (strncmp(buf,"int", 3)==0) isfunc = 1;
+      if (strncmp(buf,"int", 3)==0) {
+        isfunc = 1;
+        int s,t;
+        for (s=3;buf[s]!=' ';++s);
+        for (t=s;buf[t]==')';++t);
+        strncpy(funcname, buf+s, t-s);
+        printf("%s\n", funcname);
+        assert(0);
+      }
       else {
         bzero(buf2, sizeof(buf2));
         sprintf(buf2, "int %s(){return (%s);}", wrapper, buf);
