@@ -27,7 +27,7 @@ int main(int argc, char *argv[], char *env[]) {
         for (s=3;buf[s]!=' ';++s);
         for (t=s;buf[t]==')';++t);
         strncpy(funcname, buf+s, t-s);
-        printf("%s\n", funcname);
+        printf("%d %d %s\n",s, t, funcname);
         assert(0);
       }
       else {
