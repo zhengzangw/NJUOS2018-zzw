@@ -20,7 +20,7 @@ int main(int argc, char *argv[], char *env[]) {
       char tmpname[]="tmpfileXXXXXX";
       int fd=mkstemp(tmpname);
       write(fd, buf, 10000);
-      char tmpo[]="tmpfile.so";
+      char tmpo[]="./tmpfile.so";
 
       //Prepare Varible
       argv_new[0] = "/usr/bin/gcc";
@@ -31,7 +31,8 @@ int main(int argc, char *argv[], char *env[]) {
       argv_new[5] = tmpname;
       argv_new[6] = "-o";
       argv_new[7] = tmpo;
-      argv_new[8] = NULL;
+      argv_new[8] = "-ldl";
+      argv_new[9] = NULL;
 
       int pid = fork();
       int status;
@@ -41,6 +42,16 @@ int main(int argc, char *argv[], char *env[]) {
         int pid_ch = wait(&status);
         int ret = WEXITSTATUS(status);
         if (ret!=0) printf("  Compile Error!\n");
+        else {
+            int (*dfunc)(void);
+            void *dhandle = dlopen(tmpo, RTLD_LAZY|RTLD_GLOBAL);
+            assert(dhandle!=NULL);
+            dfunc = dlsym(dhandle, "a");
+            assert(dfunc!=NULL);
+            int a = dfunc();
+            printf("%d\n", a);
+            dlclose(dhandle);
+        }
 
         printf("(main)child's pid=%d, exit = %d\n", pid_ch, ret);
       }
