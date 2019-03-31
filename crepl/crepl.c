@@ -48,6 +48,7 @@ int main(int argc, char *argv[], char *env[]) {
       int pid = fork();
       int status;
       if (pid == 0){
+        close(STDERR_FILENO);
         execve(argv_new[0], argv_new, env);
       } else {
         //wait
@@ -72,7 +73,7 @@ int main(int argc, char *argv[], char *env[]) {
             dlclose(dhandle);
         }
 
-        printf("(main)child's pid=%d, exit = %d\n", pid_ch, ret);
+        //printf("(main)child's pid=%d, exit = %d\n", pid_ch, ret);
       }
 
       unlink(tmpname);
