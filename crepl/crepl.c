@@ -67,12 +67,12 @@ int main(int argc, char *argv[], char *env[]) {
         if (ret!=0) printf("  Compile Error!\n");
         else {
             int (*dfunc)(void);
-            void *dhandle = dlopen(tmpo, RTLD_LAZY|RTLD_GLOBAL);
+            void *dhandle = dlopen(tmpo, RTLD_NOW|RTLD_GLOBAL);
             assert(dhandle!=NULL);
             if (isfunc){
               dfunc = dlsym(dhandle, funcname);
               assert(dfunc!=NULL);
-              printf("Added: %s\n", buf);
+              printf("Added: %s", buf);
             } else {
               dfunc = dlsym(dhandle, wrapper);
               assert(dfunc!=NULL);
