@@ -4,26 +4,29 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <assert.h>
 
 char buf[20000];
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[], char *env[]) {
 
     while (true){
       printf(">> ");
       scanf("%s", buf);
 
-      FILE *tmpfp = tmpfile();
-      if (tmpfp==NULL){
-          perror("tmpfile error");
-          return 1;
-      }
-      fputs(buf, tmpfp);
+      char name[]="tmpfileXXXXXX";
+      int fd=mkstemp(name);
+      printf("%s\n",name);
+      assert(0);
 
       int pid = fork();
       int status;
       if (pid == 0){
-        printf("Hello");
-        exit(0);
+        printf("Child:\n");
+        char *argv_new[3];
+        argv_new[0] = "/bin/cp";
+        argv_new[1] = name;
+        argv_new[2] = "my.txt";
+        execve("/bin/cp", argv_new, env);
       } else {
         int pid_ch = wait(&status);
         int ret = WEXITSTATUS(status);
