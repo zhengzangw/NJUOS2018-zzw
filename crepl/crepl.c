@@ -8,21 +8,29 @@
 #include <string.h>
 #include <dlfcn.h>
 
-char buf[20000];
-char *argv_new[10];
+char buf[20000],buf2[20000];
+char *argv_new[20];
+bool isfunc;
+char wrapper[] = "__expr_wrap_123";
 int main(int argc, char *argv[], char *env[]) {
 
     while (true){
       printf(">> ");
+
+      //Get input
       fgets(buf, 10000, stdin);
+      if (strncmp(buf,"int", 3)==0) isfunc = 1;
+      else {
+        sprintf(buf2, "int %s(){return (%s)}", wrapper, buf);
+      }
 
       //Prepare temp file
       char tmpname[]="tmpfileXXXXXX";
       int fd=mkstemp(tmpname);
-      write(fd, buf, 10000);
-      char tmpo[]="./tmpfile.so";
+      write(fd, isfunc?buf:buf2, 10000);
 
       //Prepare Varible
+      char tmpo[]="./tmpfile.so";
       argv_new[0] = "/usr/bin/gcc";
       argv_new[1] = "-x";
       argv_new[2] = "c";
@@ -32,15 +40,19 @@ int main(int argc, char *argv[], char *env[]) {
       argv_new[6] = "-o";
       argv_new[7] = tmpo;
       argv_new[8] = "-ldl";
-      argv_new[9] = NULL;
+      argv_new[9] = "-w";
+      argv_new[10] = NULL;
 
       int pid = fork();
       int status;
       if (pid == 0){
         execve(argv_new[0], argv_new, env);
       } else {
+        //wait
         int pid_ch = wait(&status);
         int ret = WEXITSTATUS(status);
+
+        // Deal with result
         if (ret!=0) printf("  Compile Error!\n");
         else {
             int (*dfunc)(void);
@@ -48,8 +60,13 @@ int main(int argc, char *argv[], char *env[]) {
             assert(dhandle!=NULL);
             dfunc = dlsym(dhandle, "a");
             assert(dfunc!=NULL);
-            int a = dfunc();
-            printf("%d\n", a);
+            if (isfunc){
+              int a = dfunc();
+              printf("%d\n", a);
+              printf("Added: %s\n", buf);
+            } else {
+              printf("%d\n", dfunc());
+            }
             dlclose(dhandle);
         }
 
