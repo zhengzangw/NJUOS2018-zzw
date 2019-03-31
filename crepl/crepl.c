@@ -58,13 +58,15 @@ int main(int argc, char *argv[], char *env[]) {
             int (*dfunc)(void);
             void *dhandle = dlopen(tmpo, RTLD_LAZY|RTLD_GLOBAL);
             assert(dhandle!=NULL);
-            dfunc = dlsym(dhandle, "a");
-            assert(dfunc!=NULL);
             if (isfunc){
+              dfunc = dlsym(dhandle, "a");
+              assert(dfunc!=NULL);
               int a = dfunc();
               printf("%d\n", a);
               printf("Added: %s\n", buf);
             } else {
+              dfunc = dlsym(dhandle, wrapper);
+              assert(dfunc!=NULL);
               printf("%d\n", dfunc());
             }
             dlclose(dhandle);
