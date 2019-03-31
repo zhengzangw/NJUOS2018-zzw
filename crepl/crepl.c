@@ -23,6 +23,7 @@ int main(int argc, char *argv[], char *env[]) {
       if (feof(stdin)) break;
       if (strncmp(buf,"int", 3)==0) isfunc = 1;
       else {
+        bzero(buf2, sizeof(buf2));
         sprintf(buf2, "int %s(){return (%s);}", wrapper, buf);
         buf[strlen(buf)-1] = '\0';
       }
