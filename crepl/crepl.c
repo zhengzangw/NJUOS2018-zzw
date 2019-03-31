@@ -15,7 +15,7 @@ int main(int argc, char *argv[], char *env[]) {
 
       char name[]="tmpfileXXXXXX";
       int fd=mkstemp(name);
-      printf("%s\n",name);
+      printf("%d %s\n",fd, name);
       assert(0);
 
       int pid = fork();
