@@ -14,11 +14,12 @@ bool isfunc;
 char wrapper[] = "__expr_wrap_123";
 int main(int argc, char *argv[], char *env[]) {
 
-    while (!feof(stdin)){
+    while (true){
       printf(">> ");
 
       //Get input
       fgets(buf, 10000, stdin);
+      if (feof(stdin)) break;
       if (strncmp(buf,"int", 3)==0) isfunc = 1;
       else {
         sprintf(buf2, "int %s(){return (%s);}", wrapper, buf);
