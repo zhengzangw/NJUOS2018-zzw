@@ -21,7 +21,7 @@ int main(int argc, char *argv[], char *env[]) {
       fgets(buf, 10000, stdin);
       if (strncmp(buf,"int", 3)==0) isfunc = 1;
       else {
-        sprintf(buf2, "int %s(){return (%s)}", wrapper, buf);
+        sprintf(buf2, "int %s(){return (%s);}", wrapper, buf);
       }
 
       //Prepare temp file
