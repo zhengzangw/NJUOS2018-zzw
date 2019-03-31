@@ -14,7 +14,7 @@ bool isfunc;
 char wrapper[] = "__expr_wrap_123";
 int main(int argc, char *argv[], char *env[]) {
 
-    while (true){
+    while (!feof(stdin)){
       printf(">> ");
 
       //Get input
