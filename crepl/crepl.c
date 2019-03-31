@@ -67,7 +67,7 @@ int main(int argc, char *argv[], char *env[]) {
             } else {
               dfunc = dlsym(dhandle, wrapper);
               assert(dfunc!=NULL);
-              printf("%s = %d.\n", buf, dfunc());
+              printf("  (%s) = %d.\n", buf, dfunc());
             }
             dlclose(dhandle);
         }
