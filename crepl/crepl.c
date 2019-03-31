@@ -15,6 +15,7 @@ int main(int argc, char *argv[], char *env[]) {
 
       char tmpname[]="tmpfileXXXXXX";
       int fd=mkstemp(tmpname);
+      write(fd, buf, 10000);
 
       int pid = fork();
       int status;
