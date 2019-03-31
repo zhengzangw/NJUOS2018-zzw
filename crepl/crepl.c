@@ -22,14 +22,13 @@ int main(int argc, char *argv[], char *env[]) {
       fgets(buf, 10000, stdin);
       if (feof(stdin)) break;
       if (strncmp(buf,"int", 3)==0) {
+        bzero(funcname, sizeof(funcname));
         isfunc = 1;
         int s,t;
         for (s=3;buf[s]==' ';++s);
         for (t=s;buf[t]!='(';++t);
         strncpy(funcname, buf+s, t-s);
-        assert(0);
-      }
-      else {
+      } else {
         bzero(buf2, sizeof(buf2));
         sprintf(buf2, "int %s(){return (%s);}", wrapper, buf);
         buf[strlen(buf)-1] = '\0';
@@ -71,7 +70,7 @@ int main(int argc, char *argv[], char *env[]) {
             void *dhandle = dlopen(tmpo, RTLD_LAZY|RTLD_GLOBAL);
             assert(dhandle!=NULL);
             if (isfunc){
-              dfunc = dlsym(dhandle, "a");
+              dfunc = dlsym(dhandle, funcname);
               assert(dfunc!=NULL);
               printf("Added: %s\n", buf);
             } else {
