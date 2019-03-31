@@ -29,7 +29,7 @@ int main(int argc, char *argv[], char *env[]) {
       } else {
         int pid_ch = wait(&status);
         int ret = WEXITSTATUS(status);
-        printf("child's pid=%d, exit = %d", pid_ch, ret);
+        printf("child's pid=%d, exit = %d\n", pid_ch, ret);
         assert(0);
       }
 
