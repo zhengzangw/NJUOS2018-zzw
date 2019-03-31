@@ -28,8 +28,6 @@ int main(int argc, char *argv[], char *env[]) {
         for (s=3;buf[s]==' ';++s);
         for (t=s;buf[t]!='(';++t);
         strncpy(funcname, buf+s, t-s);
-        printf("%s\n", funcname);
-        assert(0);
       } else {
         bzero(buf2, sizeof(buf2));
         sprintf(buf2, "int %s(){return (%s);}", wrapper, buf);
@@ -70,6 +68,7 @@ int main(int argc, char *argv[], char *env[]) {
         else {
             int (*dfunc)(void);
             void *dhandle = dlopen(tmpo, RTLD_NOW|RTLD_GLOBAL);
+            printf("%s\n", dlerror());
             assert(dhandle!=NULL);
             if (isfunc){
               dfunc = dlsym(dhandle, funcname);
