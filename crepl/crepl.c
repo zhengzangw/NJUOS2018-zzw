@@ -13,7 +13,7 @@ int main(int argc, char *argv[], char *env[]) {
 
     while (true){
       printf(">> ");
-      scanf("%s", buf);
+      fgets(buf, 10000, stdin);
 
       //Prepare temp file
       char tmpname[]="tmpfileXXXXXX";
