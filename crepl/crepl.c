@@ -76,8 +76,7 @@ int main(int argc, char *argv[], char *env[]) {
       }
 
       unlink(tmpname);
-
-      printf("  %s\n", buf);
+      unlink(tmpo);
     }
   return 0;
 }
