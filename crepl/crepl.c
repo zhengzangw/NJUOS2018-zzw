@@ -25,11 +25,12 @@ int main(int argc, char *argv[], char *env[]) {
       argv_new[0] = "/usr/bin/gcc";
       argv_new[1] = "-x";
       argv_new[2] = "c";
-      argv_new[3] = "-c";
-      argv_new[4] = tmpname;
-      argv_new[5] = "-o";
-      argv_new[6] = tmpo;
-      argv_new[7] = NULL;
+      argv_new[3] = "-fPIC";
+      argv_new[4] = "-shared";
+      argv_new[5] = tmpname;
+      argv_new[6] = "-o";
+      argv_new[7] = tmpo;
+      argv_new[8] = NULL;
 
       int pid = fork();
       int status;
@@ -38,6 +39,7 @@ int main(int argc, char *argv[], char *env[]) {
       } else {
         int pid_ch = wait(&status);
         int ret = WEXITSTATUS(status);
+        if (ret!=0) printf("Compile Error!");
 
         printf("(main)child's pid=%d, exit = %d\n", pid_ch, ret);
       }
