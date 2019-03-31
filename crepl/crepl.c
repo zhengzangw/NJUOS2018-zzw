@@ -15,7 +15,6 @@ bool isfunc;
 char wrapper[] = "__expr_wrap_123";
 int main(int argc, char *argv[], char *env[]) {
 
-    //int devNull = open("/dev/null", O_WRONLY);
     while (true){
       printf(">> ");
 
@@ -50,8 +49,7 @@ int main(int argc, char *argv[], char *env[]) {
       int pid = fork();
       int status;
       if (pid == 0){
-        //dup2(STDERR_FILENO, devNull);
-        close(STDERR_FILENO);
+        //close(STDERR_FILENO);
         execve(argv_new[0], argv_new, env);
       } else {
         //wait
