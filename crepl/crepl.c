@@ -24,7 +24,7 @@ int main(int argc, char *argv[], char *env[])
         argv_new[2] = "-fPIC";
         argv_new[3] = "-shared";
         argv_new[4] = "-o";
-        argv_new[6] = "-w";
+        argv_new[6] = "-g";
         argv_new[8] = NULL;
 
         while (true) {
@@ -65,7 +65,7 @@ int main(int argc, char *argv[], char *env[])
                 int pid = fork();
                 int status;
                 if (pid == 0) {
-                        close(STDERR_FILENO);
+                        //close(STDERR_FILENO);
                         execve(argv_new[0], argv_new, env);
                 } else {
                         //wait
@@ -91,9 +91,7 @@ int main(int argc, char *argv[], char *env[])
                                         dlclose(dhandle);
                                 }
                         }
-
                 }
-
                 unlink(cname);
                 unlink(soname);
         }
