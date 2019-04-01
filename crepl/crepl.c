@@ -25,11 +25,12 @@ int main(int argc, char *argv[], char *env[]) {
       int b;
       for (b=0;buf[b]==' ';++b);
       if (strncmp(buf+b,"int", 3)==0) {
-        printf("isfuunc\n");
         bzero(funcname, sizeof(funcname));
         isfunc = 1;
         int s,t;
+        printf("isfuunc\n");
         for (s=b+3;buf[s]==' ';++s);
+        printf("%d\n", s);
         for (t=b+s;buf[t]!='(';++t);
         strncpy(funcname, buf+s, t-s);
         printf("%s\n", funcname);
