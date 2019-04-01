@@ -15,7 +15,7 @@ char tmpfuncname[200];
 char *argv_new[20];
 bool isfunc;
 char wrapper[] = "__expr_wrap_";
-int funcnum;
+int numfunc;
 int main(int argc, char *argv[], char *env[]) {
 
     srand(time(NULL));
