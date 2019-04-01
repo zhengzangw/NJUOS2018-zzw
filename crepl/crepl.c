@@ -89,13 +89,12 @@ int main(int argc, char *argv[], char *env[])
                                 void *dhandle =
                                     dlopen(tmpo, RTLD_NOW | RTLD_GLOBAL);
                                 if (dhandle == NULL) {
-                                        printf("(dhandle)%s\n", dlerror());
-                                        exit(1);
+                                        printf("\033[31mCompile Error:\033[0m%s\n", dlerror());
                                 } else {
 
                                         if (isfunc) {
                                                 printf
-                                                    ("  \033[32mAdded\033[0m: %s",
+                                                    ("  \033[32mAdded:\033[0m %s",
                                                      buf);
                                         } else {
                                                 dfunc =
