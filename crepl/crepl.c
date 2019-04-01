@@ -52,7 +52,7 @@ int main(int argc, char *argv[], char *env[]) {
 
       //Prepare Varible
       char tmpo[30];
-      sprintf(tmpo, "%s.so", tmpname);
+      sprintf(tmpo, "./%s.so", tmpname);
       argv_new[0] = "/usr/bin/gcc";
       argv_new[1] = sizeof(void *)==4?"-m32":"-m64";
       argv_new[2] = "-x";
