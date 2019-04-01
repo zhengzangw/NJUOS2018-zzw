@@ -37,6 +37,7 @@ int main(int argc, char *argv[], char *env[]) {
         bzero(buf2, sizeof(buf2));
         sprintf(buf2, "int %s(){return (%s);}", wrapper, buf);
         buf[strlen(buf)-1] = '\0';
+        printf("%s\n", buf2);
       }
 
       //Prepare temp file
