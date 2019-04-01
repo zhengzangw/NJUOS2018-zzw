@@ -35,7 +35,7 @@ int main(int argc, char *argv[], char *env[])
                 bzero(buf, sizeof(buf));
                 fgets(buf, 10000, stdin);
                 if (feof(stdin)) {
-                    printf("Ended...");
+                    printf("\033[31mEnded...\033[0m\n");
                     fflush(stdout);
                     break;
                 }
