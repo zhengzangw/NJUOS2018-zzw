@@ -30,7 +30,8 @@ int main(int argc, char *argv[], char *env[]) {
       int b;
       for (b=0;buf[b]==' ';++b);
       if (strcmp(buf+b, "exit")==0) return 0;
-      if (strncmp(buf+b,"int", 3)==0) {
+      printf("%d", b);
+      if (strncmp(buf+b, "int", 3)==0) {
         puts("isfunc");
         bzero(funcname, sizeof(funcname));
         isfunc = 1;
