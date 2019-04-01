@@ -77,7 +77,7 @@ int main(int argc, char *argv[], char *env[])
                         if (ret != 0) printf("  \033[31mCompile Error!\033[0m\n");
                         else {
                                 int (*dfunc) (void);
-                                void *dhandle = dlopen(soname, RTLD_GLOBAL);
+                                void *dhandle = dlopen(soname, RTLD_GLOBAL | RTLD_NOW);
                                 if (dhandle == NULL) {
                                         printf("  \033[31mCompile Error:\033[0m %s\n", dlerror());
                                 } else {
