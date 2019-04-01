@@ -34,7 +34,10 @@ int main(int argc, char *argv[], char *env[])
                 //Get input
                 bzero(buf, sizeof(buf));
                 fgets(buf, 10000, stdin);
-                if (feof(stdin)) break;
+                if (feof(stdin)) {
+                    printf("Ended...\n");
+                    break;
+                }
                 int b, s, t;
                 for (b = 0; buf[b] == ' '; ++b) ;
                 if (strcmp(buf + b, "exit\n") == 0) return 0;
