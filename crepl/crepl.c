@@ -17,6 +17,7 @@ int main(int argc, char *argv[], char *env[]) {
 
     while (true){
       printf(">> ");
+      isfunc = 0;
 
       //Get input
       bzero(buf, sizeof(buf));
