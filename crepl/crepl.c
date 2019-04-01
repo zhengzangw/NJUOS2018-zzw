@@ -10,11 +10,11 @@
 #include <fcntl.h>
 #include <time.h>
 
-char buf[20000], buf2[20000], funcname[100];
+char buf[20000], buf2[20000], funcname[100], filename[100], cname[100], soname[100];
 char *argv_new[20];
 bool isfunc;
 char wrapper[] = "__expr_wrap_";
-int numfunc;
+int numfunc, numfile;
 
 int main(int argc, char *argv[], char *env[])
 {
@@ -55,15 +55,13 @@ int main(int argc, char *argv[], char *env[])
                 }
 
                 //Prepare temp file
-                char tmpname[] = "tmpfileXXXXXX";
-                int fd = mkstemp(tmpname);
-                write(fd, isfunc ? buf : buf2, 10000);
-
-                //Prepare Varible
-                char tmpo[30];
-                sprintf(tmpo, "./%s.so", tmpname);
-                argv_new[6] = tmpname;
-                argv_new[8] = tmpo;
+                sprintf(filename, "tmp%d", numfile++);
+                sprintf(cname, "./%s.c", filename);
+                sprintf(soname, "./%s.so", filename);
+                FILE* fp = fopen(cname, "w+");
+                fprintf(fp, "%s\n", isfunc?buf:buf2);
+                argv_new[6] = cname;
+                argv_new[8] = soname;
 
                 int pid = fork();
                 int status;
@@ -79,8 +77,7 @@ int main(int argc, char *argv[], char *env[])
                         if (ret != 0) printf("  \033[31mCompile Error!\033[0m\n");
                         else {
                                 int (*dfunc) (void);
-                                void *dhandle =
-                                    dlopen(tmpo, RTLD_NOW | RTLD_GLOBAL);
+                                void *dhandle = dlopen(soname, RTLD_NOW | RTLD_GLOBAL);
                                 if (dhandle == NULL) {
                                         printf("  \033[31mCompile Error:\033[0m%s\n", dlerror());
                                 } else {
@@ -97,8 +94,8 @@ int main(int argc, char *argv[], char *env[])
 
                 }
 
-                unlink(tmpname);
-                unlink(tmpo);
+                unlink(cname);
+                unlink(soname);
         }
         return 0;
 }
