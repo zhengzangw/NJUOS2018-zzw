@@ -56,9 +56,7 @@ int main(int argc, char *argv[], char *env[]) {
       argv_new[6] = tmpname;
       argv_new[7] = "-o";
       argv_new[8] = tmpo;
-      argv_new[9] = "-ldl";
-      argv_new[10] = "-w";
-      argv_new[11] = NULL;
+      argv_new[9] = NULL;
 
       int pid = fork();
       int status;
