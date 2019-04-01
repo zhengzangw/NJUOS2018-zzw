@@ -35,7 +35,7 @@ int main(int argc, char *argv[], char *env[])
                 bzero(buf, sizeof(buf));
                 fgets(buf, 10000, stdin);
                 if (feof(stdin)) {
-                    printf("\033[3D\033[32mEnded\033[0m\n");
+                    printf("\033[4D\n");
                     fflush(stdout);
                     break;
                 }
