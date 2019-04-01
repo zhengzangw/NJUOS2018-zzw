@@ -49,7 +49,6 @@ int main(int argc, char *argv[], char *env[])
                         bzero(buf2, sizeof(buf2));
                         sprintf(funcname, "%s%d", wrapper, numfunc++);
                         sprintf(buf2, "int %s(){return (%s);}", funcname, buf);
-                        printf("%s\n", buf2);
                 }
 
                 //Prepare temp file
@@ -83,7 +82,6 @@ int main(int argc, char *argv[], char *env[])
                                                 printf("  \033[32mAdded:\033[0m %s", buf);
                                         } else {
                                                 int (*dfunc) (void);
-                                                printf("%s\n", funcname);
                                                 dfunc = dlsym(dhandle, funcname);
                                                 assert(dfunc != NULL);
                                                 printf("  (%s) = %d.\n", buf, dfunc());
