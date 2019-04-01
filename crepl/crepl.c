@@ -76,6 +76,7 @@ int main(int argc, char *argv[], char *env[]) {
             int (*dfunc)(void);
             void *dhandle = dlopen(tmpo, RTLD_NOW|RTLD_GLOBAL);
             assert(dhandle!=NULL);
+            printf("%s\n", dlerror());
             if (isfunc){
               dfunc = dlsym(dhandle, funcname);
               assert(dfunc!=NULL);
