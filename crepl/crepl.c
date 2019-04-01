@@ -58,8 +58,9 @@ int main(int argc, char *argv[], char *env[])
                 sprintf(filename, "tmp%d", numfile++);
                 sprintf(cname, "./%s.c", filename);
                 sprintf(soname, "./%s.so", filename);
-                FILE* fp = fopen(cname, "w+");
+                FILE* fp = fopen(cname, "w");
                 fprintf(fp, "%s\n", isfunc?buf:buf2);
+                fclose(fp);
                 argv_new[6] = cname;
                 argv_new[8] = soname;
 
@@ -95,7 +96,6 @@ int main(int argc, char *argv[], char *env[])
 
                 }
 
-                fclose(fp);
                 unlink(cname);
                 unlink(soname);
         }
