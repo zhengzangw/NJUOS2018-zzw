@@ -35,7 +35,7 @@ int main(int argc, char *argv[], char *env[])
                 bzero(buf, sizeof(buf));
                 fgets(buf, 10000, stdin);
                 if (feof(stdin)) {
-                    printf("\033[A");
+                    printf("\033[A\n");
                     fflush(stdout);
                     break;
                 }
