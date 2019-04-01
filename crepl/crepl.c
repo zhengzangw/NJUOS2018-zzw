@@ -29,6 +29,7 @@ int main(int argc, char *argv[], char *env[]) {
       if (feof(stdin)) break;
       int b;
       for (b=0;buf[b]==' ';++b);
+      if (strcmp(buf+b, "exit")==0) return 0;
       if (strncmp(buf+b,"int", 3)==0) {
         puts("isfunc");
         bzero(funcname, sizeof(funcname));
@@ -81,7 +82,7 @@ int main(int argc, char *argv[], char *env[]) {
             int (*dfunc)(void);
             void *dhandle = dlopen(tmpo, RTLD_NOW|RTLD_GLOBAL);
             if (dhandle==NULL){
-              printf("%s\n", dlerror());
+              printf("(dhandle)%s\n", dlerror());
               exit(1);
             }
             if (isfunc){
