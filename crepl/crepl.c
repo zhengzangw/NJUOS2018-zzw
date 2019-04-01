@@ -17,7 +17,6 @@ bool isfunc;
 char wrapper[] = "__expr_wrap_";
 int numfunc;
 
-int a(){return 1;}
 int main(int argc, char *argv[], char *env[]) {
 
     srand(time(NULL));
@@ -79,7 +78,7 @@ int main(int argc, char *argv[], char *env[]) {
         int ret = WEXITSTATUS(status);
 
         // Deal with result
-        if (ret!=0) printf("  Compile Error!\n");
+        if (ret!=0) printf("  \033[31mCompile Error!\033[0m\n");
         else {
             int (*dfunc)(void);
             void *dhandle = dlopen(tmpo, RTLD_NOW|RTLD_GLOBAL);
@@ -88,7 +87,7 @@ int main(int argc, char *argv[], char *env[]) {
               exit(1);
             }
             if (isfunc){
-              printf("  Added: %s", buf);
+              printf("  \033[32mAdded\033[0m: %s", buf);
             } else {
               dfunc = dlsym(dhandle, tmpfuncname);
               assert(dfunc!=NULL);
