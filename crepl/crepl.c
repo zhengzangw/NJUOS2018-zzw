@@ -49,16 +49,16 @@ int main(int argc, char *argv[], char *env[]) {
       char tmpo[]="./tmpfile.so";
       argv_new[0] = "/usr/bin/gcc";
       argv_new[1] = sizeof(void *)==4?"-m32":"-m64";
-      argv_new[1] = "-x";
-      argv_new[2] = "c";
-      argv_new[3] = "-fPIC";
-      argv_new[4] = "-shared";
-      argv_new[5] = tmpname;
-      argv_new[6] = "-o";
-      argv_new[7] = tmpo;
-      argv_new[8] = "-ldl";
-      argv_new[9] = "-w";
-      argv_new[10] = NULL;
+      argv_new[2] = "-x";
+      argv_new[3] = "c";
+      argv_new[4] = "-fPIC";
+      argv_new[5] = "-shared";
+      argv_new[6] = tmpname;
+      argv_new[7] = "-o";
+      argv_new[8] = tmpo;
+      argv_new[9] = "-ldl";
+      argv_new[10] = "-w";
+      argv_new[11] = NULL;
 
       int pid = fork();
       int status;
