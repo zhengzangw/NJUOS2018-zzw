@@ -80,8 +80,6 @@ int main(int argc, char *argv[], char *env[]) {
               exit(1);
             }
             if (isfunc){
-              dfunc = dlsym(dhandle, funcname);
-              assert(dfunc!=NULL);
               printf("  Added: %s", buf);
             } else {
               dfunc = dlsym(dhandle, wrapper);
@@ -91,7 +89,6 @@ int main(int argc, char *argv[], char *env[]) {
             dlclose(dhandle);
         }
 
-        //printf("(main)child's pid=%d, exit = %d\n", pid_ch, ret);
       }
 
       unlink(tmpname);
