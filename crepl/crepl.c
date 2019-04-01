@@ -84,6 +84,7 @@ int main(int argc, char *argv[], char *env[])
                                         if (isfunc) {
                                                 printf("  \033[32mAdded:\033[0m %s", buf);
                                         } else {
+                                                printf("%s\n", funcname);
                                                 dfunc = dlsym(dhandle, funcname);
                                                 assert(dfunc != NULL);
                                                 printf("  (%s) = %d.\n", buf, dfunc());
