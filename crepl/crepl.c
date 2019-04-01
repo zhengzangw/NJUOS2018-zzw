@@ -23,10 +23,9 @@ int main(int argc, char *argv[], char *env[])
         argv_new[1] = sizeof(void *) == 4 ? "-m32" : "-m64";
         argv_new[2] = "-fPIC";
         argv_new[3] = "-shared";
-        argv_new[4] = "-rdynamic";
-        argv_new[5] = "-o";
-        argv_new[7] = "-w";
-        argv_new[9] = NULL;
+        argv_new[4] = "-o";
+        argv_new[6] = "-w";
+        argv_new[8] = NULL;
 
         while (true) {
                 printf(">> ");
@@ -60,8 +59,8 @@ int main(int argc, char *argv[], char *env[])
                 FILE* fp = fopen(cname, "w");
                 fprintf(fp, "%s\n", isfunc?buf:buf2);
                 fclose(fp);
-                argv_new[6] = soname;
-                argv_new[8] = cname;
+                argv_new[5] = soname;
+                argv_new[7] = cname;
 
                 int pid = fork();
                 int status;
@@ -76,7 +75,6 @@ int main(int argc, char *argv[], char *env[])
                         // Deal with result
                         if (ret != 0) printf("  \033[31mCompile Error!\033[0m\n");
                         else {
-                                int (*dfunc) (void);
                                 void *dhandle = dlopen(soname, isfunc?(RTLD_GLOBAL | RTLD_NOW):RTLD_NOW);
                                 if (dhandle == NULL) {
                                         printf("  \033[31mCompile Error:\033[0m %s\n", dlerror());
@@ -84,12 +82,12 @@ int main(int argc, char *argv[], char *env[])
                                         if (isfunc) {
                                                 printf("  \033[32mAdded:\033[0m %s", buf);
                                         } else {
+                                                int (*dfunc) (void);
                                                 printf("%s\n", funcname);
                                                 dfunc = dlsym(dhandle, funcname);
                                                 assert(dfunc != NULL);
                                                 printf("  (%s) = %d.\n", buf, dfunc());
                                         }
-                                        dlclose(dhandle);
                                 }
                         }
                 }
