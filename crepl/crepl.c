@@ -16,6 +16,8 @@ char *argv_new[20];
 bool isfunc;
 char wrapper[] = "__expr_wrap_";
 int numfunc;
+
+int a(){return 1;}
 int main(int argc, char *argv[], char *env[]) {
 
     srand(time(NULL));
@@ -30,7 +32,6 @@ int main(int argc, char *argv[], char *env[]) {
       int b;
       for (b=0;buf[b]==' ';++b);
       if (strcmp(buf+b, "exit\n")==0) return 0;
-      printf("%d", b);
       if (strncmp(buf+b, "int", 3)==0) {
         puts("isfunc");
         bzero(funcname, sizeof(funcname));
