@@ -24,7 +24,8 @@ int main(int argc, char *argv[], char *env[])
         argv_new[2] = "-fPIC";
         argv_new[3] = "-shared";
         argv_new[4] = "-o";
-        argv_new[7] = NULL;
+        argv_new[6] = "-w";
+        argv_new[8] = NULL;
 
         while (true) {
                 printf(">> ");
@@ -59,7 +60,7 @@ int main(int argc, char *argv[], char *env[])
                 fprintf(fp, "%s\n", isfunc?buf:buf2);
                 fclose(fp);
                 argv_new[5] = soname;
-                argv_new[6] = cname;
+                argv_new[7] = cname;
 
                 int pid = fork();
                 int status;
