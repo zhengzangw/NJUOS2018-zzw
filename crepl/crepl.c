@@ -19,14 +19,17 @@ int main(int argc, char *argv[], char *env[]) {
       printf(">> ");
 
       //Get input
+      bzero(buf, sizeof(buf));
       fgets(buf, 10000, stdin);
       if (feof(stdin)) break;
-      if (strncmp(buf,"int", 3)==0) {
+      int b;
+      for (b=0;buf[b]==' ';++b);
+      if (strncmp(buf+b,"int", 3)==0) {
         bzero(funcname, sizeof(funcname));
         isfunc = 1;
         int s,t;
-        for (s=3;buf[s]==' ';++s);
-        for (t=s;buf[t]!='(';++t);
+        for (s=b+3;buf[s]==' ';++s);
+        for (t=b+s;buf[t]!='(';++t);
         strncpy(funcname, buf+s, t-s);
       } else {
         bzero(buf2, sizeof(buf2));
