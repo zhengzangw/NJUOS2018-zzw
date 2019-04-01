@@ -81,6 +81,8 @@ int main(int argc, char *argv[], char *env[]) {
             }
             if (isfunc){
               printf("  Added: %s", buf);
+              dfunc = dlsym(dhandle, "f");
+              printf("%d\n", dfunc());
             } else {
               dfunc = dlsym(dhandle, wrapper);
               assert(dfunc!=NULL);
