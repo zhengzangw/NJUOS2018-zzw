@@ -25,6 +25,7 @@ int main(int argc, char *argv[], char *env[]) {
       int b;
       for (b=0;buf[b]==' ';++b);
       if (strncmp(buf+b,"int", 3)==0) {
+        printf("isfuunc\n");
         bzero(funcname, sizeof(funcname));
         isfunc = 1;
         int s,t;
