@@ -21,13 +21,10 @@ int main(int argc, char *argv[], char *env[])
         srand(time(NULL));
         argv_new[0] = "/usr/bin/gcc";
         argv_new[1] = sizeof(void *) == 4 ? "-m32" : "-m64";
-        argv_new[2] = "-x";
-        argv_new[3] = "c";
-        argv_new[4] = "-fPIC";
-        argv_new[5] = "-shared";
-        argv_new[7] = "-o";
-        argv_new[9] = "-w";
-        argv_new[10] = NULL;
+        argv_new[2] = "-fPIC";
+        argv_new[3] = "-shared";
+        argv_new[4] = "-o";
+        argv_new[7] = NULL;
 
         while (true) {
                 printf(">> ");
@@ -61,8 +58,8 @@ int main(int argc, char *argv[], char *env[])
                 FILE* fp = fopen(cname, "w");
                 fprintf(fp, "%s\n", isfunc?buf:buf2);
                 fclose(fp);
+                argv_new[5] = soname;
                 argv_new[6] = cname;
-                argv_new[8] = soname;
 
                 int pid = fork();
                 int status;
@@ -80,7 +77,7 @@ int main(int argc, char *argv[], char *env[])
                                 int (*dfunc) (void);
                                 void *dhandle = dlopen(soname, RTLD_NOW | RTLD_GLOBAL);
                                 if (dhandle == NULL) {
-                                        printf("  \033[31mCompile Error:\033[0m%s\n", dlerror());
+                                        printf("  \033[31mCompile Error:\033[0m %s\n", dlerror());
                                 } else {
                                         if (isfunc) {
                                                 printf("  \033[32mAdded:\033[0m %s", buf);
