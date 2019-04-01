@@ -23,9 +23,10 @@ int main(int argc, char *argv[], char *env[])
         argv_new[1] = sizeof(void *) == 4 ? "-m32" : "-m64";
         argv_new[2] = "-fPIC";
         argv_new[3] = "-shared";
-        argv_new[4] = "-o";
-        argv_new[6] = "-g";
-        argv_new[8] = NULL;
+        argv_new[4] = "-rdynamic";
+        argv_new[5] = "-o";
+        argv_new[7] = "-w";
+        argv_new[9] = NULL;
 
         while (true) {
                 printf(">> ");
@@ -59,13 +60,13 @@ int main(int argc, char *argv[], char *env[])
                 FILE* fp = fopen(cname, "w");
                 fprintf(fp, "%s\n", isfunc?buf:buf2);
                 fclose(fp);
-                argv_new[5] = soname;
-                argv_new[7] = cname;
+                argv_new[6] = soname;
+                argv_new[8] = cname;
 
                 int pid = fork();
                 int status;
                 if (pid == 0) {
-                        //close(STDERR_FILENO);
+                        close(STDERR_FILENO);
                         execve(argv_new[0], argv_new, env);
                 } else {
                         //wait
