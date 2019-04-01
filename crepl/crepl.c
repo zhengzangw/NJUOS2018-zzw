@@ -42,6 +42,7 @@ int main(int argc, char *argv[], char *env[]) {
       //Prepare Varible
       char tmpo[]="./tmpfile.so";
       argv_new[0] = "/usr/bin/gcc";
+      argv_new[1] = sizeof(void *)==4?"-m32":"-m64";
       argv_new[1] = "-x";
       argv_new[2] = "c";
       argv_new[3] = "-fPIC";
@@ -56,7 +57,7 @@ int main(int argc, char *argv[], char *env[]) {
       int pid = fork();
       int status;
       if (pid == 0){
-        close(STDERR_FILENO);
+        //close(STDERR_FILENO);
         execve(argv_new[0], argv_new, env);
       } else {
         //wait
