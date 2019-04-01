@@ -28,10 +28,8 @@ int main(int argc, char *argv[], char *env[]) {
         bzero(funcname, sizeof(funcname));
         isfunc = 1;
         int s,t;
-        printf("isfuunc\n");
         for (s=b+3;buf[s]==' ';++s);
-        printf("%d\n", s);
-        for (t=b+s;buf[t]!='(';++t);
+        for (t=s;buf[t]!='(';++t);
         strncpy(funcname, buf+s, t-s);
         printf("%s\n", funcname);
       } else {
