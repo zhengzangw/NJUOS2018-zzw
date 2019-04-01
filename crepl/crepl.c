@@ -34,9 +34,9 @@ int main(int argc, char *argv[], char *env[]) {
         for (t=s;buf[t]!='(';++t);
         strncpy(funcname, buf+s, t-s);
       } else {
+        buf[strlen(buf)-1] = '\0';
         bzero(buf2, sizeof(buf2));
         sprintf(buf2, "int %s(){return (%s);}", wrapper, buf);
-        buf[strlen(buf)-1] = '\0';
         printf("%s\n", buf2);
       }
 
