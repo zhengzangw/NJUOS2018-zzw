@@ -8,13 +8,17 @@
 #include <string.h>
 #include <dlfcn.h>
 #include <fcntl.h>
+#include <time.h>
 
 char buf[20000],buf2[20000],funcname[100];
+char tmpfuncname[200];
 char *argv_new[20];
 bool isfunc;
-char wrapper[] = "__expr_wrap_123";
+char wrapper[] = "__expr_wrap_";
+int funcnum;
 int main(int argc, char *argv[], char *env[]) {
 
+    srand(time(NULL));
     while (true){
       printf(">> ");
       isfunc = 0;
@@ -36,7 +40,8 @@ int main(int argc, char *argv[], char *env[]) {
       } else {
         buf[strlen(buf)-1] = '\0';
         bzero(buf2, sizeof(buf2));
-        sprintf(buf2, "int %s(){return (%s);}", wrapper, buf);
+        sprintf(tmpfuncname, "%s%d", wrapper, numfunc++) ;
+        sprintf(buf2, "int %s(){return (%s);}", tmpfuncname, buf);
         printf("%s\n", buf2);
       }
 
@@ -46,7 +51,8 @@ int main(int argc, char *argv[], char *env[]) {
       write(fd, isfunc?buf:buf2, 10000);
 
       //Prepare Varible
-      char tmpo[]="./tmpfile.so";
+      char tmpo[30];
+      sprintf(tmpo, "%s.so", tmpname);
       argv_new[0] = "/usr/bin/gcc";
       argv_new[1] = sizeof(void *)==4?"-m32":"-m64";
       argv_new[2] = "-x";
@@ -81,7 +87,7 @@ int main(int argc, char *argv[], char *env[]) {
             if (isfunc){
               printf("  Added: %s", buf);
             } else {
-              dfunc = dlsym(dhandle, wrapper);
+              dfunc = dlsym(dhandle, tmpfuncname);
               assert(dfunc!=NULL);
               printf("  (%s) = %d.\n", buf, dfunc());
             }
