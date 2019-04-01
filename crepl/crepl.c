@@ -74,7 +74,7 @@ int main(int argc, char *argv[], char *env[]) {
         if (ret!=0) printf("  Compile Error!\n");
         else {
             int (*dfunc)(void);
-            void *dhandle = dlopen(tmpo, RTLD_NOW|RTLD_GLOBAL);
+            void *dhandle = dlopen(tmpo, RTLD_LAZY|RTLD_GLOBAL);
             if (dhandle==NULL){
               printf("%s\n", dlerror());
               exit(1);
