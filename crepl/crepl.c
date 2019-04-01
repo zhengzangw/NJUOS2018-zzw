@@ -95,6 +95,7 @@ int main(int argc, char *argv[], char *env[])
 
                 }
 
+                fclose(fp);
                 unlink(cname);
                 unlink(soname);
         }
