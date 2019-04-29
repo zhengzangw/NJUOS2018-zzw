@@ -2,7 +2,7 @@
 #include <klib.h>
 #include <lock.h>
 
-//#define DEBUG
+#define DEBUG
 //#define CORRECTNESS_FIRST
 
 #ifdef CORRECTNESS_FIRST
@@ -36,7 +36,7 @@ static void *kalloc(size_t size) {
 void *ret=NULL;
 lock(&alloc_lock);
 #ifdef CORRECTNESS_FIRST
-  
+
   #ifdef DEBUG
     printf("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], start, start+size);
   #endif
@@ -67,7 +67,7 @@ lock(&alloc_lock);
     if (ret==NULL){
       printf("No enough space. FAIL!\n");
     }
-  
+
 #endif
 unlock(&alloc_lock);
 return ret;
