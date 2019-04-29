@@ -2,7 +2,7 @@
 #include <klib.h>
 #include <lock.h>
 
-#define DEBUG
+//#define DEBUG
 //#define CORRECTNESS_FIRST
 
 #ifdef CORRECTNESS_FIRST

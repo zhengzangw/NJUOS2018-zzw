@@ -25,6 +25,10 @@ static void test() {
   int base = 0x10000;
   while (1){
     int len = base * (rand()%5)+(rand()%0x100);
+    for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
+      _putc(*ptr);
+    }
+    printf(": alloc %d\n", len);
     char *str = pmm->alloc(len);
     if (str){
       for (int i=0;i<len;++i){
