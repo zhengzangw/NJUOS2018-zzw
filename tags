@@ -82,7 +82,7 @@ Arr_2_Dim	abstract-machine/apps/dhrystone/dry.c	/^typedef int     Arr_2_Dim [50]
 Arr_2_Glob	abstract-machine/apps/dhrystone/dry.c	/^int             Arr_2_Glob [50] [50];$/;"	v
 Ascent	abstract-machine/libs/imgui/include/imgui.h	/^    float                       Ascent, Descent;    \/\/              \/\/ Ascent: distance from top to bottom of e.g. 'A' [0..FontSize]$/;"	m	struct:ImFont
 Assert	amgame/include/game.h	59;"	d
-Assert	kernel/include/debug.h	35;"	d
+Assert	kernel/include/debug.h	39;"	d
 Assert	libco/co.c	18;"	d	file:
 Assert	libco/co.c	40;"	d	file:
 AutoFitFramesX	abstract-machine/libs/imgui/include/imgui_internal.h	/^    int                     AutoFitFramesX, AutoFitFramesY;$/;"	m	struct:ImGuiWindow
@@ -99,7 +99,7 @@ BENCHMARK_LIST	abstract-machine/apps/microbench/include/benchmark.h	54;"	d
 BFS	abstract-machine/apps/microbench/src/dinic/dinic.cpp	/^  bool BFS() {$/;"	f	struct:Dinic
 BF_LG	abstract-machine/apps/microbench/include/benchmark.h	38;"	d
 BF_SM	abstract-machine/apps/microbench/include/benchmark.h	37;"	d
-BIAS	kernel/include/list.h	14;"	d
+BIAS	kernel/include/pmm.h	18;"	d
 BP	libco/co.c	48;"	d	file:
 BP	libco/co.c	51;"	d	file:
 BUSY	abstract-machine/am/src/x86/qemu/devices/apic.c	25;"	d	file:
@@ -476,7 +476,7 @@ FIXMATH_NO_64BIT	abstract-machine/libs/fixmath/include/fix16.h	4;"	d
 FIXMATH_NO_CACHE	abstract-machine/libs/fixmath/include/fix16.h	5;"	d
 FIXMATH_TOKLEN	abstract-machine/libs/fixmath/include/fix16.h	235;"	d
 FL_IF	abstract-machine/am/include/x86.h	20;"	d
-FL_IF	kernel/include/debug.h	53;"	d
+FL_IF	kernel/include/debug.h	56;"	d
 FL_TF	abstract-machine/am/include/x86.h	19;"	d
 FNALIAS	abstract-machine/libs/compiler-rt/int_lib.h	24;"	d
 FNALIAS	abstract-machine/libs/compiler-rt/int_lib.h	28;"	d
@@ -1285,9 +1285,9 @@ ListBoxHeader	abstract-machine/libs/imgui/src/imgui.cpp	/^bool ImGui::ListBoxHea
 ListBoxHeader	abstract-machine/libs/imgui/src/imgui.cpp	/^bool ImGui::ListBoxHeader(const char* label, int items_count, int height_in_items)$/;"	f	class:ImGui
 LoadIniSettingsFromDisk	abstract-machine/libs/imgui/src/imgui.cpp	/^static void LoadIniSettingsFromDisk(const char* ini_filename)$/;"	f	file:
 Log	amgame/include/game.h	55;"	d
-Log	kernel/include/debug.h	17;"	d
-Log	kernel/include/debug.h	20;"	d
+Log	kernel/include/debug.h	21;"	d
 Log	kernel/include/debug.h	24;"	d
+Log	kernel/include/debug.h	28;"	d
 Log	libco/co.c	15;"	d	file:
 Log	libco/co.c	39;"	d	file:
 LogAutoExpandMaxDepth	abstract-machine/libs/imgui/include/imgui_internal.h	/^    int                     LogAutoExpandMaxDepth;$/;"	m	struct:ImGuiContext
@@ -1304,9 +1304,9 @@ LogText	abstract-machine/libs/imgui/src/imgui.cpp	/^void ImGui::LogText(const ch
 LogToClipboard	abstract-machine/libs/imgui/src/imgui.cpp	/^void ImGui::LogToClipboard(int max_depth)$/;"	f	class:ImGui
 LogToFile	abstract-machine/libs/imgui/src/imgui.cpp	/^void ImGui::LogToFile(int max_depth, const char* filename)$/;"	f	class:ImGui
 LogToTTY	abstract-machine/libs/imgui/src/imgui.cpp	/^void ImGui::LogToTTY(int max_depth)$/;"	f	class:ImGui
-Logcpu	kernel/include/debug.h	48;"	d
-Logint	kernel/include/debug.h	32;"	d
-Lognode	kernel/include/debug.h	51;"	d
+Logcpu	kernel/include/debug.h	18;"	d
+Logint	kernel/include/debug.h	36;"	d
+Lognode	kernel/include/debug.h	54;"	d
 LowerBound	abstract-machine/libs/imgui/src/imgui.cpp	/^static ImVector<ImGuiStorage::Pair>::iterator LowerBound(ImVector<ImGuiStorage::Pair>& data, ImGuiID key)$/;"	f	file:
 M	abstract-machine/apps/microbench/src/fib/fib.c	/^static int M;$/;"	v	file:
 MAGIC	abstract-machine/am/src/x86/qemu/devices/cpu.c	5;"	d	file:
@@ -1325,6 +1325,7 @@ MATDAT_INT	abstract-machine/apps/coremark/include/coremark.h	103;"	d
 MATRES	abstract-machine/apps/coremark/include/coremark.h	/^typedef ee_f32 MATRES;$/;"	t
 MATRES	abstract-machine/apps/coremark/include/coremark.h	/^typedef ee_s32 MATRES;$/;"	t
 MAT_PARAMS_S	abstract-machine/apps/coremark/include/coremark.h	/^typedef struct MAT_PARAMS_S {$/;"	s
+MAXCB	kernel/include/os.h	9;"	d
 MAXM	abstract-machine/apps/microbench/src/dinic/dinic.cpp	9;"	d	file:
 MAXN	abstract-machine/apps/microbench/src/15pz/15pz.cpp	/^const int MAXN = 10;$/;"	v
 MAXN	abstract-machine/apps/microbench/src/15pz/15pz.cpp	/^const int MAXN = 65536;$/;"	v
@@ -1559,7 +1560,7 @@ Pair	abstract-machine/libs/imgui/include/imgui.h	/^        Pair(ImGuiID _key, fl
 Pair	abstract-machine/libs/imgui/include/imgui.h	/^        Pair(ImGuiID _key, int _val_i) { key = _key; val_i = _val_i; }$/;"	f	struct:ImGuiStorage::Pair
 Pair	abstract-machine/libs/imgui/include/imgui.h	/^        Pair(ImGuiID _key, void* _val_p) { key = _key; val_p = _val_p; }$/;"	f	struct:ImGuiStorage::Pair
 Pair	abstract-machine/libs/imgui/include/imgui.h	/^    struct Pair$/;"	s	struct:ImGuiStorage
-Panic	kernel/include/debug.h	43;"	d
+Panic	kernel/include/debug.h	48;"	d
 ParentMenuSet	abstract-machine/libs/imgui/include/imgui_internal.h	/^    ImGuiID         ParentMenuSet;  \/\/ Set on OpenPopup()$/;"	m	struct:ImGuiPopupRef
 ParentWindow	abstract-machine/libs/imgui/include/imgui_internal.h	/^    ImGuiWindow*            ParentWindow;                       \/\/ If we are a child window, this is pointing to our parent window. Else point to NULL.$/;"	m	struct:ImGuiWindow
 ParentWindow	abstract-machine/libs/imgui/include/imgui_internal.h	/^    ImGuiWindow*    ParentWindow;   \/\/ Set on OpenPopup()$/;"	m	struct:ImGuiPopupRef
@@ -2122,7 +2123,7 @@ TICR	abstract-machine/am/src/x86/qemu/devices/apic.c	36;"	d	file:
 TIMER	abstract-machine/am/src/x86/qemu/devices/apic.c	28;"	d	file:
 TIMER_RES_DIVIDER	abstract-machine/apps/coremark/src/core_portme.c	35;"	d	file:
 TODO	amgame/include/game.h	70;"	d
-TODO	kernel/include/debug.h	46;"	d
+TODO	kernel/include/debug.h	51;"	d
 TODO	libco/co.c	27;"	d	file:
 TODO	libco/co.c	42;"	d	file:
 TOSTRING	abstract-machine/am/src/x86/x86-qemu.h	78;"	d
@@ -2380,7 +2381,7 @@ __DEBUG_H__	kernel/include/debug.h	2;"	d
 __KERNEL_H__	kernel/framework/kernel.h	2;"	d
 __KLIB_H__	abstract-machine/libs/klib/include/klib.h	6;"	d
 __KMT_H__	kernel/include/kmt.h	2;"	d
-__LIST_H__	kernel/include/list.h	2;"	d
+__LIST_H__	kernel/include/pmm.h	2;"	d
 __NANOS_H__	kernel/framework/nanos.h	2;"	d
 __STB_INCLUDE_STB_TRUETYPE_H__	abstract-machine/libs/imgui/include/stb_truetype.h	440;"	d
 __STR	abstract-machine/am/am.h	10;"	d
@@ -2470,7 +2471,7 @@ abs	abstract-machine/apps/microbench/src/15pz/puzzle.h	/^    static int abs( int
 acos	abstract-machine/libs/fixmath/include/fix16.hpp	/^		Fix16 acos() { return Fix16(fix16_acos(value)); }$/;"	f	class:Fix16
 active_head	abstract-machine/libs/imgui/include/stb_rect_pack.h	/^   stbrp_node *active_head;$/;"	m	struct:stbrp_context
 add_count	libco/tests/main.c	/^static void add_count() {$/;"	f	file:
-add_node	kernel/src/list.c	/^void *add_node(struct node *p, size_t size) {$/;"	f
+add_node	kernel/src/pmm.c	/^void *add_node(struct node *p, size_t size) {$/;"	f
 addr_received_high_byte	abstract-machine/apps/litenes/include/ppu.h	/^    bool addr_received_high_byte;$/;"	m	struct:__anon46
 align	abstract-machine/am/src/x86/qemu/boot/main.c	/^	uint32_t align;$/;"	m	struct:ProgramHeader	file:
 align	abstract-machine/libs/imgui/include/stb_rect_pack.h	/^   int align;$/;"	m	struct:stbrp_context
@@ -2505,8 +2506,8 @@ asm	abstract-machine/am/include/x86.h	204;"	d
 asm_trap	abstract-machine/am/src/native/trap.S	/^asm_trap:$/;"	l
 assert	abstract-machine/libs/klib/include/klib.h	70;"	d
 assert	abstract-machine/libs/klib/include/klib.h	72;"	d
-assertIF0	kernel/include/debug.h	55;"	d
-assertIF1	kernel/include/debug.h	54;"	d
+assertIF0	kernel/include/debug.h	57;"	d
+assertIF1	kernel/include/debug.h	58;"	d
 assign	abstract-machine/apps/microbench/src/fib/fib.c	/^static inline void assign(uint32_t *a, uint32_t *b) {$/;"	f	file:
 atan	abstract-machine/libs/fixmath/include/fix16.hpp	/^		Fix16 atan() { return Fix16(fix16_atan(value)); }$/;"	f	class:Fix16
 atan2	abstract-machine/libs/fixmath/include/fix16.hpp	/^		Fix16 atan2(const Fix16 &inY) { return Fix16(fix16_atan2(value, inY.value)); }$/;"	f	class:Fix16
@@ -2595,6 +2596,8 @@ byte	abstract-machine/apps/litenes/include/common.h	/^typedef uint8_t byte;$/;"	
 c_str	abstract-machine/libs/imgui/include/imgui.h	/^    const char*         c_str() const { return Buf.Data; }$/;"	f	struct:ImGuiTextBuffer
 cache	abstract-machine/apps/microbench/src/lzip/quicklz.h	/^	ui32 cache;$/;"	m	struct:__anon55
 calc_func	abstract-machine/apps/coremark/src/core_list_join.c	/^ee_s16 calc_func(ee_s16 *pdata, core_results *res) {$/;"	f
+callback	kernel/include/os.h	/^typedef struct callback {$/;"	s
+callback_t	kernel/include/os.h	/^} callback_t;$/;"	t	typeref:struct:callback
 canvas	abstract-machine/apps/litenes/src/fce.c	/^byte canvas[257][520];$/;"	v
 canvas	abstract-machine/apps/typing/draw.c	/^static uint32_t canvas[H][W];$/;"	v	file:
 cap	abstract-machine/apps/microbench/src/dinic/dinic.cpp	/^  int from, to, cap, flow;$/;"	m	struct:Edge	file:
@@ -2627,7 +2630,6 @@ clear	sperf/sperf.c	44;"	d	file:
 clear_graph	sperf/sperf.c	/^void clear_graph(){$/;"	f
 clear_rect	amgame/src/game.c	17;"	d	file:
 cli	abstract-machine/am/include/x86.h	/^static inline void cli() {$/;"	f
-cli	kernel/include/kmt.h	10;"	d
 clz	abstract-machine/libs/fixmath/src/fix16.c	/^static uint8_t clz(uint32_t x)$/;"	f	file:
 clz	abstract-machine/libs/fixmath/src/fix16.c	278;"	d	file:
 cmp_complex	abstract-machine/apps/coremark/src/core_list_join.c	/^ee_s32 cmp_complex(list_data *a, list_data *b, core_results *res) {$/;"	f
@@ -2841,7 +2843,7 @@ decimal_flag	abstract-machine/apps/litenes/include/cpu.h	/^    decimal_flag   = 
 def	abstract-machine/am/src/x86/qemu/cte.c	164;"	d	file:
 default_num_contexts	abstract-machine/apps/coremark/src/core_portme.c	/^ee_u32 default_num_contexts=1;$/;"	v
 delete_length	abstract-machine/libs/imgui/include/stb_textedit.h	/^   short           delete_length;$/;"	m	struct:__anon1
-delete_node	kernel/src/list.c	/^void delete_node(struct node *p) {$/;"	f
+delete_node	kernel/src/pmm.c	/^void delete_node(struct node *p) {$/;"	f
 desc	abstract-machine/apps/microbench/include/benchmark.h	/^  const char *name, *desc;$/;"	m	struct:Benchmark
 determine_hash	abstract-machine/apps/microbench/src/15pz/puzzle.h	/^void N_puzzle<N>::determine_hash() {$/;"	f	class:N_puzzle
 dev_create	kernel/src/devices/dev.c	/^static device_t *dev_create(size_t dev_size, const char* dev_name, int dev_id, devops_t *dev_ops) {$/;"	f	file:
@@ -2933,7 +2935,7 @@ end	abstract-machine/libs/imgui/include/imgui.h	/^    inline iterator           
 end	kernel/include/devices.h	/^  char *buf, *end, *front, *rear;$/;"	m	struct:tty_queue
 end	kernel/include/devices.h	/^  char *start, *end;$/;"	m	struct:__anon70
 end	kernel/include/devices.h	/^  struct character *buf, *end, *cursor;$/;"	m	struct:__anon72	typeref:struct:__anon72::
-end	kernel/include/list.h	/^  uintptr_t start, end;$/;"	m	struct:node
+end	kernel/include/pmm.h	/^  uintptr_t start, end;$/;"	m	struct:node
 entry	abstract-machine/am/include/x86.h	/^  uint16_t entry;          \/\/ entry count$/;"	m	struct:MPConf
 entry	abstract-machine/am/src/x86/qemu/boot/main.c	/^	uint32_t entry;$/;"	m	struct:ELFHeader	file:
 entry	abstract-machine/am/src/x86/qemu/boot/main.c	/^  void (*entry)();$/;"	m	struct:boot_info	file:
@@ -2954,6 +2956,7 @@ esp3	abstract-machine/am/include/arch/x86-qemu.h	/^           esi, edi, ebp, esp
 esp_	abstract-machine/am/include/x86.h	/^  uint32_t edi, esi, ebp, esp_;$/;"	m	struct:TrapFrame
 estimate_freq	abstract-machine/am/src/x86/qemu/devices/timer.c	/^static uint32_t estimate_freq() {$/;"	f	file:
 event	abstract-machine/am/am.h	/^  int event;$/;"	m	struct:_Event
+event	kernel/include/os.h	/^    int event;$/;"	m	struct:callback
 event	kernel/src/devices/input/input.c	/^static struct input_event event(int ctrl, int alt, int data) {$/;"	f	file:
 event_sem	kernel/include/devices.h	/^  sem_t event_sem;$/;"	m	struct:__anon69
 event_thread	abstract-machine/am/src/native/devices/input.c	/^static int event_thread(void *args) {$/;"	f	file:
@@ -3130,11 +3133,14 @@ h	abstract-machine/libs/imgui/include/stb_rect_pack.h	/^   stbrp_coord    w, h;$
 h	abstract-machine/libs/imgui/include/stb_truetype.h	/^   int id,w,h,was_packed;$/;"	m	struct:stbrp_rect
 h	abstract-machine/libs/imgui/include/stb_truetype.h	/^   int w,h,stride;$/;"	m	struct:__anon13
 h	amgame/src/game.c	/^        int ddx, ddy, dx, dy, x, y, w, h, valid, count;$/;"	m	struct:Item	file:
+h_handlers	kernel/src/os.c	/^int h_handlers;$/;"	v
 h_info	sperf/sperf.c	/^int h_info;$/;"	v
 h_oversample	abstract-machine/libs/imgui/include/stb_truetype.h	/^   unsigned char h_oversample, v_oversample; \/\/ don't set these, they're used internally$/;"	m	struct:__anon10
 h_oversample	abstract-machine/libs/imgui/include/stb_truetype.h	/^   unsigned int   h_oversample, v_oversample;$/;"	m	struct:stbtt_pack_context
 handler	abstract-machine/am/src/native/cte.c	/^int _cte_init(_Context*(*handler)(_Event, _Context*)) {$/;"	f
+handler	kernel/include/os.h	/^    handler_t handler;$/;"	m	struct:callback
 handler_t	kernel/framework/kernel.h	/^typedef _Context *(*handler_t)(_Event, _Context *);$/;"	t
+handlers	kernel/src/os.c	/^callback_t handlers[MAXCB];$/;"	v
 has_preferred_x	abstract-machine/libs/imgui/include/stb_textedit.h	/^   unsigned char has_preferred_x;$/;"	m	struct:__anon3
 hash	abstract-machine/apps/microbench/src/15pz/puzzle.h	/^unsigned int N_puzzle<N>::hash() const {$/;"	f	class:N_puzzle
 hash	abstract-machine/apps/microbench/src/lzip/quicklz.h	/^		qlz_hash_decompress hash[QLZ_HASH_VALUES];$/;"	m	struct:__anon58
@@ -3151,7 +3157,7 @@ head	abstract-machine/apps/microbench/src/dinic/dinic.cpp	/^  int head[MAXN*2 + 
 head	abstract-machine/apps/typing/game.c	/^static fly_t head = NULL;$/;"	v	file:
 head	abstract-machine/libs/imgui/include/stb_truetype.h	/^   int loca,head,glyf,hhea,hmtx,kern; \/\/ table locations as offset from start of .ttf$/;"	m	struct:stbtt_fontinfo
 head	abstract-machine/libs/imgui/include/stb_truetype.h	/^   struct stbtt__hheap_chunk *head;$/;"	m	struct:stbtt__hheap	typeref:struct:stbtt__hheap::stbtt__hheap_chunk
-head	kernel/include/list.h	/^struct node *head, *tail;$/;"	v	typeref:struct:node
+head	kernel/include/pmm.h	/^struct node *head, *tail;$/;"	v	typeref:struct:node
 head	pstree/pstree.c	/^int head = 0;$/;"	v
 heap	abstract-machine/apps/microbench/src/15pz/heap.h	/^    Step *heap[M + 1];$/;"	m	class:Updatable_heap
 heap_index	abstract-machine/apps/microbench/src/15pz/heap.h	/^    int heap_index;$/;"	m	class:Updatable_heap::Step
@@ -3364,7 +3370,7 @@ list_foreach	abstract-machine/am/src/native/vme.c	15;"	d	file:
 list_head	abstract-machine/apps/coremark/include/coremark.h	/^} list_head;$/;"	t	typeref:struct:list_head_s
 list_head	libco/tests/co-test.h	/^struct list_head {$/;"	s
 list_head_s	abstract-machine/apps/coremark/include/coremark.h	/^typedef struct list_head_s {$/;"	s
-list_init	kernel/src/list.c	/^void list_init(uintptr_t pm_start, uintptr_t pm_end) {$/;"	f
+list_init	kernel/src/pmm.c	/^void list_init(uintptr_t pm_start, uintptr_t pm_end) {$/;"	f
 list_known_crc	abstract-machine/apps/coremark/src/core_main.c	/^static ee_u16 list_known_crc[]   =      {(ee_u16)0xd4b0,(ee_u16)0x3340,(ee_u16)0x6a79,(ee_u16)0xe714,(ee_u16)0xe3c1};$/;"	v	file:
 list_move	libco/tests/co-test.h	/^static inline void list_move(struct list_head *list, struct list_head *head)$/;"	f
 list_move_tail	libco/tests/co-test.h	/^static inline void list_move_tail(struct list_head *list,$/;"	f
@@ -3497,10 +3503,10 @@ next	abstract-machine/libs/imgui/include/stb_rect_pack.h	/^   stbrp_node  *next;
 next	abstract-machine/libs/imgui/include/stb_truetype.h	/^   struct stbtt__active_edge *next;$/;"	m	struct:stbtt__active_edge	typeref:struct:stbtt__active_edge::stbtt__active_edge
 next	abstract-machine/libs/imgui/include/stb_truetype.h	/^   struct stbtt__hheap_chunk *next;$/;"	m	struct:stbtt__hheap_chunk	typeref:struct:stbtt__hheap_chunk::stbtt__hheap_chunk
 next	abstract-machine/libs/klib/src/stdlib.c	/^static unsigned long int next = 1;$/;"	v	file:
-next	kernel/include/list.h	/^  struct node *next, *pre;$/;"	m	struct:node	typeref:struct:node::node
+next	kernel/include/pmm.h	/^  struct node *next, *pre;$/;"	m	struct:node	typeref:struct:node::node
 next	libco/tests/co-test.h	/^	struct list_head *next, *prev;$/;"	m	struct:list_head	typeref:struct:list_head::list_head
 next_frame	amgame/src/game.c	/^static int width, height, next_frame, key, fail, num_obs, score, max_score;$/;"	v	file:
-node	kernel/include/list.h	/^struct node {$/;"	s
+node	kernel/include/pmm.h	/^struct node {$/;"	s
 nodes	abstract-machine/libs/imgui/include/stb_truetype.h	/^   void  *nodes;$/;"	m	struct:stbtt_pack_context
 noutput	abstract-machine/apps/microbench/src/bf/bf.c	/^static int noutput;$/;"	v	file:
 nson	pstree/pstree.c	/^        int pid, ppid, nson, nthr;$/;"	m	struct:Process	file:
@@ -3783,7 +3789,7 @@ ppu_sprite_palette	abstract-machine/apps/litenes/src/ppu.c	/^byte ppu_sprite_pal
 ppu_sprite_pattern_table_address	abstract-machine/apps/litenes/src/ppu.c	/^inline word ppu_sprite_pattern_table_address()                      { return common_bit_set(ppu.PPUCTRL, 3) ? 0x1000 : 0x0000; }$/;"	f
 ppu_sprram_write	abstract-machine/apps/litenes/src/ppu.c	/^void ppu_sprram_write(byte data)$/;"	f
 ppu_vram_address_increment	abstract-machine/apps/litenes/src/ppu.c	/^inline byte ppu_vram_address_increment()                            { return common_bit_set(ppu.PPUCTRL, 2) ? 32 : 1;          }$/;"	f
-pre	kernel/include/list.h	/^  struct node *next, *pre;$/;"	m	struct:node	typeref:struct:node::
+pre	kernel/include/pmm.h	/^  struct node *next, *pre;$/;"	m	struct:node	typeref:struct:node::
 pre	pstree/pstree.c	/^char pre[512] = "";$/;"	v
 preferred_x	abstract-machine/libs/imgui/include/stb_textedit.h	/^   float preferred_x; \/\/ this determines where the cursor up\/down tries to seek to along x$/;"	m	struct:__anon3
 prepare	abstract-machine/apps/microbench/include/benchmark.h	/^  void (*prepare)();$/;"	m	struct:Benchmark
@@ -3860,7 +3866,7 @@ rdtsc	abstract-machine/am/src/x86/qemu/devices/timer.c	/^static inline uint64_t 
 read	kernel/framework/kernel.h	/^  ssize_t (*read)(device_t *dev, off_t offset, void *buf, size_t count);$/;"	m	struct:devops
 read_key	abstract-machine/libs/klib/src/io.c	/^int read_key() {$/;"	f
 read_rtc	abstract-machine/am/src/x86/qemu/devices/timer.c	/^static int read_rtc(int reg) {$/;"	f	file:
-readflags	kernel/include/kmt.h	/^static inline int readflags(){$/;"	f
+readflags	kernel/src/kmt.c	/^int readflags(){$/;"	f
 readsect	abstract-machine/am/src/x86/qemu/boot/main.c	/^readsect(volatile void *dst, int offset) {$/;"	f
 readseg	abstract-machine/am/src/x86/qemu/boot/main.c	/^readseg(unsigned char *pa, int count, int offset) {$/;"	f
 ready	abstract-machine/apps/litenes/include/ppu.h	/^    bool ready;$/;"	m	struct:__anon46
@@ -3975,6 +3981,7 @@ sem_t	kernel/framework/kernel.h	/^typedef struct semaphore sem_t;$/;"	t	typeref:
 sem_wait	kernel/framework/kernel.h	/^  void (*sem_wait)(sem_t *sem);$/;"	m	struct:__anon67
 sem_wait	kernel/src/kmt.c	/^void sem_wait(sem_t *sem){$/;"	f
 semaphore	kernel/include/common.h	/^struct semaphore {};$/;"	s
+seq	kernel/include/os.h	/^    int seq;$/;"	m	struct:callback
 set_cr0	abstract-machine/am/include/x86.h	/^static inline void set_cr0(uint32_t cr0) {$/;"	f
 set_cr3	abstract-machine/am/include/x86.h	/^static inline void set_cr3(void *pdir) {$/;"	f
 set_fps	abstract-machine/apps/typing/game.c	/^void set_fps(int value) {$/;"	f
@@ -4054,7 +4061,7 @@ stack	pstree/pstree.c	/^int stack[512];$/;"	v
 stackptr	libco/co.c	/^        void *stackptr;$/;"	m	struct:co	file:
 start	abstract-machine/am/am.h	/^  void *start, *end;$/;"	m	struct:_Area
 start	kernel/include/devices.h	/^  char *start, *end;$/;"	m	struct:__anon70
-start	kernel/include/list.h	/^  uintptr_t start, end;$/;"	m	struct:node
+start	kernel/include/pmm.h	/^  uintptr_t start, end;$/;"	m	struct:node
 start	kernel/src/pmm.c	/^static uintptr_t start;$/;"	v	file:
 start32	abstract-machine/am/src/x86/qemu/boot/start.S	/^start32:$/;"	l
 start_time	abstract-machine/apps/coremark/src/core_portme.c	/^void start_time(void) {$/;"	f
@@ -4270,7 +4277,6 @@ stbtt_uint8	abstract-machine/libs/imgui/include/stb_truetype.h	/^   typedef unsi
 stbtt_vertex	abstract-machine/libs/imgui/include/stb_truetype.h	/^   } stbtt_vertex;$/;"	t	typeref:struct:__anon12
 stbtt_vertex_type	abstract-machine/libs/imgui/include/stb_truetype.h	746;"	d
 sti	abstract-machine/am/include/x86.h	/^static inline void sti() {$/;"	f
-sti	kernel/include/kmt.h	11;"	d
 stop_time	abstract-machine/apps/coremark/src/core_portme.c	/^void stop_time(void) {$/;"	f
 stop_time_val	abstract-machine/apps/coremark/src/core_portme.c	/^unsigned long start_time_val, stop_time_val;$/;"	v
 str	abstract-machine/apps/microbench/src/md5/md5.c	/^static uint8_t *str;$/;"	v	file:
@@ -4311,7 +4317,7 @@ t	abstract-machine/apps/microbench/src/dinic/dinic.cpp	/^  int n, m, s, t;$/;"	m
 t0	abstract-machine/libs/imgui/include/stb_truetype.h	/^   float x0,y0,s0,t0; \/\/ top-left$/;"	m	struct:__anon8
 t1	abstract-machine/libs/imgui/include/stb_truetype.h	/^   float x1,y1,s1,t1; \/\/ bottom-right$/;"	m	struct:__anon8
 table_init	abstract-machine/apps/litenes/src/ppu.c	/^static void table_init() {$/;"	f	file:
-tail	kernel/include/list.h	/^struct node *head, *tail;$/;"	v	typeref:struct:
+tail	kernel/include/pmm.h	/^struct node *head, *tail;$/;"	v	typeref:struct:
 tan	abstract-machine/libs/fixmath/include/fix16.hpp	/^		Fix16  tan() { return Fix16(fix16_tan(value));  }$/;"	f	class:Fix16
 task	kernel/include/common.h	/^struct task {$/;"	s
 task_t	kernel/framework/kernel.h	/^typedef struct task task_t;$/;"	t	typeref:struct:task
@@ -4417,7 +4423,7 @@ ucontext	abstract-machine/am/src/x86/qemu/vme.c	/^_Context *ucontext(_AddressSpa
 udwords	abstract-machine/libs/compiler-rt/int_types.h	/^} udwords;$/;"	t	typeref:union:__anon32
 ui16	abstract-machine/apps/microbench/src/lzip/quicklz.h	/^typedef unsigned short int ui16;$/;"	t
 ui32	abstract-machine/apps/microbench/src/lzip/quicklz.h	/^typedef unsigned int ui32;$/;"	t
-uint	kernel/include/common.h	/^typedef unsigned int uint;$/;"	t
+uint	kernel/include/debug.h	/^typedef unsigned int uint;$/;"	t
 uint32_log2	abstract-machine/libs/fixmath/src/uint32.c	/^uint32_t uint32_log2(uint32_t inVal) {$/;"	f
 undo_char	abstract-machine/libs/imgui/include/stb_textedit.h	/^   STB_TEXTEDIT_CHARTYPE  undo_char[STB_TEXTEDIT_UNDOCHARCOUNT];$/;"	m	struct:__anon2
 undo_char_point	abstract-machine/libs/imgui/include/stb_textedit.h	/^   short undo_char_point, redo_char_point;$/;"	m	struct:__anon2
