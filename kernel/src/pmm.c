@@ -5,8 +5,6 @@
 #ifdef CORRECTNESS_FIRST
 static uintptr_t start;
 #else
-#include <list.h>
-
 void list_init(uintptr_t pm_start, uintptr_t pm_end) {
     head = (void *)pm_start;
     tail = (void *)(pm_end - BIAS);
