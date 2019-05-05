@@ -21,8 +21,8 @@ static void os_init() {
   kmt->spin_init(&lock_debug, "debug");
   #endif
 
-  char *str = "test";
-  kmt->create(pmm->alloc(sizeof(task_t)), "test-thread-1", logging, str);
+
+  kmt->create(pmm->alloc(sizeof(task_t)), "test-thread-1", logging, "test");
 }
 
 
@@ -32,7 +32,7 @@ static void os_run() {
   _intr_write(1);
   while (1) {
     _yield();
-    Log("SHOULD NOT REACH HERE");
+    Panic("SHOULD NOT REACH HERE");
   }
 }
 
