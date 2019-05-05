@@ -76,7 +76,7 @@ static void kfree(void *ptr) {
   kmt->spin_lock(&alloc_lock);
   Assert(p->next->pre==p, "%p != %p", p->next->pre, p);
   #ifdef DEBUG_PMM
-    Lognode("[free] " p);
+    Lognode("[free] ", p);
   #endif
   delete_node(p);
   kmt->spin_unlock(&alloc_lock);
