@@ -18,8 +18,8 @@ extern spinlock_t lock_debug;
 #define Logcpu() Log("cpu #%c:\n", "12345678"[_cpu()])
 
 #define _Log(format, ...)\
-    printf("\33[1;34m[cpu #%c,%s,%d,%s] " format "\33[0m\n", \
-           "12345678"[_cpu()],  __FILE__, __LINE__, __func__, ## __VA_ARGS__ )
+    printf("\33[1;34m[cpu #,%s,%d,%s] " format "\33[0m\n", \
+             __FILE__, __LINE__, __func__, ## __VA_ARGS__ )
 
 #ifndef DEBUG
 #define Log(format, ...)
