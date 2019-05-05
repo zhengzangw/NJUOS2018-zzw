@@ -22,10 +22,10 @@
             } \
        } while (0)
 
-#define panic(format, ...) \
+#define Panic(format, ...) \
     Assert(0, format, ## __VA_ARGS__)
 
-#define TODO() panic("please implement me")
+#define TODO() Panic("please implement me")
 
 #define Logcpu() Log("cpu #%c:\n", "12345678"[_cpu()])
 
