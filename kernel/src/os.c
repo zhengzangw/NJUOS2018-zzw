@@ -16,7 +16,7 @@ void hello(void *arg) {
   }
   _putc("12345678"[_cpu()]); _putc('\n');
   while (1){
-    printf("%s\n", str[1]);
+    printf("test");
   }
   kmt->spin_unlock(&lock_test);
 }
