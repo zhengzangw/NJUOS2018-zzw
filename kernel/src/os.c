@@ -38,7 +38,7 @@ static void os_run() {
 
 static _Context *os_trap(_Event ev, _Context *context) {
   _Context *ret = NULL;
-  return context;
+  return ret;
 }
 
 static void os_on_irq(int seq, int event, handler_t handler) {
