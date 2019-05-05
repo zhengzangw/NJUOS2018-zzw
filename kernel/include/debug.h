@@ -8,6 +8,10 @@
 
 // ========== General ============
 
+#ifdef DEBUG_LOCK
+extern spinlock_t lock_debug
+#endif
+
 #ifndef DEBUG
 #define Log(format, ...)
 #else
@@ -17,7 +21,6 @@
           __FILE__, __LINE__, __func__, ## __VA_ARGS__)
 #else
 #define Log(format, ...) \
-    extern spinlock_t lock_debug;\
     kmt->spin_lock(&lock_debug); \
     printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
           __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
