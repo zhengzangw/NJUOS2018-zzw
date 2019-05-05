@@ -17,7 +17,6 @@ static void os_init() {
   kmt->init();
   dev->init();
 
-  kmt->spin_init(&lock_test, "test");
   #ifdef DEBUG_LOCK
   kmt->spin_init(&lock_debug, "debug");
   #endif
