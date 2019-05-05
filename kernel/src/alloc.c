@@ -1,5 +1,6 @@
 #include <common.h>
 #include <klib.h>
+#include <list.h>
 #include <debug.h>
 
 //#define DEBUG
@@ -15,7 +16,7 @@ static spinlock_t alloc_lock;
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
-  kmt->spin_init(&alloc_lock);
+  kmt->spin_init(&alloc_lock, "alloc");
 
 #ifdef CORRECTNESS_FIRST
   start = pm_start;
