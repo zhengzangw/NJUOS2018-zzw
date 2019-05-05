@@ -16,7 +16,7 @@ int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
     task->exists = 1;
     task->run = 0;
     task->stack = pmm->alloc(STACKSIZE);
-    task->context = _kcontext((_Area){task->stack, task->stack+STACKSIZE}, entry, arg);
+    task->context = *_kcontext((_Area){task->stack, task->stack+STACKSIZE}, entry, arg);
 
     int i;
     for (i=h_tasks;!empty(tasks[i]);i=(i+1)%MAXTASK);
