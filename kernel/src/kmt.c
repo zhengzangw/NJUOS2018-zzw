@@ -22,7 +22,7 @@ static void pushcli(void){
 
 static void popcli(void){
     assertIF1();
-    if (--cpuncli[_cpu()]<0) panic("popcli");
+    if (--cpuncli[_cpu()]<0) Panic("popcli");
     if (cpuncli[_cpu()]==0) sti();
 }
 
@@ -51,7 +51,7 @@ void spin_lock(spinlock_t *lk){
 }
 
 void spin_unlock(spinlock_t *lk) {
-    if (!holding(lk)) panic("release");
+    if (!holding(lk)) Panic("release");
     lk->cpu = 0;
 
     __sync_synchronize();
