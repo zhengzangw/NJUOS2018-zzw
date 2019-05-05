@@ -21,8 +21,8 @@ static void os_init() {
   kmt->spin_init(&lock_debug, "debug");
   #endif
 
-
   kmt->create(pmm->alloc(sizeof(task_t)), "test-thread-1", logging, "test");
+  kmt->create(pmm->alloc(sizeof(task_t)), "test-thread-2", logging, "another");
 }
 
 
