@@ -22,4 +22,7 @@
     Assert(0, format, ## __VA_ARGS__)
 
 #define TODO() panic("please implement me")"]]")
+
+#define Logcpu() printf("cpu #%c:\n", "12345678"[_cpu()])
+
 #endif

@@ -1,12 +1,11 @@
 #include <common.h>
 #include <klib.h>
 
-#define Logcpu() printf("cpu #%c:\n", "12345678"[_cpu()]);
-
-lock_t lock_test;
+spinlock_t lock_test;
 static void os_init() {
   pmm->init();
-  init(&lock_test);
+  kmt->init();
+  kmt->spin_init(lock_test, "test");
 }
 
 /*
