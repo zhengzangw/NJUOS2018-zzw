@@ -19,6 +19,7 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
     for (int i=0;i<MAXTASK;++i){
         if (tasks[(cur+i+1)%MAXTASK]->exists){
             cputask[_cpu()] = (cur+i+1)%MAXTASK;
+            Log("Choose: %d", i);
             return &tasks[(cur+i+1)%MAXTASK]->context;
         }
     }
