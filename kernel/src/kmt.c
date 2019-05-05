@@ -15,7 +15,7 @@ _Context *kmt_context_save(_Event ev, _Context* context){
 }
 
 _Context *kmt_context_switch(_Event ev, _Context * context){
-    int cur = tasks[cputask[_cpu()]].id;
+    int cur = tasks[cputask[_cpu()]]->id;
     for (int i=0;i<MAXTASK;++i){
         if (tasks[(cur+i+1)%MAXTASK]->exists){
             cputask[_cpu()] = (cur+i+1)%MAXTASK;
