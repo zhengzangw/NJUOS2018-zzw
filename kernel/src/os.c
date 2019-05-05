@@ -7,6 +7,19 @@ spinlock_t lock_debug;
 
 spinlock_t lock_test;
 
+//Test
+void hello(const char *str) {
+  kmt->spin_lock(&lock_test);
+  for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
+    _putc(*ptr);
+  }
+  _putc("12345678"[_cpu()]); _putc('\n');
+  while (1){
+    printf("%s\n", str);
+  }
+  kmt->spin_unlock(&lock_test);
+}
+
 static void os_init() {
   pmm->init();
   kmt->init();
@@ -21,18 +34,6 @@ static void os_init() {
   kmt->create(pmm->alloc(sizeof(task_t)), "test-thread-1", hello, args1);
 }
 
-//Test
-void hello(const char *str) {
-  kmt->spin_lock(&lock_test);
-  for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
-    _putc(*ptr);
-  }
-  _putc("12345678"[_cpu()]); _putc('\n');
-  while (1){
-    printf("%s\n", str);
-  }
-  kmt->spin_unlock(&lock_test);
-}
 
 static void os_run() {
   assertIF0();
