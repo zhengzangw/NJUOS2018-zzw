@@ -31,9 +31,9 @@ static void os_init() {
 static void os_run() {
   hello();
   _intr_write(1);
-  while (1) {
-    _yield();
-  }
+  //while (1) {
+  //  _yield();
+  //}
 }
 
 callback_t handlers[MAXCB];
