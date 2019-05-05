@@ -18,19 +18,21 @@ extern spinlock_t lock_debug;
 #define Logcpu() Log("cpu #%c:\n", "12345678"[_cpu()])
 
 #define _Log(format, ...)\
-    printf("\33[1;34m[cpu #,%s,%d,%s] " format "\33[0m\n", \
-             __FILE__, __LINE__, __func__, ## __VA_ARGS__ )
+    printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
+          __FILE__, __LINE__, __func__, ## __VA_ARGS__)
 
 #ifndef DEBUG
 #define Log(format, ...)
 #else
 #ifndef DEBUG_LOCK
 #define Log(format, ...) \
-    _Log(foramt, __VA_ARGS__)
+    printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
+          __FILE__, __LINE__, __func__, ## __VA_ARGS__)
 #else
 #define Log(format, ...) \
     kmt->spin_lock(&lock_debug); \
-    _Log(format, __VA_ARGS__); \
+    printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
+          __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
     kmt->spin_unlock(&lock_debug)
 #endif
 #endif
@@ -42,8 +44,7 @@ extern spinlock_t lock_debug;
     do { \
         if (!(cond)) { \
             Log(__VA_ARGS__); \
-            Log("Assertion fail"); \
-            _halt(1); \
+            assert(cond); \
             } \
        } while (0)
 
