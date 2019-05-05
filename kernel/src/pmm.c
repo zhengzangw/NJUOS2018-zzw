@@ -48,7 +48,7 @@ static void *kalloc(size_t size) {
 #else
 
     for (struct node*p=head;p!=tail;p=p->next){
-      Assert(p->next->pre==p, "%p != %p\n", p->next->pre, p)
+      Assert(p->next->pre==p, "%p != %p\n", p->next->pre, p);
       if (p->next->start-p->end>=size+BIAS){
         ret = add_node(p, size);
 
