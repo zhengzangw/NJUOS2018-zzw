@@ -16,6 +16,7 @@ _Context *kmt_context_save(_Event ev, _Context* context){
 
 _Context *kmt_context_switch(_Event ev, _Context * context){
     int cur = cputask[_cpu()]==-1?0:tasks[cputask[_cpu()]]->id+1;
+    Logint(cur);
     for (int i=0;i<MAXTASK;++i){
         if (tasks[(cur+i)%MAXTASK]->exists){
             int next = (cur+i)%MAXTASK;
