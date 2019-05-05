@@ -18,11 +18,13 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
     int cur = cputask[_cpu()]==-1?0:tasks[cputask[_cpu()]]->id+1;
     Logint(cur);
     for (int i=0;i<MAXTASK;++i){
-        if (tasks[(cur+i)%MAXTASK]->exists){
+        if (!empty(tasks[(cur+i)%MAXTASK])){
             int next = (cur+i)%MAXTASK;
             cputask[_cpu()] = next;
+
             Log("Choose: %d", next);
             Logcontext(tasks[next]);
+
             return &tasks[next]->context;
         }
     }
@@ -34,8 +36,7 @@ void init(){
     os->on_irq(INT_MIN, _EVENT_NULL, kmt_context_save);
     os->on_irq(INT_MAX, _EVENT_NULL, kmt_context_switch);
     for (int i=0;i<MAXTASK;++i){
-        tasks[i]->exists = 0;
-        tasks[i]->id = i;
+        tasks[i] = NULL;
     }
     for (int i=0;i<64;++i){
         cputask[i] = -1;
@@ -45,13 +46,12 @@ void init(){
 int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
     task->name = name;
     task->exists = 1;
-    task->run = 0;
     task->stack = pmm->alloc(STACKSIZE);
     if (task->stack==NULL) return 1;
     task->context = *_kcontext((_Area){task->stack, task->stack+STACKSIZE}, entry, arg);
 
     int i,cnt=0;
-    for (i=h_tasks;tasks[i]->exists!=0&&cnt<MAXTASK;i=(i+1)%MAXTASK,cnt++);
+    for (i=h_tasks;cnt<MAXTASK&&!empty(tasks[i]);i=(i+1)%MAXTASK,cnt++);
     if (cnt==MAXTASK){
         warning("Create Failed: Task amount overflows\n");
         return 1;
