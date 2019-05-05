@@ -8,9 +8,6 @@
 
 // ============= SPINLOCK =============
 
-#define cli() asm volatile ("cli" ::: "memory");
-#define sti() asm volatile ("sti" ::: "memory");
-
 // ============= SEMAPHORE ==================
 
 #endif

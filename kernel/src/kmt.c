@@ -23,14 +23,14 @@ int readflags(){
 }
 
 static void pushcli(void){
-    cli();
+    _intr_write(0);
     cpuncli[_cpu()]+=1;
 }
 
 static void popcli(void){
     assertIF0();
     if (--cpuncli[_cpu()]<0) Panic("popcli");
-    if (cpuncli[_cpu()]==0) sti();
+    if (cpuncli[_cpu()]==0) _intr_write(1);
 }
 
 static int holding(spinlock_t *lock){
