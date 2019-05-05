@@ -22,7 +22,7 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
             cputask[_cpu()] = next;
             Log("Choose: %d", next);
             Logcontext(tasks[next]);
-            return &tasks[(cur+i+1)%MAXTASK]->context;
+            return &tasks[next]->context;
         }
     }
     Assert(0, "No context chosen");
