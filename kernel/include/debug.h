@@ -22,6 +22,7 @@
           __FILE__, __LINE__, __func__, ## __VA_ARGS__) \
     kmt->spin_unlock(lock_debug);
 #endif
+#endif
 
 #define Logint(x) \
     Log(#x " = %d", x)
