@@ -41,7 +41,6 @@ static void os_init() {
 
 
 static void os_run() {
-  warning("test");
   assertIF0();
   Logcpu();
   _intr_write(1);
