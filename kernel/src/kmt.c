@@ -8,13 +8,16 @@ int h_tasks;
 int cputask[MAXCPU];
 
 _Context *kmt_context_save(_Event ev, _Context* context){
+    kmt->spin_lock(&lock_kmt);
     if (cputask[_cpu()]!=-1) {
         tasks[cputask[_cpu()]]->context = *context;
     }
+    kmt->spin_unlock(&lock_kmt);
     return NULL;
 }
 
 _Context *kmt_context_switch(_Event ev, _Context * context){
+    kmt->spin_lock(&lock_kmt);
     int cur = cputask[_cpu()]==-1?0:tasks[cputask[_cpu()]]->id+1;
     Logint(cur);
     for (int i=0;i<MAXTASK;++i){
@@ -25,9 +28,11 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
             Log("Choose: %d", next);
             Logcontext(tasks[next]);
 
+            kmt->spin_unlock(&lock_kmt);
             return &tasks[next]->context;
         }
     }
+    kmt->spin_unlock(&lock_kmt);
     Assert(0, "No context chosen");
     return NULL;
 }
@@ -44,26 +49,34 @@ void init(){
 }
 
 int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
+    kmt->spin_lock(&lock_kmt);
     task->name = name;
     task->exists = 1;
     task->stack = pmm->alloc(STACKSIZE);
-    if (task->stack==NULL) return 1;
+    if (task->stack==NULL) {
+        kmt->spin_unlock(&lock_kmt);
+        return 1;
+    }
     task->context = *_kcontext((_Area){task->stack, task->stack+STACKSIZE}, entry, arg);
 
     int i,cnt=0;
     for (i=h_tasks;cnt<MAXTASK&&!empty(tasks[i]);i=(i+1)%MAXTASK,cnt++);
     if (cnt==MAXTASK){
         warning("Create Failed: Task amount overflows\n");
+        kmt->spin_unlock(&lock_kmt);
         return 1;
     } else {
         tasks[h_tasks = i] = task;
         task->id = h_tasks;
+        kmt->spin_unlock(&lock_kmt);
         return 0;
     }
 }
 void teardown(task_t *task){
     pmm->free(task->stack);
+    kmt->spin_lock(&lock_kmt);
     task->exists = 0;
+    kmt->spin_unlock(&lock_kmt);
 }
 
 

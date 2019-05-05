@@ -5,7 +5,7 @@
 spinlock_t lock_debug;
 #endif
 spinlock_t lock_print;
-spinlock_t lock_os;
+spinlock_t lock_os, lock_kmt;
 
 //Test
 void logging(void *arg) {
@@ -37,6 +37,7 @@ static void os_init() {
   #endif
   kmt->spin_init(&lock_print, "print");
   kmt->spin_init(&lock_os, "os");
+  kmt->spin_init(&lock_kmt, "kmt");
 
   kmt->create(pmm->alloc(sizeof(task_t)), "first", createordelete, NULL);
 }
