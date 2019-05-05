@@ -17,7 +17,7 @@ extern devops_t tty_ops, fb_ops, rd_ops, input_ops;
 device_t *devices[0 DEVICES(DEV_CNT)];
 
 device_t *dev_lookup(const char *name) {
-  for (int i = 0; i < LENGTH(devices); i++) 
+  for (int i = 0; i < LENGTH(devices); i++)
     if (strcmp(devices[i]->name, name) == 0)
       return devices[i];
   panic("lookup device failed.");
@@ -46,11 +46,16 @@ void input_task(void *arg);
   devices[id]->ops->init(devices[id]);
 
 static void dev_init() {
+  assertIF0();
   DEVICES(CREATE);
+  assertIF0();
   DEVICES(INIT);
 
+  assertIF0();
   kmt->create(pmm->alloc(sizeof(task_t)), "input-task", input_task, NULL);
+  assertIF0();
   kmt->create(pmm->alloc(sizeof(task_t)), "tty-task", tty_task, NULL);
+  assertIF0();
 }
 
 MODULE_DEF(dev) {
