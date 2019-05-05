@@ -22,7 +22,7 @@ static void pushcli(void){
 }
 
 static void popcli(void){
-    assertIF1();
+    assertIF0();
     if (--cpuncli[_cpu()]<0) Panic("popcli");
     if (cpuncli[_cpu()]==0) sti();
 }
