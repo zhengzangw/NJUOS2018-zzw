@@ -63,7 +63,7 @@ _Context *kcontext(_Area stack, void (*entry)(void *), void *arg) {
   return ctx;
 }
 
-#define IRQ    T_IRQ0 + 
+#define IRQ    T_IRQ0 +
 #define MSG(m) ev.msg = m;
 
 _Context *__cb_irq(_Event ev, _Context *ctx);
@@ -102,7 +102,7 @@ void irq_handle(TrapFrame *tf) {
     .cause = 0, .ref = 0,
     .msg = "(no message)",
   };
-  
+
   switch (tf->irq) {
     case IRQ 0: MSG("timer interrupt (lapic)")
       ev.event = _EVENT_IRQ_TIMER; break;
@@ -162,7 +162,7 @@ void irq_handle(TrapFrame *tf) {
   _(ss) _(esp3) REGS_KERNEL(_)
 #define push(r) "push %[" #r "];"      // -> push %[eax]
 #define def(r)  , [r] "m"(ret_ctx->r)  // -> [eax] "m"(ret_ctx->eax)
- 
+
   CPU->prot = ret_ctx->prot;
   if (ret_ctx->cs & DPL_USER) { // return to user
     _AddressSpace *prot = ret_ctx->prot;
