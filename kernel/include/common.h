@@ -17,6 +17,4 @@ struct spinlock {
 };
 struct semaphore {};
 
-typedef unsigned int uint;
-
 #endif

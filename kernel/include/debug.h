@@ -1,7 +1,6 @@
 #ifndef __DEBUG_H__
 #define __DEBUG_H__
 
-#include <common.h>
 #include <klib.h>
 
 #define DEBUG
@@ -9,6 +8,8 @@
 //#define DEBUG_PMM
 
 // ========== General ============
+
+typedef unsigned int uint;
 
 #ifdef DEBUG_LOCK
 extern spinlock_t lock_debug;
