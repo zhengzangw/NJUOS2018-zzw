@@ -26,6 +26,7 @@ static void os_init() {
   #ifdef DEBUG_LOCK
   kmt->spin_init(&lock_debug, "debug");
   #endif
+  assertIF0();
 }
 
 static void os_run() {
