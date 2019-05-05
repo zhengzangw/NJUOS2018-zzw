@@ -8,14 +8,14 @@ spinlock_t lock_debug;
 spinlock_t lock_test;
 
 //Test
-void hello(const char *str) {
+void hello(void *arg) {
   kmt->spin_lock(&lock_test);
   for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
     _putc(*ptr);
   }
   _putc("12345678"[_cpu()]); _putc('\n');
   while (1){
-    printf("%s\n", str);
+    printf("%s\n", arg[1]);
   }
   kmt->spin_unlock(&lock_test);
 }
