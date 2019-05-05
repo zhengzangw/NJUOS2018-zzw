@@ -23,7 +23,7 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
         }
     }
     Assert(0, "No context chosen");
-    return NULL
+    return NULL;
 }
 
 void init(){
