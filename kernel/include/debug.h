@@ -17,10 +17,6 @@ extern spinlock_t lock_debug;
 
 #define Logcpu() Log("cpu #%c:\n", "12345678"[_cpu()])
 
-#define _Log(format, ...)\
-    printf("\33[1;34m[cpu #%c,%s,%d,%s] " format "\33[0m\n", \
-           "12345678"[_cpu()],  __FILE__, __LINE__, __func__, ## __VA_ARGS__)
-
 #ifndef DEBUG
 #define Log(format, ...)
 #else
@@ -54,17 +50,16 @@ extern spinlock_t lock_debug;
 
 #define TODO() Panic("please implement me")
 
-
 // ========== LIST ===========
 #define Lognode(tag, node) Log(tag "node: start=%p, end=%p", node->start, node->end)
 // ========== SPINLOCK =======
 #define FL_IF 0x00000200
 #define assertIF0() Assert((readflags()&FL_IF)==0, "interruptible where IF should be 0")
 #define assertIF1() Assert((readflags()&FL_IF)!=0, "noninterruptible where IF should be 1")
-static inline int readflags(){
+#define readflags() (int (*_readflags)){
     uint eflags;
     asm volatile("pushfl; popl %0" : "=r"(eflags));
     return eflags;
-}
+}();
 
 #endif
