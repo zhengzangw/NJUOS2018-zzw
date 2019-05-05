@@ -14,14 +14,6 @@ static inline int readflags(){
 
 uint ncli[64];
 
-int holding(struct spinlock *lock){
-    int r;
-    pushcli();
-    r = lock->locked && lock->cpu==_cpu();
-    popcli();
-    return r;
-}
-
 void pushcli(void){
     cli();
     cpuncli[_cpu()]+=1;
@@ -31,6 +23,14 @@ void popcli(void){
     checkIF();
     if (--cpuncli[_cpu()]<0) panic("popcli");
     if (cpuncli[_cpu()]==0) sti();
+}
+
+int holding(struct spinlock *lock){
+    int r;
+    pushcli();
+    r = lock->locked && lock->cpu==_cpu();
+    popcli();
+    return r;
 }
 
 void initlock(struct spinlock *lk){
