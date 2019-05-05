@@ -12,9 +12,9 @@ extern spinlock_t lock_print;
     kmt->spin_lock(&lock_print);\
     printf(format, __VA_ARGS__); \
     kmt->spin_unlock(&lock_print)
-#define warning(format) \
+#define warning(format, ...) \
     kmt->spin_lock(&lock_print);\
-    printf(format); \
+    printf("\033[33m" format "\033[0m"); \
     kmt->spin_unlock(&lock_print)
 
 #endif
