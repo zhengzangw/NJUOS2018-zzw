@@ -28,7 +28,7 @@ extern spinlock_t lock_debug;
 #define Log(format, ...) \
     kmt->spin_lock(&lock_debug); \
     printf("\33[1;34m[cpu #%c,%s,%d,%s] " format "\33[0m\n", \
-           "12345678"[_cpu()],  __FILE__, __LINE__, __func__, ## __VA_ARGS__)
+           "12345678"[_cpu()],  __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
     kmt->spin_unlock(&lock_debug)
 #endif
 #endif
