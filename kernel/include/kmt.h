@@ -2,6 +2,7 @@
 #define __KMT_H__
 
 #include <common.h>
+#include <debug.h>
 
 // ============= Tread ================
 
