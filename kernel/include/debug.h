@@ -37,8 +37,11 @@ extern spinlock_t lock_debug;
 #define Assert(cond, ...) \
     do { \
         if (!(cond)) { \
-            Log(__VA_ARGS__); \
+            kmt->spin_lock(&lock_debug); \
+            printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
+                __FILE__, __LINE__, __func__, ## __VA_ARGS__)\
             assert(cond); \
+            kmt->spin_unlock(&lock_debug)\
             } \
        } while (0)
 
