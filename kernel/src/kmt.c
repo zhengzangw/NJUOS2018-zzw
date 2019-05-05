@@ -57,6 +57,7 @@ int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
         return 1;
     } else {
         tasks[h_tasks = i] = task;
+        task->id = h_tasks;
         return 0;
     }
 }
