@@ -16,18 +16,19 @@ static void os_init() {
   #endif
 }
 
-/*
+
 static void hello() {
-  lock(&lock_test);
+  kmt->spin_lock(&lock_test);
   for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
     _putc(*ptr);
   }
   _putc("12345678"[_cpu()]); _putc('\n');
-  unlock(&lock_test);
+  kmt->spin_unlock(&lock_test);
 }
-*/
 
-static void test() {
+
+/*
+static void mem_test() {
   int base = 0x10000;
   while (1){
     int len = base * (rand()%5)+(rand()%0x100);
@@ -41,10 +42,10 @@ static void test() {
     }
   }
 }
+*/
 
 static void os_run() {
-  //hello();
-  test();
+  hello();
   _intr_write(1);
   while (1) {
     _yield();
