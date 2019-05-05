@@ -15,7 +15,7 @@ void logging(void *arg) {
 static void os_init() {
   pmm->init();
   kmt->init();
-  dev->init();
+  //dev->init();
 
   #ifdef DEBUG_LOCK
   kmt->spin_init(&lock_debug, "debug");
