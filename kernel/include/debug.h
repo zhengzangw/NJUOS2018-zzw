@@ -15,6 +15,8 @@ typedef unsigned int uint;
 extern spinlock_t lock_debug;
 #endif
 
+#define Logcpu() Log("cpu #%c:\n", "12345678"[_cpu()])
+
 #define _Log(format, ...)\
     printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
           __FILE__, __LINE__, __func__, ## __VA_ARGS__)
@@ -40,10 +42,12 @@ extern spinlock_t lock_debug;
 
 #define Assert(cond, ...) \
     do { \
+    kmt->spin_lock(&lock_debug); \
         if (!(cond)) { \
-            Log(__VA_ARGS__); \
+            _Log(__VA_ARGS__); \
             assert(cond); \
             } \
+    kmt->spin_unlock(&lock_debug)
        } while (0)
 
 #define Panic(format, ...) \
@@ -51,7 +55,6 @@ extern spinlock_t lock_debug;
 
 #define TODO() Panic("please implement me")
 
-#define Logcpu() Log("cpu #%c:\n", "12345678"[_cpu()])
 
 // ========== LIST ===========
 #define Lognode(tag, node) Log(tag "node: start=%p, end=%p", node->start, node->end)
