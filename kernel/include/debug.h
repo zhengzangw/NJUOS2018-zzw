@@ -17,10 +17,10 @@
           __FILE__, __LINE__, __func__, ## __VA_ARGS__)
 #else
 #define Log(format, ...) \
-    kmt->spin_lock(lock_debug); \
+    kmt->spin_lock(&lock_debug); \
     printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
           __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
-    kmt->spin_unlock(lock_debug)
+    kmt->spin_unlock(&lock_debug)
 #endif
 #endif
 
