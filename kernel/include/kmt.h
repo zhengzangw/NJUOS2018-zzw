@@ -6,8 +6,26 @@
 
 // ============= THREAD ================
 
+#define STACKSIZE 4096
+#define MAXTASK 256
+#define empty(taskptr) (taskptr==NULL||taskptr->exists=0)
+struct task {
+  int exists, run;
+  const char *name;
+  _Context context;
+  char stack[STACKSIZE];
+};
+
 // ============= SPINLOCK =============
 
+struct spinlock {
+  const char *name;
+  int locked;
+  int cpu;
+};
+
 // ============= SEMAPHORE ==================
+
+struct semaphore {};
 
 #endif
