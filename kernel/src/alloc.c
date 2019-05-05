@@ -1,23 +1,21 @@
 #include <common.h>
 #include <klib.h>
-#include <lock.h>
+#include <debug.h>
 
 //#define DEBUG
 //#define CORRECTNESS_FIRST
 
 #ifdef CORRECTNESS_FIRST
 static uintptr_t start;
-#else
-#include <list.h>
 #endif
 
 static uintptr_t pm_start, pm_end;
-static lock_t alloc_lock;
+static spinlock_t alloc_lock;
 
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
   pm_end   = (uintptr_t)_heap.end;
-  init(&alloc_lock);
+  kmt->spin_init(&alloc_lock);
 
 #ifdef CORRECTNESS_FIRST
   start = pm_start;
@@ -26,15 +24,16 @@ static void pmm_init() {
 #endif
 
 #ifdef DEBUG
-  lock(&alloc_lock);
+  kmt->spin_lock(&alloc_lock);
   printf("pm_start = %p\npm_end = %p\nsize of heap=%p\n", pm_start, pm_end, pm_end-pm_start);
-  unlock(&alloc_lock);
+  kmt->spin_unlock(&alloc_lock);
 #endif
 }
 
 static void *kalloc(size_t size) {
-void *ret=NULL;
-lock(&alloc_lock);
+    void *ret=NULL;
+    kmt->spin_lock(&alloc_lock);
+
 #ifdef CORRECTNESS_FIRST
 
   #ifdef DEBUG
@@ -69,7 +68,7 @@ lock(&alloc_lock);
     }
 
 #endif
-unlock(&alloc_lock);
+    kmt->spin_unlock(&alloc_lock);
 return ret;
 }
 
@@ -78,14 +77,14 @@ static void kfree(void *ptr) {
   return;
 #else
 struct node *p = (struct node *)((uintptr_t)ptr - BIAS);
-lock(&alloc_lock);
+kmt->spin_lock(&alloc_lock);
   assert(p->next->pre==p);
 #ifdef DEBUG
   printf("free %p: ", ptr);
   Lognode(p);
 #endif
   delete_node(p);
-unlock(&alloc_lock);
+kmt->spin_unlock(&alloc_lock);
 #endif
 }
 
