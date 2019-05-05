@@ -9,6 +9,8 @@
 #define STACKSIZE 4096
 #define MAXTASK 256
 #define empty(taskptr) (taskptr==NULL||taskptr->exists==0)
+#define INT_MAX 2147483647
+#define INT_MIN (-INT_MAX-1)
 struct task {
   int exists, run, id;
   const char *name;

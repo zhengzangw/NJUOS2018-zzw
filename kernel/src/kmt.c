@@ -9,7 +9,7 @@ int cputask[64];
 
 _Context *kmt_context_save(_Event ev, _Context* context){
     if (!empty(tasks[cputask[_cpu()]])) {
-        tasks[cputask[_cpu()]].context = context;
+        tasks[cputask[_cpu()]]->context = context;
     }
     return NULL;
 }
@@ -17,9 +17,9 @@ _Context *kmt_context_save(_Event ev, _Context* context){
 _Context *kmt_context_switch(_Event ev, _Context * context){
     int cur = tasks[cputask[_cpu()]].id;
     for (int i=0;i<MAXTASK;++i){
-        if (tasks[(cur+i+1)%MAXTASK].exists){
+        if (tasks[(cur+i+1)%MAXTASK]->exists){
             cputask[_cpu()] = (cur+i+1)%MAXTASK;
-            return tasks[(cur+i+1)%MAXTASK].context;
+            return tasks[(cur+i+1)%MAXTASK]->context;
         }
     }
 }
