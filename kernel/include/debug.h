@@ -9,7 +9,7 @@
 // ========== General ============
 
 #ifdef DEBUG_LOCK
-extern spinlock_t lock_debug
+extern spinlock_t lock_debug;
 #endif
 
 #ifndef DEBUG
