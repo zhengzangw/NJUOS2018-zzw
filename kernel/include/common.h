@@ -5,10 +5,14 @@
 #include <nanos.h>
 #include <debug.h>
 
-struct task {};
-struct spinlock {
-  int locked;
+struct task {
   const char *name;
+  _Context context;
+  char stack[4096];
+};
+struct spinlock {
+  const char *name;
+  int locked;
   int cpu;
 };
 struct semaphore {};
