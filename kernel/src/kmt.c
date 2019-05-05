@@ -125,7 +125,9 @@ void spin_lock(spinlock_t *lk){
     pushcli();
     Assert(!holding(lk), "spin_lock");
 
-    while (_atomic_xchg(&lk->locked, 1)!=0);
+    while (_atomic_xchg(&lk->locked, 1)!=0){
+        Loglock(lk);
+    };
 
     __sync_synchronize();
     lk->cpu = _cpu();
