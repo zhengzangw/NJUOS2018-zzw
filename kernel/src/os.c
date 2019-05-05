@@ -20,6 +20,7 @@ void createordelete(void *arg){
         for (int i=0;i<=2;++i){
             kmt->create(pmm->alloc(sizeof(task_t)), "auto-gem", logging, str[i]);
         }
+        yield();
     }
 }
 
