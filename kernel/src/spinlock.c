@@ -14,6 +14,25 @@ static inline int readflags(){
 
 uint ncli[64];
 
+int holding(struct spinlock *lock){
+    int r;
+    pushcli();
+    r = lock->locked && lock->cpu==_cpu();
+    popcli();
+    return r;
+}
+
+void pushcli(void){
+    cli();
+    cpuncli[_cpu()]+=1;
+}
+
+void popcli(void){
+    checkIF();
+    if (--cpuncli[_cpu()]<0) panic("popcli");
+    if (cpuncli[_cpu()]==0) sti();
+}
+
 void initlock(struct spinlock *lk){
     lk->cpu = 0;
     lk->locked = 0;
@@ -37,23 +56,4 @@ void release(struct spinlock *lk) {
 
     asm volatile ("movl $0, %0" : "+m" (lk-locked) :);
     popcli();
-}
-
-int holding(struct spinlock *lock){
-    int r;
-    pushcli();
-    r = lock->locked && lock->cpu==_cpu();
-    popcli();
-    return r;
-}
-
-void pushcli(void){
-    cli();
-    cpuncli[_cpu()]+=1;
-}
-
-void popcli(void){
-    checkIF();
-    if (--cpuncli[_cpu()]<0) panic("popcli");
-    if (cpuncli[_cpu()]==0) sti();
 }
