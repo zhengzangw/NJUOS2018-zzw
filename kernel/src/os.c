@@ -17,10 +17,13 @@ void logging(void *arg) {
 char* str[] = {"1", "2", "3"};
 void createordelete(void *arg){
     while (1){
+        task_t *tmp;
         for (int i=0;i<=2;++i){
-            kmt->create(pmm->alloc(sizeof(task_t)), "auto-gem", logging, str[i]);
+            tmp = pmm->alloc(sizeof(task_t));
+            kmt->create(tmp, "auto-gem", logging, str[i]);
         }
         _yield();
+        kmt->teardown(tmp);
     }
 }
 
@@ -41,7 +44,6 @@ static void os_init() {
 
 static void os_run() {
   assertIF0();
-  Logcpu();
   _intr_write(1);
   while (1) {
     _yield();
