@@ -14,7 +14,7 @@ void teardown(task_t *task){
 
 // ============= Spinlock ============
 
-int cpuncli[64];
+int cpuncli[64], intena[64];
 
 int readflags(){
     uint eflags;
@@ -23,14 +23,17 @@ int readflags(){
 }
 
 static void pushcli(void){
+    int eflags;
+    eflags = readflags();
     _intr_write(0);
+    if (cpuncli[_cpu()] == 0) intena[_cpu()] = eflags & FL_IF;
     cpuncli[_cpu()]+=1;
 }
 
 static void popcli(void){
     assertIF0();
     if (--cpuncli[_cpu()]<0) Panic("popcli");
-    if (cpuncli[_cpu()]==0) _intr_write(1);
+    if (cpuncli[_cpu()]==0 && intena[_cpu()]) _intr_write(1);
 }
 
 static int holding(spinlock_t *lock){

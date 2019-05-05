@@ -46,16 +46,11 @@ void input_task(void *arg);
   devices[id]->ops->init(devices[id]);
 
 static void dev_init() {
-  assertIF0();
   DEVICES(CREATE);
-  assertIF0();
   DEVICES(INIT);
 
-  assertIF0();
   kmt->create(pmm->alloc(sizeof(task_t)), "input-task", input_task, NULL);
-  assertIF0();
   kmt->create(pmm->alloc(sizeof(task_t)), "tty-task", tty_task, NULL);
-  assertIF0();
 }
 
 MODULE_DEF(dev) {

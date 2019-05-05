@@ -20,9 +20,7 @@ static void hello() {
 static void os_init() {
   pmm->init();
   kmt->init();
-  assertIF0();
   dev->init();
-  assertIF0();
 
   kmt->spin_init(&lock_test, "test");
   #ifdef DEBUG_LOCK
