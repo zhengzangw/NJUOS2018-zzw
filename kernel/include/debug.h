@@ -39,7 +39,7 @@ extern spinlock_t lock_debug;
         if (!(cond)) { \
             kmt->spin_lock(&lock_debug); \
             printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
-                __FILE__, __LINE__, __func__, ## __VA_ARGS__)\
+                __FILE__, __LINE__, __func__, ## __VA_ARGS__);\
             assert(cond); \
             kmt->spin_unlock(&lock_debug)\
             } \
