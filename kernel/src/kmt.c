@@ -15,7 +15,7 @@ _Context *kmt_context_save(_Event ev, _Context* context){
 }
 
 _Context *kmt_context_switch(_Event ev, _Context * context){
-    int cur = tasks[cputask[_cpu()]]->id+1;
+    int cur = cputask[_cpu()]==-1?0:tasks[cputask[_cpu()]]->id+1;
     for (int i=0;i<MAXTASK;++i){
         if (tasks[(cur+i)%MAXTASK]->exists){
             int next = (cur+i)%MAXTASK;
@@ -34,6 +34,7 @@ void init(){
     os->on_irq(INT_MAX, _EVENT_NULL, kmt_context_switch);
     for (int i=0;i<MAXTASK;++i){
         tasks[i]->exists = 0;
+        tasks[i]->id = i;
     }
     for (int i=0;i<64;++i){
         cputask[i] = -1;
@@ -55,7 +56,6 @@ int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
         return 1;
     } else {
         tasks[h_tasks = i] = task;
-        task->id = h_tasks;
         return 0;
     }
 }
