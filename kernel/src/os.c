@@ -1,6 +1,5 @@
 #include <common.h>
 #include <klib.h>
-#include <lock.h>
 
 #define Logcpu() printf("cpu #%c:\n", "12345678"[_cpu()]);
 
