@@ -51,7 +51,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
       }
   }
   Log("%d", ev.event);
-  return ret;
+  return context;
 }
 
 static void os_on_irq(int seq, int event, handler_t handler) {
