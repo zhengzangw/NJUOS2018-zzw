@@ -25,9 +25,9 @@
 #define panic(format, ...) \
     Assert(0, format, ## __VA_ARGS__)
 
-#define TODO() panic("please implement me")"]]")
+#define TODO() panic("please implement me")
 
-#define Logcpu() printf("cpu #%c:\n", "12345678"[_cpu()])
+#define Logcpu() Log("cpu #%c:\n", "12345678"[_cpu()])
 
 // ========== LIST ===========
 #define Lognode(node) Log("node: start=%p, end=%p\n", node->start, node->end)
