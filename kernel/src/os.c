@@ -8,7 +8,7 @@ spinlock_t lock_debug;
 //Test
 void logging(void *arg) {
   while (1){
-    Log("%s\n", (char *)arg);
+    Log("%s", (char *)arg);
   }
 }
 
