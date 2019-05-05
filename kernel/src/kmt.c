@@ -46,7 +46,7 @@ void init(){
     for (int i=0;i<MAXTASK;++i){
         tasks[i] = NULL;
     }
-    for (int i=0;i<64;++i){
+    for (int i=0;i<MAXCPU;++i){
         cputask[i] = -1;
     }
 }
