@@ -13,7 +13,6 @@
 #define empty(taskptr) (taskptr==NULL||taskptr->exists==0)
 #define INT_MAX 2147483647
 #define INT_MIN (-INT_MAX-1)
-extern spinlock_t lock_kmt;
 struct task {
   int exists, run, id;
   const char *name;

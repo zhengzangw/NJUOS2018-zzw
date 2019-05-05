@@ -6,6 +6,7 @@
 task_t *tasks[MAXTASK];
 int h_tasks;
 int cputask[MAXCPU];
+spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context* context){
     kmt->spin_lock(&lock_kmt);
@@ -41,6 +42,7 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
 }
 
 void init(){
+    kmt->spin_init(&lock_kmt, "kmt");
     os->on_irq(INT_MIN, _EVENT_NULL, kmt_context_save);
     os->on_irq(INT_MAX, _EVENT_NULL, kmt_context_switch);
     for (int i=0;i<MAXTASK;++i){
@@ -127,6 +129,7 @@ void spin_lock(spinlock_t *lk){
 
     while (_atomic_xchg(&lk->locked, 1)!=0){
         Loglock(lk);
+        _putc("12345678"[_cpu()]);
     };
 
     __sync_synchronize();
