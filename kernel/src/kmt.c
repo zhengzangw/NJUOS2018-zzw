@@ -8,7 +8,7 @@ int h_tasks;
 int cputask[64];
 
 _Context *kmt_context_save(_Event ev, _Context* context){
-    if (!empty(tasks[cputask[_cpu()]])) {
+    if (cputask[_cpu()]!=-1) {
         tasks[cputask[_cpu()]]->context = *context;
     }
     return NULL;
@@ -34,6 +34,9 @@ void init(){
     os->on_irq(INT_MAX, _EVENT_NULL, kmt_context_switch);
     for (int i=0;i<MAXTASK;++i){
         tasks[i]->exists = 0;
+    }
+    for (int i=0;i<64;++i){
+        cputask[i] = -1;
     }
 }
 
