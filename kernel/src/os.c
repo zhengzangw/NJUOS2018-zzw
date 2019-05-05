@@ -7,6 +7,16 @@ spinlock_t lock_debug;
 
 spinlock_t lock_test;
 
+//Test
+static void hello() {
+  kmt->spin_lock(&lock_test);
+  for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
+    _putc(*ptr);
+  }
+  _putc("12345678"[_cpu()]); _putc('\n');
+  kmt->spin_unlock(&lock_test);
+}
+
 static void os_init() {
   pmm->init();
   kmt->init();
@@ -17,9 +27,6 @@ static void os_init() {
   kmt->spin_init(&lock_debug, "debug");
   #endif
 }
-
-
-
 
 static void os_run() {
   hello();
