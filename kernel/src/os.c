@@ -37,7 +37,7 @@ static void os_init() {
 
 static void os_run() {
   assertIF0();
-  hello();
+  Logcpu();
   _intr_write(1);
   while (1) {
     _yield();
