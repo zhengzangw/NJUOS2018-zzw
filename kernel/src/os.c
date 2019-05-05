@@ -29,8 +29,8 @@ static void os_init() {
 }
 
 static void os_run() {
-  hello();
   assertIF0();
+  hello();
   _intr_write(1);
   Panic("stop");
   while (1) {
