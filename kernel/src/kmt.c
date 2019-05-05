@@ -5,9 +5,28 @@
 
 task_t *tasks[MAXTASK];
 int h_tasks;
+int cputask[64];
+
+_Context *kmt_context_save(_Event ev, _Context* context){
+    if (!empty(tasks[cputask[_cpu()]])) {
+        tasks[cputask[_cpu()]].context = context;
+    }
+    return NULL;
+}
+
+_Context *kmt_context_switch(_Event ev, _Context * context){
+    int cur = tasks[cputask[_cpu()]].id;
+    for (int i=0;i<MAXTASK;++i){
+        if (tasks[(cur+i+1)%MAXTASK].exists){
+            cputask[_cpu()] = (cur+i+1)%MAXTASK;
+            return tasks[(cur+i+1)%MAXTASK].context;
+        }
+    }
+}
 
 void init(){
-
+    os->on_irq(INT_MIN, _EVENT_NULL, kmt_context_save);
+    os->on_irq(INT_MAX, _EVENT_NULL, kmt_context_switch);
 }
 
 int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
@@ -22,7 +41,7 @@ int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
     for (i=h_tasks;!empty(tasks[i]);i=(i+1)%MAXTASK);
     h_tasks = i;
     tasks[h_tasks] = task;
-
+    task->id = h_tasks;
     return 0;
 }
 void teardown(task_t *task){

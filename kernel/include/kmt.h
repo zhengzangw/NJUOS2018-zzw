@@ -10,7 +10,7 @@
 #define MAXTASK 256
 #define empty(taskptr) (taskptr==NULL||taskptr->exists==0)
 struct task {
-  int exists, run;
+  int exists, run, id;
   const char *name;
   _Context context;
   char* stack;
