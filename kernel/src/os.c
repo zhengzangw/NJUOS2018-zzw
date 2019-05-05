@@ -12,6 +12,17 @@ void logging(void *arg) {
   }
 }
 
+void createordelete(void *arg){
+    while (1){
+        for (int i=0;i<3;++i){
+            char tmp[5];
+            tmp[0] = '0'+i;
+            tmp[1] = '\0';
+            kmt->create(pmm->alloc(sizeof(task_t)), "auto-gem", logging, tmp);
+        }
+    }
+}
+
 static void os_init() {
   pmm->init();
   kmt->init();
@@ -21,8 +32,7 @@ static void os_init() {
   kmt->spin_init(&lock_debug, "debug");
   #endif
 
-  kmt->create(pmm->alloc(sizeof(task_t)), "test-thread-1", logging, "test");
-  kmt->create(pmm->alloc(sizeof(task_t)), "test-thread-2", logging, "another");
+  kmt->create(pmm->alloc(sizeof(task_t)), "first", createordelete, NULL);
 }
 
 
