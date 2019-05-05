@@ -13,8 +13,6 @@ void teardown(task_t *task){
 
 // ============= Spinlock ============
 
-extern spinlock_t lock_debug;
-
 int cpuncli[64];
 
 static void pushcli(void){
