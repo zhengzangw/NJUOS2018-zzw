@@ -13,7 +13,7 @@ struct task {
   int exists, run;
   const char *name;
   _Context context;
-  char stack[STACKSIZE];
+  char* stack;
 };
 
 // ============= SPINLOCK =============
