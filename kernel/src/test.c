@@ -1,5 +1,6 @@
 #include <common.h>
 
+/*
 static void mem_test() {
     int base = 0x10000;
     while (1){
@@ -9,8 +10,9 @@ static void mem_test() {
             for (int i =0;i<len;++i){
                 str[i] = 'A'+i%24;
             }
-            if (rand()%3 = =0)
+            if (rand()%3 ==0)
                 pmm->free(str);
         }
     }
 }
+*/
