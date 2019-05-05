@@ -9,7 +9,7 @@ int cputask[64];
 
 _Context *kmt_context_save(_Event ev, _Context* context){
     if (!empty(tasks[cputask[_cpu()]])) {
-        tasks[cputask[_cpu()]]->context = context;
+        tasks[cputask[_cpu()]]->context = *context;
     }
     return NULL;
 }
