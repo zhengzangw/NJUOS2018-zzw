@@ -20,6 +20,7 @@
 #define strncmp my_strncmp
 #define memset my_memset
 #define memcpy my_memcpy
+#define memmove my_memmove
 #define memcmp my_memcmp
 #define printf my_printf
 #define vsprintf my_vsprintf
@@ -44,6 +45,7 @@ int screen_height();
 // string.h
 void* memset(void* v, int c, size_t n);
 void* memcpy(void* dst, const void* src, size_t n);
+void* memmove(void* dst, const void* src, size_t n);
 int memcmp(const void* s1, const void* s2, size_t n);
 size_t strlen(const char* s);
 size_t strnlen(const char* s, size_t n);
