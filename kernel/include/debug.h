@@ -47,7 +47,7 @@ extern spinlock_t lock_debug;
             _Log(__VA_ARGS__); \
             assert(cond); \
             } \
-    kmt->spin_unlock(&lock_debug)
+    kmt->spin_unlock(&lock_debug); \
        } while (0)
 
 #define Panic(format, ...) \
