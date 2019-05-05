@@ -4,12 +4,24 @@
 #include <klib.h>
 
 #define DEBUG
+#define DEBUG_LOCK
 
 // ========== General ============
 
+#ifndef DEBUG
+#define Log(format, ...)
+#else
+#ifndef DEBUG_LOCK
 #define Log(format, ...) \
     printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
           __FILE__, __LINE__, __func__, ## __VA_ARGS__)
+#else
+#define Log(format, ...) \
+    kmt->spin_lock(lock_debug); \
+    printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
+          __FILE__, __LINE__, __func__, ## __VA_ARGS__) \
+    kmt->spin_unlock(lock_debug);
+#endif
 
 #define Logint(x) \
     Log(#x " = %d", x)

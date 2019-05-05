@@ -3,7 +3,6 @@
 #include <list.h>
 #include <debug.h>
 
-//#define DEBUG
 //#define CORRECTNESS_FIRST
 
 #ifdef CORRECTNESS_FIRST
@@ -24,10 +23,8 @@ static void pmm_init() {
   list_init(pm_start, pm_end);
 #endif
 
-#ifdef DEBUG
-  kmt->spin_lock(&alloc_lock);
-  printf("pm_start = %p\npm_end = %p\nsize of heap=%p\n", pm_start, pm_end, pm_end-pm_start);
-  kmt->spin_unlock(&alloc_lock);
+#ifdef DEBUG_PMM
+  Log("pm_start = %p\tpm_end = %p\tsize of heap=%p", pm_start, pm_end, pm_end-pm_start);
 #endif
 }
 
@@ -37,8 +34,8 @@ static void *kalloc(size_t size) {
 
 #ifdef CORRECTNESS_FIRST
 
-  #ifdef DEBUG
-    printf("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], start, start+size);
+  #ifdef DEBUG_PMM
+    Log("cpu = %c, malloc (%p,%p)", "12345678"[_cpu()], start, start+size);
   #endif
 
   if (start+size >= pm_end) {
@@ -51,14 +48,12 @@ static void *kalloc(size_t size) {
 #else
 
     for (struct node*p=head;p!=tail;p=p->next){
-      if (p->next->pre!=p){
-        printf("%p != %p\n", p->next->pre, p);
-        assert(0);
-      }
+      Assert(p->next->pre==p, "%p != %p\n", p->next->pre, p)
       if (p->next->start-p->end>=size+BIAS){
         ret = add_node(p, size);
-#ifdef DEBUG
-        printf("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], p->next->start, p->next->end);
+
+#ifdef DEBUG_PMM
+      Log("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], p->next->start, p->next->end);
 #endif
         break;
       }
@@ -77,15 +72,15 @@ static void kfree(void *ptr) {
 #ifdef CORRECTNESS_FIRST
   return;
 #else
-struct node *p = (struct node *)((uintptr_t)ptr - BIAS);
-kmt->spin_lock(&alloc_lock);
-  assert(p->next->pre==p);
-#ifdef DEBUG
-  printf("free %p: ", ptr);
-  Lognode(p);
-#endif
+  struct node *p = (struct node *)((uintptr_t)ptr - BIAS);
+  kmt->spin_lock(&alloc_lock);
+  Assert(p->next->pre==p, "%p != %p\n", p->next->pre, p)
+  #ifdef DEBUG
+    Log("free %p: ", ptr);
+    Lognode(p);
+  #endif
   delete_node(p);
-kmt->spin_unlock(&alloc_lock);
+  kmt->spin_unlock(&alloc_lock);
 #endif
 }
 

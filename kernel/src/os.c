@@ -1,11 +1,19 @@
 #include <common.h>
 #include <klib.h>
 
+#ifdef DEBUG_LOCK
+spinlock_t lock_debug;
+#endif
+
 spinlock_t lock_test;
+
 static void os_init() {
   pmm->init();
   kmt->init();
   kmt->spin_init(&lock_test, "test");
+  #ifdef DEBUG_LOCK
+  kmt->spin_init(&lock_debug, "debug");
+  #endif
 }
 
 /*
