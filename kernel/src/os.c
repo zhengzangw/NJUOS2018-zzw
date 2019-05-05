@@ -51,7 +51,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
 }
 
 static void os_on_irq(int seq, int event, handler_t handler) {
-    handlers[h_handlers++] = {handler, event, seq};
+    handlers[h_handlers++] = (callback_t){handler, event, seq};
     int i = h_handlers-1;
     while (i&&handlers[i].seq<=handlers[i-1].seq){
         callback_t tmp = handlers[i-1];
