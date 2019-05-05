@@ -46,7 +46,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
           if (next) ret = next;
       }
   }
-  //Log("%d", ev.event);
+  Log("%d", ev.event);
   return ret;
 }
 

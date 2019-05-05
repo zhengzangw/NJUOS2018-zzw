@@ -15,7 +15,7 @@ typedef unsigned int uint;
 extern spinlock_t lock_debug;
 #endif
 
-#define Logcpu() Log("cpu #%c:\n", "12345678"[_cpu()])
+#define Logcpu() Log("cpu #%c:", "12345678"[_cpu()])
 
 #ifndef DEBUG
 #define Log(format, ...)
