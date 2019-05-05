@@ -15,18 +15,20 @@ typedef unsigned int uint;
 extern spinlock_t lock_debug;
 #endif
 
+#define _Log(format, ...)\
+    printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
+          __FILE__, __LINE__, __func__, ## __VA_ARGS__)
+
 #ifndef DEBUG
 #define Log(format, ...)
 #else
 #ifndef DEBUG_LOCK
 #define Log(format, ...) \
-    printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
-          __FILE__, __LINE__, __func__, ## __VA_ARGS__)
+    _Log(format, ...)
 #else
 #define Log(format, ...) \
     kmt->spin_lock(&lock_debug); \
-    printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
-          __FILE__, __LINE__, __func__, ## __VA_ARGS__); \
+    _Log(format, ...)\
     kmt->spin_unlock(&lock_debug)
 #endif
 #endif
@@ -36,13 +38,12 @@ extern spinlock_t lock_debug;
 
 #define Assert(cond, ...) \
     do { \
+    kmt->spin_lock(&lock_debug); \
         if (!(cond)) { \
-            kmt->spin_lock(&lock_debug); \
-            printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
-                __FILE__, __LINE__, __func__, ## __VA_ARGS__);\
+            _Log(__VA_ARGS__); \
             assert(cond); \
-            kmt->spin_unlock(&lock_debug)\
             } \
+    kmt->spin_unlock(&lock_debug); \
        } while (0)
 
 #define Panic(format, ...) \
