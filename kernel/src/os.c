@@ -18,15 +18,17 @@ static void hello() {
 }
 
 static void os_init() {
+  assertIF0();
   pmm->init();
+  assertIF0();
   kmt->init();
+  assertIF0();
   dev->init();
 
   kmt->spin_init(&lock_test, "test");
   #ifdef DEBUG_LOCK
   kmt->spin_init(&lock_debug, "debug");
   #endif
-  assertIF0();
 }
 
 static void os_run() {
