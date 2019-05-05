@@ -8,10 +8,8 @@ struct task {};
 struct spinlock {
   int locked;
   //For debugging
-  uint cpu;
+  int cpu;
 };
 struct semaphore {};
-
-typedef unsigned int uint;
 
 #endif
