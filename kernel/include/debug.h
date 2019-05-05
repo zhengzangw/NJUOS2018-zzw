@@ -33,7 +33,7 @@
 #define Lognode(node) Log("node: start=%p, end=%p\n", node->start, node->end)
 // ========== SPINLOCK =======
 #define FL_IF 0x00000200
-#define assertIF1() Assert(readflags()&FL_IF==0, "interruptible where IF should be 0")
-#define assertIF0() Assert(readflags()&FL_IF==1, "noninterruptible where IF should be 1")
+#define assertIF1() Assert((readflags()&FL_IF)==0, "interruptible where IF should be 0")
+#define assertIF0() Assert((readflags()&FL_IF)==1, "noninterruptible where IF should be 1")
 
 #endif
