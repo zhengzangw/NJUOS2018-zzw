@@ -16,6 +16,12 @@ void teardown(task_t *task){
 
 int cpuncli[64];
 
+inline int readflags(){
+    uint eflags;
+    asm volatile("pushfl; popl %0" : "=r"(eflags));
+    return eflags;
+}
+
 static void pushcli(void){
     cli();
     cpuncli[_cpu()]+=1;

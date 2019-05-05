@@ -56,10 +56,5 @@ extern spinlock_t lock_debug;
 #define FL_IF 0x00000200
 #define assertIF0() Assert((readflags()&FL_IF)==0, "interruptible where IF should be 0")
 #define assertIF1() Assert((readflags()&FL_IF)!=0, "noninterruptible where IF should be 1")
-#define readflags() (int (*_readflags)){
-    uint eflags;
-    asm volatile("pushfl; popl %0" : "=r"(eflags));
-    return eflags;
-}();
-
+inline int readflags();
 #endif
