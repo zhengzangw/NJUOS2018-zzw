@@ -42,7 +42,7 @@ void spin_init(spinlock_t *lk, const char *name){
 
 void spin_lock(spinlock_t *lk){
     pushcli();
-    if (holding(lk)) panic("acquire");
+    if (holding(lk)) Panic("acquire");
 
     while (_atomic_xchg(&lk->locked, 1)!=0);
 
