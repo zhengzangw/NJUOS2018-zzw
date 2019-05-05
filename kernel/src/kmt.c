@@ -20,7 +20,8 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
     kmt->spin_lock(&lock_kmt);
     int cur = cputask[_cpu()]==-1?0:tasks[cputask[_cpu()]]->id+1;
     Logint(cur);
-    for (int i=0;i<MAXTASK;++i){
+    while (1){
+      for (int i=0;i<MAXTASK;++i){
         if (!empty(tasks[(cur+i)%MAXTASK])){
             int next = (cur+i)%MAXTASK;
             cputask[_cpu()] = next;
@@ -31,6 +32,8 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
             kmt->spin_unlock(&lock_kmt);
             return &tasks[next]->context;
         }
+      }
+      _yield();
     }
     kmt->spin_unlock(&lock_kmt);
     Assert(0, "No context chosen");
