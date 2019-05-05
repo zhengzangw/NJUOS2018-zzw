@@ -8,10 +8,9 @@ typedef unsigned int uint;
 
 struct task {};
 struct spinlock {
-  uint locked;
+  int locked;
   //For debugging
   uint cpu;
-  uint pcs[10];
 };
 void initlock(struct spinlock *lk);
 void acquire(struct spinlock *lk);
