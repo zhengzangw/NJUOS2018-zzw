@@ -7,7 +7,7 @@
 struct task {};
 struct spinlock {
   int locked;
-  char *name;
+  const char *name;
   int cpu;
 };
 struct semaphore {};
