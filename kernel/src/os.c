@@ -15,7 +15,7 @@ void hello(void *arg) {
   }
   _putc("12345678"[_cpu()]); _putc('\n');
   while (1){
-    printf("test");
+    printf("%s\n", (char *)arg);
   }
   kmt->spin_unlock(&lock_test);
 }
@@ -30,8 +30,8 @@ static void os_init() {
   kmt->spin_init(&lock_debug, "debug");
   #endif
 
-  char *args1[] = {"thread1"};
-  kmt->create(pmm->alloc(sizeof(task_t)), "test-thread-1", hello, args1);
+  char *str = "test";
+  kmt->create(pmm->alloc(sizeof(task_t)), "test-thread-1", hello, str);
 }
 
 
