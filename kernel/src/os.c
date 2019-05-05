@@ -14,13 +14,11 @@ void logging(void *arg) {
   }
 }
 
+const *char str[] = {"1", "2", "3"};
 void createordelete(void *arg){
     while (1){
-        for (int i=1;i<=3;++i){
-            char tmp[5];
-            tmp[0] = '0'+i;
-            tmp[1] = '\0';
-            kmt->create(pmm->alloc(sizeof(task_t)), "auto-gem", logging, tmp);
+        for (int i=0;i<=2;++i){
+            kmt->create(pmm->alloc(sizeof(task_t)), "auto-gem", logging, str[i]);
         }
     }
 }
