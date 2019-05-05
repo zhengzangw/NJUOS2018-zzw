@@ -1,4 +1,5 @@
 #include <common.h>
+#include <os.h>
 
 #ifdef DEBUG_LOCK
 spinlock_t lock_debug;
