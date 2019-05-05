@@ -18,8 +18,7 @@ static void os_init() {
   #endif
 
   char *args1[] = {"thread1"};
-  char *args2[] = {"thread2"};
-  kmt->create(pmm->alloc(sizeof(task_t)), "test-thread-1", helle, "hello");
+  kmt->create(pmm->alloc(sizeof(task_t)), "test-thread-1", hello, args1);
 }
 
 //Test
@@ -29,7 +28,9 @@ void hello(const char *str) {
     _putc(*ptr);
   }
   _putc("12345678"[_cpu()]); _putc('\n');
-  printf("%s\n", str);
+  while (1){
+    printf("%s\n", str);
+  }
   kmt->spin_unlock(&lock_test);
 }
 
@@ -46,7 +47,7 @@ callback_t handlers[MAXCB];
 int h_handlers;
 
 static _Context *os_trap(_Event ev, _Context *context) {
-  _Context *ret = NULL;
+  _Context *ret = context;
   for (int i=0;i<h_handlers;++i){
       if (handlers[i].event == _EVENT_NULL || handlers[i].event == ev.event){
           _Context *next = handlers[i].handler(ev, context);
