@@ -43,7 +43,7 @@ callback_t handlers[MAXCB];
 int h_handlers;
 
 static _Context *os_trap(_Event ev, _Context *context) {
-  //_Context *ret = NULL;
+  _Context *ret = context;
   for (int i=0;i<h_handlers;++i){
       if (handlers[i].event == _EVENT_NULL || handlers[i].event == ev.event){
           _Context *next = handlers[i].handler(ev, context);
@@ -51,7 +51,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
       }
   }
   Log("%d", ev.event);
-  return context;
+  return ret;
 }
 
 static void os_on_irq(int seq, int event, handler_t handler) {
