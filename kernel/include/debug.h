@@ -48,7 +48,7 @@ extern spinlock_t lock_debug;
 #define Logcpu() Log("cpu #%c:\n", "12345678"[_cpu()])
 
 // ========== LIST ===========
-#define Lognode(tag, node) Log(tag "node: start=%p, end=%p\n", node->start, node->end)
+#define Lognode(tag, node) Log(tag "node: start=%p, end=%p", node->start, node->end)
 // ========== SPINLOCK =======
 #define FL_IF 0x00000200
 #define assertIF1() Assert((readflags()&FL_IF)==0, "interruptible where IF should be 0")
