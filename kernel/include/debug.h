@@ -28,7 +28,7 @@ extern spinlock_t lock_debug;
 #else
 #define Log(format, ...) \
     kmt->spin_lock(&lock_debug); \
-    _Log(format, ...)\
+    _Log(format, ...);\
     kmt->spin_unlock(&lock_debug)
 #endif
 #endif
