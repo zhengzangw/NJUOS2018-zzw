@@ -24,11 +24,11 @@ extern spinlock_t lock_debug;
 #else
 #ifndef DEBUG_LOCK
 #define Log(format, ...) \
-    _Log(format, ...)
+    _Log(format, __VA_ARGS__)
 #else
 #define Log(format, ...) \
     kmt->spin_lock(&lock_debug); \
-    _Log(format, ...);\
+    _Log(format, __VA_ARGS__);\
     kmt->spin_unlock(&lock_debug)
 #endif
 #endif
