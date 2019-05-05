@@ -9,7 +9,6 @@ spinlock_t lock_test;
 
 //Test
 void hello(void *arg) {
-  char **str = (char **)arg;
   kmt->spin_lock(&lock_test);
   for (const char *ptr = "Hello from CPU #"; *ptr; ptr++){
     _putc(*ptr);
