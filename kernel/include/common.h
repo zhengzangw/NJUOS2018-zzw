@@ -3,6 +3,7 @@
 
 #include <kernel.h>
 #include <nanos.h>
+#include <debug.h>
 
 struct task {};
 struct spinlock {

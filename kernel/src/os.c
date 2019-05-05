@@ -1,6 +1,5 @@
 #include <common.h>
 #include <klib.h>
-#include <debug.h>
 
 spinlock_t lock_test;
 static void os_init() {

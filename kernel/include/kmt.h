@@ -2,11 +2,10 @@
 #define __KMT_H__
 
 #include <common.h>
-#include <debug.h>
 
-// ============= Tread ================
+// ============= THREAD ================
 
-// ============= Spinlock =============
+// ============= SPINLOCK =============
 
 #define cli() asm volatile ("cli" ::: "memory");
 #define sti() asm volatile ("sti" ::: "memory");
@@ -17,9 +16,6 @@ static inline int readflags(){
     return eflags;
 }
 
-#define FL_IF 0x00000200
-#define checkIF() if (readflags()&FL_IF) panic("interruptible");
-
-// ============= Sem ==================
+// ============= SEMAPHORE ==================
 
 #endif

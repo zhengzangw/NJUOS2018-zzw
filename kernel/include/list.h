@@ -12,6 +12,5 @@ void* add_node(struct node* p, size_t size);
 void delete_node(struct node *p);
 
 #define BIAS sizeof(struct node)
-#define Lognode(node) printf("Node: start=%p, end=%p\n", node->start, node->end)
 
 #endif

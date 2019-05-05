@@ -3,6 +3,10 @@
 
 #include <klib.h>
 
+#define DEBUG
+
+// ========== General ============
+
 #define Log(format, ...) \
     printf("\33[1;34m[%s,%d,%s] " format "\33[0m\n", \
           __FILE__, __LINE__, __func__, ## __VA_ARGS__)
@@ -24,5 +28,12 @@
 #define TODO() panic("please implement me")"]]")
 
 #define Logcpu() printf("cpu #%c:\n", "12345678"[_cpu()])
+
+// ========== LIST ===========
+#define Lognode(node) Log("node: start=%p, end=%p\n", node->start, node->end)
+// ========== SPINLOCK =======
+#define FL_IF 0x00000200
+#define assertIF1() Assert(readflags()&FL_IF==0, "interruptible where IF should be 0")
+#define assertIF0() Assert(readflags()&FL_IF==1, "noninterruptible where IF should be 1")
 
 #endif
