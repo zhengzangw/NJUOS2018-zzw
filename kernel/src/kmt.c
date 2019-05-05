@@ -5,7 +5,7 @@
 
 task_t *tasks[MAXTASK];
 int h_tasks;
-int cputask[64];
+int cputask[MAXCPU];
 
 _Context *kmt_context_save(_Event ev, _Context* context){
     if (cputask[_cpu()]!=-1) {
@@ -41,19 +41,23 @@ void init(){
 }
 
 int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
-    //TODO: ADD ERROR DETECT
     task->name = name;
     task->exists = 1;
     task->run = 0;
     task->stack = pmm->alloc(STACKSIZE);
+    if (task->stack==NULL) return 1;
     task->context = *_kcontext((_Area){task->stack, task->stack+STACKSIZE}, entry, arg);
 
-    int i;
-    for (i=h_tasks;!empty(tasks[i]);i=(i+1)%MAXTASK);
-    h_tasks = i;
-    tasks[h_tasks] = task;
-    task->id = h_tasks;
-    return 0;
+    int i,cnt=0;
+    for (i=h_tasks;taskptr->exists!=0&&cnt<MAXTASK;i=(i+1)%MAXTASK,cnt++);
+    if (cnt==MAXTASK){
+        printf("Create Failed: Task amount overflows");
+        return 1;
+    } else {
+        tasks[h_tasks = i] = task;
+        task->id = h_tasks;
+        return 0;
+    }
 }
 void teardown(task_t *task){
     pmm->free(task->stack);
@@ -63,7 +67,7 @@ void teardown(task_t *task){
 
 // ============= Spinlock ============
 
-int cpuncli[64], intena[64];
+int cpuncli[MAXCPU], intena[MAXCPU];
 
 int readflags(){
     uint eflags;
