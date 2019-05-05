@@ -52,7 +52,7 @@ int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
     int i,cnt=0;
     for (i=h_tasks;tasks[i]->exists!=0&&cnt<MAXTASK;i=(i+1)%MAXTASK,cnt++);
     if (cnt==MAXTASK){
-        printf("Create Failed: Task amount overflows");
+        warning("Create Failed: Task amount overflows\n");
         return 1;
     } else {
         tasks[h_tasks = i] = task;
