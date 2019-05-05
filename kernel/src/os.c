@@ -1,11 +1,12 @@
 #include <common.h>
 #include <klib.h>
+#include <debug.h>
 
 spinlock_t lock_test;
 static void os_init() {
   pmm->init();
   kmt->init();
-  kmt->spin_init(lock_test, "test");
+  kmt->spin_init(&lock_test, "test");
 }
 
 /*
