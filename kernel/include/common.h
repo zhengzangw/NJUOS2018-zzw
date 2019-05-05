@@ -4,5 +4,6 @@
 #include <kernel.h>
 #include <nanos.h>
 #include <debug.h>
+#include <kmt.h>
 
 #endif
