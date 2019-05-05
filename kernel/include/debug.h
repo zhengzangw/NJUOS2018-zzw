@@ -56,5 +56,5 @@ extern spinlock_t lock_debug;
 #define FL_IF 0x00000200
 #define assertIF0() Assert((readflags()&FL_IF)==0, "interruptible where IF should be 0")
 #define assertIF1() Assert((readflags()&FL_IF)!=0, "noninterruptible where IF should be 1")
-inline int readflags();
+int readflags();
 #endif

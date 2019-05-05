@@ -16,7 +16,7 @@ void teardown(task_t *task){
 
 int cpuncli[64];
 
-inline int readflags(){
+int readflags(){
     uint eflags;
     asm volatile("pushfl; popl %0" : "=r"(eflags));
     return eflags;
