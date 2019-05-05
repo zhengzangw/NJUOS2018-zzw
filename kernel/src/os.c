@@ -14,7 +14,7 @@ void logging(void *arg) {
   }
 }
 
-const char* str[] = {"1", "2", "3"};
+char* str[] = {"1", "2", "3"};
 void createordelete(void *arg){
     while (1){
         for (int i=0;i<=2;++i){
