@@ -32,6 +32,7 @@ static void os_run() {
   hello();
   assertIF0();
   _intr_write(1);
+  Panic("stop");
   while (1) {
     _yield();
   }
