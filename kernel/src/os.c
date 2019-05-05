@@ -2,7 +2,7 @@
 #include <klib.h>
 
 #ifdef DEBUG_LOCK
-spinlock_t lock_debug;
+extern spinlock_t lock_debug;
 #endif
 
 spinlock_t lock_test;
