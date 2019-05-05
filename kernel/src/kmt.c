@@ -35,9 +35,10 @@ static int holding(spinlock_t *lock){
     return r;
 }
 
-void spin_init(spinlock_t *lk){
+void spin_init(spinlock_t *lk, const char *name){
     lk->cpu = 0;
     lk->locked = 0;
+    lk->name = name;
 }
 
 void spin_lock(spinlock_t *lk){
@@ -81,5 +82,5 @@ MODULE_DEF(kmt) {
     .spin_unlock = spin_unlock,
     .sem_init = sem_init,
     .sem_wait = sem_wait,
-    .sem_singal = sem_signal,
+    .sem_signal = sem_signal,
 };
