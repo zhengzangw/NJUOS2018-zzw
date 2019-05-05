@@ -7,7 +7,7 @@
 #include <kmt.h>
 #include <klib.h>
 
-extern spin_lock_t lock_print;
+extern spinlock_t lock_print;
 #define lprintf(format, ...) \
     kmt->spin_lock(&lock_print);\
     printf(format, __VA_ARGS__); \
