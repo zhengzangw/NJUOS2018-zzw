@@ -48,12 +48,12 @@ static void *kalloc(size_t size) {
 #else
 
     for (struct node*p=head;p!=tail;p=p->next){
-      Assert(p->next->pre==p, "%p != %p\n", p->next->pre, p);
+      Assert(p->next->pre==p, "%p != %p", p->next->pre, p);
       if (p->next->start-p->end>=size+BIAS){
         ret = add_node(p, size);
 
 #ifdef DEBUG_PMM
-      Log("cpu = %c, malloc (%p,%p)\n", "12345678"[_cpu()], p->next->start, p->next->end);
+      Log("cpu = %c, malloc (%p,%p)", "12345678"[_cpu()], p->next->start, p->next->end);
 #endif
         break;
       }
@@ -74,10 +74,9 @@ static void kfree(void *ptr) {
 #else
   struct node *p = (struct node *)((uintptr_t)ptr - BIAS);
   kmt->spin_lock(&alloc_lock);
-  Assert(p->next->pre==p, "%p != %p\n", p->next->pre, p);
-  #ifdef DEBUG
-    Log("free %p: ", ptr);
-    Lognode(p);
+  Assert(p->next->pre==p, "%p != %p", p->next->pre, p);
+  #ifdef DEBUG_PMM
+    Lognode("[free] " p);
   #endif
   delete_node(p);
   kmt->spin_unlock(&alloc_lock);

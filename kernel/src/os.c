@@ -38,8 +38,6 @@ static void test() {
       }
       if (rand()%3==0)
         pmm->free(str);
-    } else {
-      base = 0;
     }
   }
 }
