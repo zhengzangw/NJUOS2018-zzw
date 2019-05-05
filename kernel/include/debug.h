@@ -57,7 +57,7 @@ extern spinlock_t lock_debug;
 #define assertIF0() Assert((readflags()&FL_IF)==0, "interruptible where IF should be 0")
 #define assertIF1() Assert((readflags()&FL_IF)!=0, "noninterruptible where IF should be 1")
 int readflags();
-#define Loglock(lock) printf("lock name = %s", lock->name);
+#define Loglock(lock) printf("lock=%s", lock->name);
 // ========== THREAD =========
 #define Logcontext(context) Log("id=%d, exists=%d, name=%s", context->id, context->exists, context->name)
 #endif
