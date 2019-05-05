@@ -12,7 +12,7 @@ static inline int readflags(){
 #define FL_IF 0x00000200
 #define checkIF() if (readflags()&FL_IF) panic("interruptible");
 
-uint ncli[64];
+uint cpuncli[64];
 
 void pushcli(void){
     cli();
