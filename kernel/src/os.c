@@ -16,7 +16,7 @@ void logging(void *arg) {
 
 void createordelete(void *arg){
     while (1){
-        for (int i=0;i<3;++i){
+        for (int i=1;i<=3;++i){
             char tmp[5];
             tmp[0] = '0'+i;
             tmp[1] = '\0';
