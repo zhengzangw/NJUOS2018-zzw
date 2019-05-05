@@ -1,5 +1,4 @@
 #include <common.h>
-#include <klib.h>
 
 #ifdef DEBUG_LOCK
 spinlock_t lock_debug;
@@ -36,12 +35,28 @@ static void os_run() {
   }
 }
 
+callback_t handlers[MAXCB];
+int h_handlers;
+
 static _Context *os_trap(_Event ev, _Context *context) {
   _Context *ret = NULL;
+  for (int i=0;i<h_handlers;++i){
+      if (handler->event == _EVENT_NULL || handler->event == ev.event){
+          _Context *next = handler-handler(ev, context);
+          if (next) ret = next;
+      }
+  }
   return ret;
 }
 
 static void os_on_irq(int seq, int event, handler_t handler) {
+    handlers[h_handlers++] = {handler, event, seq};
+    int i = h_handlers-1;
+    while (i&&handlers[i].seq<=handlers[i-1].seq){
+        callback_t tmp = handlers[i-1];
+        handlers[i-1] = handlers[i];
+        handlers[i] = tmp;
+    }
 }
 
 MODULE_DEF(os) {

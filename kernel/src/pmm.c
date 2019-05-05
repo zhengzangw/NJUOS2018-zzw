@@ -1,5 +1,4 @@
 #include <common.h>
-#include <klib.h>
 #include <pmm.h>
 
 #ifdef CORRECTNESS_FIRST

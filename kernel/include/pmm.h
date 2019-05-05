@@ -1,6 +1,7 @@
 #ifndef __LIST_H__
 #define __LIST_H__
 #include <common.h>
+#include <klib.h>
 
 //#define CORRECTNESS_FIRST
 
