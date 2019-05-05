@@ -22,6 +22,8 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
             return &tasks[(cur+i+1)%MAXTASK]->context;
         }
     }
+    Assert(0, "No context chosen");
+    return NULL
 }
 
 void init(){
