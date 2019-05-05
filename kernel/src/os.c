@@ -42,7 +42,7 @@ int h_handlers;
 static _Context *os_trap(_Event ev, _Context *context) {
   _Context *ret = NULL;
   for (int i=0;i<h_handlers;++i){
-      if (handler->event == _EVENT_NULL || handler->event == ev.event){
+      if (handlers[i]->event == _EVENT_NULL || handlers[i]->event == ev.event){
           _Context *next = handler-handler(ev, context);
           if (next) ret = next;
       }
