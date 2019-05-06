@@ -3,6 +3,7 @@
 
 int main() {
   _ioe_init();
+  _halt(1);
   _cte_init(os->trap);
 
   // call sequential init code
