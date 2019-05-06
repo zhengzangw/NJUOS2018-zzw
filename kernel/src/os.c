@@ -11,7 +11,7 @@ spinlock_t lock_os;
 void logging(void *arg) {
   while (1){
   //  lprintf("%s", (char *)arg);
-  lprintf("%d\n", _intr_read()>0);
+  Logintr();
   }
 }
 
