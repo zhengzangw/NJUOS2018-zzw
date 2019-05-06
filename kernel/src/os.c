@@ -51,7 +51,7 @@ static void os_run() {
       } else {
         Log("1");
       }
-    Log("IF=%d", t);
+    Log("IF=%u", t);
     _halt(1);
     _yield();
     Panic("SHOULD NOT REACH HERE");
