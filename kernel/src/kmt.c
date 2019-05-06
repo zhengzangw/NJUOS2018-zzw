@@ -9,11 +9,9 @@ int cputask[MAXCPU];
 spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context* context){
-    kmt->spin_lock(&lock_kmt);
     if (cputask[_cpu()]!=-1) {
         tasks[cputask[_cpu()]]->context = *context;
     }
-    kmt->spin_unlock(&lock_kmt);
     return NULL;
 }
 
@@ -36,7 +34,6 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
       }
       _yield();
     }
-    kmt->spin_unlock(&lock_kmt);
     Assert(0, "No context chosen");
     return NULL;
 }

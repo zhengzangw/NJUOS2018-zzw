@@ -37,7 +37,7 @@ void delete_node(struct node *p) {
 #endif
 
 static uintptr_t pm_start, pm_end;
-static spinlock_t alloc_lock;
+spinlock_t alloc_lock;
 
 static void pmm_init() {
   pm_start = (uintptr_t)_heap.start;
