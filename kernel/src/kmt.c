@@ -61,7 +61,7 @@ void kmt_init(){
 
 int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
     //Check if tasks are full
-    if (cnt_task>=MAXTASK){
+    if (cnt_tasks>=MAXTASK){
       warning("Create Failed: Task amount overflows\n");
       return 1;
     }
