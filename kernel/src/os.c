@@ -8,7 +8,7 @@ spinlock_t lock_print;
 spinlock_t lock_os;
 int timelock[MAXCPU]; //judge nested timelock
 
-//Test
+// ========== Test ONE  ===========
 void logging(void *arg) {
   while (1){
     lprintf("%s", (char *)arg);
@@ -16,8 +16,9 @@ void logging(void *arg) {
   }
 }
 
+/*
 char* str[] = {"1", "2", "3", "4"};
-void createordelete(void *arg){
+void test(void *arg){
     while (1){
         task_t *tmp=NULL;
         for (int i=0;i<=3;++i){
@@ -31,6 +32,10 @@ void createordelete(void *arg){
         if (tmp) kmt->teardown(tmp);
     }
 }
+*/
+
+
+// ============== OS =============
 
 static void os_init() {
   //Init spinlock
@@ -43,8 +48,13 @@ static void os_init() {
   pmm->init();
   kmt->init();
   //dev->init();
-  //Test
-  kmt->create(pmm->alloc(sizeof(task_t)), "first", createordelete, NULL);
+
+  //########## TEST ##########
+  //Test ONE
+  //kmt->create(pmm->alloc(sizeof(task_t)), "first", test, NULL);
+  kmt->create(pmm->alloc(sizeof(task_t)), "A", test, "A");
+  kmt->create(pmm->alloc(sizeof(task_t)), "B", test, "B");
+  kmt->create(pmm->alloc(sizeof(task_t)), "C", test, "C");
 }
 
 
