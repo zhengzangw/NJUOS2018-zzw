@@ -24,7 +24,7 @@ void createordelete(void *arg){
             kmt->create(tmp, "auto-gem", logging, str[i]);
         }
         _yield();
-        kmt->teardown(tmp);
+        if (tmp) kmt->teardown(tmp);
     }
 }
 
