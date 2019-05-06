@@ -49,6 +49,7 @@ extern spinlock_t lock_debug;
     Assert(0, format, ## __VA_ARGS__)
 
 #define TODO() Panic("please implement me")
+#define SHOULD_NOT_REACH_HERE() Panic("Should Not Reach Here!")
 
 // ========== LIST ===========
 #define Lognode(tag, node) Log(tag "node: start=%p, end=%p", node->start, node->end)
