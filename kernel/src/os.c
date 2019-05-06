@@ -28,15 +28,15 @@ void createordelete(void *arg){
 }
 
 static void os_init() {
-  pmm->init();
-  kmt->init();
-  //dev->init();
-
   #ifdef DEBUG_LOCK
   kmt->spin_init(&lock_debug, "debug");
   #endif
   kmt->spin_init(&lock_print, "print");
   kmt->spin_init(&lock_os, "os");
+
+  pmm->init();
+  kmt->init();
+  //dev->init();
 
   kmt->create(pmm->alloc(sizeof(task_t)), "first", createordelete, NULL);
 }
