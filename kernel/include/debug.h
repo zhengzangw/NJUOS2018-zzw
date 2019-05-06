@@ -54,10 +54,9 @@ extern spinlock_t lock_debug;
 // ========== LIST ===========
 #define Lognode(tag, node) Log(tag "node: start=%p, end=%p", node->start, node->end)
 // ========== SPINLOCK =======
-#define FL_IF 0x00000200
 #define assertIF0() Assert((readflags()&FL_IF)==0, "interruptible where IF should be 0")
 #define assertIF1() Assert((readflags()&FL_IF)!=0, "noninterruptible where IF should be 1")
-int readflags();
+uint readflags();
 #define Loglock(lock) printf("lock=%s", lock->name);
 // ========== THREAD =========
 #define Logcontext(context) Log("id=%d, exists=%d, run=%d, name=%s", context->id, context->exists, context->run, context->name)
