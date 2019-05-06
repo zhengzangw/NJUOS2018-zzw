@@ -53,21 +53,23 @@ static void os_run() {
 callback_t handlers[MAXCB];
 int h_handlers;
 
+int ind = 0;
 static _Context *os_trap(_Event ev, _Context *context) {
   if (ev.event == _EVENT_ERROR){
     warning("%s\n", ev.msg);
     _halt(1);
   }
-  Log("%d: %s", ev.event, ev.msg);
-  assertIF1();
+  Log("%d: %s, int=%d", ev.event, ev.msg, ind);
   _Context *ret = NULL;
   kmt->spin_lock(&lock_os);
+  int = 1;
   for (int i=0;i<h_handlers;++i){
       if (handlers[i].event == _EVENT_NULL || handlers[i].event == ev.event){
           _Context *next = handlers[i].handler(ev, context);
           if (next) ret = next;
       }
   }
+  int = 0;
   kmt->spin_unlock(&lock_os);
   return ret;
 }
