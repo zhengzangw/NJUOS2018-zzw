@@ -96,7 +96,9 @@ void kmt_teardown(task_t *task){
 
     kmt->spin_lock(&lock_kmt);
     cnt_tasks--;
+    int tmp = task->id;
     task = NULL;
+    Assert(tasks[tmp]==NULL, "STRANGE");
     kmt->spin_unlock(&lock_kmt);
 }
 
