@@ -57,6 +57,7 @@ int h_handlers;
 static void os_on_irq(int seq, int event, handler_t handler) {
     handlers[h_handlers++] = (callback_t){handler, event, seq};
     int i = h_handlers-1;
+    //Insert to make seq increase
     while (i&&handlers[i].seq<=handlers[i-1].seq){
         callback_t tmp = handlers[i-1];
         handlers[i-1] = handlers[i];
@@ -65,25 +66,23 @@ static void os_on_irq(int seq, int event, handler_t handler) {
 }
 
 static _Context *os_trap(_Event ev, _Context *context) {
-
   //Special Check
   switch (ev.event){
     case _EVENT_ERROR:
         warning("%s\n", ev.msg);
         _halt(1);
-    default:
-    //Log("%d: %s, int=%d", ev.event, ev.msg, ind);
   }
-
+  //Log("%d: %s, int=%d", ev.event, ev.msg, ind);
+  //Call all valid handler
   _Context *ret = NULL;
   kmt->spin_lock(&lock_os);
   for (int i=0;i<h_handlers;++i){
+      Assert(i==h_handlers-1||handlers[i].seq<=handlers[i+1].seq, "seq not increase");
       if (handlers[i].event == _EVENT_NULL || handlers[i].event == ev.event){
           _Context *next = handlers[i].handler(ev, context);
           if (next) ret = next;
       }
   }
-  ind = 0;
   kmt->spin_unlock(&lock_os);
 
   return ret;
