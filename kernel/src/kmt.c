@@ -123,7 +123,7 @@ void spin_init(spinlock_t *lk, const char *name){
 
 void spin_lock(spinlock_t *lk){
     pushcli();
-    Assert(!holding(lk), "spin_lock");
+    Assert(!holding(lk), "locking a locked lock %s", lk->name);
 
     while (_atomic_xchg(&lk->locked, 1)!=0){
     //    Loglock(lk);
@@ -135,7 +135,7 @@ void spin_lock(spinlock_t *lk){
 }
 
 void spin_unlock(spinlock_t *lk) {
-    Assert(holding(lk), "spin_unlock");
+    Assert(holding(lk), "release an unlocked lock %s", lk->name);
     lk->cpu = 0;
 
     __sync_synchronize();
