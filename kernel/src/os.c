@@ -52,9 +52,9 @@ static void os_init() {
   //########## TEST ##########
   //Test ONE
   //kmt->create(pmm->alloc(sizeof(task_t)), "first", test, NULL);
-  kmt->create(pmm->alloc(sizeof(task_t)), "A", test, "A");
-  kmt->create(pmm->alloc(sizeof(task_t)), "B", test, "B");
-  kmt->create(pmm->alloc(sizeof(task_t)), "C", test, "C");
+  kmt->create(pmm->alloc(sizeof(task_t)), "A", logging, "A");
+  kmt->create(pmm->alloc(sizeof(task_t)), "B", logging, "B");
+  kmt->create(pmm->alloc(sizeof(task_t)), "C", logging, "C");
 }
 
 
