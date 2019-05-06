@@ -45,7 +45,7 @@ static void os_init() {
 static void os_run() {
   _intr_write(1);
   while (1) {
-    printf("%d\n", (readflags()&FL_IF));
+    printf("%d\n", _intr_write());
     _yield();
     Panic("SHOULD NOT REACH HERE");
   }
