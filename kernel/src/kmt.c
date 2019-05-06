@@ -63,7 +63,7 @@ int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
     if (task->stack==NULL) {
         return 1;
     }
-    task->context = *_kcontext((_Area){task->stack, task->stack+STACKSIZE}, entry, arg);
+    task->context = *_kcontext((_Area){task->stack, task->stack+STACKSIZE-1}, entry, arg);
 
     int i,cnt=0;
     kmt->spin_lock(&lock_kmt);
