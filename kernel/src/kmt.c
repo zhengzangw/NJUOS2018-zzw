@@ -11,6 +11,8 @@ spinlock_t lock_kmt;
 _Context *kmt_context_save(_Event ev, _Context* context){
     if (cputask[_cpu()]!=NULL) {
         cputask[_cpu()]->context = *context;
+        Assert(cputask[_cpu()->run]==1, "running threads run=0");
+        cputask[_cpu()]->run = 0;
     }
     return NULL;
 }
@@ -20,10 +22,10 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
     int cur = cputask[_cpu()]==NULL?0:cputask[_cpu()]->id+1;
     while (1){
       for (int i=0;i<MAXTASK;++i){
-        if (!empty(tasks[(cur+i)%MAXTASK])){
-            int next = (cur+i)%MAXTASK;
+        int next = (cur+i)%MAXTASK;
+        if (!empty(tasks[next])&&tasks[next]->run==0){
             cputask[_cpu()] = tasks[next];
-
+            tasks[next]->run = 1;
             Log("Choose: %d", next);
             Logcontext(tasks[next]);
 
@@ -53,6 +55,7 @@ int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
     kmt->spin_lock(&lock_kmt);
     task->name = name;
     task->exists = 1;
+    task->run = 0;
     task->stack = pmm->alloc(STACKSIZE);
     if (task->stack==NULL) {
         kmt->spin_unlock(&lock_kmt);
