@@ -55,7 +55,7 @@ callback_t handlers[MAXCB];
 int h_handlers;
 
 static _Context *os_trap(_Event ev, _Context *context) {
-  Log("%d: %s", ev.event, ev.msg);
+  //Log("%d: %s", ev.event, ev.msg);
   if (ev.event == _EVENT_ERROR){
     warning("%s\n", ev.msg);
     _halt(1);
