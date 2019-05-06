@@ -45,6 +45,7 @@ static void os_init() {
 static void os_run() {
   _intr_write(1);
   while (1) {
+    Log("IF=%d", readflags()&FL_IG);
     _yield();
     Panic("SHOULD NOT REACH HERE");
   }
@@ -55,7 +56,7 @@ int h_handlers;
 
 int ind = 0;
 static _Context *os_trap(_Event ev, _Context *context) {
-  assertIF0();
+  Log("IF=%d", readflags()&FL_IG);
   if (ev.event == _EVENT_ERROR){
     warning("%s\n", ev.msg);
     _halt(1);
