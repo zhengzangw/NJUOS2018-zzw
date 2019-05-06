@@ -78,9 +78,10 @@ int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *a
 
     kmt->spin_lock(&lock_kmt);
     cnt_tasks++;
+    int i = 0;
     while (i<MAXTASK && tasks[i]) i++;
     tasks[i] = task;
-    task->id = h_tasks;
+    task->id = i;
     kmt->spin_unlock(&lock_kmt);
 
     return 0;
