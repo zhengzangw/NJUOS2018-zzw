@@ -130,7 +130,7 @@ void spin_init(spinlock_t *lk, const char *name){
 
 void spin_lock(spinlock_t *lk){
     pushcli();
-    //printf("L%c %s %d\n","12345678"[_cpu()], lk->name, readflags()&FL_IF);
+    printf("L%c %s %d\n","12345678"[_cpu()], lk->name, readflags()&FL_IF);
     Assert(!holding(lk), "locking a locked lock %s", lk->name);
 
     while (_atomic_xchg(&lk->locked, 1)!=0){};
@@ -146,7 +146,7 @@ void spin_unlock(spinlock_t *lk) {
     __sync_synchronize();
 
     asm volatile ("movl $0, %0" : "+m" (lk->locked) :);
-    //printf("U%c %s %d\n","12345678"[_cpu()], lk->name, readflags()&FL_IF);
+    printf("U%c %s %d\n","12345678"[_cpu()], lk->name, readflags()&FL_IF);
     popcli();
 }
 
