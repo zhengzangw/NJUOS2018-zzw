@@ -29,7 +29,6 @@ void createordelete(void *arg){
 
 static void os_init() {
   pmm->init();
-  _halt(1);
   kmt->init();
   //dev->init();
 
