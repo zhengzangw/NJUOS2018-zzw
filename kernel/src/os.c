@@ -10,17 +10,17 @@ spinlock_t lock_os;
 //Test
 void logging(void *arg) {
   while (1){
-    Log("%c", (char *)arg);
+    Log("%s", (char *)arg);
   }
 }
 
-char str[] = "0123456789";
+char* str[] = {"1", "2", "3"};
 void createordelete(void *arg){
     while (1){
         task_t *tmp;
-        for (int i=0;i<=9;++i){
+        for (int i=0;i<=2;++i){
             tmp = pmm->alloc(sizeof(task_t));
-            kmt->create(tmp, "auto-gem", logging, str+i);
+            kmt->create(tmp, "auto-gem", logging, str[i]);
         }
         _yield();
         kmt->teardown(tmp);
