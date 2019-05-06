@@ -128,7 +128,7 @@ void spin_lock(spinlock_t *lk){
 
     while (_atomic_xchg(&lk->locked, 1)!=0){
     //    Loglock(lk);
-        _putc("12345678"[_cpu()]);
+    //  _putc("12345678"[_cpu()]);
     };
 
     __sync_synchronize();
