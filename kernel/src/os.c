@@ -28,16 +28,17 @@ void createordelete(void *arg){
 }
 
 static void os_init() {
+  //Init spinlock
   #ifdef DEBUG_LOCK
   kmt->spin_init(&lock_debug, "debug");
   #endif
   kmt->spin_init(&lock_print, "print");
   kmt->spin_init(&lock_os, "os");
-
+  //Init module
   pmm->init();
   kmt->init();
   //dev->init();
-
+  //Test
   kmt->create(pmm->alloc(sizeof(task_t)), "first", createordelete, NULL);
 }
 
@@ -45,7 +46,6 @@ static void os_init() {
 static void os_run() {
   _intr_write(1);
   while (1) {
-    printf("%d\n", _intr_read());
     _yield();
     Panic("SHOULD NOT REACH HERE");
   }
@@ -54,19 +54,29 @@ static void os_run() {
 callback_t handlers[MAXCB];
 int h_handlers;
 
-int ind = 0;
+static void os_on_irq(int seq, int event, handler_t handler) {
+    handlers[h_handlers++] = (callback_t){handler, event, seq};
+    int i = h_handlers-1;
+    while (i&&handlers[i].seq<=handlers[i-1].seq){
+        callback_t tmp = handlers[i-1];
+        handlers[i-1] = handlers[i];
+        handlers[i] = tmp;
+    }
+}
+
 static _Context *os_trap(_Event ev, _Context *context) {
-  printf("%d\n", _intr_read());
-    _halt(1);
-  if (ev.event == _EVENT_ERROR){
-    warning("%s\n", ev.msg);
-    _halt(1);
+
+  //Special Check
+  switch (ev.event){
+    case _EVENT_ERROR:
+        warning("%s\n", ev.msg);
+        _halt(1);
+    default:
+    //Log("%d: %s, int=%d", ev.event, ev.msg, ind);
   }
-  ind = 1;
-  Log("%d: %s, int=%d", ev.event, ev.msg, ind);
+
   _Context *ret = NULL;
   kmt->spin_lock(&lock_os);
-  for (int i=0;i<1000000000;++i);
   for (int i=0;i<h_handlers;++i){
       if (handlers[i].event == _EVENT_NULL || handlers[i].event == ev.event){
           _Context *next = handlers[i].handler(ev, context);
@@ -75,19 +85,8 @@ static _Context *os_trap(_Event ev, _Context *context) {
   }
   ind = 0;
   kmt->spin_unlock(&lock_os);
-  return ret;
-}
 
-static void os_on_irq(int seq, int event, handler_t handler) {
-    kmt->spin_lock(&lock_os);
-    handlers[h_handlers++] = (callback_t){handler, event, seq};
-    int i = h_handlers-1;
-    while (i&&handlers[i].seq<=handlers[i-1].seq){
-        callback_t tmp = handlers[i-1];
-        handlers[i-1] = handlers[i];
-        handlers[i] = tmp;
-    }
-    kmt->spin_unlock(&lock_os);
+  return ret;
 }
 
 MODULE_DEF(os) {

@@ -4,87 +4,95 @@
 // ============= Thread   ============
 
 task_t *tasks[MAXTASK];
-int h_tasks;
-task_t *cputask[MAXCPU];
+int cnt_tasks; //total created tasks
+task_t *cputask[MAXCPU]; //task running on each cpu
 spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context* context){
     if (cputask[_cpu()]!=NULL) {
-        if (cputask[_cpu()]->exists!=0){
-            cputask[_cpu()]->context = *context;
-            Assert(cputask[_cpu()]->run==1, "running threads run=0");
-            cputask[_cpu()]->run = 0;
-        } else {
-            cputask[_cpu()] = NULL;
-        }
+       Assert(cputask[_cpu()]->run==1, "running threads run=0");
+       kmt->spin_lock(&lock_kmt);
+       cputask[_cpu()]->context = *context;
+       cputask[_cpu()]->run = 0;
+       kmt->spin_unlock(&lock_kmt);
     }
     return NULL;
 }
 
-_Context *kmt_context_switch(_Event ev, _Context * context){
-    int cur = cputask[_cpu()]==NULL?0:cputask[_cpu()]->id;
+_Context *kmt_context_switch(_Event ev, _Context* context){
+    //Scheduler: Randomly selected
+    int seed = rand()%MAXTASK;
+    //Choose an runnable context
     kmt->spin_lock(&lock_kmt);
     while (1){
       for (int i=0;i<MAXTASK;++i){
-        int next = (cur+i+1)%MAXTASK;
-        Assert(tasks[next]==NULL||tasks[next]->id==next, "id(%d)!=next(%d)", tasks[next]->id, next);
-        if (!empty(tasks[next])&&(tasks[next]->run==0||(tasks[next]->id==cur&&cputask[_cpu()]!=NULL))){
-            cputask[_cpu()] = tasks[next];
-            Logcontext(tasks[next]);
-            tasks[next]->run = 1;
+        task_t *nxt = tasks[(seed+i)%MAXTASK];
+        if (nxt && nxt->run==0){
+            Logcontext(nxt);
+
+            nxt->run = 1;
+            cputask[_cpu()] = nxt;
             kmt->spin_unlock(&lock_kmt);
 
-            Assert(cputask[_cpu()]->exists==1, "threads prepared to run exists=0");
             return &cputask[_cpu()]->context;
         }
       }
     }
+
     SHOULD_NOT_REACH_HERE();
     return NULL;
 }
 
-void init(){
+void kmt_init(){
+    //Init spinlock
     kmt->spin_init(&lock_kmt, "kmt");
+    //Register irq handler
     os->on_irq(INT_MIN, _EVENT_NULL, kmt_context_save);
     os->on_irq(INT_MAX, _EVENT_NULL, kmt_context_switch);
+    //Clear tasks
     for (int i=0;i<MAXTASK;++i){
         tasks[i] = NULL;
     }
     for (int i=0;i<MAXCPU;++i){
         cputask[i] = NULL;
     }
+    cnt_tasks = 0;
 }
 
-int create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
-    task->name = name;
-    task->exists = 1;
-    task->run = 0;
+int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
+    //Check if tasks are full
+    if (cnt_task>=MAXTASK){
+      warning("Create Failed: Task amount overflows\n");
+      return 1;
+    }
+    //Initial task information
     task->stack = pmm->alloc(STACKSIZE);
     if (task->stack==NULL) {
-        return 1;
+      warning("Create Failed: Memory overflows\n");
+      return 1;
     }
+    task->name = name;
+    task->run = 0;
     task->context = *_kcontext((_Area){task->stack, task->stack+STACKSIZE-1}, entry, arg);
+    //Search for a space for the task
 
-    int i,cnt=0;
     kmt->spin_lock(&lock_kmt);
-    for (i=h_tasks;cnt<MAXTASK&&!empty(tasks[i]);i=(i+1)%MAXTASK,cnt++);
-    if (cnt==MAXTASK){
-        kmt->spin_unlock(&lock_kmt);
-        pmm->free(task->stack);
-        warning("Create Failed: Task amount overflows\n");
-        return 1;
-    } else {
-        tasks[h_tasks = i] = task;
-        task->id = h_tasks;
-        kmt->spin_unlock(&lock_kmt);
-        return 0;
-    }
-    SHOULD_NOT_REACH_HERE();
+    cnt_tasks++;
+    while (i<MAXTASK && tasks[i]) i++;
+    tasks[i] = task;
+    task->id = h_tasks;
+    kmt->spin_unlock(&lock_kmt);
+
+    return 0;
 }
-void teardown(task_t *task){
+
+void kmt_teardown(task_t *task){
+    assert(task!=NULL);
     pmm->free(task->stack);
+
     kmt->spin_lock(&lock_kmt);
-    task->exists = 0;
+    cnt_tasks--;
+    task = NULL;
     kmt->spin_unlock(&lock_kmt);
 }
 
@@ -124,23 +132,20 @@ void spin_lock(spinlock_t *lk){
     //printf("L%c %s %d\n","12345678"[_cpu()], lk->name, readflags()&FL_IF);
     Assert(!holding(lk), "locking a locked lock %s", lk->name);
 
-    while (_atomic_xchg(&lk->locked, 1)!=0){
-    //    Loglock(lk);
-    //  _putc("12345678"[_cpu()]);
-    };
+    while (_atomic_xchg(&lk->locked, 1)!=0){};
 
     __sync_synchronize();
     lk->cpu = _cpu();
 }
 
 void spin_unlock(spinlock_t *lk) {
-    //printf("U%c %s %d\n","12345678"[_cpu()], lk->name, readflags()&FL_IF);
     Assert(holding(lk), "release an unlocked lock %s", lk->name);
     lk->cpu = 0;
 
     __sync_synchronize();
 
     asm volatile ("movl $0, %0" : "+m" (lk->locked) :);
+    //printf("U%c %s %d\n","12345678"[_cpu()], lk->name, readflags()&FL_IF);
     popcli();
 }
 
@@ -157,9 +162,9 @@ void sem_signal(sem_t *sem){
 }
 
 MODULE_DEF(kmt) {
-    .init = init,
-    .create = create,
-    .teardown = teardown,
+    .init = kmt_init,
+    .create = kmt_create,
+    .teardown = kmt_teardown,
     .spin_init = spin_init,
     .spin_lock = spin_lock,
     .spin_unlock = spin_unlock,
