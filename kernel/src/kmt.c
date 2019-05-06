@@ -47,9 +47,9 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
 
 void init(){
     kmt->spin_init(&lock_kmt, "kmt");
+    _halt(1);
     os->on_irq(INT_MIN, _EVENT_NULL, kmt_context_save);
     os->on_irq(INT_MAX, _EVENT_NULL, kmt_context_switch);
-    _halt(1);
     for (int i=0;i<MAXTASK;++i){
         tasks[i] = NULL;
     }
