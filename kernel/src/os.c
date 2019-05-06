@@ -45,6 +45,7 @@ static void os_init() {
 static void os_run() {
   _intr_write(1);
   while (1) {
+    assertIF();
     _yield();
     Panic("SHOULD NOT REACH HERE");
   }
@@ -58,7 +59,6 @@ static _Context *os_trap(_Event ev, _Context *context) {
     warning("%s\n", ev.msg);
     _halt(1);
   }
-  Log("%d: %s", ev.event, ev.msg);
   assertIF1();
   _Context *ret = NULL;
   kmt->spin_lock(&lock_os);
