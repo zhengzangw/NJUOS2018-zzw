@@ -29,8 +29,7 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
         int next = (cur+i+1)%MAXTASK;
         Log("Strange");
         if (tasks[next]!=NULL||tasks[next]->id==next) {
-        _halt(1);
-           //Panic("id(%d)!=index(%d)", tasks[next]->id, next);
+           Panic("id(%d)!=index(%d)", tasks[next]->id, next);
         }
         Log("sStrange");
         if (!empty(tasks[next])&&(tasks[next]->run==0||(tasks[next]->id==cur&&cputask[_cpu()]!=NULL))){
