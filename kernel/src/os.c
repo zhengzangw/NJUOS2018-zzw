@@ -10,7 +10,8 @@ spinlock_t lock_os;
 //Test
 void logging(void *arg) {
   while (1){
-    lprintf("%s", (char *)arg);
+  //  lprintf("%s", (char *)arg);
+  lprintf("%d\n", _intr_read()>0);
   }
 }
 
@@ -72,7 +73,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
         warning("%s\n", ev.msg);
         _halt(1);
   }
-  Log("%d: %s with IF=%d", ev.event, ev.msg, _intr_read());
+  Log("%d: %s", ev.event, ev.msg);
   //Call all valid handler
   _Context *ret = NULL;
   kmt->spin_lock(&lock_os);
