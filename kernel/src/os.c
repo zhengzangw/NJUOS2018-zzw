@@ -11,7 +11,6 @@ spinlock_t lock_os;
 void logging(void *arg) {
   while (1){
     lprintf("%s", (char *)arg);
-  //Logintr();
   }
 }
 
@@ -73,7 +72,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
         warning("%s\n", ev.msg);
         _halt(1);
   }
-  Log("%d: %s", ev.event, ev.msg);
+  //Log("%d: %s, int=%d", ev.event, ev.msg, ind);
   //Call all valid handler
   _Context *ret = NULL;
   kmt->spin_lock(&lock_os);
