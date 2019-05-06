@@ -27,7 +27,7 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
       kmt->spin_lock(&lock_kmt);
       for (int i=0;i<MAXTASK;++i){
         int next = (cur+i+1)%MAXTASK;
-        Assert(tasks[next]!=NULL||tasks[next]->id==next, "id(%d)!=index(%d)", tasks[next]->id, next);
+        Assert(empty(tasks[next])||task[next]->id==next, "id!=index");
         if (!empty(tasks[next])&&(tasks[next]->run==0||(tasks[next]->id==cur&&cputask[_cpu()]!=NULL))){
             cputask[_cpu()] = tasks[next];
             Logcontext(tasks[next]);
