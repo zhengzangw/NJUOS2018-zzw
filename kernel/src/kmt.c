@@ -83,7 +83,6 @@ int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *a
     while (i<MAXTASK && tasks[(seed+i)%MAXTASK]) i++;
     tasks[(seed+i)%MAXTASK] = task;
     task->id = (seed+i)%MAXTASK;
-    Logint(seed+i);
     kmt->spin_unlock(&lock_kmt);
 
     return 0;
