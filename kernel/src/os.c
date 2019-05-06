@@ -14,7 +14,7 @@ void logging(void *arg) {
   }
 }
 
-char *str[] = "0123456789";
+char str[] = "0123456789";
 void createordelete(void *arg){
     while (1){
         task_t *tmp;
