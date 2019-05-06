@@ -55,7 +55,7 @@ callback_t handlers[MAXCB];
 int h_handlers;
 
 static _Context *os_trap(_Event ev, _Context *context) {
-  Log("%d: %s", ev.event, ev.cause);
+  Log("%d: %s", ev.event, ev.msg);
   _Context *ret = NULL;
   kmt->spin_lock(&lock_os);
   for (int i=0;i<h_handlers;++i){
