@@ -29,6 +29,7 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
         int next = (cur+i+1)%MAXTASK;
         Log("Strange");
         Assert(tasks[next]!=NULL||tasks[next]->id==next, "id(%d)!=index(%d)", tasks[next]->id, next);
+        Log("sStrange");
         if (!empty(tasks[next])&&(tasks[next]->run==0||(tasks[next]->id==cur&&cputask[_cpu()]!=NULL))){
             cputask[_cpu()] = tasks[next];
             Logcontext(tasks[next]);
