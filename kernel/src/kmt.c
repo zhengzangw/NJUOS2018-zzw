@@ -12,6 +12,7 @@ _Context *kmt_context_save(_Event ev, _Context* context){
     if (cputask[_cpu()]!=NULL) {
         cputask[_cpu()]->context = *context;
         Assert(cputask[_cpu()]->run==1, "running threads run=0");
+        Assert(cputask[_cpu()]->exists==1, "running threads exists=0");
         cputask[_cpu()]->run = 0;
     }
     return NULL;
@@ -29,7 +30,8 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
             Logcontext(tasks[next]);
             kmt->spin_unlock(&lock_kmt);
 
-            return &tasks[next]->context;
+            Assert(cputask[_cpu()]->exists==1, "threads prepared to run exists=0");
+            return &cputask[_cpu()]->context;
         }
       }
     }
