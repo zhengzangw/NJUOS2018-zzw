@@ -19,15 +19,15 @@ _Context *kmt_context_save(_Event ev, _Context* context){
 }
 
 _Context *kmt_context_switch(_Event ev, _Context * context){
-    int cur = cputask[_cpu()]==NULL?0:cputask[_cpu()]->id+1;
+    int cur = cputask[_cpu()]==NULL?0:cputask[_cpu()]->id;
     while (1){
       kmt->spin_lock(&lock_kmt);
       for (int i=0;i<MAXTASK;++i){
-        int next = (cur+i)%MAXTASK;
-        if (!empty(tasks[next])&&tasks[next]->run==0){
+        int next = (cur+i+1)%MAXTASK;
+        if (!empty(tasks[next])&&(tasks[next]->run==0||(tasks[next]->id==cur&&cputask[_cpu()]!=NULL)){
             cputask[_cpu()] = tasks[next];
-            tasks[next]->run = 1;
             Logcontext(tasks[next]);
+            tasks[next]->run = 1;
             kmt->spin_unlock(&lock_kmt);
 
             Assert(cputask[_cpu()]->exists==1, "threads prepared to run exists=0");
