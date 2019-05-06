@@ -17,7 +17,7 @@ _Context *kmt_context_save(_Event ev, _Context* context){
 
 _Context *kmt_context_switch(_Event ev, _Context * context){
     kmt->spin_lock(&lock_kmt);
-    int cur = cputask[_cpu()]==NULL?0:tasks[cputask[_cpu()]]->id+1;
+    int cur = cputask[_cpu()]==NULL?0:cputask[_cpu()]->id+1;
     while (1){
       for (int i=0;i<MAXTASK;++i){
         if (!empty(tasks[(cur+i)%MAXTASK])){
