@@ -15,11 +15,11 @@ void logging(void *arg) {
   }
 }
 
-char* str[] = {"1", "2", "3"};
+char* str[] = {"1", "2", "3", "4"};
 void createordelete(void *arg){
     while (1){
         task_t *tmp=NULL;
-        for (int i=0;i<=2;++i){
+        for (int i=0;i<=3;++i){
             tmp = pmm->alloc(sizeof(task_t));
             if (kmt->create(tmp, "auto-gem", logging, str[i])){
                 pmm->free(tmp);
