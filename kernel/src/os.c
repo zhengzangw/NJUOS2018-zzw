@@ -51,7 +51,8 @@ static void os_run() {
       } else {
         Log("1");
       }
-    printf("%d\n", t=1);
+    printf("%d\n", t);
+    printf("%d\n", (readflags()&FL_IF));
     _halt(1);
     _yield();
     Panic("SHOULD NOT REACH HERE");
