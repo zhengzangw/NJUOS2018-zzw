@@ -10,10 +10,13 @@ spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context* context){
     if (cputask[_cpu()]!=NULL) {
-        cputask[_cpu()]->context = *context;
-        Assert(cputask[_cpu()]->run==1, "running threads run=0");
-        Assert(cputask[_cpu()]->exists==1, "running threads exists=0");
-        cputask[_cpu()]->run = 0;
+        if (cputask[_cpu()]->exists!=0){
+            cputask[_cpu()]->context = *context;
+            Assert(cputask[_cpu()]->run==1, "running threads run=0");
+            cputask[_cpu()]->run = 0;
+        } else {
+            cputask[_cpu()] = NULL;
+        }
     }
     return NULL;
 }
