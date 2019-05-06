@@ -21,11 +21,12 @@ void createordelete(void *arg){
         task_t *tmp=NULL;
         for (int i=0;i<=2;++i){
             tmp = pmm->alloc(sizeof(task_t));
-            kmt->create(tmp, "auto-gem", logging, str[i]);
+            if (kmt->create(tmp, "auto-gem", logging, str[i])){
+                tmp = NULL;
+            }
         }
         _yield();
-        Log("%d", tmp);
-        if (tmp) kmt->teardown(tmp);
+        kmt->teardown(tmp);
     }
 }
 
