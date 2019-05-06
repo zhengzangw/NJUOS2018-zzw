@@ -6,6 +6,7 @@ spinlock_t lock_debug;
 #endif
 spinlock_t lock_print;
 spinlock_t lock_os;
+int timelock[MAXCPU]; //judge nested timelock
 
 //Test
 void logging(void *arg) {
@@ -70,19 +71,20 @@ static void os_on_irq(int seq, int event, handler_t handler) {
 }
 
 static _Context *os_trap(_Event ev, _Context *context) {
+  Assert(timelock[_cpu()]>=0, "timelock<0");
   //Special Check
   switch (ev.event){
     case _EVENT_ERROR:
         warning("%s\n", ev.msg);
         _halt(1);
-    //case _EVENT_IRQ_TIMER:
-        //printf("T%c\n", "1234"[_cpu()]);
-        //return context;
+    case _EVENT_IRQ_TIMER:
+        if (timelock[_cpu()]) return context;
+        else timelock[_cpu()]++; //TODO: Strange
   }
   //Log("%d: %s", ev.event, ev.msg);
+  kmt->spin_lock(&lock_os);
   //Call all valid handler
   _Context *ret = NULL;
-  kmt->spin_lock(&lock_os);
   for (int i=0;i<h_handlers;++i){
       Assert(i==h_handlers-1||handlers[i].seq<=handlers[i+1].seq, "seq not increase");
       if (handlers[i].event == _EVENT_NULL || handlers[i].event == ev.event){
@@ -90,8 +92,13 @@ static _Context *os_trap(_Event ev, _Context *context) {
           if (next) ret = next;
       }
   }
+  //Special Check
+  switch (ev.event){
+    case _EVENT_IRQ_TIMER:
+       timelock[_cpu()]--;
+  }
+  Assert(timelock[_cpu()]==0, "timelock!=0");
   kmt->spin_unlock(&lock_os);
-
   return ret;
 }
 
