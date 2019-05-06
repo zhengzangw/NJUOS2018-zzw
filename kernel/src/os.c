@@ -45,9 +45,13 @@ static void os_init() {
 static void os_run() {
   _intr_write(1);
   while (1) {
-  assertIF1();
-    Log("IF=%x", readflags());
+      if (readflags()&FL_IF==0){
+        Log("0");
+      } else {
+        Log("1");
+      }
     _halt(1);
+    Log("IF=%d", readflags());
     _yield();
     Panic("SHOULD NOT REACH HERE");
   }
