@@ -71,8 +71,10 @@ static _Context *os_trap(_Event ev, _Context *context) {
     case _EVENT_ERROR:
         warning("%s\n", ev.msg);
         _halt(1);
+    case _EVENT_TIMER:
+        printf("T\n");
   }
-  printf("%d: %s", ev.event, ev.msg);
+  Log("%d: %s", ev.event, ev.msg);
   //Call all valid handler
   _Context *ret = NULL;
   kmt->spin_lock(&lock_os);
