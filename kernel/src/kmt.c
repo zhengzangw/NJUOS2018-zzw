@@ -5,25 +5,24 @@
 
 task_t *tasks[MAXTASK];
 int h_tasks;
-int cputask[MAXCPU];
+task_t *cputask[MAXCPU];
 spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context* context){
-    if (cputask[_cpu()]!=-1) {
-        tasks[cputask[_cpu()]]->context = *context;
+    if (cputask[_cpu()]!=NULL) {
+        cputask[_cpu()]->context = *context;
     }
     return NULL;
 }
 
 _Context *kmt_context_switch(_Event ev, _Context * context){
     kmt->spin_lock(&lock_kmt);
-    int cur = cputask[_cpu()]==-1?0:tasks[cputask[_cpu()]]->id+1;
-    Logint(cur);
+    int cur = cputask[_cpu()]==NULL?0:tasks[cputask[_cpu()]]->id+1;
     while (1){
       for (int i=0;i<MAXTASK;++i){
         if (!empty(tasks[(cur+i)%MAXTASK])){
             int next = (cur+i)%MAXTASK;
-            cputask[_cpu()] = next;
+            cputask[_cpu()] = tasks[next];
 
             Log("Choose: %d", next);
             Logcontext(tasks[next]);
@@ -46,7 +45,7 @@ void init(){
         tasks[i] = NULL;
     }
     for (int i=0;i<MAXCPU;++i){
-        cputask[i] = -1;
+        cputask[i] = NULL;
     }
 }
 
