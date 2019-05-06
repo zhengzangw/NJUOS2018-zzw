@@ -131,7 +131,7 @@ void spin_init(spinlock_t *lk, const char *name){
 
 void spin_lock(spinlock_t *lk){
     pushcli();
-    printf("L%c %s\n","12345678"[_cpu()], lk->name);
+    printf("L%c %s %c\n","12345678"[_cpu()], lk->name, readflags()&IF_FL);
     Assert(!holding(lk), "locking a locked lock %s", lk->name);
 
     while (_atomic_xchg(&lk->locked, 1)!=0){
