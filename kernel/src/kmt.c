@@ -38,6 +38,7 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
             return &cputask[_cpu()]->context;
         }
       }
+      Log("waiting");
     }
 
     SHOULD_NOT_REACH_HERE();
