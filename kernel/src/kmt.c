@@ -127,7 +127,7 @@ void spin_lock(spinlock_t *lk){
     Assert(!holding(lk), "spin_lock");
 
     while (_atomic_xchg(&lk->locked, 1)!=0){
-        Loglock(lk);
+    //    Loglock(lk);
         _putc("12345678"[_cpu()]);
     };
 
