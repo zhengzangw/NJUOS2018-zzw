@@ -71,7 +71,8 @@ static _Context *os_trap(_Event ev, _Context *context) {
   switch (ev.event){
     case _EVENT_ERROR:
         warning("%s\n", ev.msg);
-        _halt(1);
+        return context;
+        //_halt(1);
     case _EVENT_IRQ_TIMER:
         //printf("T%c\n", "1234"[_cpu()]);
         return context;
@@ -88,7 +89,6 @@ static _Context *os_trap(_Event ev, _Context *context) {
       }
   }
   kmt->spin_unlock(&lock_os);
-  Log("Finish");
 
   return ret;
 }
