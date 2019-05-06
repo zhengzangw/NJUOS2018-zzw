@@ -93,17 +93,9 @@ void teardown(task_t *task){
 
 int cpuncli[MAXCPU], intena[MAXCPU];
 
-uint readflags(){
-    uint eflags;
-    asm volatile("pushfl; popl %0" : "=r"(eflags));
-    return eflags;
-}
-
 static void pushcli(void){
-    int eflags;
-    eflags = readflags();
     _intr_write(0);
-    if (cpuncli[_cpu()] == 0) intena[_cpu()] = eflags & FL_IF;
+    if (cpuncli[_cpu()] == 0) intena[_cpu()] = _intr_read();
     cpuncli[_cpu()]+=1;
 }
 
