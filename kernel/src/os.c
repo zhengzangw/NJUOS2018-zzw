@@ -45,7 +45,7 @@ static void os_init() {
 static void os_run() {
   _intr_write(1);
   while (1) {
-      if (readflags()&FL_IF==0){
+      if ((readflags()&FL_IF)==0){
         Log("0");
       } else {
         Log("1");
