@@ -62,14 +62,14 @@ static _Context *os_trap(_Event ev, _Context *context) {
   Log("%d: %s, int=%d", ev.event, ev.msg, ind);
   _Context *ret = NULL;
   kmt->spin_lock(&lock_os);
-  int = 1;
+  ind = 1;
   for (int i=0;i<h_handlers;++i){
       if (handlers[i].event == _EVENT_NULL || handlers[i].event == ev.event){
           _Context *next = handlers[i].handler(ev, context);
           if (next) ret = next;
       }
   }
-  int = 0;
+  ind = 0;
   kmt->spin_unlock(&lock_os);
   return ret;
 }
