@@ -51,6 +51,7 @@ static void os_run() {
       } else {
         Log("1");
       }
+    printf("%d\n", t);
     Log("IF=%u", t);
     _halt(1);
     _yield();
