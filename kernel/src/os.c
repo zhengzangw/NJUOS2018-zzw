@@ -71,8 +71,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
   switch (ev.event){
     case _EVENT_ERROR:
         warning("%s\n", ev.msg);
-        return context;
-        //_halt(1);
+        _halt(1);
     case _EVENT_IRQ_TIMER:
         //printf("T%c\n", "1234"[_cpu()]);
         return context;
