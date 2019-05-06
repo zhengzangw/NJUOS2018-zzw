@@ -60,5 +60,5 @@ extern spinlock_t lock_debug;
 int readflags();
 #define Loglock(lock) printf("lock=%s", lock->name);
 // ========== THREAD =========
-#define Logcontext(context) Log("id=%d, exists=%d, name=%s", context->id, context->exists, context->name)
+#define Logcontext(context) Log("id=%d, exists=%d, run=%d, name=%s", context->id, context->exists, context->run, context->name)
 #endif
