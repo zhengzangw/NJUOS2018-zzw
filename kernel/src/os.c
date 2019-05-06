@@ -63,6 +63,10 @@ static _Context *os_trap(_Event ev, _Context *context) {
           _Context *next = handlers[i].handler(ev, context);
           if (next) ret = next;
       }
+      if (handlers[i].event == _EVENT_ERROR){
+        warning("%s", ev.msg);
+        _halt(1);
+      }
   }
   kmt->spin_unlock(&lock_os);
   return ret;
