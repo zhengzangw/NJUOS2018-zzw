@@ -71,8 +71,9 @@ static _Context *os_trap(_Event ev, _Context *context) {
     case _EVENT_ERROR:
         warning("%s\n", ev.msg);
         _halt(1);
-    //case _EVENT_IRQ_TIMER:
+    case _EVENT_IRQ_TIMER:
         //printf("T%c\n", "1234"[_cpu()]);
+        return context;
   }
   Log("%d: %s", ev.event, ev.msg);
   //Call all valid handler
