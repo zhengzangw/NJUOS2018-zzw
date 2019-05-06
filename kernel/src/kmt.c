@@ -23,8 +23,8 @@ _Context *kmt_context_save(_Event ev, _Context* context){
 
 _Context *kmt_context_switch(_Event ev, _Context * context){
     int cur = cputask[_cpu()]==NULL?0:cputask[_cpu()]->id;
+    kmt->spin_lock(&lock_kmt);
     while (1){
-      kmt->spin_lock(&lock_kmt);
       for (int i=0;i<MAXTASK;++i){
         int next = (cur+i+1)%MAXTASK;
         Assert(tasks[next]==NULL||tasks[next]->id==next, "id(%d)!=next(%d)", tasks[next]->id, next);
