@@ -127,7 +127,7 @@ static int holding(spinlock_t *lock){
 }
 
 void spin_init(spinlock_t *lk, const char *name){
-    lk->cpu = 0;
+    lk->cpu = -1;
     lk->locked = 0;
     lk->name = name;
 }
@@ -137,7 +137,7 @@ void spin_lock(spinlock_t *lk){
     //printf("L%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
     Assert(!holding(lk), "locking a locked lock %s", lk->name);
 
-    while (_atomic_xchg(&lk->locked, 1)!=0){};
+    while (_atomic_xchg(&lk->locked, 1)!=0);
 
     __sync_synchronize();
     lk->cpu = _cpu();
@@ -145,7 +145,7 @@ void spin_lock(spinlock_t *lk){
 
 void spin_unlock(spinlock_t *lk) {
     Assert(holding(lk), "release an unlocked lock %s", lk->name);
-    lk->cpu = 0;
+    lk->cpu = -1;
 
     __sync_synchronize();
 
