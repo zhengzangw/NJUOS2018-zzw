@@ -46,6 +46,7 @@ static void os_run() {
   _intr_write(1);
   while (1) {
   assertIF1();
+  assertIF0();
     Log("IF=%d", readflags()&FL_IF);
     _yield();
     Panic("SHOULD NOT REACH HERE");
