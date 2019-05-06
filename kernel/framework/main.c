@@ -7,7 +7,6 @@ int main() {
 
   // call sequential init code
   os->init();
-  _halt(1);
   _mpe_init(os->run); // all cores call os->run()
   return 1;
 }

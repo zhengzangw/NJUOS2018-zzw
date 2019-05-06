@@ -32,6 +32,7 @@ static void os_init() {
   kmt->init();
   //dev->init();
 
+  _halt(1);
   #ifdef DEBUG_LOCK
   kmt->spin_init(&lock_debug, "debug");
   #endif
