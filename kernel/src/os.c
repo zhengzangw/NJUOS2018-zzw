@@ -88,6 +88,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
       }
   }
   kmt->spin_unlock(&lock_os);
+  Log("Finish");
 
   return ret;
 }
