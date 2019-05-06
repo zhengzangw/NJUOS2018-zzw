@@ -38,7 +38,6 @@ extern spinlock_t lock_debug;
 
 #define Assert(cond, ...) \
     do { \
-        _putc('I');\
         if (!(cond)) { \
             Log(__VA_ARGS__); \
             Log("Assertion fail"); \
