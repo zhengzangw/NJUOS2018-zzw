@@ -107,7 +107,6 @@ static void kfree(void *ptr) {
   #endif
   delete_node(p);
   kmt->spin_unlock(&alloc_lock);
-  ptr = NULL;
 #endif
 }
 

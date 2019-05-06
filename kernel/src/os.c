@@ -23,6 +23,7 @@ void createordelete(void *arg){
             tmp = pmm->alloc(sizeof(task_t));
             if (kmt->create(tmp, "auto-gem", logging, str[i])){
                 pmm->free(tmp);
+                tmp = NULL;
             }
         }
         _yield();
