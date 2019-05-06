@@ -91,6 +91,7 @@ int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *a
 
 void kmt_teardown(task_t *task){
     assert(task!=NULL);
+    Log("free %d", task->id);
     pmm->free(task->stack);
 
     kmt->spin_lock(&lock_kmt);
