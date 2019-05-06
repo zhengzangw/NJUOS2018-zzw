@@ -10,8 +10,8 @@ spinlock_t lock_os;
 //Test
 void logging(void *arg) {
   while (1){
-  //  lprintf("%s", (char *)arg);
-  Logintr();
+    lprintf("%s", (char *)arg);
+  //Logintr();
   }
 }
 
