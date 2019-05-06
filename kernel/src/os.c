@@ -56,7 +56,7 @@ int h_handlers;
 
 int ind = 0;
 static _Context *os_trap(_Event ev, _Context *context) {
-  Log("IF=%d", readflags()&FL_IF);
+  printf("IF=%d", readflags()&FL_IF);
     _halt(1);
   if (ev.event == _EVENT_ERROR){
     warning("%s\n", ev.msg);
