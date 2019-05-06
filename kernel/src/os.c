@@ -76,7 +76,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
         //printf("T%c\n", "1234"[_cpu()]);
         return context;
   }
-  Log("%d: %s", ev.event, ev.msg);
+  //Log("%d: %s", ev.event, ev.msg);
   //Call all valid handler
   _Context *ret = NULL;
   kmt->spin_lock(&lock_os);
