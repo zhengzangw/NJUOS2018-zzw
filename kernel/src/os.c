@@ -59,6 +59,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
     warning("%s\n", ev.msg);
     _halt(1);
   }
+  assertIF1();
   _Context *ret = NULL;
   kmt->spin_lock(&lock_os);
   for (int i=0;i<h_handlers;++i){
