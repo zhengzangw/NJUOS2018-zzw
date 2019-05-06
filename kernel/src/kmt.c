@@ -147,7 +147,7 @@ void spin_lock(spinlock_t *lk){
 }
 
 void spin_unlock(spinlock_t *lk) {
-    printf("U%c %s\n","12345678"[_cpu()], lk->name);
+    printf("U%c %s %d\n","12345678"[_cpu()], lk->name, readflags()&FL_IF);
     Assert(holding(lk), "release an unlocked lock %s", lk->name);
     lk->cpu = 0;
 
