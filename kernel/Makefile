@@ -26,6 +26,9 @@ run2: image
 run4: image
 	qemu-system-i386 -smp 4 $(QEMU_FLAGS)
 
+run8: image
+	qemu-system-i386 -smp 8 $(QEMU_FLAGS)
+
 gdb: $(IMG)
 	@gdb -ex "target remote 127.0.0.1:1234" -ex "symbol $(BINARY).o"
 
