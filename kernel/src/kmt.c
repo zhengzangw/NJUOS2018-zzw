@@ -91,14 +91,11 @@ int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *a
 
 void kmt_teardown(task_t *task){
     assert(task!=NULL);
-    Log("teardown %d", task->id);
     pmm->free(task->stack);
 
     kmt->spin_lock(&lock_kmt);
     cnt_tasks--;
-    int tmp = task->id;
-    task = NULL;
-    Assert(tasks[tmp]==NULL, "STRANGE");
+    tasks[task->id]=NULL;
     kmt->spin_unlock(&lock_kmt);
 }
 
