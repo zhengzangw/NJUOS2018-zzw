@@ -31,7 +31,6 @@ _Context *kmt_context_switch(_Event ev, _Context * context){
             kmt->spin_unlock(&lock_kmt);
 
             Assert(cputask[_cpu()]->exists==1, "threads prepared to run exists=0");
-            Assert(cputask[_cpu()]->run==0, "threads prepared to run run=1");
             return &cputask[_cpu()]->context;
         }
       }
