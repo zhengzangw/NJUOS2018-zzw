@@ -81,6 +81,7 @@ static void os_on_irq(int seq, int event, handler_t handler) {
 }
 
 static _Context *os_trap(_Event ev, _Context *context) {
+  Log("%d: %s", ev.event, ev.msg);
   assertIF0();
   Assert(timelock[_cpu()]>=0, "timelock<0");
   //Special Check
@@ -92,7 +93,6 @@ static _Context *os_trap(_Event ev, _Context *context) {
         if (timelock[_cpu()]) return context;
         else timelock[_cpu()]++; //TODO: Strange
   }
-  //Log("%d: %s", ev.event, ev.msg);
   kmt->spin_lock(&lock_os);
   //Call all valid handler
   _Context *ret = NULL;
