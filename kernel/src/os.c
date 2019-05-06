@@ -10,7 +10,7 @@ spinlock_t lock_os;
 //Test
 void logging(void *arg) {
   while (1){
-    lprintf("%s\n", (char *)arg);
+    lprintf("%s", (char *)arg);
   }
 }
 
