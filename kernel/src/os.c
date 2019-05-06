@@ -55,6 +55,7 @@ int h_handlers;
 
 int ind = 0;
 static _Context *os_trap(_Event ev, _Context *context) {
+  assertIF0();
   if (ev.event == _EVENT_ERROR){
     warning("%s\n", ev.msg);
     _halt(1);
