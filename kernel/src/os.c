@@ -129,7 +129,6 @@ static _Context *os_trap(_Event ev, _Context *context) {
       }
   }
   kmt->spin_unlock(&lock_os);
-       Assert(cputask[_cpu()]->sleep==1||cputask[_cpu()]->run==1, "running threads run=0, %s, id=%d", cputask[_cpu()]->name, cputask[_cpu()]->id);
   //Logintr();
   return ret;
 }
