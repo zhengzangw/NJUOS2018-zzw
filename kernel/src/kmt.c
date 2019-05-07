@@ -42,6 +42,7 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
     }
     kmt->spin_unlock(&lock_kmt);
     assert(cpudefaulttask[_cpu()]);
+    Log("waiting");
     return cpudefaulttask[_cpu()];
 }
 
