@@ -171,7 +171,7 @@ void sem_init(sem_t *sem, const char *name, int value){
     kmt->spin_init(&sem->lock, name);
 }
 
-#define head sem->head
+#define head sem->pcb
 void sem_list_add(sem_t* sem, task_t *task){
     assert(task);
     tasknode_t* tasknode = pmm->alloc(sizeof(tasknode_t));
