@@ -47,10 +47,12 @@ void producer(){
     assert(fill.cnt_tasks==0||fill.pcb!=NULL);
     assert(empty.cnt_tasks==0||empty.pcb!=NULL);
     kmt->sem_signal(&fill);
+    assert(fill.cnt_tasks==0||fill.pcb!=NULL);
   }
 }
 void consumer(){
   while (1){
+    assert(fill.cnt_tasks==0||fill.pcb!=NULL);
     kmt->sem_wait(&fill);
     //lprintf(")");
     assert(empty.cnt_tasks==0||empty.pcb!=NULL);
@@ -59,6 +61,7 @@ void consumer(){
     assert(empty.cnt_tasks==0||empty.pcb!=NULL);
     assert(fill.cnt_tasks==0||fill.pcb!=NULL);
     kmt->sem_signal(&empty);
+    assert(fill.cnt_tasks==0||fill.pcb!=NULL);
   }
 }
 
