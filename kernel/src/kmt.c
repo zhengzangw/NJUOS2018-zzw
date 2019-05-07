@@ -192,7 +192,6 @@ void sem_list_add(sem_t* sem, task_t *task){
 }
 
 void sem_list_delete(sem_t *sem){
-    Log("delete: %s", sem->name);
     head->task->sleep = 0;
     tasknode_t *t = head;
     head = head->nxt;
@@ -203,11 +202,11 @@ void sem_wait(sem_t *sem){
     kmt->spin_lock(&sem->lock);
     sem->count--;
     if (sem->count<0){
-        Log("wait %s", sem->name);
         sem->cnt_tasks++;
         cputask[_cpu()]->sleep = 1;
         sem_list_add(sem, cputask[_cpu()]);
         kmt->spin_unlock(&sem->lock);
+
         assert(cpuncli[_cpu()]==0);
         _yield();
     } else {
@@ -219,7 +218,7 @@ void sem_signal(sem_t *sem){
     if (sem->cnt_tasks>0){
         Assert(sem->pcb, "%s: no head, cnt=%d",sem->name, sem->cnt_tasks);
         sem_list_delete(sem);
-        cnt_tasks--;
+        sem->cnt_tasks--;
     }
     sem->count++;
     kmt->spin_unlock(&sem->lock);

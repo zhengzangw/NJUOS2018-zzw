@@ -63,5 +63,6 @@ extern int intena[64];
 // ========== THREAD =========
 #define Logcontext(context) Log("id=%d, run=%d, name=%s", context->id, context->run, context->name)
 // ========== LIST ===========
-#define Loglist(list) while (list) {Log("list: %d", list->task->id); list = list->nxt; } Log("log done");
+#define Loglist(list) while (list) {Log("list: %d", list->task->id); list = list->nxt; } Log("log done")
+#define Logsem(sem) Log("SEM %s: count=%d cnt_tasks", sem->name, sem->count, sem->cnt_tasks); Loglist(sem)
 #endif
