@@ -37,14 +37,18 @@ void test(void *arg){
 // ============== TEST SEM =============
 sem_t empty, fill;
 void producer(){
-  kmt->sem_wait(&empty);
-  lprintf("(");
-  kmt->sem_signal(&fill);
+  while (1) {
+    kmt->sem_wait(&empty);
+    lprintf("(");
+    kmt->sem_signal(&fill);
+  }
 }
 void consumer(){
-  kmt->sem_wait(&fill);
-  lprintf(")");
-  kmt->sem_signal(&empty);
+  while (1){
+    kmt->sem_wait(&fill);
+    lprintf(")");
+    kmt->sem_signal(&empty);
+  }
 }
 
 // ============== OS =============
