@@ -47,7 +47,7 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
     }
     ret->run = 1;
     cputask[_cpu()] = ret;
-    _Context *retct = ret->context;
+    _Context *retct = &ret->context;
     kmt->spin_unlock(&lock_kmt);
 
     return retct;
