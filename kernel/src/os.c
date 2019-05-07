@@ -63,6 +63,7 @@ static void os_init() {
 
 static void os_run() {
   _intr_write(1);
+  Logintr();
   while (1) {
     _yield();
     Panic("SHOULD NOT REACH HERE");
@@ -84,6 +85,7 @@ static void os_on_irq(int seq, int event, handler_t handler) {
 }
 
 static _Context *os_trap(_Event ev, _Context *context) {
+  Logintr();
   Log("%d: %s", ev.event, ev.msg);
   assertIF0();
   Assert(timelock[_cpu()]==0, "timelock<0");
@@ -114,6 +116,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
   }
   Assert(timelock[_cpu()]==0, "timelock!=0");
   kmt->spin_unlock(&lock_os);
+  Logintr();
   return ret;
 }
 
