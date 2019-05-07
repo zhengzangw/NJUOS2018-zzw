@@ -42,7 +42,6 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
         }
     }
     if (ret == NULL) {
-      assert(cpudefaulttask[_cpu()]);
       ret = &cpudefaulttask[_cpu()];
     }
     ret->run = 1;
