@@ -25,12 +25,14 @@ _Context *kmt_context_save(_Event ev, _Context* context){
 }
 
 _Context *kmt_context_switch(_Event ev, _Context* context){
-    //Scheduler: Randomly selected
-    int seed = rand()%MAXTASK;
+    //Scheduler: Linear selected
+    int seed;
+    if (cputask[_cpu()]) seed = cputask[_cpu()].id;
+    else seed = rand()%MAXTASK;
     //Choose an runnable context
     kmt->spin_lock(&lock_kmt);
     for (int i=0;i<MAXTASK;++i){
-        task_t *nxt = tasks[(seed+i)%MAXTASK];
+        task_t *nxt = tasks[(seed+i+1)%MAXTASK];
         if (nxt && nxt->run==0){
             //Logcontext(nxt);
 
