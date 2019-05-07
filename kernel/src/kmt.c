@@ -190,7 +190,6 @@ void sem_list_add(sem_t* sem, task_t *task){
         tasknode->pre = head->pre;
         head->pre = tasknode;
         head = tasknode;
-        Assert(head->nxt->pre==head, "(%p)!=(%p)", head->nxt->pre, head);
     }
     assert(head);
 }
@@ -199,6 +198,7 @@ void sem_list_delete(sem_t *sem){
     head->task->sleep = 0;
     tasknode_t *t = head;
     head = head->nxt;
+    head->pre = t->pre;
     pmm->free(t);
 }
 
