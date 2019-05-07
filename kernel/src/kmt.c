@@ -202,7 +202,7 @@ void sem_wait(sem_t *sem){
     kmt->spin_lock(&sem->lock);
     sem->count--;
     if (sem->count<0){
-        Log("wait");
+        Log("wait %s", sem->name);
         sem->cnt_tasks++;
         cputask[_cpu()]->sleep = 1;
         sem_list_add(sem, cputask[_cpu()]);
