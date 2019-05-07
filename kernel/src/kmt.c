@@ -184,7 +184,6 @@ void sem_list_add(sem_t* sem, task_t *task){
         tasknode->nxt = tasknode->pre = NULL;
         head = tasknode;
     } else {
-        assert(head->pre==NULL);
         if (head->nxt){
             Assert(head->nxt->pre==head, "head->nxt: %d (%p)!=(%p) head: %d",head->nxt->task->id, head->nxt->pre, head, head->task->id);
         }
