@@ -15,7 +15,7 @@
 struct task {
   const char *name;
   _Context context;
-  int run, id, runnable;
+  int run, id, sleep;
   char* stack;
 };
 
