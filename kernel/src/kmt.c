@@ -11,7 +11,7 @@ spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context* context){
     if (cpudefaulttask[_cpu()]==NULL){
-        cupdefaulttask[_cpu()] = context;
+        cpudefaulttask[_cpu()] = context;
     }
     if (cputask[_cpu()]!=NULL) {
        Assert(cputask[_cpu()]->run==1, "running threads run=0");
