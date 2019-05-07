@@ -56,7 +56,7 @@ extern spinlock_t lock_debug;
 // ========== SPINLOCK =======
 extern int cpuncli[64];
 extern int intena[64];
-extern task_t cputask[64];
+extern task_t* cputask[64];
 #define assertIF0() Assert(_intr_read()==0, "IF should be 0")
 #define assertIF1() Assert(_intr_read()!=0, "IF should be 1")
 #define Logintr() printf("IF=%d\n", _intr_read())
