@@ -168,7 +168,7 @@ void sem_init(sem_t *sem, const char *name, int value){
     sem->name = name;
     sem->count = value;
     sem->cnt_tasks = 0;
-    kmt->spin_init(sem->lock, name);
+    kmt->spin_init(&sem->lock, name);
 }
 
 void sem_list_add(tasknode_t *head, task_t *task){
