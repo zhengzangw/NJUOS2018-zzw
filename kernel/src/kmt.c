@@ -190,6 +190,7 @@ void sem_list_add(sem_t* sem, task_t *task){
         head = tasknode;
     }
     assert(head);
+    Log("sem addr:%p", sem);
     Logsem(sem);
 }
 
