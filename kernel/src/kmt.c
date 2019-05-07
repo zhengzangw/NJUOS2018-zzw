@@ -172,6 +172,7 @@ void sem_init(sem_t *sem, const char *name, int value){
 }
 
 void sem_list_add(tasknode_t *head, task_t *task){
+    assert(task);
     tasknode_t* tasknode = pmm->alloc(sizeof(tasknode_t));
     tasknode->task = task;
     if (head==NULL){
@@ -185,6 +186,7 @@ void sem_list_add(tasknode_t *head, task_t *task){
         head->pre = tasknode;
         head = tasknode;
     }
+    assert(head);
 }
 
 void sem_list_delete(tasknode_t *head){
@@ -206,6 +208,7 @@ void sem_wait(sem_t *sem){
         assert(cpuncli[_cpu()]==0);
         _yield();
     }
+    kmt->spin_unlock(&sem->lock);
 }
 void sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
