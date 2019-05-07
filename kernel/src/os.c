@@ -65,7 +65,8 @@ static void os_run() {
   Log("TEST");
   _intr_write(1);
   assertIF1();
-  Logintr();
+  int t = _intr_read();
+  printf("t=%d", t);
   while (1) {
     _yield();
     Panic("SHOULD NOT REACH HERE");
