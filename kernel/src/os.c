@@ -35,7 +35,7 @@ void test(void *arg){
 */
 
 // ============== TEST SEM =============
-semaphore_t empty, fill;
+sem_t empty, fill;
 void producer(){
   kmt->sem_wait(&empty);
   lprintf("(");
