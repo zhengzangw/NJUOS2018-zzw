@@ -12,7 +12,7 @@ int timelock[MAXCPU]; //judge nested timelock
 void logging(void *arg) {
   while (1){
     lprintf("%s", (char *)arg);
-    //assertIF1();
+    assertIF1();
   }
 }
 
