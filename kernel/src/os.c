@@ -65,7 +65,7 @@ static void os_init() {
     // Init module
     pmm->init();
     kmt->init();
-    //dev->init();
+    dev->init();
 
     //########## TEST ##########
 #define CREATE(func, args) \
