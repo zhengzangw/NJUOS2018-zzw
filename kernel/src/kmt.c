@@ -208,6 +208,7 @@ void sem_wait(sem_t *sem){
         sem_list_add(sem, cputask[_cpu()]);
         kmt->spin_unlock(&sem->lock);
 
+        Log("Yield");
         assert(cpuncli[_cpu()]==0);
         _yield();
     } else {
