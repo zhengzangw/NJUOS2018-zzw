@@ -54,7 +54,7 @@ extern spinlock_t lock_debug;
 // ========== LIST ===========
 #define Lognode(tag, node) Log(tag "node: start=%p, end=%p", node->start, node->end)
 // ========== SPINLOCK =======
-extern int cpuncli[MAXCPU];
+extern int cpuncli[64];
 #define assertIF0() Assert(_intr_read()==0, "IF should be 0, num of locks = %d", cpuncli[_cpu()])
 #define assertIF1() Assert(_intr_read()!=0, "IF should be 1, num of locks = %d", cpuncli[_cpu()])
 #define Logintr() printf("IF=%d", _intr_read())
