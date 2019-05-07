@@ -34,7 +34,7 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
     for (int i=0;i<MAXTASK;++i){
         task_t *nxt = tasks[(seed+i+1)%MAXTASK];
         if (nxt && nxt->run==0 && nxt->sleep == 0){
-            Logcontext(nxt);
+            //Logcontext(nxt);
 
             nxt->run = 1;
             cputask[_cpu()] = nxt;
@@ -205,15 +205,10 @@ void sem_wait(sem_t *sem){
         cputask[_cpu()]->sleep = 1;
         sem_list_add(sem, cputask[_cpu()]);
         assert(sem->pcb);
-        cputask[_cpu()]->run = 0;
         kmt->spin_unlock(&sem->lock);
 
         assert(cpuncli[_cpu()]==0);
         _yield();
-
-        kmt->spin_lock(&sem->lock);
-        cputask[_cpu()]->run = 1;
-        kmt->spin_unlock(&sem->lock);
     } else {
       kmt->spin_unlock(&sem->lock);
     }
