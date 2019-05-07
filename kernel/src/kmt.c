@@ -33,7 +33,7 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
     kmt->spin_lock(&lock_kmt);
     for (int i=0;i<MAXTASK;++i){
         task_t *nxt = tasks[(seed+i+1)%MAXTASK];
-        if (nxt && nxt->run==0){
+        if (nxt && nxt->run==0 && nxt->sleep == 0){
             //Logcontext(nxt);
 
             nxt->run = 1;
@@ -165,13 +165,55 @@ void spin_unlock(spinlock_t *lk) {
 // ============= Semaphore ==============
 
 void sem_init(sem_t *sem, const char *name, int value){
-
+    sem->name = name;
+    sem->count = value;
+    sem->cnt_tasks = 0;
+    kmt->spin_init(sem->lock);
 }
-void sem_wait(sem_t *sem){
 
+void sem_list_add(tasknode_t *head, task_t *task){
+    tasknode_t* tasknode = pmm->malloc(sizeof(tasknode_t));
+    tasknode->task = task;
+    if (head==NULL){
+        tasknode->nxt = tasknode->pre = NULL;
+        head = tasknode;
+    } else {
+        assert(head->pre==NULL);
+        assert(head->nxt->pre==head);
+        tasknode->nxt = head;
+        tasknode->pre = head->pre;
+        head->pre = tasknode;
+        head = tasknode;
+    }
+}
+
+void sem_list_delete(tasknode_t *head){
+    assert(head);
+    head->task->sleep = 0;
+    tasknode *t = head;
+    head = head->nxt;
+    pmm->free(t);
+}
+
+void sem_wait(sem_t *sem){
+    kmt->spin_lock(sem->lock);
+    sem->count--;
+    if (sem->count<0){
+        sem->cnt_tasks++;
+        cputasks[_cpu()]->sleep = 1;
+        sem_list_add(sem->pcb, cputask[_cpu()]);
+        _yield();
+    }
+    kmt->spin_unlock(sem->unlock);
 }
 void sem_signal(sem_t *sem){
-
+    kmt->spin_lock(sem->lock);
+    if (sem->cnt_tasks>0){
+        cnt_tasks--;
+        sem_list_delete(sem->pcb);
+    }
+    sem->count++;
+    kmt->spin_unlock(sem->lock);
 }
 
 MODULE_DEF(kmt) {

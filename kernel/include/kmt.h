@@ -15,7 +15,7 @@
 struct task {
   const char *name;
   _Context context;
-  int run, id;
+  int run, id, runnable;
   char* stack;
 };
 
@@ -29,6 +29,16 @@ struct spinlock {
 
 // ============= SEMAPHORE ==================
 
-struct semaphore {};
+typedef struct Tasknode {
+  task_t *task;
+  struct Tasknode *nxt, *pre;
+} tasknode_t;
+
+struct semaphore {
+  const char *name;
+  int count, cnt_tasks;
+  spinlock_t lock;
+  tasknode_t *pcb;
+};
 
 #endif
