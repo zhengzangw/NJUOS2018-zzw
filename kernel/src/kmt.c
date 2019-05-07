@@ -196,7 +196,7 @@ void sem_list_delete(tasknode_t *head){
 }
 
 void sem_wait(sem_t *sem){
-    kmt->spin_lock(sem->lock);
+    kmt->spin_lock(&sem->lock);
     sem->count--;
     if (sem->count<0){
         sem->cnt_tasks++;
@@ -204,16 +204,16 @@ void sem_wait(sem_t *sem){
         sem_list_add(sem->pcb, cputask[_cpu()]);
         _yield();
     }
-    kmt->spin_unlock(sem->unlock);
+    kmt->spin_unlock(&sem->lock);
 }
 void sem_signal(sem_t *sem){
-    kmt->spin_lock(sem->lock);
+    kmt->spin_lock(&sem->lock);
     if (sem->cnt_tasks>0){
         cnt_tasks--;
         sem_list_delete(sem->pcb);
     }
     sem->count++;
-    kmt->spin_unlock(sem->lock);
+    kmt->spin_unlock(&sem->lock);
 }
 
 MODULE_DEF(kmt) {
