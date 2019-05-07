@@ -38,6 +38,7 @@ void test(void *arg){
 sem_t empty, fill;
 void producer(){
   while (1) {
+    assert(fill.cnt_tasks==0||fill.pcb!=NULL);
     kmt->sem_wait(&empty);
     //lprintf("(");
     assert(empty.cnt_tasks==0||empty.pcb!=NULL);
