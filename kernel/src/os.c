@@ -39,12 +39,12 @@ semaphore_t empty, fill;
 void producer(){
   kmt->sem_wait(&empty);
   lprintf("(");
-  kmt->sem_post(&fill);
+  kmt->sem_signal(&fill);
 }
 void consumer(){
   kmt->sem_wait(&fill);
   lprintf(")");
-  kmt->sem_post(&empty);
+  kmt->sem_signal(&empty);
 }
 
 // ============== OS =============
