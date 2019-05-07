@@ -106,8 +106,10 @@ void kmt_teardown(task_t *task){
 int cpuncli[MAXCPU], intena[MAXCPU];
 
 static void pushcli(void){
+    int IF;
+    IF = _intr_read();
     _intr_write(0);
-    if (cpuncli[_cpu()] == 0) intena[_cpu()] = _intr_read();
+    if (cpuncli[_cpu()] == 0) intena[_cpu()] = IF;
     printf("LOCK: %d CPU: %d\n", _intr_read(), cpuncli[_cpu()]);
     cpuncli[_cpu()]+=1;
 }
@@ -133,7 +135,6 @@ void spin_init(spinlock_t *lk, const char *name){
 }
 
 void spin_lock(spinlock_t *lk){
-    Logintr();
     pushcli();
     printf("L%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
     Assert(!holding(lk), "locking a locked lock %s, %d", lk->name, lk->cpu);
