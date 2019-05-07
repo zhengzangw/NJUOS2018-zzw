@@ -200,6 +200,7 @@ void sem_list_delete(sem_t *sem){
 
 void sem_wait(sem_t *sem){
     kmt->spin_lock(&sem->lock);
+    Logsem(sem);
     sem->count--;
     if (sem->count<0){
         sem->cnt_tasks++;
@@ -215,6 +216,7 @@ void sem_wait(sem_t *sem){
 }
 void sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
+    Logsem(sem);
     if (sem->cnt_tasks>0){
         Assert(sem->pcb, "%s: no head, cnt=%d",sem->name, sem->cnt_tasks);
         sem_list_delete(sem);
