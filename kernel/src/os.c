@@ -11,6 +11,7 @@ int timelock[MAXCPU]; //judge nested timelock
 // ========== Test ONE  ===========
 void logging(void *arg) {
   while (1){
+    printf("HERE\n");
     Logintr();
     lprintf("%s", (char *)arg);
     printf("locks=%d\n", cpuncli[_cpu()]);
