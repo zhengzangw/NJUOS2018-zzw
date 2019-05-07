@@ -40,7 +40,9 @@ void producer(){
   while (1) {
     kmt->sem_wait(&empty);
     //lprintf("(");
+    assert(emtpy.cnt_tasks==0||emtpy.pcb!=NULL);
     Log("(");
+    assert(emtpy.cnt_tasks==0||emtpy.pcb!=NULL);
     kmt->sem_signal(&fill);
   }
 }
@@ -48,7 +50,9 @@ void consumer(){
   while (1){
     kmt->sem_wait(&fill);
     //lprintf(")");
+    assert(emtpy.cnt_tasks==0||emtpy.pcb!=NULL);
     Log(")");
+    assert(emtpy.cnt_tasks==0||emtpy.pcb!=NULL);
     kmt->sem_signal(&empty);
   }
 }
