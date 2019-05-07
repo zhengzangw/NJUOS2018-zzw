@@ -190,7 +190,7 @@ void sem_list_add(tasknode_t *head, task_t *task){
 void sem_list_delete(tasknode_t *head){
     assert(head);
     head->task->sleep = 0;
-    tasknode *t = head;
+    tasknode_t *t = head;
     head = head->nxt;
     pmm->free(t);
 }
@@ -200,7 +200,7 @@ void sem_wait(sem_t *sem){
     sem->count--;
     if (sem->count<0){
         sem->cnt_tasks++;
-        cputasks[_cpu()]->sleep = 1;
+        cputask[_cpu()]->sleep = 1;
         sem_list_add(sem->pcb, cputask[_cpu()]);
         _yield();
     }
