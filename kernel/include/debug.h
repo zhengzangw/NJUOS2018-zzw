@@ -55,6 +55,7 @@ extern spinlock_t lock_debug;
 #define Lognode(tag, node) Log(tag "node: start=%p, end=%p", node->start, node->end)
 // ========== SPINLOCK =======
 extern int cpuncli[64];
+extern int intena[64];
 #define assertIF0() Assert(_intr_read()==0, "IF should be 0")
 #define assertIF1() Assert(_intr_read()!=0, "IF should be 1")
 #define Logintr() printf("IF=%d", _intr_read())
