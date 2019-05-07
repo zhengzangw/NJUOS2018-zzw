@@ -33,4 +33,4 @@ gdb: $(IMG)
 	@gdb -ex "target remote 127.0.0.1:1234" -ex "symbol $(BINARY).o"
 
 debug: $(IMG)
-	qemu-system-i386 -smp 2 -S -s -monitor -telnet:127.0.0.1:1111,server,nowait -serial sidio -drive format=raw,file=$(BINARY)
+	qemu-system-i386 -smp 2 -S -s -monitor telnet:127.0.0.1:1111,server,nowait -serial stdio -drive format=raw,file=$(BINARY)
