@@ -198,7 +198,10 @@ void sem_list_delete(sem_t *sem){
     head->task->sleep = 0;
     tasknode_t *t = head;
     head = head->nxt;
-    head->pre = t->pre;
+    if (head){
+      head->pre = t->pre;
+      Assert(head->nxt->pre==head, "(%p)!=(%p)", head->nxt->pre, head);
+    }
     pmm->free(t);
 }
 
