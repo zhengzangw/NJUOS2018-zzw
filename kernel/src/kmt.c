@@ -179,6 +179,7 @@ void sem_list_add(sem_t* sem, task_t *task){
     if (head==NULL){
         tasknode->nxt = tasknode->pre = NULL;
         head = tasknode;
+        Log("Yes, sir");
     } else {
         assert(head->pre==NULL);
         assert(head->nxt->pre==head);
