@@ -212,7 +212,7 @@ void sem_wait(sem_t *sem){
 void sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
     if (sem->cnt_tasks>0){
-        Assert(head, "no head, cnt=%d", sem->cnt_tasks);
+        Assert(sem->pcb, "no head, cnt=%d", sem->cnt_tasks);
         sem_list_delete(sem->pcb);
         cnt_tasks--;
     }
