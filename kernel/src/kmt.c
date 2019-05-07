@@ -192,6 +192,7 @@ void sem_list_add(sem_t* sem, task_t *task){
 }
 
 void sem_list_delete(sem_t *sem){
+    Log("delete: %s", sem->name);
     head->task->sleep = 0;
     tasknode_t *t = head;
     head = head->nxt;
