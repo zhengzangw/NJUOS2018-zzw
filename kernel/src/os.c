@@ -51,6 +51,7 @@ void consumer(){
     assert(fill.cnt_tasks==0||fill.pcb!=NULL);
     kmt->sem_wait(&fill);
     lprintf(")");
+    assert(cputask[_cpu()]->run);
     kmt->sem_signal(&empty);
     assert(fill.cnt_tasks==0||fill.pcb!=NULL);
   }
