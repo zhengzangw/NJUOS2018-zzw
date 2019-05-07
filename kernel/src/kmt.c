@@ -206,6 +206,7 @@ void sem_wait(sem_t *sem){
         sem->cnt_tasks++;
         cputask[_cpu()]->sleep = 1;
         sem_list_add(sem, cputask[_cpu()]);
+        Logsem(sem);
         kmt->spin_unlock(&sem->lock);
 
         Log("Yield");
