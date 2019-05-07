@@ -39,14 +39,16 @@ sem_t empty, fill;
 void producer(){
   while (1) {
     kmt->sem_wait(&empty);
-    lprintf("(");
+    //lprintf("(");
+    Log("(");
     kmt->sem_signal(&fill);
   }
 }
 void consumer(){
   while (1){
     kmt->sem_wait(&fill);
-    lprintf(")");
+    //lprintf(")");
+    Log(")");
     kmt->sem_signal(&empty);
   }
 }
