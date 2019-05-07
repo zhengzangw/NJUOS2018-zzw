@@ -28,7 +28,7 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
       for (int i=0;i<MAXTASK;++i){
         task_t *nxt = tasks[(seed+i)%MAXTASK];
         if (nxt && nxt->run==0){
-            //Logcontext(nxt);
+            Logcontext(nxt);
 
             nxt->run = 1;
             cputask[_cpu()] = nxt;
