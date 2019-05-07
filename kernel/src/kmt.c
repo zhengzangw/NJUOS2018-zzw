@@ -190,7 +190,7 @@ void sem_list_add(sem_t* sem, task_t *task){
         head = tasknode;
     }
     assert(head);
-    Log("sem addr:%p", sem);
+    Log("sem addr:%p", sem->pcb);
     Logsem(sem);
 }
 
@@ -208,7 +208,7 @@ void sem_wait(sem_t *sem){
     if (sem->count<0){
         sem->cnt_tasks++;
         cputask[_cpu()]->sleep = 1;
-        Log("sem addr:%p", sem);
+        Log("sem addr:%p", sem->pcb);
         sem_list_add(sem, cputask[_cpu()]);
         assert(sem->pcb);
         Logsem(sem);
