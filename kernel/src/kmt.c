@@ -23,8 +23,8 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
     //Scheduler: Randomly selected
     int seed = rand()%MAXTASK;
     //Choose an runnable context
-    kmt->spin_lock(&lock_kmt);
     while (1){
+      kmt->spin_lock(&lock_kmt);
       for (int i=0;i<MAXTASK;++i){
         task_t *nxt = tasks[(seed+i)%MAXTASK];
         if (nxt && nxt->run==0){
@@ -37,6 +37,7 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
             return &cputask[_cpu()]->context;
         }
       }
+      kmt->spin_unlock(&lock_kmt);
       //Log("waiting");
     }
 
