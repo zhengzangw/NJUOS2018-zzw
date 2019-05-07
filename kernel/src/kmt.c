@@ -4,45 +4,49 @@
 // ============= Thread   ============
 
 task_t *tasks[MAXTASK];
-int cnt_tasks; //total created tasks
-task_t *cputask[MAXCPU]; //task running on each cpu
+int cnt_tasks;            // total created tasks
+task_t *cputask[MAXCPU];  // task running on each cpu
 task_t cpudefaulttask[MAXCPU];
 int notdefault[MAXCPU];
 spinlock_t lock_kmt;
 
-_Context *kmt_context_save(_Event ev, _Context* context){
-    if (!notdefault[_cpu()]){
+_Context *kmt_context_save(_Event ev, _Context *context) {
+    if (!notdefault[_cpu()]) {
         cpudefaulttask[_cpu()].context = *context;
         notdefault[_cpu()] = 1;
     }
-    if (cputask[_cpu()]!=NULL) {
-       Assert(cputask[_cpu()]->sleep==1||cputask[_cpu()]->run==1, "running threads run=0, %s, id=%d", cputask[_cpu()]->name, cputask[_cpu()]->id);
-       kmt->spin_lock(&lock_kmt);
-       cputask[_cpu()]->context = *context;
-       cputask[_cpu()]->run = 0;
-       kmt->spin_unlock(&lock_kmt);
+    if (cputask[_cpu()] != NULL) {
+        Assert(cputask[_cpu()]->sleep == 1 || cputask[_cpu()]->run == 1,
+               "running threads run=0, %s, id=%d", cputask[_cpu()]->name,
+               cputask[_cpu()]->id);
+        kmt->spin_lock(&lock_kmt);
+        cputask[_cpu()]->context = *context;
+        cputask[_cpu()]->run = 0;
+        kmt->spin_unlock(&lock_kmt);
     }
     return NULL;
 }
 
-_Context *kmt_context_switch(_Event ev, _Context* context){
-    //Scheduler: Linear selected
+_Context *kmt_context_switch(_Event ev, _Context *context) {
+    // Scheduler: Linear selected
     int seed;
-    if (cputask[_cpu()]) seed = cputask[_cpu()]->id;
-    else seed = rand()%MAXTASK;
-    //Choose an runnable context
+    if (cputask[_cpu()])
+        seed = cputask[_cpu()]->id;
+    else
+        seed = rand() % MAXTASK;
+    // Choose an runnable context
     task_t *ret = NULL;
     kmt->spin_lock(&lock_kmt);
-    for (int i=0;i<MAXTASK;++i){
-        task_t *nxt = tasks[(seed+i+1)%MAXTASK];
-        if (nxt && nxt->run==0 && nxt->sleep == 0){
-            //Logcontext(nxt);
+    for (int i = 0; i < MAXTASK; ++i) {
+        task_t *nxt = tasks[(seed + i + 1) % MAXTASK];
+        if (nxt && nxt->run == 0 && nxt->sleep == 0) {
+            // Logcontext(nxt);
             ret = nxt;
             break;
         }
     }
     if (ret == NULL) {
-      ret = &cpudefaulttask[_cpu()];
+        ret = &cpudefaulttask[_cpu()];
     }
     ret->run = 1;
     cputask[_cpu()] = ret;
@@ -52,17 +56,17 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
     return retct;
 }
 
-void kmt_init(){
-    //Init spinlock
+void kmt_init() {
+    // Init spinlock
     kmt->spin_init(&lock_kmt, "kmt");
-    //Register irq handler
+    // Register irq handler
     os->on_irq(INT_MIN, _EVENT_NULL, kmt_context_save);
     os->on_irq(INT_MAX, _EVENT_NULL, kmt_context_switch);
-    //Clear tasks
-    for (int i=0;i<MAXTASK;++i){
+    // Clear tasks
+    for (int i = 0; i < MAXTASK; ++i) {
         tasks[i] = NULL;
     }
-    for (int i=0;i<MAXCPU;++i){
+    for (int i = 0; i < MAXCPU; ++i) {
         cputask[i] = NULL;
         cpudefaulttask[i].run = 0;
         cpudefaulttask[i].sleep = 0;
@@ -71,104 +75,107 @@ void kmt_init(){
     cnt_tasks = 0;
 }
 
-int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *arg){
-    //Check if tasks are full
-    if (cnt_tasks>=MAXTASK){
-      warning("Create Failed: Task amount overflows\n");
-      return 1;
+int kmt_create(task_t *task, const char *name, void (*entry)(void *arg),
+               void *arg) {
+    // Check if tasks are full
+    if (cnt_tasks >= MAXTASK) {
+        warning("Create Failed: Task amount overflows\n");
+        return 1;
     }
-    //Initial task information
+    // Initial task information
     task->stack = pmm->alloc(STACKSIZE);
-    if (task->stack==NULL) {
-      warning("Create Failed: Memory overflows\n");
-      return 1;
+    if (task->stack == NULL) {
+        warning("Create Failed: Memory overflows\n");
+        return 1;
     }
     task->name = name;
     task->run = task->sleep = 0;
-    task->context = *_kcontext((_Area){task->stack, task->stack+STACKSIZE-1}, entry, arg);
-    //Search for a space for the task
+    task->context = *_kcontext(
+        (_Area){task->stack, task->stack + STACKSIZE - 1}, entry, arg);
+    // Search for a space for the task
 
     kmt->spin_lock(&lock_kmt);
     cnt_tasks++;
-    int i = 0, seed = rand()%MAXTASK;
-    while (i<MAXTASK && tasks[(seed+i)%MAXTASK]) i++;
-    tasks[(seed+i)%MAXTASK] = task;
-    task->id = (seed+i)%MAXTASK;
+    int i = 0, seed = rand() % MAXTASK;
+    while (i < MAXTASK && tasks[(seed + i) % MAXTASK]) i++;
+    tasks[(seed + i) % MAXTASK] = task;
+    task->id = (seed + i) % MAXTASK;
     kmt->spin_unlock(&lock_kmt);
-    //Log("create %d", task->id);
+    // Log("create %d", task->id);
 
     return 0;
 }
 
-void kmt_teardown(task_t *task){
-    assert(task!=NULL);
-    //Log("free %d", task->id);
+void kmt_teardown(task_t *task) {
+    assert(task != NULL);
+    // Log("free %d", task->id);
     pmm->free(task->stack);
 
     kmt->spin_lock(&lock_kmt);
     cnt_tasks--;
-    tasks[task->id]=NULL;
+    tasks[task->id] = NULL;
     kmt->spin_unlock(&lock_kmt);
 }
-
 
 // ============= Spinlock ============
 
 int cpuncli[MAXCPU], intena[MAXCPU];
 
-static void pushcli(void){
+static void pushcli(void) {
     int IF;
     IF = _intr_read();
     _intr_write(0);
     if (cpuncli[_cpu()] == 0) intena[_cpu()] = IF;
-    cpuncli[_cpu()]+=1;
+    cpuncli[_cpu()] += 1;
 }
 
-static void popcli(void){
+static void popcli(void) {
     assertIF0();
-    if (--cpuncli[_cpu()]<0) Panic("popcli");
-    if (cpuncli[_cpu()]==0 && intena[_cpu()]) _intr_write(1);
+    if (--cpuncli[_cpu()] < 0) Panic("popcli");
+    if (cpuncli[_cpu()] == 0 && intena[_cpu()]) _intr_write(1);
 }
 
-static int holding(spinlock_t *lock){
+static int holding(spinlock_t *lock) {
     int r;
     pushcli();
-    r = lock->locked && lock->cpu==_cpu();
+    r = lock->locked && lock->cpu == _cpu();
     popcli();
     return r;
 }
 
-void spin_init(spinlock_t *lk, const char *name){
+void spin_init(spinlock_t *lk, const char *name) {
     lk->cpu = -1;
     lk->locked = 0;
     lk->name = name;
 }
 
-void spin_lock(spinlock_t *lk){
+void spin_lock(spinlock_t *lk) {
     pushcli();
-    //printf("L%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
-    Assert(!holding(lk), "locking a locked lock %s, %d", lk->name, lk->cpu);
+    // printf("L%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
+    // Assert(!holding(lk), "locking a locked lock %s, %d", lk->name, lk->cpu);
+    assert(!holding(lk));
 
-    while (_atomic_xchg(&lk->locked, 1)!=0);
+    while (_atomic_xchg(&lk->locked, 1) != 0)
+        ;
 
     __sync_synchronize();
     lk->cpu = _cpu();
 }
 
 void spin_unlock(spinlock_t *lk) {
-    Assert(holding(lk), "release an unlocked lock %s, %d", lk->name, lk->cpu);
+    assert(holding(lk));
     lk->cpu = -1;
 
     __sync_synchronize();
 
-    asm volatile ("movl $0, %0" : "+m" (lk->locked) :);
-    //printf("U%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
+    asm volatile("movl $0, %0" : "+m"(lk->locked) :);
+    // printf("U%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
     popcli();
 }
 
 // ============= Semaphore ==============
 
-void sem_init(sem_t *sem, const char *name, int value){
+void sem_init(sem_t *sem, const char *name, int value) {
     sem->name = name;
     sem->count = value;
     sem->cnt_tasks = 0;
@@ -176,17 +183,17 @@ void sem_init(sem_t *sem, const char *name, int value){
 }
 
 #define head sem->pcb
-void sem_list_add(sem_t* sem, task_t *task){
-    assert(task);
-    tasknode_t* tasknode = pmm->alloc(sizeof(tasknode_t));
+void sem_list_add(sem_t *sem, task_t *task) {
+    tasknode_t *tasknode = pmm->alloc(sizeof(tasknode_t));
     tasknode->task = task;
-    if (head==NULL){
+    if (head == NULL) {
         tasknode->nxt = tasknode->pre = NULL;
         head = tasknode;
     } else {
-        assert(head->pre==NULL);
-        if (head->nxt){
-            Assert(head->nxt->pre==head, "head->nxt: %d (%p)!=(%p) head: %d",head->nxt->task->id, head->nxt->pre, head, head->task->id);
+        assert(head->pre == NULL);
+        if (head->nxt) {
+            Assert(head->nxt->pre == head, "head->nxt: %d (%p)!=(%p) head: %d",
+                   head->nxt->task->id, head->nxt->pre, head, head->task->id);
         }
         tasknode->nxt = head;
         tasknode->pre = head->pre;
@@ -196,37 +203,39 @@ void sem_list_add(sem_t* sem, task_t *task){
     assert(head);
 }
 
-void sem_list_delete(sem_t *sem){
+void sem_list_delete(sem_t *sem) {
     head->task->sleep = 0;
     tasknode_t *t = head;
     head = head->nxt;
     if (head) head->pre = t->pre;
-    if (head && head->nxt){
-      Assert(head->nxt->pre==head, "head->nxt: %d %d (%p)!=(%p) head: %d",head->nxt, head->nxt->task->id, head->nxt->pre, head, head->task->id);
+    if (head && head->nxt) {
+        Assert(head->nxt->pre == head, "head->nxt: %d %d (%p)!=(%p) head: %d",
+               head->nxt, head->nxt->task->id, head->nxt->pre, head,
+               head->task->id);
     }
     pmm->free(t);
 }
 
-void sem_wait(sem_t *sem){
+void sem_wait(sem_t *sem) {
     kmt->spin_lock(&sem->lock);
     sem->count--;
-    if (sem->count<0){
+    if (sem->count < 0) {
         sem->cnt_tasks++;
         cputask[_cpu()]->sleep = 1;
         sem_list_add(sem, cputask[_cpu()]);
         assert(sem->pcb);
         kmt->spin_unlock(&sem->lock);
 
-        assert(cpuncli[_cpu()]==0);
+        assert(cpuncli[_cpu()] == 0);
         _yield();
     } else {
-      kmt->spin_unlock(&sem->lock);
+        kmt->spin_unlock(&sem->lock);
     }
 }
-void sem_signal(sem_t *sem){
+void sem_signal(sem_t *sem) {
     kmt->spin_lock(&sem->lock);
-    if (sem->cnt_tasks>0){
-        Assert(sem->pcb, "%s: no head, cnt=%d",sem->name, sem->cnt_tasks);
+    if (sem->cnt_tasks > 0) {
+        Assert(sem->pcb, "%s: no head, cnt=%d", sem->name, sem->cnt_tasks);
         sem_list_delete(sem);
         sem->cnt_tasks--;
     }
@@ -234,7 +243,7 @@ void sem_signal(sem_t *sem){
     kmt->spin_unlock(&sem->lock);
 }
 
-MODULE_DEF(kmt) {
+MODULE_DEF(kmt){
     .init = kmt_init,
     .create = kmt_create,
     .teardown = kmt_teardown,
