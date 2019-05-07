@@ -41,6 +41,7 @@ void producer(){
     assert(fill.cnt_tasks==0||fill.pcb!=NULL);
     kmt->sem_wait(&empty);
     lprintf("(");
+    assert(cputask[_cpu()]->run);
     kmt->sem_signal(&fill);
     assert(fill.cnt_tasks==0||fill.pcb!=NULL);
   }
