@@ -11,6 +11,7 @@ int timelock[MAXCPU]; //judge nested timelock
 // ========== Test ONE  ===========
 void logging(void *arg) {
   while (1){
+    Logintr();
     lprintf("%s", (char *)arg);
     printf("locks=%d\n", cpuncli[_cpu()]);
     printf("intena=%d\n", intena[_cpu()]);
@@ -62,13 +63,7 @@ static void os_init() {
 
 
 static void os_run() {
-Logintr();
-for (int i=0;i<1000000;++i);
-  Log("TEST");
   _intr_write(1);
-  assertIF1();
-  int t = _intr_read();
-  printf("t=%d", t);
   while (1) {
     _yield();
     Panic("SHOULD NOT REACH HERE");

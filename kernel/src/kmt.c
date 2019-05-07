@@ -108,6 +108,7 @@ int cpuncli[MAXCPU], intena[MAXCPU];
 static void pushcli(void){
     _intr_write(0);
     if (cpuncli[_cpu()] == 0) intena[_cpu()] = _intr_read();
+    printf("LOCK: %d", _intr_read());
     cpuncli[_cpu()]+=1;
 }
 
