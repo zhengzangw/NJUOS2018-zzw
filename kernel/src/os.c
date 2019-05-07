@@ -101,6 +101,7 @@ callback_t handlers[MAXCB];
 int h_handlers;
 
 static void os_on_irq(int seq, int event, handler_t handler) {
+    kmt->spin_lock(&lock_os);
     handlers[h_handlers++] = (callback_t){handler, event, seq};
     int i = h_handlers - 1;
     // Insert to make seq increase
@@ -109,6 +110,7 @@ static void os_on_irq(int seq, int event, handler_t handler) {
         handlers[i - 1] = handlers[i];
         handlers[i] = tmp;
     }
+    kmt->spin_unlock(&lock_os);
 }
 
 static _Context *os_trap(_Event ev, _Context *context) {
