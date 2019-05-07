@@ -41,8 +41,8 @@ void producer(){
     kmt->sem_wait(&empty);
     //lprintf("(");
     Log("(");
-    kmt->sem_signal(&fill);
     Loglist(fill.pcb);
+    kmt->sem_signal(&fill);
   }
 }
 void consumer(){
