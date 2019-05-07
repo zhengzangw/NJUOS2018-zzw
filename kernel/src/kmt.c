@@ -15,7 +15,7 @@ _Context *kmt_context_save(_Event ev, _Context* context){
         cpudefaulttask[_cpu()] = context;
     }
     if (cputask[_cpu()]!=NULL) {
-       Assert(cputask[_cpu()]->sleep==0&&cputask[_cpu()]->run==1, "running threads run=0, sleep=%d, %s", cputask[_cpu()]->name, cuptask[_cpu()]->sleep);
+       Assert(cputask[_cpu()]->sleep==0&&cputask[_cpu()]->run==1, "running threads run=0, %s, sleep=%d", cputask[_cpu()]->name, cuptask[_cpu()]->sleep);
        kmt->spin_lock(&lock_kmt);
        cputask[_cpu()]->context = *context;
        cputask[_cpu()]->run = 0;
