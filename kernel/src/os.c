@@ -13,7 +13,6 @@ void logging(void *arg) {
   while (1){
     lprintf("%s", (char *)arg);
     assertIF1();
-    _yield();
   }
 }
 
@@ -113,7 +112,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
   }
   Assert(timelock[_cpu()]==0, "timelock!=0");
   kmt->spin_unlock(&lock_os);
-  Logintr();
+  //Logintr();
   return ret;
 }
 
