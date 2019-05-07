@@ -190,6 +190,7 @@ void sem_list_add(sem_t* sem, task_t *task){
         tasknode->pre = head->pre;
         head->pre = tasknode;
         head = tasknode;
+        Assert(head->nxt->pre==head, "(%p)!=(%p)", head->nxt->pre, head);
     }
     assert(head);
 }
