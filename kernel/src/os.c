@@ -42,12 +42,12 @@ void producer(){
     //lprintf("(");
     Log("(");
     kmt->sem_signal(&fill);
-    Loglist(empty.pcb)
+    Loglist(empty.pcb);
   }
 }
 void consumer(){
   while (1){
-    Loglist(empty.pcb)
+    Loglist(empty.pcb);
     kmt->sem_wait(&fill);
     //lprintf(")");
     Log(")");
