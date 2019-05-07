@@ -80,7 +80,6 @@ int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *a
       return 1;
     }
     task->name = name;
-    Log("run = 0, %c", "12345678"[_cpu()]);
     task->run = 0;
     task->context = *_kcontext((_Area){task->stack, task->stack+STACKSIZE-1}, entry, arg);
     //Search for a space for the task
@@ -206,6 +205,7 @@ void sem_wait(sem_t *sem){
         cputask[_cpu()]->sleep = 1;
         sem_list_add(sem, cputask[_cpu()]);
         assert(sem->pcb);
+        assert(cputask[_cpu()]->run);
         cputask[_cpu()]->run = 0;
         kmt->spin_unlock(&sem->lock);
 
