@@ -171,7 +171,8 @@ void sem_init(sem_t *sem, const char *name, int value){
     kmt->spin_init(&sem->lock, name);
 }
 
-void sem_list_add(tasknode_t *head, task_t *task){
+#define head sem->head
+void sem_list_add(sem_t* sem, task_t *task){
     assert(task);
     tasknode_t* tasknode = pmm->alloc(sizeof(tasknode_t));
     tasknode->task = task;
@@ -189,7 +190,7 @@ void sem_list_add(tasknode_t *head, task_t *task){
     assert(head);
 }
 
-void sem_list_delete(tasknode_t *head){
+void sem_list_delete(sem_t *sem){
     head->task->sleep = 0;
     tasknode_t *t = head;
     head = head->nxt;
@@ -202,7 +203,7 @@ void sem_wait(sem_t *sem){
     if (sem->count<0){
         sem->cnt_tasks++;
         cputask[_cpu()]->sleep = 1;
-        sem_list_add(sem->pcb, cputask[_cpu()]);
+        sem_list_add(sem, cputask[_cpu()]);
         kmt->spin_unlock(&sem->lock);
         assert(cpuncli[_cpu()]==0);
         _yield();
@@ -213,7 +214,7 @@ void sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
     if (sem->cnt_tasks>0){
         Assert(sem->pcb, "no head, cnt=%d", sem->cnt_tasks);
-        sem_list_delete(sem->pcb);
+        sem_list_delete(sem);
         cnt_tasks--;
     }
     sem->count++;
