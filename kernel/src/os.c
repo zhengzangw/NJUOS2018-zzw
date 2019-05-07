@@ -92,7 +92,7 @@ static void os_run() {
   _intr_write(1);
   while (1) {
     _yield();
-    for (int i=0;i<1000000000;++i);
+    for (int i=0;i<10000000000;++i);
   }
 }
 
