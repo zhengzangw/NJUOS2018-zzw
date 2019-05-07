@@ -62,6 +62,7 @@ static void os_init() {
 
 
 static void os_run() {
+Logintr();
   Log("TEST");
   _intr_write(1);
   assertIF1();
