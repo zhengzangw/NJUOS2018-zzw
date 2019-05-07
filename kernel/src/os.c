@@ -108,7 +108,7 @@ static void os_on_irq(int seq, int event, handler_t handler) {
 
 static _Context *os_trap(_Event ev, _Context *context) {
   //Logintr();
-  Log("%d: %s", ev.event, ev.msg);
+  //Log("%d: %s", ev.event, ev.msg);
   assertIF0();
   //Special Check
   switch (ev.event){
