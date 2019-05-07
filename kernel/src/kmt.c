@@ -210,8 +210,9 @@ void sem_wait(sem_t *sem){
         kmt->spin_unlock(&sem->lock);
         assert(cpuncli[_cpu()]==0);
         _yield();
+    } else {
+      kmt->spin_unlock(&sem->lock);
     }
-    kmt->spin_unlock(&sem->lock);
 }
 void sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
