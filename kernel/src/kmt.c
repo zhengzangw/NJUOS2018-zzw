@@ -7,10 +7,11 @@ task_t *tasks[MAXTASK];
 int cnt_tasks; //total created tasks
 task_t *cputask[MAXCPU]; //task running on each cpu
 _Context *cpudefaulttask[MAXCPU];
+int notdefault[MAXCPU];
 spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context* context){
-    if (cpudefaulttask[_cpu()]==NULL){
+    if (!notdefault[_cpu()]){
         cpudefaulttask[_cpu()] = context;
     }
     if (cputask[_cpu()]!=NULL) {
@@ -35,12 +36,14 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
 
             nxt->run = 1;
             cputask[_cpu()] = nxt;
+            notdefault[_cpu()] = 1;
             kmt->spin_unlock(&lock_kmt);
 
             return &cputask[_cpu()]->context;
         }
     }
     kmt->spin_unlock(&lock_kmt);
+    notdefault[_cpu()] = 0;
     assert(cpudefaulttask[_cpu()]);
     Log("waiting");
     return cpudefaulttask[_cpu()];
