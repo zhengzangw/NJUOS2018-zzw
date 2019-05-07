@@ -65,6 +65,7 @@ static void os_run() {
   Log("TEST");
   _intr_write(1);
   Logintr();
+  assertIF1();
   while (1) {
     _yield();
     Panic("SHOULD NOT REACH HERE");
