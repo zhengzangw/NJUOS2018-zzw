@@ -190,7 +190,6 @@ void sem_list_add(tasknode_t *head, task_t *task){
 }
 
 void sem_list_delete(tasknode_t *head){
-    assert(head);
     head->task->sleep = 0;
     tasknode_t *t = head;
     head = head->nxt;
@@ -213,8 +212,9 @@ void sem_wait(sem_t *sem){
 void sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
     if (sem->cnt_tasks>0){
-        cnt_tasks--;
+        Assert(head, "no head, cnt=%d", sem->cnt_tasks);
         sem_list_delete(sem->pcb);
+        cnt_tasks--;
     }
     sem->count++;
     kmt->spin_unlock(&sem->lock);
