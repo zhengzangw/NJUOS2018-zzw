@@ -206,9 +206,9 @@ void sem_wait(sem_t *sem){
         sem_list_add(sem, cputask[_cpu()]);
         assert(sem->pcb);
         cputask[_cpu()]->run = 0;
-        assert(cpuncli[_cpu()]==0);
         kmt->spin_unlock(&sem->lock);
 
+        assert(cpuncli[_cpu()]==0);
         _yield();
 
         kmt->spin_lock(&sem->lock);
