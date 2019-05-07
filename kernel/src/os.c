@@ -112,7 +112,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
   //Logintr();
   //Log("%d: %s", ev.event, ev.msg);
   assertIF0();
-  assert(cputask[_cpu()]->run);
+       Assert(cputask[_cpu()]->sleep==1||cputask[_cpu()]->run==1, "running threads run=0, %s, id=%d", cputask[_cpu()]->name, cputask[_cpu()]->id);
   //Special Check
   switch (ev.event){
     case _EVENT_ERROR:
@@ -130,7 +130,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
       }
   }
   kmt->spin_unlock(&lock_os);
-  assert(cputask[_cpu()]->run);
+       Assert(cputask[_cpu()]->sleep==1||cputask[_cpu()]->run==1, "running threads run=0, %s, id=%d", cputask[_cpu()]->name, cputask[_cpu()]->id);
   //Logintr();
   return ret;
 }
