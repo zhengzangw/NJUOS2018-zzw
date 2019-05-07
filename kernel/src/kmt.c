@@ -168,11 +168,11 @@ void sem_init(sem_t *sem, const char *name, int value){
     sem->name = name;
     sem->count = value;
     sem->cnt_tasks = 0;
-    kmt->spin_init(sem->lock);
+    kmt->spin_init(sem->lock, name);
 }
 
 void sem_list_add(tasknode_t *head, task_t *task){
-    tasknode_t* tasknode = pmm->malloc(sizeof(tasknode_t));
+    tasknode_t* tasknode = pmm->alloc(sizeof(tasknode_t));
     tasknode->task = task;
     if (head==NULL){
         tasknode->nxt = tasknode->pre = NULL;
