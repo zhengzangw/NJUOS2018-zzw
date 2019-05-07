@@ -112,6 +112,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
   //Logintr();
   //Log("%d: %s", ev.event, ev.msg);
   assertIF0();
+  assert(cputask[_cpu()]->run);
   //Special Check
   switch (ev.event){
     case _EVENT_ERROR:
@@ -129,6 +130,7 @@ static _Context *os_trap(_Event ev, _Context *context) {
       }
   }
   kmt->spin_unlock(&lock_os);
+  assert(cputask[_cpu()]->run);
   //Logintr();
   return ret;
 }
