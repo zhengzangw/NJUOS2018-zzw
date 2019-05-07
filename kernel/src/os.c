@@ -35,11 +35,16 @@ void test(void *arg){
 */
 
 // ============== TEST SEM =============
+semaphore_t empty, fill;
 void producer(){
-
+  kmt->sem_wait(&empty);
+  lprintf("(");
+  kmt->sem_post(&fill);
 }
 void consumer(){
-
+  kmt->sem_wait(&fill);
+  lprintf(")");
+  kmt->sem_post(&empty);
 }
 
 // ============== OS =============
@@ -64,7 +69,10 @@ static void os_init() {
   //kmt->create(pmm->alloc(sizeof(task_t)), "A", logging, "A");
   //kmt->create(pmm->alloc(sizeof(task_t)), "B", logging, "B");
   //TEST SEM
+    kmt->sem_init(&empty, "empty", 10);
+    kmt->sem_init(&fill, "fill", 0);
     CREATE(producer, NULL);
+    CREATE(consumer, NULL);
 }
 
 
