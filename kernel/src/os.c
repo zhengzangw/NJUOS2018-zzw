@@ -39,22 +39,16 @@ void test(void *arg){
 sem_t empty, fill;
 void producer(){
   while (1) {
-    assert(fill.cnt_tasks==0||fill.pcb!=NULL);
     kmt->sem_wait(&empty);
     lprintf("(");
-    assert(cputask[_cpu()]->run);
     kmt->sem_signal(&fill);
-    assert(fill.cnt_tasks==0||fill.pcb!=NULL);
   }
 }
 void consumer(){
   while (1){
-    assert(fill.cnt_tasks==0||fill.pcb!=NULL);
     kmt->sem_wait(&fill);
     lprintf(")");
-    assert(cputask[_cpu()]->run);
     kmt->sem_signal(&empty);
-    assert(fill.cnt_tasks==0||fill.pcb!=NULL);
   }
 }
 
