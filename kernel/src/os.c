@@ -8,16 +8,16 @@ spinlock_t lock_print;
 spinlock_t lock_os;
 
 // ========== Test LOCK  ===========
-/*
+
 void logging(void *arg) {
   while (1){
     lprintf("%s", (char *)arg);
     assertIF1();
   }
 }
-*/
 
-/*
+
+
 char* str[] = {"1", "2", "3", "4"};
 void test(void *arg){
     while (1){
@@ -32,7 +32,7 @@ void test(void *arg){
         if (tmp) kmt->teardown(tmp);
     }
 }
-*/
+
 
 // ============== TEST SEM =============
 
@@ -71,10 +71,10 @@ static void os_init() {
 #define CREATE(func, args) \
     kmt->create(pmm->alloc(sizeof(task_t)), #func, func, args);
     // TEST LOCK
-    // kmt->create(pmm->alloc(sizeof(task_t)), "first", test, NULL);
-    // kmt->create(pmm->alloc(sizeof(task_t)), "C", logging, "C");
-    // kmt->create(pmm->alloc(sizeof(task_t)), "A", logging, "A");
-    // kmt->create(pmm->alloc(sizeof(task_t)), "B", logging, "B");
+     kmt->create(pmm->alloc(sizeof(task_t)), "first", test, NULL);
+     kmt->create(pmm->alloc(sizeof(task_t)), "C", logging, "C");
+     kmt->create(pmm->alloc(sizeof(task_t)), "A", logging, "A");
+     kmt->create(pmm->alloc(sizeof(task_t)), "B", logging, "B");
     // TEST SEM
     kmt->sem_init(&empty, "empty", 10);
     kmt->sem_init(&fill, "fill", 0);
