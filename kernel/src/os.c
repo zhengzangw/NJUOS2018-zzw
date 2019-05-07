@@ -11,11 +11,7 @@ int timelock[MAXCPU]; //judge nested timelock
 // ========== Test ONE  ===========
 void logging(void *arg) {
   while (1){
-    printf("HERE\n");
-    Logintr();
     lprintf("%s", (char *)arg);
-    printf("locks=%d\n", cpuncli[_cpu()]);
-    printf("intena=%d\n", intena[_cpu()]);
     assertIF1();
     _yield();
   }
@@ -86,7 +82,7 @@ static void os_on_irq(int seq, int event, handler_t handler) {
 }
 
 static _Context *os_trap(_Event ev, _Context *context) {
-  Logintr();
+  //Logintr();
   Log("%d: %s", ev.event, ev.msg);
   assertIF0();
   Assert(timelock[_cpu()]==0, "timelock<0");

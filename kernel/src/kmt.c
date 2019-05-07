@@ -110,7 +110,6 @@ static void pushcli(void){
     IF = _intr_read();
     _intr_write(0);
     if (cpuncli[_cpu()] == 0) intena[_cpu()] = IF;
-    printf("LOCK: %d CPU: %d\n", _intr_read(), cpuncli[_cpu()]);
     cpuncli[_cpu()]+=1;
 }
 
@@ -136,7 +135,7 @@ void spin_init(spinlock_t *lk, const char *name){
 
 void spin_lock(spinlock_t *lk){
     pushcli();
-    printf("L%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
+    //printf("L%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
     Assert(!holding(lk), "locking a locked lock %s, %d", lk->name, lk->cpu);
 
     while (_atomic_xchg(&lk->locked, 1)!=0);
@@ -152,7 +151,7 @@ void spin_unlock(spinlock_t *lk) {
     __sync_synchronize();
 
     asm volatile ("movl $0, %0" : "+m" (lk->locked) :);
-    printf("U%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
+    //printf("U%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
     popcli();
 }
 
