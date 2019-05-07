@@ -17,6 +17,8 @@ initrd:
 
 QEMU_FLAGS := -serial stdio -machine accel=kvm:tcg -drive format=raw,file=$(BINARY)
 
+QEMU_FLAGS_TCG := -serial stdio -machine accel=tcg -drive format=raw,file=$(BINARY)
+
 run1: image
 	qemu-system-i386 -smp 1 $(QEMU_FLAGS)
 
@@ -28,6 +30,9 @@ run4: image
 
 run8: image
 	qemu-system-i386 -smp 8 $(QEMU_FLAGS)
+
+run4tcg: image
+	qemu-system-i386 -smp 4 $(QEMU_FLAGS_TCG)
 
 gdb: $(IMG)
 	@gdb -ex "target remote 127.0.0.1:1234" -ex "symbol $(BINARY).o"
