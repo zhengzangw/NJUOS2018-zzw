@@ -188,7 +188,7 @@ void sem_list_add(sem_t* sem, task_t *task){
         head = tasknode;
     }
     assert(head);
-    Loglist(head);
+    Loglist(head)
 }
 
 void sem_list_delete(sem_t *sem){
