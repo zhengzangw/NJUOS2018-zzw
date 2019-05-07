@@ -6,13 +6,14 @@
 task_t *tasks[MAXTASK];
 int cnt_tasks; //total created tasks
 task_t *cputask[MAXCPU]; //task running on each cpu
-_Context *cpudefaulttask[MAXCPU];
+task_t cpudefaulttask[MAXCPU];
 int notdefault[MAXCPU];
 spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context* context){
     if (!notdefault[_cpu()]){
-        cpudefaulttask[_cpu()] = context;
+        cpudefaulttask[_cpu()].context = context;
+        notdefault[_cpu()] = 1;
     }
     if (cputask[_cpu()]!=NULL) {
        Assert(cputask[_cpu()]->sleep==1||cputask[_cpu()]->run==1, "running threads run=0, %s, id=%d", cputask[_cpu()]->name, cputask[_cpu()]->id);
@@ -30,25 +31,26 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
     if (cputask[_cpu()]) seed = cputask[_cpu()]->id;
     else seed = rand()%MAXTASK;
     //Choose an runnable context
+    task_t *ret = NULL
     kmt->spin_lock(&lock_kmt);
     for (int i=0;i<MAXTASK;++i){
         task_t *nxt = tasks[(seed+i+1)%MAXTASK];
         if (nxt && nxt->run==0 && nxt->sleep == 0){
             //Logcontext(nxt);
-
-            nxt->run = 1;
-            cputask[_cpu()] = nxt;
-            notdefault[_cpu()] = 1;
-            kmt->spin_unlock(&lock_kmt);
-
-            return &cputask[_cpu()]->context;
+            ret = nxt;
+            break;
         }
     }
-    _putc('T');
+    if (ret == NULL) {
+      assert(cpudefaulttask[_cpu()]);
+      ret = cpudefaulttask[_cpu()];
+    }
+    ret->run = 1;
+    cputask[_cpu()] = ret;
+    _Context *retct = ret->context;
     kmt->spin_unlock(&lock_kmt);
-    notdefault[_cpu()] = 0;
-    assert(cpudefaulttask[_cpu()]);
-    return cpudefaulttask[_cpu()];
+
+    return retct;
 }
 
 void kmt_init(){
@@ -63,7 +65,9 @@ void kmt_init(){
     }
     for (int i=0;i<MAXCPU;++i){
         cputask[i] = NULL;
-        cpudefaulttask[i] = NULL;
+        cpudefaulttask[i].run = 0;
+        cpudefaulttask[i].sleep = 0;
+        cpudefaulttask[i].name = "cpudefault";
     }
     cnt_tasks = 0;
 }
