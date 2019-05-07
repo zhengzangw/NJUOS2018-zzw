@@ -61,7 +61,6 @@ static void os_run() {
   _intr_write(1);
   while (1) {
     _yield();
-    Panic("SHOULD NOT REACH HERE");
   }
 }
 

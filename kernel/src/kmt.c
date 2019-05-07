@@ -6,9 +6,13 @@
 task_t *tasks[MAXTASK];
 int cnt_tasks; //total created tasks
 task_t *cputask[MAXCPU]; //task running on each cpu
+_Context *cpudefaulttask[MAXCPU];
 spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context* context){
+    if (cpudefaulttask[_cpu()]==NULL){
+        cupdefaulttask[_cpu()] = context;
+    }
     if (cputask[_cpu()]!=NULL) {
        Assert(cputask[_cpu()]->run==1, "running threads run=0");
        kmt->spin_lock(&lock_kmt);
@@ -23,9 +27,8 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
     //Scheduler: Randomly selected
     int seed = rand()%MAXTASK;
     //Choose an runnable context
-    while (1){
-      kmt->spin_lock(&lock_kmt);
-      for (int i=0;i<MAXTASK;++i){
+    kmt->spin_lock(&lock_kmt);
+    for (int i=0;i<MAXTASK;++i){
         task_t *nxt = tasks[(seed+i)%MAXTASK];
         if (nxt && nxt->run==0){
             Logcontext(nxt);
@@ -36,13 +39,9 @@ _Context *kmt_context_switch(_Event ev, _Context* context){
 
             return &cputask[_cpu()]->context;
         }
-      }
-      kmt->spin_unlock(&lock_kmt);
-      //Log("waiting");
     }
-
-    SHOULD_NOT_REACH_HERE();
-    return NULL;
+    kmt->spin_unlock(&lock_kmt);
+    return cpudefaulttask[_cpu()];
 }
 
 void kmt_init(){
@@ -57,6 +56,7 @@ void kmt_init(){
     }
     for (int i=0;i<MAXCPU;++i){
         cputask[i] = NULL;
+        cpudefaulttask[i] = NULL;
     }
     cnt_tasks = 0;
 }
