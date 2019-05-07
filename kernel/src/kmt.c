@@ -174,8 +174,6 @@ void sem_init(sem_t *sem, const char *name, int value){
 #define head sem->pcb
 void sem_list_add(sem_t* sem, task_t *task){
     assert(task);
-    head = pmm->alloc(sizeof(tasknode_t));
-    return;
     tasknode_t* tasknode = pmm->alloc(sizeof(tasknode_t));
     tasknode->task = task;
     if (head==NULL){
