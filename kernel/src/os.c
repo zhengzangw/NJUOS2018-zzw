@@ -35,6 +35,7 @@ void test(void *arg){
 */
 
 // ============== TEST SEM =============
+/*
 sem_t empty, fill;
 void producer(){
   while (1) {
@@ -56,6 +57,7 @@ void consumer(){
     assert(fill.cnt_tasks==0||fill.pcb!=NULL);
   }
 }
+*/
 
 // ============== OS =============
 
@@ -69,7 +71,7 @@ static void os_init() {
   //Init module
   pmm->init();
   kmt->init();
-  //dev->init();
+  dev->init();
 
   //########## TEST ##########
 #define CREATE(func, args) kmt->create(pmm->alloc(sizeof(task_t)), # func, func, args);
@@ -79,10 +81,10 @@ static void os_init() {
   //kmt->create(pmm->alloc(sizeof(task_t)), "A", logging, "A");
   //kmt->create(pmm->alloc(sizeof(task_t)), "B", logging, "B");
   //TEST SEM
-    kmt->sem_init(&empty, "empty", 10);
-    kmt->sem_init(&fill, "fill", 0);
-    CREATE(producer, NULL);
-    CREATE(consumer, NULL);
+  //kmt->sem_init(&empty, "empty", 10);
+  //kmt->sem_init(&fill, "fill", 0);
+  //CREATE(producer, NULL);
+  //CREATE(consumer, NULL);
 }
 
 
