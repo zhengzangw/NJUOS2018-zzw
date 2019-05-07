@@ -38,6 +38,7 @@ static device_t *dev_create(size_t dev_size, const char* dev_name, int dev_id, d
 
 void tty_task(void *arg);
 void input_task(void *arg);
+void echo_task(void *name);
 
 #define CREATE(id, device_type, dev_name, dev_id, dev_ops) \
   devices[id] = dev_create(sizeof(device_type), dev_name, dev_id, dev_ops);
@@ -51,7 +52,7 @@ static void dev_init() {
 
   kmt->create(pmm->alloc(sizeof(task_t)), "input-task", input_task, NULL);
   kmt->create(pmm->alloc(sizeof(task_t)), "tty-task", tty_task, NULL);
-  //kmt->create(pmm->alloc(sizeof(task_t)), "echo-task", echo_task, "tty1");
+  kmt->create(pmm->alloc(sizeof(task_t)), "echo-task", echo_task, "tty1");
 }
 
 MODULE_DEF(dev) {
