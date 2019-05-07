@@ -27,7 +27,6 @@ void test(void *arg){
                 tmp = NULL;
             }
         }
-        _yield();
         if (tmp) kmt->teardown(tmp);
     }
 }
