@@ -83,7 +83,6 @@ static _Context *os_trap(_Event ev, _Context *context) {
   //Logintr();
   //Log("%d: %s", ev.event, ev.msg);
   assertIF0();
-  Assert(timelock[_cpu()]==0, "timelock<0");
   //Special Check
   switch (ev.event){
     case _EVENT_ERROR:
