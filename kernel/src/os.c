@@ -88,9 +88,9 @@ static _Context *os_trap(_Event ev, _Context *context) {
     case _EVENT_ERROR:
         warning("%s\n", ev.msg);
         _halt(1);
-    case _EVENT_IRQ_TIMER:
-        if (timelock[_cpu()]) return context;
-        else timelock[_cpu()]++; //TODO: Strange
+    //case _EVENT_IRQ_TIMER:
+    //    if (timelock[_cpu()]) return context;
+    //    else timelock[_cpu()]++; //TODO: Strange
   }
   kmt->spin_lock(&lock_os);
   //Call all valid handler
@@ -103,10 +103,10 @@ static _Context *os_trap(_Event ev, _Context *context) {
       }
   }
   //Special Check
-  switch (ev.event){
-    case _EVENT_IRQ_TIMER:
-       timelock[_cpu()]--;
-  }
+  //switch (ev.event){
+  //  case _EVENT_IRQ_TIMER:
+  //     timelock[_cpu()]--;
+  //}
   Assert(timelock[_cpu()]==0, "timelock!=0");
   kmt->spin_unlock(&lock_os);
   return ret;
