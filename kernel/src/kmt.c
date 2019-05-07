@@ -173,6 +173,7 @@ void sem_init(sem_t *sem, const char *name, int value){
 
 #define head sem->pcb
 void sem_list_add(sem_t* sem, task_t *task){
+    Log("sem addr:%p", sem);
     assert(task);
     tasknode_t* tasknode = pmm->alloc(sizeof(tasknode_t));
     tasknode->task = task;
@@ -206,6 +207,7 @@ void sem_wait(sem_t *sem){
     if (sem->count<0){
         sem->cnt_tasks++;
         cputask[_cpu()]->sleep = 1;
+        Log("sem addr:%p", sem);
         sem_list_add(sem, cputask[_cpu()]);
         assert(sem->pcb);
         Logsem(sem);
