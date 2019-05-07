@@ -45,7 +45,7 @@ extern spinlock_t lock_debug;
         }                          \
     } while (0)
 #else
-#define Assert（cond, ...)
+#define Assert(cond, ...)
 #endif
 
 #define Panic(format, ...) Assert(0, format, ##__VA_ARGS__)
