@@ -142,7 +142,7 @@ void spin_init(spinlock_t *lk, const char *name){
 
 void spin_lock(spinlock_t *lk){
     pushcli();
-    printf("L%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
+    //printf("L%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
     Assert(!holding(lk), "locking a locked lock %s, %d", lk->name, lk->cpu);
 
     while (_atomic_xchg(&lk->locked, 1)!=0);
@@ -158,7 +158,7 @@ void spin_unlock(spinlock_t *lk) {
     __sync_synchronize();
 
     asm volatile ("movl $0, %0" : "+m" (lk->locked) :);
-    printf("U%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
+    //printf("U%c %s %d\n","12345678"[_cpu()], lk->name, _intr_read());
     popcli();
 }
 
@@ -173,14 +173,12 @@ void sem_init(sem_t *sem, const char *name, int value){
 
 #define head sem->pcb
 void sem_list_add(sem_t* sem, task_t *task){
-    Log("sem addr:%p", sem);
     assert(task);
     tasknode_t* tasknode = pmm->alloc(sizeof(tasknode_t));
     tasknode->task = task;
     if (head==NULL){
         tasknode->nxt = tasknode->pre = NULL;
         head = tasknode;
-        Log("Yes, sir");
     } else {
         assert(head->pre==NULL);
         assert(head->nxt->pre==head);
@@ -190,8 +188,6 @@ void sem_list_add(sem_t* sem, task_t *task){
         head = tasknode;
     }
     assert(head);
-    Log("pcb addr:%p", sem->pcb);
-    Logsem(sem);
 }
 
 void sem_list_delete(sem_t *sem){
@@ -203,16 +199,12 @@ void sem_list_delete(sem_t *sem){
 
 void sem_wait(sem_t *sem){
     kmt->spin_lock(&sem->lock);
-    Logsem(sem);
     sem->count--;
     if (sem->count<0){
         sem->cnt_tasks++;
         cputask[_cpu()]->sleep = 1;
-        Log("pcb addr:%p", sem->pcb);
         sem_list_add(sem, cputask[_cpu()]);
-        Log("pcb addr:%p", sem->pcb);
         assert(sem->pcb);
-        Logsem(sem);
         kmt->spin_unlock(&sem->lock);
 
         Log("Yield");
@@ -224,7 +216,6 @@ void sem_wait(sem_t *sem){
 }
 void sem_signal(sem_t *sem){
     kmt->spin_lock(&sem->lock);
-    Logsem(sem);
     if (sem->cnt_tasks>0){
         Assert(sem->pcb, "%s: no head, cnt=%d",sem->name, sem->cnt_tasks);
         sem_list_delete(sem);
