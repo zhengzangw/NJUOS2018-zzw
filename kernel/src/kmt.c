@@ -80,7 +80,7 @@ int kmt_create(task_t *task, const char *name, void (*entry)(void *arg), void *a
       return 1;
     }
     task->name = name;
-    task->run = 0;
+    task->run = task->sleep = 0;
     task->context = *_kcontext((_Area){task->stack, task->stack+STACKSIZE-1}, entry, arg);
     //Search for a space for the task
 
