@@ -202,7 +202,7 @@ void sem_list_delete(sem_t *sem){
     head = head->nxt;
     if (head){
       head->pre = t->pre;
-      Assert(head->nxt->pre==head, "head->nxt: %d (%p)!=(%p) head: %d",head->nxt->task->id, head->nxt->pre, head, head->task->id);
+      Assert(head->nxt->pre==head, "head->nxt: %d %d (%p)!=(%p) head: %d",head->nxt, head->nxt->task->id, head->nxt->pre, head, head->task->id);
     }
     pmm->free(t);
 }
