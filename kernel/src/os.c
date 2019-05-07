@@ -13,6 +13,7 @@ void logging(void *arg) {
   while (1){
     lprintf("%s", (char *)arg);
     assertIF1();
+    printf("locks=%d\n", cpuncli[_cpu()]);
     _yield();
   }
 }
