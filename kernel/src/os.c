@@ -63,6 +63,7 @@ static void os_init() {
 
 static void os_run() {
 Logintr();
+for (int i=0;i<1000000;++i);
   Log("TEST");
   _intr_write(1);
   assertIF1();
