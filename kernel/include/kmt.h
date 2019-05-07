@@ -8,8 +8,8 @@
 
 // ============= THREAD ================
 
-#define STACKSIZE 4096
-#define MAXTASK 64
+#define STACKSIZE 9182
+#define MAXTASK 1024
 #define INT_MAX 2147483647
 #define INT_MIN (-INT_MAX-1)
 struct task {
