@@ -58,8 +58,8 @@ extern int cpuncli[64];
 extern int intena[64];
 #define assertIF0() Assert(_intr_read()==0, "IF should be 0")
 #define assertIF1() Assert(_intr_read()!=0, "IF should be 1")
-#define Logintr() printf("IF=%d", _intr_read())
-#define Loglock(lock) printf("lock=%s", lock->name);
+#define Logintr() printf("IF=%d\n", _intr_read())
+#define Loglock(lock) printf("lock=%s\n", lock->name);
 // ========== THREAD =========
 #define Logcontext(context) Log("id=%d, run=%d, name=%s", context->id, context->run, context->name)
 #endif
