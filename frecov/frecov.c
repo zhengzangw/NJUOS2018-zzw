@@ -32,7 +32,7 @@ struct DBR {
   uint8_t jmp_intr[3];
   char version[8];
   uint16_t byte_per_sector;
-  uint8_t cluster_per_sector;
+  uint8_t sector_per_cluster;
   uint16_t num_of_res_sector;
   uint8_t num_of_fat;
   uint16_t zero_0;
@@ -78,16 +78,16 @@ bool isword(char *ptr){
 #define LOGBYTE(i) printf("%02x\n", BYTE(i));
 int main(int argc, char *argv[]) {
   char *img_ptr = mmap_open(argv[1]);
-  dbr_t *dbr = malloc(sizeof(dbr_t));
   char *end_ptr = img_ptr + size;
+  dbr_t *dbr = malloc(sizeof(dbr_t));
   memcpy(dbr, img_ptr, sizeof(dbr_t));
+  int cluster_size = dbr->byte_per_sector * dbr->sector_per_cluster;
 
   char *data_ptr = img_ptr + dbr->byte_per_sector *(dbr->num_of_res_sector + dbr->num_of_fat * dbr->num_of_fat_sector);
 
   sfile_t *tmp = malloc(sizeof(sfile_t));
   int cnt_file = 0;
-  printf("%p %p\n", data_ptr, end_ptr);
-  for (char *ptr=data_ptr; ptr<end_ptr; ptr+=dbr->byte_per_sector){
+  for (char *ptr=data_ptr; ptr<=end_ptr; ptr+=cluster_size){
       if (isword(ptr)) {
         memcpy(tmp, ptr, sizeof(sfile_t));
         printf("FILE %d: %s\n", cnt_file++, tmp->name);
