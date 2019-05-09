@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
   int cnt_file = 0;
   for (char *ptr=data_ptr; ptr<=end_ptr; ptr+=dbr->byte_per_sector){
     memcpy(tmp, ptr, sizeof(sfile_t));
-    if (strcmp(tmp->ext, "bmp")==0) printf("FILE %d: %s\n", cnt_file++, tmp->name);
+    if (strcmp(tmp->ext, "BMP")==0) printf("FILE %d: %s\n", cnt_file++, tmp->name);
   }
 
   mmap_close(img_ptr);
