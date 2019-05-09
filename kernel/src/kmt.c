@@ -218,6 +218,7 @@ void sem_list_delete(sem_t *sem) {
 
 void sem_wait(sem_t *sem) {
     kmt->spin_lock(&sem->lock);
+    Log("sem_wait %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks++);
     sem->count--;
     if (sem->count < 0) {
         sem->cnt_tasks++;
@@ -225,7 +226,7 @@ void sem_wait(sem_t *sem) {
         sem_list_add(sem, cputask[_cpu()]);
         assert(sem->pcb);
         assert(cputask[_cpu()]->run==1);
-        Log("wait");
+        Log("waiting");
         kmt->spin_unlock(&sem->lock);
 
         _yield();
