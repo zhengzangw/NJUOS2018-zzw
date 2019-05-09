@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
   void *ptr = mmap_open(argv[1]);
 
   for (int i=0;i<=10;++i){
-      printf("%40x ", *((unsigned short *)ptr + i));
+      printf("%04x ", *((unsigned short *)ptr + i));
   }
 
   mmap_close(ptr);
