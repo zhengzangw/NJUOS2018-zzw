@@ -78,7 +78,7 @@ int main(int argc, char *argv[]) {
   sfile_t *root_dir = malloc(sizeof(sfile_t));
   memcpy(root_dir, data_ptr, sizeof(sfile_t));
   printf("%s\n", root_dir->name);
-  printf("%x\n", root_dir->attr);
+  printf("%x\n", root_dir->m_date);
   printf("%d\n", root_dir->size);
 
   mmap_close(img_ptr);
