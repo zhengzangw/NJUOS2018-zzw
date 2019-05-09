@@ -83,11 +83,11 @@ int main(int argc, char *argv[]) {
   memcpy(dbr, img_ptr, sizeof(dbr_t));
   //int cluster_size = dbr->byte_per_sector * dbr->sector_per_cluster;
 
-  char *data_ptr = img_ptr + dbr->byte_per_sector *(dbr->num_of_res_sector + dbr->num_of_fat * dbr->num_of_fat_sector);
+  char *data_ptr = img_ptr + dbr->byte_per_sector * (dbr->num_of_res_sector + dbr->num_of_fat * dbr->num_of_fat_sector);
 
   sfile_t *tmp = malloc(sizeof(sfile_t));
   int cnt_file = 0;
-  for (char *ptr=data_ptr; ptr<=end_ptr; ptr+=dbr->byte_per_sector){
+  for (char *ptr=data_ptr; ptr<=end_ptr; ptr+=32){
     memcpy(tmp, ptr, sizeof(sfile_t));
     if (isbmp(tmp->ext)) printf("FILE %d: %s\n", cnt_file++, tmp->name);
   }
