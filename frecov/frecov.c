@@ -30,7 +30,7 @@ void mmap_close(void *fp){
 struct DBR {
   uint8_t jmp_intr[3];
   char version[8];
-  uint16_t char_per_sector;
+  uint16_t byte_per_sector;
   uint8_t cluster_per_sector;
   uint16_t num_of_res_sector;
   uint8_t num_of_fat;
@@ -51,6 +51,7 @@ int main(int argc, char *argv[]) {
 
   printf("jmp_intr = %x %x %x\n", dbr->jmp_intr[0], dbr->jmp_intr[1], dbr->jmp_intr[2]);
   printf("%s\n", dbr->version);
+  printf("%d\n", dbr->byte_per_sector);
   printf("%d %d %d\n", dbr->zero_0, dbr->zero_1, dbr->zero_2);
 
   mmap_close(ptr);
