@@ -5,8 +5,6 @@
 #include <fcntl.h>
 
 int size;
-void *ptr;
-
 void *mmap_open(char *name){
   int fd = open(name, O_RDONLY);
   assert(fd!=-1);
@@ -27,7 +25,11 @@ void mmap_close(void *fp){
 }
 
 int main(int argc, char *argv[]) {
-  ptr = mmap_open(argv[1]);
+  void *ptr = mmap_open(argv[1]);
+
+  for (int i=0;i<=10;++i){
+      printf("%x ", *((short *)ptr + i));
+  }
 
   mmap_close(ptr);
   return 0;
