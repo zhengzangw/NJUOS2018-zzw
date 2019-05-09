@@ -67,11 +67,11 @@ struct SFILE {
 }__attribute__((packed));
 typedef struct SFILE sfile_t;
 
-bool isword(char *ptr){
-    if (*ptr>='a'&&*ptr<='z') return true;
-    if (*ptr>='A'&&*ptr<='Z') return true;
-    if (*ptr>='0'&&*ptr<='9') return true;
-    return false;
+bool isbmp(char *ptr){
+    if (ptr[0]!='b') return false;
+    if (ptr[1]!='m') return false;
+    if (ptr[2]!='p') return false;
+    return true;
 }
 
 #define BYTE(i) (*((uint8_t *) ptr + i))
@@ -89,9 +89,7 @@ int main(int argc, char *argv[]) {
   int cnt_file = 0;
   for (char *ptr=data_ptr; ptr<=end_ptr; ptr+=dbr->byte_per_sector){
     memcpy(tmp, ptr, sizeof(sfile_t));
-    //if (strcmp(tmp->ext, "BMP")==0)
-    printf("FILE %d: %s\n", cnt_file++, tmp->ext);
-    if (cnt_file>100) break;
+    if (isbmp(tmp->ext)) printf("FILE %d: %s\n", cnt_file++, tmp->ext);
   }
 
   mmap_close(img_ptr);
