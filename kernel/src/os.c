@@ -84,11 +84,8 @@ static void os_init() {
 
 static void os_run() {
     _intr_write(1);
-    while (1) {
-        _yield();
-        for (int i = 0; i < 10000000000; ++i)
-            ;
-    }
+    _yield();
+    while (1);
 }
 
 callback_t handlers[MAXCB];

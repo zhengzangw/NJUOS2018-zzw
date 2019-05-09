@@ -52,10 +52,10 @@ static void dev_init() {
 
   kmt->create(pmm->alloc(sizeof(task_t)), "input-task", input_task, NULL);
   kmt->create(pmm->alloc(sizeof(task_t)), "tty-task", tty_task, NULL);
-  //kmt->create(pmm->alloc(sizeof(task_t)), "echo-task", echo_task, "tty1");
-  //kmt->create(pmm->alloc(sizeof(task_t)), "echo-task", echo_task, "tty2");
-  //kmt->create(pmm->alloc(sizeof(task_t)), "echo-task", echo_task, "tty3");
-  //kmt->create(pmm->alloc(sizeof(task_t)), "echo-task", echo_task, "tty4");
+  kmt->create(pmm->alloc(sizeof(task_t)), "echo-task", echo_task, "tty1");
+  kmt->create(pmm->alloc(sizeof(task_t)), "echo-task", echo_task, "tty2");
+  kmt->create(pmm->alloc(sizeof(task_t)), "echo-task", echo_task, "tty3");
+  kmt->create(pmm->alloc(sizeof(task_t)), "echo-task", echo_task, "tty4");
 }
 
 MODULE_DEF(dev) {
