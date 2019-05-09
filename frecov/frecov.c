@@ -42,7 +42,7 @@ struct DBR {
   uint16_t num_of_head;
   uint32_t num_of_hidden_sector;
   uint32_t total_sector;
-  uint32_t fat_sector;
+  uint32_t num_of_fat_sector;
   uint16_t label;
   uint16_t fs_version;
   uint32_t root_dir;
@@ -52,12 +52,12 @@ typedef struct DBR dbr_t;
 #define BYTE(i) (*((uint8_t *) ptr + i))
 #define LOGBYTE(i) printf("%02x\n", BYTE(i));
 int main(int argc, char *argv[]) {
-  void *ptr = mmap_open(argv[1]);
+  char *img_ptr = mmap_open(argv[1]);
   dbr_t *dbr = malloc(sizeof(dbr_t));
-  memcpy(dbr, ptr, sizeof(dbr_t));
+  memcpy(dbr, img_ptr, sizeof(dbr_t));
 
-  printf("%d\n", dbr->root_dir);
+  char *data_ptr = img_ptr + 1ll * dbr->byte_per_sector *(dbr->num_of_res_sector + dbr->num_of_fat * dbr->num_of_fat_sector);
 
-  mmap_close(ptr);
+  mmap_close(img_ptr);
   return 0;
 }
