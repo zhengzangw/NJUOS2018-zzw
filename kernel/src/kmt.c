@@ -208,7 +208,7 @@ void sem_list_delete(sem_t *sem) {
     tasknode_t *ptr= head;
     while (ptr->nxt!=NULL) ptr=ptr->nxt;
 
-    if (ptr==head) head=head->next;
+    if (ptr==head) head=head->nxt;
     else ptr->pre->nxt = ptr->nxt;
     if (ptr && ptr->nxt) {
         Assert(head->nxt->pre == head, "head->nxt: %d %d (%p)!=(%p) head: %d",
