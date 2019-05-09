@@ -204,9 +204,9 @@ void sem_list_add(sem_t *sem, task_t *task) {
 }
 
 void sem_list_delete(sem_t *sem) {
-    head->task->sleep = 0;
     tasknode_t *ptr= head;
     while (ptr->nxt!=NULL) ptr=ptr->nxt;
+    ptr->task->sleep = 0;
 
     if (ptr==head) head=head->nxt;
     else ptr->pre->nxt = ptr->nxt;
