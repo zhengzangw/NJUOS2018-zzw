@@ -41,6 +41,11 @@ struct DBR {
   uint16_t sector_per_tract;
   uint16_t num_of_head;
   uint32_t num_of_hidden_sector;
+  uint32_t total_sector;
+  uint32_t fat_sector;
+  uint16_t label;
+  uint16_t fs_version;
+  uint32_t root_dir;
 } __attribute__((packed));
 typedef struct DBR dbr_t;
 
@@ -51,11 +56,7 @@ int main(int argc, char *argv[]) {
   dbr_t *dbr = malloc(sizeof(dbr_t));
   memcpy(dbr, ptr, sizeof(dbr_t));
 
-  printf("jmp_intr = %x %x %x\n", dbr->jmp_intr[0], dbr->jmp_intr[1], dbr->jmp_intr[2]);
-  printf("%s\n", dbr->version);
-  printf("%d\n", dbr->byte_per_sector);
-  printf("%d %d %d\n", dbr->zero_0, dbr->zero_1, dbr->zero_2);
-  printf("%d\n", dbr->num_of_hidden_sector);
+  printf("%d\n", dbr->root_dir);
 
   mmap_close(ptr);
   return 0;
