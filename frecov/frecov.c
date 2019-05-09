@@ -86,6 +86,7 @@ int main(int argc, char *argv[]) {
 
   sfile_t *tmp = malloc(sizeof(sfile_t));
   int cnt_file = 0;
+  printf("%p %p\n", data_ptr, end_ptr);
   for (char *ptr=data_ptr; ptr<end_ptr; ptr+=dbr->byte_per_sector){
       if (isword(ptr)) {
         memcpy(tmp, ptr, sizeof(sfile_t));
