@@ -46,8 +46,8 @@ typedef struct DBR dbr_t;
 #define LOGBYTE(i) printf("%02x\n", BYTE(i));
 int main(int argc, char *argv[]) {
   void *ptr = mmap_open(argv[1]);
-  dbr_t *dbr = malloc(sizeof(sizeof(dbr_t)));
-  memcpy(dbr, ptr, 30);
+  dbr_t *dbr = malloc(sizeof(dbr_t));
+  memcpy(dbr, ptr, sizeof(dbr_t));
 
   mmap_close(ptr);
   return 0;
