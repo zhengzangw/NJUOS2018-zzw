@@ -39,7 +39,7 @@ struct DBR {
   uint8_t material_type;
   uint16_t zero_2;
   uint16_t sector_per_tract;
-};
+} __attribute__((packed));
 typedef struct DBR dbr_t;
 
 #define BYTE(i) (*((uint8_t *) ptr + i))
