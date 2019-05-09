@@ -226,7 +226,7 @@ void sem_wait(sem_t *sem) {
         sem_list_add(sem, cputask[_cpu()]);
         assert(sem->pcb);
         assert(cputask[_cpu()]->run==1);
-        Log("waiting");
+        //Log("waiting");
         kmt->spin_unlock(&sem->lock);
 
         _yield();
@@ -242,7 +242,7 @@ void sem_signal(sem_t *sem) {
         sem->cnt_tasks--;
     }
     sem->count++;
-//Log("sem_sigal %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks);
+Log("sem_sigal %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks);
     kmt->spin_unlock(&sem->lock);
 }
 
