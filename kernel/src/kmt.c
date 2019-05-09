@@ -218,7 +218,7 @@ void sem_list_delete(sem_t *sem) {
 
 void sem_wait(sem_t *sem) {
     kmt->spin_lock(&sem->lock);
-    Log("sem_wait %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks++);
+    Log("sem_wait %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks);
     sem->count--;
     if (sem->count < 0) {
         sem->cnt_tasks++;
