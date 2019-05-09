@@ -24,6 +24,7 @@ void mmap_close(void *fp){
   munmap(fp, size);
 }
 
+#define BYTE(i) (*((unsigned char *) ptr + i))
 int main(int argc, char *argv[]) {
   void *ptr = mmap_open(argv[1]);
 
