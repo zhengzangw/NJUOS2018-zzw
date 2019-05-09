@@ -68,7 +68,6 @@ struct SFILE {
 typedef struct SFILE sfile_t;
 
 bool isword(char *ptr){
-    return true;
     if (*ptr>='a'&&*ptr<='z') return true;
     if (*ptr>='A'&&*ptr<='Z') return true;
     if (*ptr>='0'&&*ptr<='9') return true;
