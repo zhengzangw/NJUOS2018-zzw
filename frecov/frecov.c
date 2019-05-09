@@ -39,6 +39,8 @@ struct DBR {
   uint8_t material_type;
   uint16_t zero_2;
   uint16_t sector_per_tract;
+  uint16_t num_of_head;
+  uint32_t num_of_hidden_sector;
 } __attribute__((packed));
 typedef struct DBR dbr_t;
 
@@ -53,6 +55,7 @@ int main(int argc, char *argv[]) {
   printf("%s\n", dbr->version);
   printf("%d\n", dbr->byte_per_sector);
   printf("%d %d %d\n", dbr->zero_0, dbr->zero_1, dbr->zero_2);
+  printf("%d\n", dbr->num_of_hidden_sector);
 
   mmap_close(ptr);
   return 0;
