@@ -218,7 +218,7 @@ void sem_list_delete(sem_t *sem) {
 
 void sem_wait(sem_t *sem) {
     kmt->spin_lock(&sem->lock);
-    Log("sem_wait %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks);
+    if (sem->name[0]!='f') Log("sem_wait %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks);
     sem->count--;
     if (sem->count < 0) {
         sem->cnt_tasks++;
@@ -242,6 +242,7 @@ void sem_signal(sem_t *sem) {
         sem->cnt_tasks--;
     }
     sem->count++;
+Log("sem_sigal %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks);
     kmt->spin_unlock(&sem->lock);
 }
 
