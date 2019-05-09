@@ -57,6 +57,7 @@ int main(int argc, char *argv[]) {
   memcpy(dbr, img_ptr, sizeof(dbr_t));
 
   char *data_ptr = img_ptr + 1ll * dbr->byte_per_sector *(dbr->num_of_res_sector + dbr->num_of_fat * dbr->num_of_fat_sector);
+  printf("%c\n", *data_ptr);
 
   mmap_close(img_ptr);
   return 0;
