@@ -49,7 +49,8 @@ int main(int argc, char *argv[]) {
   dbr_t *dbr = malloc(sizeof(dbr_t));
   memcpy(dbr, ptr, sizeof(dbr_t));
 
-  printf("jmp_intr = %x %x %x", (unsigned char)dbr->jmp_intr[0], dbr->jmp_intr[1], dbr->jmp_intr[2]);
+  printf("jmp_intr = %x %x %x\n", dbr->jmp_intr[0], dbr->jmp_intr[1], dbr->jmp_intr[2]);
+  printf("%d %d %d\n", dbr->zero_0, dbr->zero_1, dbr->zero_2);
 
   mmap_close(ptr);
   return 0;
