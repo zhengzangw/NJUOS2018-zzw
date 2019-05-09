@@ -49,6 +49,23 @@ struct DBR {
 } __attribute__((packed));
 typedef struct DBR dbr_t;
 
+struct SFILE {
+  char name[8];
+  char ext[3];
+  uint8_t attr;
+  uint8_t res;
+  uint8_t c_ms;
+  uint16_t c_time;
+  uint16_t c_date;
+  uint16_t v_date;
+  uint16_t high_cluster;
+  uint16_t m_time;
+  uint16_t m_date;
+  uint16_t low_cluster;
+  uint32_t size;
+}__attribute__((packed));
+typedef struct SFILE sfile_t;
+
 #define BYTE(i) (*((uint8_t *) ptr + i))
 #define LOGBYTE(i) printf("%02x\n", BYTE(i));
 int main(int argc, char *argv[]) {
@@ -57,7 +74,12 @@ int main(int argc, char *argv[]) {
   memcpy(dbr, img_ptr, sizeof(dbr_t));
 
   char *data_ptr = img_ptr + 1ll * dbr->byte_per_sector *(dbr->num_of_res_sector + dbr->num_of_fat * dbr->num_of_fat_sector);
-  printf("%c\n", *data_ptr);
+
+  sfile_t *root_dir = malloc(sizeof(sfile_t));
+  memcpy(root_dir, data_ptr, sizeof(sfile_t));
+  printf("%s", root_dir->name);
+  printf("%d", root_dir->c_date);
+  printf("%d", root_dir->size);
 
   mmap_close(img_ptr);
   return 0;
