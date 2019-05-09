@@ -5,7 +5,7 @@
 #include <fcntl.h>
 
 int main(int argc, char *argv[]) {
-  int fd = open("./filesystem.img", O_RDONLY);
+  int fd = open(argv[1], O_RDONLY);
   assert(fd!=-1);
 
   struct stat file_stat;
