@@ -91,6 +91,7 @@ int main(int argc, char *argv[]) {
     memcpy(tmp, ptr, sizeof(sfile_t));
     //if (strcmp(tmp->ext, "BMP")==0)
     printf("FILE %d: %s\n", cnt_file++, tmp->ext);
+    if (cnt_file>100) break;
   }
 
   mmap_close(img_ptr);
