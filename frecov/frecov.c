@@ -47,7 +47,7 @@ typedef struct DBR dbr_t;
 int main(int argc, char *argv[]) {
   void *ptr = mmap_open(argv[1]);
   dbr_t *dbr = malloc(sizeof(sizeof(dbr_t)));
-  memcpy(dbr, ptr, sizeof(dbr));
+  memcpy(dbr, ptr, sizeof(dbr_t));
 
   mmap_close(ptr);
   return 0;
