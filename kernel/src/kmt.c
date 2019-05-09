@@ -205,20 +205,23 @@ void sem_list_add(sem_t *sem, task_t *task) {
 
 void sem_list_delete(sem_t *sem) {
     head->task->sleep = 0;
-    tasknode_t *t = head;
-    head = head->nxt;
-    if (head) head->pre = t->pre;
-    if (head && head->nxt) {
+    tasknode_t *ptr= head;
+    while (ptr->nxt!=NULL) ptr=ptr->nxt;
+
+    if (ptr==head) head=head->next;
+    else ptr->pre->nxt = ptr->nxt;
+    if (ptr && ptr->nxt) {
         Assert(head->nxt->pre == head, "head->nxt: %d %d (%p)!=(%p) head: %d",
                head->nxt, head->nxt->task->id, head->nxt->pre, head,
                head->task->id);
+        ptr->nxt->pre = ptr->pre;
     }
-    pmm->free(t);
+    pmm->free(ptr);
 }
 
 void sem_wait(sem_t *sem) {
     kmt->spin_lock(&sem->lock);
-    Log("sem_wait %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks);
+    //Log("sem_wait %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks);
     sem->count--;
     if (sem->count < 0) {
         sem->cnt_tasks++;
