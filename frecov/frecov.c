@@ -28,7 +28,7 @@ void mmap_close(void *fp){
 }
 
 struct DBR {
-  char jmp_intr[3];
+  uint8_t jmp_intr[3];
   char version[8];
   uint16_t char_per_sector;
   uint8_t cluster_per_sector;
@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
   memcpy(dbr, ptr, sizeof(dbr_t));
 
   printf("jmp_intr = %x %x %x\n", dbr->jmp_intr[0], dbr->jmp_intr[1], dbr->jmp_intr[2]);
+  printf("%s\n", dbr->version);
   printf("%d %d %d\n", dbr->zero_0, dbr->zero_1, dbr->zero_2);
 
   mmap_close(ptr);
