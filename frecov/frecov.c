@@ -42,7 +42,7 @@ struct DBR {
   uint16_t sector_per_tract;
   uint16_t num_of_head;
   uint32_t num_of_hidden_sector;
-  uint32_t total_sector;
+  uint32_t num_of_fs_sector;
   uint32_t num_of_fat_sector;
   uint16_t label;
   uint16_t fs_version;
@@ -79,7 +79,7 @@ bool isword(char *ptr){
 int main(int argc, char *argv[]) {
   char *img_ptr = mmap_open(argv[1]);
   dbr_t *dbr = malloc(sizeof(dbr_t));
-  char *end_ptr = img_ptr + dbr->byte_per_sector * dbr->total_sector;
+  char *end_ptr = img_ptr + size;
   memcpy(dbr, img_ptr, sizeof(dbr_t));
 
   char *data_ptr = img_ptr + dbr->byte_per_sector *(dbr->num_of_res_sector + dbr->num_of_fat * dbr->num_of_fat_sector);
