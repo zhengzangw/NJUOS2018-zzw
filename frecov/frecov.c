@@ -69,8 +69,8 @@ typedef struct SFILE sfile_t;
 
 bool isbmp(char *ptr){
     if (ptr[0]!='b'&&ptr[0]!='B') return false;
-    if (ptr[1]!='m'&&ptr[0]!='M') return false;
-    if (ptr[2]!='p'&&ptr[0]!='P') return false;
+    if (ptr[1]!='m'&&ptr[1]!='M') return false;
+    if (ptr[2]!='p'&&ptr[2]!='P') return false;
     return true;
 }
 
