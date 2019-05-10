@@ -201,7 +201,7 @@ int main(int argc, char *argv[], char *env[]) {
 
   qsort(ans, cnt_file, sizeof(entry_t), cmp);
   for (int i=0;i<cnt_file;++i)
-    printf("Name %ls sha1sum %s", ans[i].name, ans[i].sha1sum);
+    printf("Name %ls sha1sum %s\n", ans[i].name, ans[i].sha1sum);
 
   mmap_close(img_ptr);
   return 0;
