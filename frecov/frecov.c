@@ -9,6 +9,7 @@
 #include <malloc.h>
 #include <stdbool.h>
 #include <locale.h>
+#include <wchar.h>
 
 int size;
 void *mmap_open(char *name){
@@ -118,6 +119,8 @@ int main(int argc, char *argv[]) {
         printf("Size %" PRIu32 " ", ptr->size);
         uint32_t addr = (uint32_t)ptr->high_cluster<<16|ptr->low_cluster;
         printf("Addr %" PRIu32 "\n", (addr-2)*cluster_size);
+
+        if (wcscmp(name, L"fuli.bmp")==0) break;
     }
   }
 
