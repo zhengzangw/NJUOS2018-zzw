@@ -70,13 +70,13 @@ typedef struct SFILE sfile_t;
 
 struct LFILE {
   uint8_t serial;
-  wchar_t low_name[5];
+  short low_name[5];
   uint8_t flag;
   uint8_t res;
   uint8_t checksum;
-  wchar_t middle_name[6];
+  short middle_name[6];
   uint16_t cluster;
-  wchar_t high_name[2];
+  short high_name[2];
 }__attribute__((packed));
 typedef struct LFILE lfile_t;
 
