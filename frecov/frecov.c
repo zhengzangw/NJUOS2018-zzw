@@ -108,6 +108,7 @@ int main(int argc, char *argv[]) {
         printf("%ls", l_ptr->low_name);
         printf("%ls", l_ptr->middle_name);
         printf("%ls\n", l_ptr->high_name);
+        l_ptr --;
     }
   }
 
