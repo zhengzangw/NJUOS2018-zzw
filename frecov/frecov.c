@@ -174,7 +174,6 @@ int main(int argc, char *argv[], char *env[]) {
         bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
         if (!validbmp(bmp_ptr, ptr->size)) continue;
 
-        int status;
         int fl_in[2], fl_out[2];
         pipe(fl_in); pipe(fl_out);
         int pid = fork();
@@ -188,7 +187,7 @@ int main(int argc, char *argv[], char *env[]) {
             write(fl_in[1], bmp_ptr, bmp_ptr->size);
             close(fl_in[1]);
             printf("H\n");
-            wait(&status);
+            wait(NULL);
             printf("H\n");
         }
 
