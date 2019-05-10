@@ -105,6 +105,18 @@ bool iswbmp(wchar_t *ptr){
     return true;
 }
 
+bool validbmp(bmp_t *bmp_ptr, int size){
+    if (bmp_ptr->id[0]!='B'||bmp_ptr->id[1]!='M') return false;
+    if (bmp_ptr->size != size) return false;
+    return true;
+}
+
+void display(char *name, bmp_t *bmp_ptr){
+    FILE *bmp = fopen(name, "wb");
+    fwrite(bmp_ptr, bmp_ptr->size, 1, bmp);
+    fclose(bmp);
+}
+
 #define BYTE(i) (*((uint8_t *) ptr + i))
 #define LOGBYTE(i) printf("%02x\n", BYTE(i));
 int main(int argc, char *argv[]) {
@@ -119,7 +131,7 @@ int main(int argc, char *argv[]) {
   int cnt_file = 0;
   wchar_t name[128];
   for (sfile_t *ptr=(sfile_t *)data_ptr; ptr<=(sfile_t *)end_ptr; ptr++){
-    if (isbmp(ptr->ext)) {
+    if (isbmp(ptr->ext)) { //Judge is a bmp inode
         lfile_t *l_ptr = (lfile_t *)ptr - 1;
         bzero(name, sizeof(name));
         int base = 0;
@@ -131,20 +143,16 @@ int main(int argc, char *argv[]) {
             l_ptr --;
         }
         if (!iswbmp(name)||ptr->size==0||ptr->low_cluster==0) continue; //Inode loss
+        uint32_t offset = (uint32_t)ptr->high_cluster<<16|ptr->low_cluster;
+        uint32_t addr = (offset-2)*cluster_size;
+        bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
+        if (!validbmp(bmp_ptr, ptr->size)) continue;
+
         printf("FILE %d: ", cnt_file++);
         printf("Name %ls ", name);
         printf("Size %" PRIu32 "\n", ptr->size);
-        uint32_t offset = (uint32_t)ptr->high_cluster<<16|ptr->low_cluster;
-        uint32_t addr = (offset-2)*cluster_size;
 
-        if (wcscmp(name, L"fuli.bmp")==0) {
-            bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
-            printf("%c%c\n", bmp_ptr->id[0], bmp_ptr->id[1]);
-            printf("%d\n", bmp_ptr->size);
-            FILE *bmp = fopen("fuli.bmp", "wb");
-            fwrite(bmp_ptr, bmp_ptr->size, 1, bmp);
-            fclose(bmp);
-        }
+        //display(ptr->name, bmp_ptr);
     }
   }
 
