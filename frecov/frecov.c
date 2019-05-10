@@ -174,7 +174,7 @@ int main(int argc, char *argv[], char *env[]) {
         bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
         if (!validbmp(bmp_ptr, ptr->size)) continue;
 
-        int status;
+        //int status;
         int fl_in[2], fl_out[2];
         pipe(fl_in); pipe(fl_out);
         int pid = fork();
