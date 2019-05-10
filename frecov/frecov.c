@@ -104,13 +104,15 @@ int main(int argc, char *argv[]) {
     if (isbmp(ptr->ext)) printf("FILE %d: %s ", cnt_file++, ptr->name);
     lfile_t *l_ptr = (lfile_t *)ptr - 1;
     bzero(name, sizeof(name));
-    while (l_ptr->flag == 0xF) {
-        for (int i=0;i<5;++i) name[i] = l_ptr->low_name[i];
-        for (int i=0;i<6;++i) name[i+5] = l_ptr->low_name[i];
-        for (int i=0;i<2;++i) name[i+11] = l_ptr->low_name[i];
-        printf("%ls\n", name);
+    int base = 0;
+    while (l_ptr->flag == 0xF && l_ptr->cluster==0) {
+        for (int i=0;i<5;++i) name[base+i] = l_ptr->low_name[i];
+        for (int i=0;i<6;++i) name[base+i+5] = l_ptr->low_name[i];
+        for (int i=0;i<2;++i) name[base+i+11] = l_ptr->low_name[i];
+        base += 13;
         l_ptr --;
     }
+    printf("%ls\n", name);
   }
 
   mmap_close(img_ptr);
