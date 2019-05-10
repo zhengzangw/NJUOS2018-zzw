@@ -187,9 +187,7 @@ int main(int argc, char *argv[], char *env[]) {
             close(fl_in[0]); close(fl_out[1]);
             write(fl_in[1], bmp_ptr, bmp_ptr->size);
             close(fl_in[1]);
-            printf("H\n");
             wait(NULL);
-            printf("H\n");
         }
 
         FILE *rfd = fdopen(fl_out[0], "r");
