@@ -112,7 +112,7 @@ int main(int argc, char *argv[]) {
         base += 13;
         l_ptr --;
     }
-    printf("%ls\n", name);
+    //printf("%ls\n", name);
   }
 
   mmap_close(img_ptr);
