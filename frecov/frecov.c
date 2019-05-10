@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
   wchar_t name[128];
   for (sfile_t *ptr=(sfile_t *)data_ptr; ptr<=(sfile_t *)end_ptr; ptr++){
     if (isbmp(ptr->ext)) printf("FILE %d: %s\n", cnt_file++, ptr->name);
-    lfile_t *l_ptr = (lfile_t *)(ptr - sizeof(lfile_t));
+    lfile_t *l_ptr = (lfile_t *)ptr - 1;
     while (l_ptr->flag == 0xF) {
         for (int i=0;i<5;++i) name[i] = l_ptr->low_name[i];
         for (int i=0;i<6;++i) name[i+5] = l_ptr->low_name[i];
