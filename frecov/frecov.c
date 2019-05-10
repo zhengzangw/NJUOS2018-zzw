@@ -10,6 +10,7 @@
 #include <stdbool.h>
 #include <locale.h>
 #include <wchar.h>
+#include <stdlib.h>
 
 int size;
 void *mmap_open(char *name){
@@ -94,7 +95,13 @@ struct Entry {
   wchar_t name[128];
   void *sha1sum;
   uint32_t size;
-} ans[8192];
+};
+typedef struct Entry entry_t;
+entry_t ans[8192];
+
+bool cmp(const entry_t *a, const entry_t *b){
+    return (a->size-b->size);
+}
 
 bool isbmp(char *ptr){
     if (ptr[0]!='b'&&ptr[0]!='B') return false;
@@ -171,6 +178,8 @@ int main(int argc, char *argv[]) {
         cnt_file++;
     }
   }
+
+  qsort(ans, cnt_file, sizeof(Entry), cmp);
 
   mmap_close(img_ptr);
   return 0;
