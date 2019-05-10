@@ -182,6 +182,7 @@ int main(int argc, char *argv[], char *env[]) {
             dup2(fl_in[0], STDIN_FILENO);
             dup2(fl_out[1], STDOUT_FILENO);
             execve("/usr/bin/sha1sum", argv_sha1sum, env);
+            exit(0);
         } else {
             close(fl_in[0]); close(fl_out[1]);
             write(fl_in[1], bmp_ptr, bmp_ptr->size);
