@@ -99,7 +99,7 @@ struct Entry {
 typedef struct Entry entry_t;
 entry_t ans[8192];
 
-bool cmp(const entry_t *a, const entry_t *b){
+int cmp(const entry_t *a, const entry_t *b){
     return (a->size-b->size);
 }
 
@@ -179,7 +179,7 @@ int main(int argc, char *argv[]) {
     }
   }
 
-  qsort(ans, cnt_file, sizeof(Entry), cmp);
+  qsort(ans, cnt_file, sizeof(entry_t), cmp);
 
   mmap_close(img_ptr);
   return 0;
