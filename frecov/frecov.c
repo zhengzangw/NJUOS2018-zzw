@@ -97,6 +97,14 @@ bool isbmp(char *ptr){
     return true;
 }
 
+bool notwbmp(wchar_t *ptr){
+    int len = wcslen(ptr);
+    if (ptr[len-3]!='b'&&ptr[len-3]!='B') return false;
+    if (ptr[len-2]!='m'&&ptr[len-2]!='M') return false;
+    if (ptr[len-1]!='p'&&ptr[len-1]!='P') return false;
+    return true;
+}
+
 #define BYTE(i) (*((uint8_t *) ptr + i))
 #define LOGBYTE(i) printf("%02x\n", BYTE(i));
 int main(int argc, char *argv[]) {
@@ -123,6 +131,7 @@ int main(int argc, char *argv[]) {
             base += 13;
             l_ptr --;
         }
+        if (notwbmp(name)) continue; //No File Name
         printf("Name %ls ", name);
         printf("Size %" PRIu32 "\n", ptr->size);
         uint32_t offset = (uint32_t)ptr->high_cluster<<16|ptr->low_cluster;
