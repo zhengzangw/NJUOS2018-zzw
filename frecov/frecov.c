@@ -111,8 +111,9 @@ int main(int argc, char *argv[]) {
         for (int i=0;i<2;++i) name[base+i+11] = l_ptr->high_name[i];
         base += 13;
         l_ptr --;
+    printf("%ls\n", name);
+    break;
     }
-    //printf("%ls\n", name);
   }
 
   mmap_close(img_ptr);
