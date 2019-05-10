@@ -98,12 +98,10 @@ int main(int argc, char *argv[]) {
 
   char *data_ptr = img_ptr + dbr->byte_per_sector * (dbr->num_of_res_sector + dbr->num_of_fat * dbr->num_of_fat_sector);
 
-  sfile_t *tmp = malloc(sizeof(sfile_t));
   int cnt_file = 0;
   wchar_t name[128];
-  for (char *ptr=data_ptr; ptr<=end_ptr; ptr+=32){
-    memcpy(tmp, ptr, sizeof(sfile_t));
-    if (isbmp(tmp->ext)) printf("FILE %d: %s\n", cnt_file++, tmp->name);
+  for (sfile_t *ptr=(sfile_t *)data_ptr; ptr<=(sfile_t *)end_ptr; ptr++){
+    if (isbmp(ptr->ext)) printf("FILE %d: %s\n", cnt_file++, ptr->name);
     lfile_t *l_ptr = (lfile_t *)(ptr - sizeof(lfile_t));
     while (l_ptr->flag == 0xF) {
         for (int i=0;i<5;++i) name[i] = l_ptr->low_name[i];
