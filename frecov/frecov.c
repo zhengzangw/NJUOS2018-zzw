@@ -188,7 +188,7 @@ int main(int argc, char *argv[], char *env[]) {
             fwrite(bmp_ptr, bmp_ptr->size, 1, output);
             fsync(fl_out[0]);
             fclose(output);
-            wait(&status);
+            //wait(&status);
             fscanf(input, " %s", ans[cnt_file].sha1sum);
             fclose(input);
         }
@@ -201,7 +201,7 @@ int main(int argc, char *argv[], char *env[]) {
 
   qsort(ans, cnt_file, sizeof(entry_t), cmp);
   for (int i=0;i<cnt_file;++i)
-    printf("FILE %d: Name %ls Size %" PRIu32 "\n", i+1, ans[i].name, ans[i].size);
+    printf("Name %ls sha1sum %s", ans[i].name, ans[i].sha1sum);
 
   mmap_close(img_ptr);
   return 0;
