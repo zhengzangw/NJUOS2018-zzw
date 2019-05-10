@@ -7,6 +7,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <stdbool.h>
+#include <locale.h>
 
 int size;
 void *mmap_open(char *name){
@@ -67,6 +68,18 @@ struct SFILE {
 }__attribute__((packed));
 typedef struct SFILE sfile_t;
 
+struct LFILE {
+  uint8_t serial;
+  wchar_t low_name[5];
+  uint8_t flag;
+  uint8_t res;
+  uint8_t checksum;
+  wchar_t middle_name[6];
+  uint16_t cluster;
+  wchar_t high_name[2];
+}__attribute__((packed));
+typedef struct LFILE lfile_t;
+
 bool isbmp(char *ptr){
     if (ptr[0]!='b'&&ptr[0]!='B') return false;
     if (ptr[1]!='m'&&ptr[1]!='M') return false;
@@ -90,6 +103,12 @@ int main(int argc, char *argv[]) {
   for (char *ptr=data_ptr; ptr<=end_ptr; ptr+=32){
     memcpy(tmp, ptr, sizeof(sfile_t));
     if (isbmp(tmp->ext)) printf("FILE %d: %s\n", cnt_file++, tmp->name);
+    lfile_t *l_ptr = (lfile_t *)(ptr - sizeof(lfile_t));
+    while (l_ptr->flag == 0xF) {
+        printf("%ls", l_ptr->low_name);
+        printf("%ls", l_ptr->middle_name);
+        printf("%ls\n", l_ptr->high_name);
+    }
   }
 
   mmap_close(img_ptr);
