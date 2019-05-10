@@ -11,6 +11,8 @@
 #include <locale.h>
 #include <wchar.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
 
 int size;
 void *mmap_open(char *name){
@@ -93,7 +95,7 @@ typedef struct bmp_header bmp_t;
 
 struct Entry {
   wchar_t name[128];
-  void *sha1sum;
+  char sha1sum[100];
   uint32_t size;
 };
 typedef struct Entry entry_t;
@@ -142,7 +144,8 @@ void display(char *name, bmp_t *bmp_ptr){
 
 #define BYTE(i) (*((uint8_t *) ptr + i))
 #define LOGBYTE(i) printf("%02x\n", BYTE(i));
-int main(int argc, char *argv[]) {
+char *argv_sha1sum[] = {"/usr/bin/strace"};
+int main(int argc, char *argv[], char *env[]) {
   char *img_ptr = mmap_open(argv[1]);
   char *end_ptr = img_ptr + size;
   dbr_t *dbr = malloc(sizeof(dbr_t));
@@ -170,6 +173,25 @@ int main(int argc, char *argv[]) {
         uint32_t addr = (offset-2)*cluster_size;
         bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
         if (!validbmp(bmp_ptr, ptr->size)) continue;
+
+        int status;
+        int fl_in[2], fl_out[2];
+        pipe(fl_in); pipe(fl_out);
+        int pid = fork();
+        if (pid == 0){
+            dup2(fl_in[0], STDIN_FILENO);
+            dup2(fl_out[1], STDOUT_FILENO);
+            execve("/usr/bin/sha1sum", argv_sha1sum, env);
+        } else {
+            FILE *output = fdopen(fl_in[1], "wb");
+            FILE *input = fdopen(fl_out[0], "r");
+            fwrite(bmp_ptr, bmp_ptr->size, 1, output);
+            fsync(fl_out[0]);
+            wait(&status);
+            fscanf(input, " %s", ans[cnt_file].sha1sum);
+            fclose(output);
+            fclose(input);
+        }
 
         wcscpy(ans[cnt_file].name, name);
         ans[cnt_file].size = ptr->size;
