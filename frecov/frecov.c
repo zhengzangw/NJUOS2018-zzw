@@ -174,7 +174,7 @@ int main(int argc, char *argv[], char *env[]) {
         bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
         if (!validbmp(bmp_ptr, ptr->size)) continue;
 
-        //int status;
+        int status;
         int fl_in[2], fl_out[2];
         pipe(fl_in); pipe(fl_out);
         int pid = fork();
@@ -186,11 +186,11 @@ int main(int argc, char *argv[], char *env[]) {
             FILE *output = fdopen(fl_in[1], "wb");
             FILE *input = fdopen(fl_out[0], "r");
             fwrite(bmp_ptr, bmp_ptr->size, 1, output);
-            //fsync(fl_out[0]);
-            fclose(output);
-            //wait(&status);
-            //fscanf(input, " %s", ans[cnt_file].sha1sum);
-            fclose(input);
+            fsync(fl_out[0]);
+            fclose(output); close(fl_in[0]);
+            wait(&status);
+            fscanf(input, " %s", ans[cnt_file].sha1sum);
+            fclose(input); close(fl_out[1]);
         }
 
         wcscpy(ans[cnt_file].name, name);
