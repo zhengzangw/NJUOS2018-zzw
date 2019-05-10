@@ -82,6 +82,14 @@ struct LFILE {
 }__attribute__((packed));
 typedef struct LFILE lfile_t;
 
+struct bmp_header {
+  char id[2];
+  uint32_t size;
+  uint32_t res;
+  uint32_t offset;
+}__attribute__((packed));
+typedef struct bmp_header bmp_t;
+
 bool isbmp(char *ptr){
     if (ptr[0]!='b'&&ptr[0]!='B') return false;
     if (ptr[1]!='m'&&ptr[1]!='M') return false;
@@ -120,7 +128,12 @@ int main(int argc, char *argv[]) {
         uint32_t addr = (uint32_t)ptr->high_cluster<<16|ptr->low_cluster;
         printf("Addr %" PRIu32 "\n", (addr-2)*cluster_size);
 
-        if (wcscmp(name, L"fuli.bmp")==0) break;
+        if (wcscmp(name, L"fuli.bmp")==0) {
+            bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
+            printf("%s\n", bmp_ptr->id);
+            //int bmpfd = fopen("fuli.bmp", )
+            break;
+        }
     }
   }
 
