@@ -4,7 +4,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdint.h>
-#include <inttype.h>
+#include <inttypes.h>
 #include <string.h>
 #include <malloc.h>
 #include <stdbool.h>
@@ -115,9 +115,9 @@ int main(int argc, char *argv[]) {
             l_ptr --;
         }
         printf("Name %ls ", name);
-        printf("Size %lu", ptr->size);
+        printf("Size %" PRIu32 " ", ptr->size);
         uint32_t addr = (uint32_t) ptr->high_cluster<<16|ptr->low_cluster;
-        printf("Addr %lu\n", addr);
+        printf("Addr %" PRIu32 " ", addr);
     }
   }
 
