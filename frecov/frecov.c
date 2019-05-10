@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
             base += 13;
             l_ptr --;
         }
-        if (!iswbmp(name)) continue; //No File Name
+        if (!iswbmp(name)||ptr->size==0||ptr->low_cluster==0) continue; //Inode loss
         printf("FILE %d: ", cnt_file++);
         printf("Name %ls ", name);
         printf("Size %" PRIu32 "\n", ptr->size);
