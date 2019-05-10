@@ -95,7 +95,7 @@ int main(int argc, char *argv[]) {
   char *end_ptr = img_ptr + size;
   dbr_t *dbr = malloc(sizeof(dbr_t));
   memcpy(dbr, img_ptr, sizeof(dbr_t));
-  //int cluster_size = dbr->byte_per_sector * dbr->sector_per_cluster;
+  int cluster_size = dbr->byte_per_sector * dbr->sector_per_cluster;
 
   char *data_ptr = img_ptr + dbr->byte_per_sector * (dbr->num_of_res_sector + dbr->num_of_fat * dbr->num_of_fat_sector);
 
@@ -117,8 +117,7 @@ int main(int argc, char *argv[]) {
         printf("Name %ls ", name);
         printf("Size %" PRIu32 " ", ptr->size);
         uint32_t addr = (uint32_t)ptr->high_cluster<<16|ptr->low_cluster;
-        printf("%" PRIu16 " %" PRIu16, ptr->high_cluster, ptr->low_cluster);
-        printf("Addr %" PRIu32 "\n", addr);
+        printf("Addr %" PRIu32 "\n", (addr-2)*cluster_size);
     }
   }
 
