@@ -162,7 +162,7 @@ int main(int argc, char *argv[]) {
         printf("Name %ls ", name);
         printf("Size %" PRIu32 "\n", ptr->size);
 
-        //display(ptr->name, bmp_ptr);
+        display(ptr->name, bmp_ptr);
     }
   }
 
