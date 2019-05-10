@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
 
         if (wcscmp(name, L"fuli.bmp")==0) {
             bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
-            printf("%s\n", bmp_ptr->id);
+            printf("%c%c\n", bmp_ptr->id[0], bmp_ptr->id[1]);
             //int bmpfd = fopen("fuli.bmp", )
             break;
         }
