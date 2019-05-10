@@ -124,7 +124,7 @@ int main(int argc, char *argv[]) {
             l_ptr --;
         }
         printf("Name %ls ", name);
-        printf("Size %" PRIu32 " ", ptr->size);
+        printf("Size %" PRIu32 "\n", ptr->size);
         uint32_t offset = (uint32_t)ptr->high_cluster<<16|ptr->low_cluster;
         uint32_t addr = (offset-2)*cluster_size;
 
