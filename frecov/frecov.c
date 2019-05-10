@@ -188,7 +188,7 @@ int main(int argc, char *argv[], char *env[]) {
             fwrite(bmp_ptr, bmp_ptr->size, 1, output);
             fsync(fl_out[0]);
             fclose(output); close(fl_in[0]);
-            wait(&status);
+            //wait(&status);
             //fscanf(input, " %s", ans[cnt_file].sha1sum);
             fclose(input); close(fl_out[1]);
         }
