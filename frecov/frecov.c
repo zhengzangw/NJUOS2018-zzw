@@ -96,6 +96,7 @@ int main(int argc, char *argv[]) {
   memcpy(dbr, img_ptr, sizeof(dbr_t));
   //int cluster_size = dbr->byte_per_sector * dbr->sector_per_cluster;
   printf("%lu %lu", sizeof(sfile_t), sizeof(lfile_t));
+  return 0;
 
   char *data_ptr = img_ptr + dbr->byte_per_sector * (dbr->num_of_res_sector + dbr->num_of_fat * dbr->num_of_fat_sector);
 
