@@ -125,8 +125,9 @@ int main(int argc, char *argv[]) {
         }
         printf("Name %ls ", name);
         printf("Size %" PRIu32 " ", ptr->size);
-        uint32_t addr = (uint32_t)ptr->high_cluster<<16|ptr->low_cluster;
-        printf("Addr %" PRIu32 "\n", (addr-2)*cluster_size);
+        uint32_t offset = (uint32_t)ptr->high_cluster<<16|ptr->low_cluster;
+        uint32_t addr = (offset-2)*cluster_size;
+        printf("Addr %" PRIu32 "\n", addr);
 
         if (wcscmp(name, L"fuli.bmp")==0) {
             bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
