@@ -173,13 +173,13 @@ int main(int argc, char *argv[]) {
 
         wcscpy(ans[cnt_file].name, name);
         ans[cnt_file].size = ptr->size;
-
-        printf("FILE %d: Name %ls Size %" PRIu32 "\n", cnt_file, ans[cnt_file].name, ans[cnt_file].size);
         cnt_file++;
     }
   }
 
   qsort(ans, cnt_file, sizeof(entry_t), cmp);
+  for (int i=0;i<cnt_file;++i)
+    printf("FILE %d: Name %ls Size %" PRIu32 "\n", i+1, ans[i].name, ans[i].size);
 
   mmap_close(img_ptr);
   return 0;
