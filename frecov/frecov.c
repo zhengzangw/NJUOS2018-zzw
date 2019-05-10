@@ -183,13 +183,14 @@ int main(int argc, char *argv[], char *env[]) {
             dup2(fl_out[1], STDOUT_FILENO);
             execve("/usr/bin/sha1sum", argv_sha1sum, env);
         } else {
+            close(fl_in[0]); close(fl_out[1]);
             write(fl_in[1], bmp_ptr, bmp_ptr->size);
-            close(fl_in[1]); close(fl_in[0]);
+            close(fl_in[1]);
             printf("H\n");
             wait(&status);
             printf("H\n");
             read(fl_out[0], ans[cnt_file].sha1sum, 41);
-            close(fl_out[1]); close(fl_out[0]);
+            close(fl_out[1]);
         }
 
         wcscpy(ans[cnt_file].name, name);
@@ -200,7 +201,7 @@ int main(int argc, char *argv[], char *env[]) {
 
   qsort(ans, cnt_file, sizeof(entry_t), cmp);
   for (int i=0;i<cnt_file;++i)
-    printf("Name %ls sha1sum %s\n", ans[i].name, ans[i].sha1sum);
+    printf("%s  %ls\n", ans[i].sha1sum, ans[i].name);
 
   mmap_close(img_ptr);
   return 0;
