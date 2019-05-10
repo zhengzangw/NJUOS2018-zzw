@@ -144,7 +144,7 @@ void display(char *name, bmp_t *bmp_ptr){
 
 #define BYTE(i) (*((uint8_t *) ptr + i))
 #define LOGBYTE(i) printf("%02x\n", BYTE(i));
-char *argv_sha1sum[] = {"/usr/bin/strace", NULL};
+char *argv_sha1sum[] = {"/usr/bin/sha1sum", NULL};
 int main(int argc, char *argv[], char *env[]) {
   char *img_ptr = mmap_open(argv[1]);
   char *end_ptr = img_ptr + size;
