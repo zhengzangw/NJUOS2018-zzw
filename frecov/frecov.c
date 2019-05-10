@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
         for (int i=0;i<5;++i) name[i] = l_ptr->low_name[i];
         for (int i=0;i<6;++i) name[i+5] = l_ptr->low_name[i];
         for (int i=0;i<2;++i) name[i+11] = l_ptr->low_name[i];
-        printf("%ls", name);
+        printf("%ls\n", name);
         l_ptr --;
     }
   }
