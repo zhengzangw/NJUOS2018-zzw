@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
             base += 13;
             l_ptr --;
         }
-        if (notwbmp(name)) continue; //No File Name
+        //if (notwbmp(name)) continue; //No File Name
         printf("FILE %d: ", cnt_file++);
         printf("Name %ls ", name);
         printf("Size %" PRIu32 "\n", ptr->size);
