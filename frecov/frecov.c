@@ -90,6 +90,12 @@ struct bmp_header {
 }__attribute__((packed));
 typedef struct bmp_header bmp_t;
 
+struct Entry {
+  wchar_t name[128];
+  void *sha1sum;
+  uint32_t size;
+} ans[8192];
+
 bool isbmp(char *ptr){
     if (ptr[0]!='b'&&ptr[0]!='B') return false;
     if (ptr[1]!='m'&&ptr[1]!='M') return false;
@@ -158,11 +164,11 @@ int main(int argc, char *argv[]) {
         bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
         if (!validbmp(bmp_ptr, ptr->size)) continue;
 
-        printf("FILE %d: ", cnt_file++);
-        printf("Name %ls ", name);
-        printf("Size %" PRIu32 "\n", ptr->size);
+        wcscpy(ans[cnt_file].name, name);
+        ans[cnt_file].size = ptr->size;
 
-        display(ptr->name, bmp_ptr);
+        printf("FILE %d: Name %ls Size %" PRIu32 "\n", cnt_file, ans[cnt_file].name, ans[cnt_file].size);
+        cnt_file++;
     }
   }
 
