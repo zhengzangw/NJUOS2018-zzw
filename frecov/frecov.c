@@ -70,13 +70,13 @@ typedef struct SFILE sfile_t;
 
 struct LFILE {
   uint8_t serial;
-  short low_name[5];
+  unsigned short low_name[5];
   uint8_t flag;
   uint8_t res;
   uint8_t checksum;
-  short middle_name[6];
+  unsigned short middle_name[6];
   uint16_t cluster;
-  short high_name[2];
+  unsigned short high_name[2];
 }__attribute__((packed));
 typedef struct LFILE lfile_t;
 
@@ -102,14 +102,16 @@ int main(int argc, char *argv[]) {
 
   sfile_t *tmp = malloc(sizeof(sfile_t));
   int cnt_file = 0;
+  wchar_t name[128];
   for (char *ptr=data_ptr; ptr<=end_ptr; ptr+=32){
     memcpy(tmp, ptr, sizeof(sfile_t));
     if (isbmp(tmp->ext)) printf("FILE %d: %s\n", cnt_file++, tmp->name);
     lfile_t *l_ptr = (lfile_t *)(ptr - sizeof(lfile_t));
     while (l_ptr->flag == 0xF) {
-        printf("%ls", l_ptr->low_name);
-        printf("%ls", l_ptr->middle_name);
-        printf("%ls\n", l_ptr->high_name);
+        for (int i=0;i<5;++i) name[i] = l_ptr->low_name[i];
+        for (int i=0;i<6;++i) name[i+5] = l_ptr->low_name[i];
+        for (int i=0;i<2;++i) name[i+11] = l_ptr->low_name[i];
+        printf("%ls", name);
         l_ptr --;
     }
   }
