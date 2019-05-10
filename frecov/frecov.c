@@ -99,8 +99,8 @@ struct Entry {
 typedef struct Entry entry_t;
 entry_t ans[8192];
 
-int cmp(const entry_t *a, const entry_t *b){
-    return (a->size-b->size);
+int cmp(const void *a, const void *b){
+    return (((entry_t *)a)->size-((entry_t *)b)->size);
 }
 
 bool isbmp(char *ptr){
