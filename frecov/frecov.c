@@ -107,8 +107,8 @@ int main(int argc, char *argv[]) {
     int base = 0;
     while (l_ptr->flag == 0xF && l_ptr->cluster==0) {
         for (int i=0;i<5;++i) name[base+i] = l_ptr->low_name[i];
-        for (int i=0;i<6;++i) name[base+i+5] = l_ptr->low_name[i];
-        for (int i=0;i<2;++i) name[base+i+11] = l_ptr->low_name[i];
+        for (int i=5;i<11;++i) name[base+i] = l_ptr->middle_name[i];
+        for (int i=11;i<13;++i) name[base+i] = l_ptr->high_name[i];
         base += 13;
         l_ptr --;
     }
