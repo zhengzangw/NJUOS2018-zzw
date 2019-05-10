@@ -101,6 +101,7 @@ int main(int argc, char *argv[]) {
   int cnt_file = 0;
   wchar_t name[128];
   for (sfile_t *ptr=(sfile_t *)data_ptr; ptr<=(sfile_t *)end_ptr; ptr++){
+    printf("HERE\n");
     if (isbmp(ptr->ext)) printf("FILE %d: %s ", cnt_file++, ptr->name);
     lfile_t *l_ptr = (lfile_t *)ptr - 1;
     bzero(name, sizeof(name));
