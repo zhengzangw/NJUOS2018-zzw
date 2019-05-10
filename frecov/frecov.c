@@ -185,6 +185,7 @@ int main(int argc, char *argv[], char *env[]) {
         } else {
             FILE *output = fdopen(fl_in[1], "wb");
             FILE *input = fdopen(fl_out[0], "r");
+            printf("H");
             fwrite(bmp_ptr, bmp_ptr->size, 1, output);
             close(fl_in[1]); close(fl_in[0]);
             printf("H");
