@@ -116,7 +116,8 @@ int main(int argc, char *argv[]) {
         }
         printf("Name %ls ", name);
         printf("Size %" PRIu32 " ", ptr->size);
-        uint32_t addr = (uint32_t) ptr->high_cluster<<16|ptr->low_cluster;
+        uint32_t addr = (uint32_t)ptr->high_cluster<<16|ptr->low_cluster;
+        printf("%" PRIu16 " %" PRIu16, ptr->high_cluster, ptr->low_cluster);
         printf("Addr %" PRIu32 "\n", addr);
     }
   }
