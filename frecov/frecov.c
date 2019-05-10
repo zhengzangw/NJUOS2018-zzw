@@ -98,11 +98,21 @@ bool isbmp(char *ptr){
 }
 
 bool iswbmp(wchar_t *ptr){
-    int len = wcslen(ptr);
-    if (ptr[len-3]!=L'b'&&ptr[len-3]!=L'B') return false;
-    if (ptr[len-2]!=L'm'&&ptr[len-2]!=L'M') return false;
-    if (ptr[len-1]!=L'p'&&ptr[len-1]!=L'P') return false;
-    return true;
+    int ppos;
+    bool flag = false;
+    for (ppos=0; ppos<wcslen(ptr); ++ppos){
+        if (ptr[ppos]==L'.') {
+            flag = true;
+            break;
+        }
+    }
+
+    if (flag) {
+      ptr[ppos+1] = L'b';
+      ptr[ppos+2] = L'm';
+      ptr[ppos+3] = L'p';
+    }
+    return flag;
 }
 
 bool validbmp(bmp_t *bmp_ptr, int size){
