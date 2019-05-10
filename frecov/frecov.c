@@ -97,7 +97,7 @@ bool isbmp(char *ptr){
     return true;
 }
 
-bool notwbmp(wchar_t *ptr){
+bool iswbmp(wchar_t *ptr){
     int len = wcslen(ptr);
     if (ptr[len-3]!=L'b'&&ptr[len-3]!=L'B') return false;
     if (ptr[len-2]!=L'm'&&ptr[len-2]!=L'M') return false;
@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
             base += 13;
             l_ptr --;
         }
-        //if (notwbmp(name)) continue; //No File Name
+        if (!iswbmp(name)) continue; //No File Name
         printf("FILE %d: ", cnt_file++);
         printf("Name %ls ", name);
         printf("Size %" PRIu32 "\n", ptr->size);
