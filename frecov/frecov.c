@@ -190,9 +190,11 @@ int main(int argc, char *argv[], char *env[]) {
             printf("H\n");
             wait(&status);
             printf("H\n");
-            read(fl_out[0], ans[cnt_file].sha1sum, 41);
-            close(fl_out[1]);
         }
+
+        FILE *rfd = fdopen(fl_out[0], "r");
+        fscanf(rfd, " %s", ans[cnt_file].sha1sum);
+        close(fl_out[1]);
 
         wcscpy(ans[cnt_file].name, name);
         ans[cnt_file].size = ptr->size;
