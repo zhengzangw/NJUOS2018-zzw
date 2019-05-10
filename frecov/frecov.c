@@ -174,7 +174,7 @@ int main(int argc, char *argv[], char *env[]) {
         bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
         if (!validbmp(bmp_ptr, ptr->size)) continue;
 
-            printf("H");
+            printf("H\n");
         int status;
         int fl_in[2], fl_out[2];
         pipe(fl_in); pipe(fl_out);
@@ -186,14 +186,14 @@ int main(int argc, char *argv[], char *env[]) {
         } else {
             FILE *output = fdopen(fl_in[1], "wb");
             FILE *input = fdopen(fl_out[0], "r");
-            printf("H");
+            printf("H\n");
             fwrite(bmp_ptr, bmp_ptr->size, 1, output);
             close(fl_in[1]); close(fl_in[0]);
-            printf("H");
+            printf("H\n");
             wait(&status);
-            printf("H");
+            printf("H\n");
             fscanf(input, " %s", ans[cnt_file].sha1sum);
-            printf("H");
+            printf("H\n");
             close(fl_out[1]); close(fl_out[0]);
         }
 
