@@ -189,7 +189,7 @@ int main(int argc, char *argv[], char *env[]) {
             fsync(fl_out[0]);
             fclose(output); close(fl_in[0]);
             wait(&status);
-            fscanf(input, " %s", ans[cnt_file].sha1sum);
+            //fscanf(input, " %s", ans[cnt_file].sha1sum);
             fclose(input); close(fl_out[1]);
         }
 
