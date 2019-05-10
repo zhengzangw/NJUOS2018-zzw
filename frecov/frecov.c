@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <fcntl.h>
 #include <stdint.h>
 #include <inttypes.h>
@@ -143,7 +144,7 @@ void display(char *name, bmp_t *bmp_ptr){
 
 #define BYTE(i) (*((uint8_t *) ptr + i))
 #define LOGBYTE(i) printf("%02x\n", BYTE(i));
-char *argv_sha1sum[] = {"/usr/bin/strace"};
+char *argv_sha1sum[] = {"/usr/bin/strace", NULL};
 int main(int argc, char *argv[], char *env[]) {
   char *img_ptr = mmap_open(argv[1]);
   char *end_ptr = img_ptr + size;
@@ -173,6 +174,7 @@ int main(int argc, char *argv[], char *env[]) {
         bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
         if (!validbmp(bmp_ptr, ptr->size)) continue;
 
+        int status;
         int fl_in[2], fl_out[2];
         pipe(fl_in); pipe(fl_out);
         int pid = fork();
@@ -185,8 +187,9 @@ int main(int argc, char *argv[], char *env[]) {
             FILE *input = fdopen(fl_out[0], "r");
             fwrite(bmp_ptr, bmp_ptr->size, 1, output);
             close(fl_in[1]); close(fl_in[0]);
+            wait(&status);
             fscanf(input, " %s", ans[cnt_file].sha1sum);
-            close(fl_out[0]);
+            close(fl_out[1]); close(fl_out[0]);
         }
 
         wcscpy(ans[cnt_file].name, name);
