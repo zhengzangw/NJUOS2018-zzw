@@ -132,8 +132,9 @@ int main(int argc, char *argv[]) {
             bmp_t *bmp_ptr = (bmp_t *)(data_ptr+addr);
             printf("%c%c\n", bmp_ptr->id[0], bmp_ptr->id[1]);
             printf("%d\n", bmp_ptr->size);
-            //int bmpfd = fopen("fuli.bmp", )
-            break;
+            FILE *bmp = fopen("fuli.bmp", "wb");
+            fwrite(bmp_ptr, bmp_ptr->size, 1, bmp);
+            fclose(bmp);
         }
     }
   }
