@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdint.h>
+#include <inttype.h>
 #include <string.h>
 #include <malloc.h>
 #include <stdbool.h>
@@ -102,7 +103,7 @@ int main(int argc, char *argv[]) {
   wchar_t name[128];
   for (sfile_t *ptr=(sfile_t *)data_ptr; ptr<=(sfile_t *)end_ptr; ptr++){
     if (isbmp(ptr->ext)) {
-        printf("FILE %d: %s ", cnt_file++, ptr->name);
+        printf("FILE %d: ", cnt_file++);
         lfile_t *l_ptr = (lfile_t *)ptr - 1;
         bzero(name, sizeof(name));
         int base = 0;
@@ -113,7 +114,10 @@ int main(int argc, char *argv[]) {
             base += 13;
             l_ptr --;
         }
-        printf("%ls\n", name);
+        printf("Name %ls ", name);
+        printf("Size %lu", ptr->size);
+        uint32_t addr = (uint32_t) ptr->high_cluster<<16|ptr->low_cluster;
+        printf("Addr %lu\n", addr);
     }
   }
 
