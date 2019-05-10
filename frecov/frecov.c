@@ -99,9 +99,9 @@ bool isbmp(char *ptr){
 
 bool notwbmp(wchar_t *ptr){
     int len = wcslen(ptr);
-    if (ptr[len-3]!='b'&&ptr[len-3]!='B') return false;
-    if (ptr[len-2]!='m'&&ptr[len-2]!='M') return false;
-    if (ptr[len-1]!='p'&&ptr[len-1]!='P') return false;
+    if (ptr[len-3]!=L'b'&&ptr[len-3]!=L'B') return false;
+    if (ptr[len-2]!=L'm'&&ptr[len-2]!=L'M') return false;
+    if (ptr[len-1]!=L'p'&&ptr[len-1]!=L'P') return false;
     return true;
 }
 
@@ -120,7 +120,6 @@ int main(int argc, char *argv[]) {
   wchar_t name[128];
   for (sfile_t *ptr=(sfile_t *)data_ptr; ptr<=(sfile_t *)end_ptr; ptr++){
     if (isbmp(ptr->ext)) {
-        printf("FILE %d: ", cnt_file++);
         lfile_t *l_ptr = (lfile_t *)ptr - 1;
         bzero(name, sizeof(name));
         int base = 0;
@@ -132,6 +131,7 @@ int main(int argc, char *argv[]) {
             l_ptr --;
         }
         if (notwbmp(name)) continue; //No File Name
+        printf("FILE %d: ", cnt_file++);
         printf("Name %ls ", name);
         printf("Size %" PRIu32 "\n", ptr->size);
         uint32_t offset = (uint32_t)ptr->high_cluster<<16|ptr->low_cluster;
