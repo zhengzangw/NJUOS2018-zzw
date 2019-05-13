@@ -13,7 +13,7 @@ spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context *context) {
     kmt->spin_lock(&lock_kmt);
-    if (cputask_last[_cpu()]!=NULL){
+    if (cputask_last[_cpu()]!=NULL && cputask_last[_cpu()]!=cputask[_cpu()]){
         cputask_last[_cpu()]->run = 0;
     }
     if (!notdefault[_cpu()]) {
