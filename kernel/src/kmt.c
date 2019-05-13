@@ -13,10 +13,6 @@ spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context *context) {
     kmt->spin_lock(&lock_kmt);
-    Log("===");
-    Logcontext(cputask_last[_cpu()]);
-    Logcontext(cputask[_cpu()]);
-    Log("===");
     if (cputask_last[_cpu()]!=NULL && cputask_last[_cpu()]!=cputask[_cpu()]){
         cputask_last[_cpu()]->run = 0;
     }
@@ -32,6 +28,10 @@ _Context *kmt_context_save(_Event ev, _Context *context) {
     }
     cputask_last[_cpu()] = cputask[_cpu()];
     kmt->spin_unlock(&lock_kmt);
+    Log("===");
+    Logcontext(cputask_last[_cpu()]);
+    Logcontext(cputask[_cpu()]);
+    Log("===");
     return NULL;
 }
 
