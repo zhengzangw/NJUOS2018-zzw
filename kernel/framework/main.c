@@ -9,28 +9,15 @@ void logging(void *arg) {
   }
 }
 
-char* str[] = {"1", "2", "3", "4"};
-void test(void *arg){
-    while (1){
-        task_t *tmp=NULL;
-        for (int i=0;i<=3;++i){
-            tmp = pmm->alloc(sizeof(task_t));
-            if (kmt->create(tmp, "auto-gem", logging, str[i])){
-                pmm->free(tmp);
-                tmp = NULL;
-            }
-        }
-        if (tmp) kmt->teardown(tmp);
-    }
-}
-
 int main() {
   _ioe_init();
   _cte_init(os->trap);
 
   // call sequential init code
   os->init();
-  kmt->create(pmm->alloc(sizeof(task_t)), "first", test, NULL);
+  kmt->create(pmm->alloc(sizeof(task_t)), "C", logging, "C");
+  kmt->create(pmm->alloc(sizeof(task_t)), "A", logging, "A");
+  kmt->create(pmm->alloc(sizeof(task_t)), "B", logging, "B");
   _mpe_init(os->run); // all cores call os->run()
   return 1;
 }
