@@ -12,6 +12,10 @@ int notdefault[MAXCPU];
 spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context *context) {
+    kmt->spin_lock(&lock_kmt);
+    if (cputask_last[_cpu()]!=NULL){
+        cputask_last->run = 0;
+    }
     if (!notdefault[_cpu()]) {
         cpudefaulttask[_cpu()].context = *context;
         notdefault[_cpu()] = 1;
@@ -20,11 +24,10 @@ _Context *kmt_context_save(_Event ev, _Context *context) {
         Assert(cputask[_cpu()]->sleep == 1 || cputask[_cpu()]->run == 1,
                "running threads run=0, %s, id=%d", cputask[_cpu()]->name,
                cputask[_cpu()]->id);
-        kmt->spin_lock(&lock_kmt);
         cputask[_cpu()]->context = *context;
-        cputask[_cpu()]->run = 0;
-        kmt->spin_unlock(&lock_kmt);
     }
+    cputask_last[_cpu()] = cputask[_cpu()];
+    kmt->spin_unlock(&lock_kmt);
     return NULL;
 }
 
