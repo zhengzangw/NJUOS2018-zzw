@@ -211,7 +211,6 @@ void sem_list_delete(sem_t *sem) {
     while (ptr->nxt!=NULL) ptr=ptr->nxt;
     ptr->task->sleep = 0;
     Logcontext(ptr->task);
-    _halt(0);
 
     if (ptr==head) head=head->nxt;
     else ptr->pre->nxt = ptr->nxt;

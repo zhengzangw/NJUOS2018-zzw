@@ -27,7 +27,7 @@ int main() {
   kmt->sem_init(&empty, "empty", 10);
   kmt->sem_init(&fill, "fill", 0);
   kmt->create(pmm->alloc(sizeof(task_t)), "producer", producer, NULL);
-  kmt->create(pmm->alloc(sizeof(task_t)), "consumer", producer, NULL);
+  kmt->create(pmm->alloc(sizeof(task_t)), "consumer", consumer, NULL);
 
   _mpe_init(os->run); // all cores call os->run()
   return 1;

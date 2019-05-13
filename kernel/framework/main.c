@@ -12,7 +12,6 @@ void producer(){
 }
 void consumer(){
   while (1){
-    lprintf("!");
     kmt->sem_wait(&fill);
     lprintf(")");
     kmt->sem_signal(&empty);
