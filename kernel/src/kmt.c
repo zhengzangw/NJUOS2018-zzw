@@ -43,7 +43,7 @@ _Context *kmt_context_switch(_Event ev, _Context *context) {
     kmt->spin_lock(&lock_kmt);
     for (int i = 0; i < MAXTASK; ++i) {
         task_t *nxt = tasks[(seed + i + 1) % MAXTASK];
-        if (nxt) Logcontext(nxt);
+        if (nxt) Log("%d", nxt->id);
         if (nxt && nxt->run == 0 && nxt->sleep == 0) {
             ret = nxt;
             break;
@@ -167,7 +167,7 @@ void spin_lock(spinlock_t *lk) {
 }
 
 void spin_unlock(spinlock_t *lk) {
-    Assert(holding(lk), "not locking %s", lk->name);
+    assert(holding(lk));
     lk->cpu = -1;
 
     __sync_synchronize();
