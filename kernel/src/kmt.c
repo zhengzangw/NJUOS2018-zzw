@@ -13,7 +13,6 @@ spinlock_t lock_kmt;
 
 _Context *kmt_context_save(_Event ev, _Context *context) {
     kmt->spin_lock(&lock_kmt);
-    printf("%p %p\n", cputask_last[_cpu()], cputask[_cpu()]);
     if (cputask_last[_cpu()]!=NULL && cputask_last[_cpu()]!=cputask[_cpu()]){
         cputask_last[_cpu()]->run = 0;
     }
@@ -44,11 +43,13 @@ _Context *kmt_context_switch(_Event ev, _Context *context) {
     kmt->spin_lock(&lock_kmt);
     for (int i = 0; i < MAXTASK; ++i) {
         task_t *nxt = tasks[(seed + i + 1) % MAXTASK];
+        Logcontext(nxt);
         if (nxt && nxt->run == 0 && nxt->sleep == 0) {
             ret = nxt;
             break;
         }
     }
+    Log("=============");
     if (ret == NULL) {
         ret = &cpudefaulttask[_cpu()];
     }
