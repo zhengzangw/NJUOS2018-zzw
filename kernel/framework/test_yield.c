@@ -1,5 +1,6 @@
 #include <kernel.h>
 #include <klib.h>
+#include <common.h>
 
 void non(){
   while (1){
