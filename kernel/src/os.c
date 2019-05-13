@@ -7,56 +7,8 @@ spinlock_t lock_debug;
 spinlock_t lock_print;
 spinlock_t lock_os;
 
-// ========== Test LOCK  ===========
-/*
-void logging(void *arg) {
-  while (1){
-    lprintf("%s", (char *)arg);
-    assertIF1();
-  }
-}
-*/
-
-/*
-char* str[] = {"1", "2", "3", "4"};
-void test(void *arg){
-    while (1){
-        task_t *tmp=NULL;
-        for (int i=0;i<=3;++i){
-            tmp = pmm->alloc(sizeof(task_t));
-            if (kmt->create(tmp, "auto-gem", logging, str[i])){
-                pmm->free(tmp);
-                tmp = NULL;
-            }
-        }
-        if (tmp) kmt->teardown(tmp);
-    }
-}
-*/
-
-// ============== TEST SEM =============
-/*
-sem_t empty, fill;
-void producer(){
-  while (1) {
-    kmt->sem_wait(&empty);
-    lprintf("(");
-    kmt->sem_signal(&fill);
-  }
-}
-void consumer(){
-  while (1){
-    kmt->sem_wait(&fill);
-    lprintf(")");
-    kmt->sem_signal(&empty);
-  }
-}
-*/
-
-// ============== OS =============
-
 static void os_init() {
-// Init spinlock
+    // Init spinlock
 #ifdef DEBUG_LOCK
     kmt->spin_init(&lock_debug, "debug");
 #endif
@@ -65,21 +17,7 @@ static void os_init() {
     // Init module
     pmm->init();
     kmt->init();
-    dev->init();
-
-    //########## TEST ##########
-#define CREATE(func, args) \
-    kmt->create(pmm->alloc(sizeof(task_t)), #func, func, args);
-    // TEST LOCK
-    // kmt->create(pmm->alloc(sizeof(task_t)), "first", test, NULL);
-    // kmt->create(pmm->alloc(sizeof(task_t)), "C", logging, "C");
-    // kmt->create(pmm->alloc(sizeof(task_t)), "A", logging, "A");
-    // kmt->create(pmm->alloc(sizeof(task_t)), "B", logging, "B");
-    // TEST SEM
-    //kmt->sem_init(&empty, "empty", 10);
-    //kmt->sem_init(&fill, "fill", 0);
-    //CREATE(producer, NULL);
-    //CREATE(consumer, NULL);
+    //dev->init();
 }
 
 static void os_run() {
