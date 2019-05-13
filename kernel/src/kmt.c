@@ -46,7 +46,7 @@ _Context *kmt_context_switch(_Event ev, _Context *context) {
     for (int i = 0; i < MAXTASK; ++i) {
         task_t *nxt = tasks[(seed + i + 1) % MAXTASK];
         if (nxt) {
-            Log("%d %d", i,nxt==NULL);
+            Logcontext(nxt);
         }
         if (nxt && nxt->run == 0 && nxt->sleep == 0) {
             ret = nxt;
