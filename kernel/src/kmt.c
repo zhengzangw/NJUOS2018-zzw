@@ -41,7 +41,7 @@ _Context *kmt_context_switch(_Event ev, _Context *context) {
     else
         seed = rand() % MAXTASK;
     Log("%d", seed);
-    _halt();
+    _halt(0);
     // Choose an runnable context
     task_t *ret = NULL;
     kmt->spin_lock(&lock_kmt);
