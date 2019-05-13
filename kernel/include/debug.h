@@ -63,7 +63,7 @@ extern spinlock_t lock_debug;
 #define Loglock(lock) printf("lock=%s\n", lock->name);
 // ========== THREAD =========
 #define Logcontext(context) \
-    Log("id=%d, run=%d, name=%s", context->id, context->run, context->name)
+    Log("id=%d, run=%d, sleep=%d, name=%s", context->id, context->run, context->slepp, context->name)
 // ========== LIST ===========
 #define Logsem(sem) \
     Log("SEM %s: count=%d cnt_tasks=%d", sem->name, sem->count, sem->cnt_tasks);
