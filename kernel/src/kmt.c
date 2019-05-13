@@ -210,6 +210,8 @@ void sem_list_delete(sem_t *sem) {
     tasknode_t *ptr= head;
     while (ptr->nxt!=NULL) ptr=ptr->nxt;
     ptr->task->sleep = 0;
+    Logcontext(ptr->task);
+    _halt();
 
     if (ptr==head) head=head->nxt;
     else ptr->pre->nxt = ptr->nxt;
