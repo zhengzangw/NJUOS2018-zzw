@@ -37,7 +37,7 @@ _Context *kmt_context_switch(_Event ev, _Context *context) {
     if (cputask[_cpu()])
         seed = cputask[_cpu()]->id;
     else
-        seed = 0;
+        seed = rand() % MAXTASK;
     // Choose an runnable context
     task_t *ret = NULL;
     kmt->spin_lock(&lock_kmt);
@@ -49,7 +49,6 @@ _Context *kmt_context_switch(_Event ev, _Context *context) {
             break;
         }
     }
-    Log("=============");
     if (ret == NULL) {
         ret = &cpudefaulttask[_cpu()];
     }
