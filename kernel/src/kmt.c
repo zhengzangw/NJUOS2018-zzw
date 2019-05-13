@@ -44,21 +44,15 @@ _Context *kmt_context_switch(_Event ev, _Context *context) {
     for (int i = 0; i < MAXTASK; ++i) {
         task_t *nxt = tasks[(seed + i + 1) % MAXTASK];
         if (nxt && nxt->run == 0 && nxt->sleep == 0) {
-            Logcontext(nxt);
             ret = nxt;
             break;
         }
     }
     if (ret == NULL) {
         ret = &cpudefaulttask[_cpu()];
-    _halt(0);
     }
     ret->run = 1;
     cputask[_cpu()] = ret;
-    Log("===");
-    Logcontext(cputask_last[_cpu()]);
-    Logcontext(cputask[_cpu()]);
-    Log("===");
     _Context *retct = &ret->context;
     kmt->spin_unlock(&lock_kmt);
 
@@ -232,8 +226,8 @@ void sem_list_delete(sem_t *sem) {
 
 void sem_wait(sem_t *sem) {
     kmt->spin_lock(&sem->lock);
+    //Log("sem_wait %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks);
     sem->count--;
-    Log("sem_wait %s:%d, cnt:%d", sem->name, sem->count, sem->cnt_tasks);
     if (sem->count < 0) {
         sem->cnt_tasks++;
         cputask[_cpu()]->sleep = 1;
@@ -250,7 +244,7 @@ void sem_wait(sem_t *sem) {
 }
 void sem_signal(sem_t *sem) {
     kmt->spin_lock(&sem->lock);
-    Log("%d %s\n", sem->cnt_tasks, sem->name);
+    //Log("%d %s\n", sem->cnt_tasks, sem->name);
     if (sem->cnt_tasks > 0) {
         Assert(sem->pcb, "%s: no head, cnt=%d", sem->name, sem->cnt_tasks);
         sem_list_delete(sem);
