@@ -14,7 +14,7 @@ spinlock_t lock_kmt;
 _Context *kmt_context_save(_Event ev, _Context *context) {
     kmt->spin_lock(&lock_kmt);
     if (cputask_last[_cpu()]!=NULL){
-        cputask_last->run = 0;
+        cputask_last[_cpu()]->run = 0;
     }
     if (!notdefault[_cpu()]) {
         cpudefaulttask[_cpu()].context = *context;
