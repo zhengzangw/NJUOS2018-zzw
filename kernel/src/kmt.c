@@ -31,8 +31,6 @@ _Context *kmt_context_save(_Event ev, _Context *context) {
     return NULL;
 }
 
-#pragma GCC push_options
-#pragma GCC optimize ("O0")
 _Context *kmt_context_switch(_Event ev, _Context *context) {
     // Scheduler: Linear selected
     int seed;
@@ -63,7 +61,6 @@ _Context *kmt_context_switch(_Event ev, _Context *context) {
 
     return retct;
 }
-#pragma GCC pop_options
 
 void kmt_init() {
     // Init spinlock
