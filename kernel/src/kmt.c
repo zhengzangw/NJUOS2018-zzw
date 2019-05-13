@@ -37,13 +37,13 @@ _Context *kmt_context_switch(_Event ev, _Context *context) {
     if (cputask[_cpu()])
         seed = cputask[_cpu()]->id;
     else
-        seed = rand() % MAXTASK;
+        seed = 0;
     // Choose an runnable context
     task_t *ret = NULL;
     kmt->spin_lock(&lock_kmt);
     for (int i = 0; i < MAXTASK; ++i) {
         task_t *nxt = tasks[(seed + i + 1) % MAXTASK];
-        Logcontext(nxt);
+        if (nxt) Logcontext(nxt);
         if (nxt && nxt->run == 0 && nxt->sleep == 0) {
             ret = nxt;
             break;
