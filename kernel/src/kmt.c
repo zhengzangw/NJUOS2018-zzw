@@ -55,11 +55,11 @@ _Context *kmt_context_switch(_Event ev, _Context *context) {
     }
     if (ret == NULL) {
         ret = &cpudefaulttask[_cpu()];
+    _halt(0);
     }
     ret->run = 1;
     cputask[_cpu()] = ret;
     _Context *retct = &ret->context;
-    _halt(0);
     kmt->spin_unlock(&lock_kmt);
 
     return retct;
