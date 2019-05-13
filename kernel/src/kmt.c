@@ -6,6 +6,7 @@
 task_t *tasks[MAXTASK];
 int cnt_tasks;            // total created tasks
 task_t *cputask[MAXCPU];  // task running on each cpu
+task_t *cputask_last[MAXCPU];
 task_t cpudefaulttask[MAXCPU];
 int notdefault[MAXCPU];
 spinlock_t lock_kmt;
@@ -67,7 +68,7 @@ void kmt_init() {
         tasks[i] = NULL;
     }
     for (int i = 0; i < MAXCPU; ++i) {
-        cputask[i] = NULL;
+        cputask[i] = cputask_last[i] = NULL;
         cpudefaulttask[i].run = 0;
         cpudefaulttask[i].sleep = 0;
         cpudefaulttask[i].name = "cpudefault";
