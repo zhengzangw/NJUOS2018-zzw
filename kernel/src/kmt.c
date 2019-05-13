@@ -43,13 +43,14 @@ _Context *kmt_context_switch(_Event ev, _Context *context) {
     kmt->spin_lock(&lock_kmt);
     for (int i = 0; i < MAXTASK; ++i) {
         task_t *nxt = tasks[(seed + i + 1) % MAXTASK];
-#pragma optimize("", off)
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
         if (nxt) Log("%d %d", i,nxt==NULL);
         if (nxt && nxt->run == 0 && nxt->sleep == 0) {
             ret = nxt;
             break;
         }
-#pragma optimize("", on)
+#pragma GCC pop_options
     }
     if (ret == NULL) {
         ret = &cpudefaulttask[_cpu()];
