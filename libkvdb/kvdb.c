@@ -9,7 +9,7 @@ int kvdb_open(kvdb_t *db, const char *filename){
     // Judge
     if (access(filename, F_OK)==0){
         if (access(filename, R_OK)!=0 || access(filename, W_OK)!=0){
-            return 0;
+            return -1;
         }
         db->file = fopen(filename, "w+");
     } else {
@@ -18,12 +18,14 @@ int kvdb_open(kvdb_t *db, const char *filename){
     }
     fseek(db->file, 0, SEEK_SET);
     read(fileno(db->file), db->info, sizeof(kvdb_header_t));
+    return -1;
 }
 int kvdb_close(kvdb_t *db){
     fclose(db->file);
+    return -1;
 }
 int kvdb_put(kvdb_t *db, const char *key, const char *value){
-
+    return -1;
 }
 char *kvdb_get(kvdb_t *db, const char *key){
     /*
@@ -38,4 +40,5 @@ char *kvdb_get(kvdb_t *db, const char *key){
     free(tmp_key);
     return tmp_value;
     */
+    return NULL;
 }
