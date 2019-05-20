@@ -4,11 +4,6 @@
 #include <stdio.h>
 #include <stdint.h>
 
-struct kvdb {
-  FILE* file;
-  kvdb_header_t* info;
-};
-typedef struct kvdb kvdb_t;
 
 int kvdb_open(kvdb_t *db, const char *filename);
 int kvdb_close(kvdb_t *db);
@@ -23,7 +18,7 @@ struct kvdb_header {
 typedef struct kvdb_header kvdb_header_t;
 
 enum Type { KEY_SHORT, KEY_LONG, VALUE_SHORT, VALUE_LONG };
-enum Status { FREE, FULL }
+enum Status { FREE, FULL };
 struct entry {
   uint8_t type;
   uint8_t status;
@@ -31,5 +26,12 @@ struct entry {
   uint16_t ptr_pair;
   uint8_t data[122];
 }__attribute__((packed));
+typedef struct entry entry_t;
+
+struct kvdb {
+  FILE* file;
+  kvdb_header_t* info;
+};
+typedef struct kvdb kvdb_t;
 
 #endif
