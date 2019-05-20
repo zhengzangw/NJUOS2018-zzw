@@ -4,12 +4,6 @@
 #include <stdio.h>
 #include <stdint.h>
 
-
-int kvdb_open(kvdb_t *db, const char *filename);
-int kvdb_close(kvdb_t *db);
-int kvdb_put(kvdb_t *db, const char *key, const char *value);
-char *kvdb_get(kvdb_t *db, const char *key);
-
 struct kvdb_header {
   char ind[4];
   uint16_t free_ptr;
@@ -33,5 +27,10 @@ struct kvdb {
   kvdb_header_t* info;
 };
 typedef struct kvdb kvdb_t;
+
+int kvdb_open(kvdb_t *db, const char *filename);
+int kvdb_close(kvdb_t *db);
+int kvdb_put(kvdb_t *db, const char *key, const char *value);
+char *kvdb_get(kvdb_t *db, const char *key);
 
 #endif
