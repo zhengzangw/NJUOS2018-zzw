@@ -1,6 +1,41 @@
 #include "kvdb.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
 
-int main(int argc, char *argv[], char *env[]){
+int kvdb_open(kvdb_t *db, const char *filename){
+    // Judge
+    if (access(filename, F_OK)==0){
+        if (access(filename, R_OK)!=0 || access(filename, W_OK)!=0){
+            return 0;
+        }
+        db->file = fopen(filename, "w+");
+    } else {
+        db->file = fopen(filename, "w+");
+        fprintf(db->file, "%s%16d%16d", "KVDB", 1, 0);
+    }
+    fseek(db->file, 0, SEEK_SET);
+    read(fileno(db->file), db->info, sizeof(kvdb_header_t));
+}
+int kvdb_close(kvdb_t *db){
+    fclose(db->file);
+}
+int kvdb_put(kvdb_t *db, const char *key, const char *value){
 
-    return 0;
+}
+char *kvdb_get(kvdb_t *db, const char *key){
+    /*
+    char *tmp_key = malloc(128);
+    char *tmp_value = malloc(128);
+    while (scanf("%s", tmp_key)!=EOF){
+        scanf("%s", tmp_value);
+        if (strcmp(tmp_key, key)==0){
+            break;
+        }
+    }
+    free(tmp_key);
+    return tmp_value;
+    */
 }
