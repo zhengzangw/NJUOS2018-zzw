@@ -3,8 +3,8 @@
 
 int main(){
     kvdb_t db;
-    const char *key = "operating-systems";
-    char *value;
+    //const char *key = "operating-systems";
+    //char *value;
 
     kvdb_open(&db, "a.db");
     //kvdb_put(&db, key, "three-easy-pieces");
