@@ -57,6 +57,7 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     file_lock_ex(db, -1);
     fseek(db->file, 0, SEEK_END);
     fprintf(db->file, "\n%s %s\n", key, value);
+    fsync(fileno(db->file));
     file_lock_un(db, -1);
     return 0;
 }
