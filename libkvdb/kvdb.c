@@ -42,6 +42,8 @@ char *kvdb_get(kvdb_t *db, const char *key){
     char *tmp_value, *tmp_key;
     int finded = 0, len;
     fseek(db->file, 0, SEEK_END);
+    int distohead = ftell(db->file);
+    printf("%d\n", distohead);
 
     while (!finded){
         fscanf_bak_0a(db->file, flag);
