@@ -52,14 +52,13 @@ char *kvdb_get(kvdb_t *db, const char *key){
             fscanf_bak(db->file, flag);
             printf("%c", flag);
         }
-        printf("\nlen=%d\n", len);
-        assert(0);
-        /*
-        fseek(db->file, 2, SEEK_CUR);
+
         char* value = malloc(len);
         fscanf(db->file, "%s", value);
+        printf("\n%s\n", value);
         fseek(db->file, -len, SEEK_CUR);
 
+        /*
         fseek(db->file, -1, SEEK_CUR);
         fscanf_cb(db->file, flag);
         assert(flag=='\n');
