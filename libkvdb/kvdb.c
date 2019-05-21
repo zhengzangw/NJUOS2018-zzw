@@ -110,6 +110,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
             fscanf_bak(db->file, flag);
         }
         if (ishead(db)) return NULL;
+        puts("1");
 
         tmp_key = malloc(len);
         fscanf(db->file, "%s", tmp_key);
