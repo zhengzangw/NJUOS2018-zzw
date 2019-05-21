@@ -2,29 +2,9 @@
 #define __KVDB_H__
 
 #include <stdio.h>
-#include <stdint.h>
-
-struct kvdb_header {
-  char ind[4];
-  uint16_t free_ptr;
-  uint16_t journal_ptr;
-}__attribute__((packed));
-typedef struct kvdb_header kvdb_header_t;
-
-enum Type { KEY_SHORT, KEY_LONG, VALUE_SHORT, VALUE_LONG };
-enum Status { FREE, FULL };
-struct entry {
-  uint8_t type;
-  uint8_t status;
-  uint16_t ptr_next;
-  uint16_t ptr_pair;
-  uint8_t data[122];
-}__attribute__((packed));
-typedef struct entry entry_t;
 
 struct kvdb {
-  int fd;
-  kvdb_header_t* info;
+  FILE* file;
 };
 typedef struct kvdb kvdb_t;
 
