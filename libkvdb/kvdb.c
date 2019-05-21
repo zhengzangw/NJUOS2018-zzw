@@ -72,6 +72,7 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     assert(c=='\n')
 #define fscanf_val(file, des, len)\
     des = malloc(len);\
+    ishead(db);\
     fseek(file, 1, SEEK_CUR);\
     ishead(db);\
     fscanf(file, " %s", des);\
