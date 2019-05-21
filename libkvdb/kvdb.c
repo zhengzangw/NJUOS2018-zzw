@@ -44,6 +44,8 @@ char *kvdb_get(kvdb_t *db, const char *key){
 
     while (!finded){
         fscanf_bak_0a(db->file, flag);
+        fscanf_bak_0a(db->file, flag);
+        fscanf_bak_0a(db->file, flag);
 
         len = 0;
         flag = '\0';
