@@ -8,13 +8,23 @@
 #include <stdbool.h>
 #include <sys/file.h>
 
-#define file_lock_ex(db) do {\
-    int ret = flock(fileno(db->file), LOCK_EX);\
+#define check_file_lock(ret,fail) do { \
     if (ret==-1) { \
         perror("Cannot set file lock"); \
-        return -1; \
-    } } while (0)\
+        return fail; \
+    } } while (0)
 
+#define file_lock_ex(db,fail) \
+    ret = flock(fileno(db->file), LOCK_EX);\
+    check_file_lock(ret,fail)
+#define file_lock_sh(db,fail) \
+    ret = flock(fileno(db->file), LOCK_SH);\
+    check_file_lock(ret,fail)
+#define file_lock_un(db,fail) \
+    ret = flock(fileno(db->file), LOCK_UN);\
+    check_file_lock(ret,fail)
+
+int ret;
 int kvdb_open(kvdb_t *db, const char *filename){
     if (access(filename, F_OK)==0){
         if (access(filename, R_OK)!=0 || access(filename, W_OK)!=0){
@@ -41,14 +51,15 @@ int kvdb_open(kvdb_t *db, const char *filename){
 }
 
 int kvdb_close(kvdb_t *db){
-    file_lock_ex(db);
     fclose(db->file);
     return 0;
 }
 
 int kvdb_put(kvdb_t *db, const char *key, const char *value){
+    file_lock_ex(db, -1);
     fseek(db->file, 0, SEEK_END);
     fprintf(db->file, "\n%s %s\n", key, value);
+    file_lock_un(db, -1);
     return 0;
 }
 
@@ -60,7 +71,7 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     backspace(file)
 #define fscanf_bak_0a(file, c) \
     fscanf_bak(file, c); \
-    assert(flag=='\n');
+    assert(flag=='\n')
 
 static inline bool ishead(kvdb_t *db){
     return ftell(db->file)==0;
@@ -70,6 +81,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
     char flag;
     char *tmp_value, *tmp_key;
     int finded = 0, len;
+    file_lock_sh(db, NULL);
     fseek(db->file, 0, SEEK_END);
 
     while (!finded && !ishead(db)){
@@ -104,6 +116,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
         }
         free(tmp_key);
     }
+    file_lock_un(db, NULL);
 
     if (finded){
         return tmp_value;
