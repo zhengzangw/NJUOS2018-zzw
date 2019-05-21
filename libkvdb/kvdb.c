@@ -21,6 +21,7 @@ int kvdb_open(kvdb_t *db, const char *filename){
         db->info->free_ptr = 1;
         write(fileno(db->file), db->info, sizeof(kvdb_header_t));
     }
+    printf("%s\n", db->info->ind);
     assert(strcmp(db->info->ind, "MDB")==0);
     return -1;
 }
