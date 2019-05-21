@@ -7,7 +7,7 @@ int main(){
     char *value;
 
     kvdb_open(&db, "a.db");
-    kvdb_put(&db, key, "three-easy-pieces");
+    kvdb_put(&db, "operating", "three-easy-pieces");
     kvdb_put(&db, key, "ree-easy-pieces");
     kvdb_put(&db, key, "e-easy-pieces");
     value = kvdb_get(&db, key);
