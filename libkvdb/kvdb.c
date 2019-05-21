@@ -71,6 +71,9 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     backspace(file)
 #define fscanf_bak_0a(file, c) \
     fscanf_bak(file, c); \
+    if (flag!='\n'){\
+        printf("flag = %c\n", flag);\
+    }\
     assert(flag=='\n')
 
 static inline bool ishead(kvdb_t *db){
@@ -81,6 +84,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
     char flag;
     char *tmp_value, *tmp_key;
     int finded = 0, len;
+
     file_lock_sh(db, NULL);
     fseek(db->file, 0, SEEK_END);
 
