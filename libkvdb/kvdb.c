@@ -12,21 +12,21 @@ int kvdb_open(kvdb_t *db, const char *filename){
         if (access(filename, R_OK)!=0 || access(filename, W_OK)!=0){
             return -1;
         }
-        db->file = fopen(filename, "wb+");
-        read(fileno(db->file), db->info, sizeof(kvdb_header_t));
+        db->fd = open(filename, O_RDWR);
+        read(db->fd, db->info, sizeof(kvdb_header_t));
     } else {
-        db->file = fopen(filename, "wb+");
+        db->fd = open(filename, O_RDWR|O_CREAT);
         db->info = malloc(sizeof(kvdb_header_t));
         strcpy(db->info->ind, "MDB");
         db->info->free_ptr = 1;
-        write(fileno(db->file), db->info, sizeof(kvdb_header_t));
+        write(db->fd, db->info, sizeof(kvdb_header_t));
     }
     printf("%s\n", db->info->ind);
     assert(strcmp(db->info->ind, "MDB")==0);
     return -1;
 }
 int kvdb_close(kvdb_t *db){
-    fclose(db->file);
+    close(db->fd);
     return -1;
 }
 int kvdb_put(kvdb_t *db, const char *key, const char *value){

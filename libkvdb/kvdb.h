@@ -23,7 +23,7 @@ struct entry {
 typedef struct entry entry_t;
 
 struct kvdb {
-  FILE* file;
+  int fd;
   kvdb_header_t* info;
 };
 typedef struct kvdb kvdb_t;
