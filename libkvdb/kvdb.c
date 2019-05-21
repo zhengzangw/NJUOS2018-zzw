@@ -66,7 +66,7 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
 #define assert(exp)\
     do {if (!(exp)){\
         error = 1;\
-        return NULL;\
+        break;\
     }}while (0)
 #define backspace(file, num) \
     fseek(file, num, SEEK_CUR)
