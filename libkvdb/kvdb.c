@@ -21,7 +21,7 @@ int kvdb_close(kvdb_t *db){
 }
 int kvdb_put(kvdb_t *db, const char *key, const char *value){
     fseek(db->file, 0, SEEK_END);
-    printf("\n%s %s\n", key, value);
+    fprintf(db->file, "\n%s %s\n", key, value);
     return -1;
 }
 char *kvdb_get(kvdb_t *db, const char *key){
