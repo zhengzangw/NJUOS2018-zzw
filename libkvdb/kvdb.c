@@ -89,10 +89,9 @@ char *kvdb_get(kvdb_t *db, const char *key){
     fseek(db->file, 0, SEEK_END);
 
     while (!finded && !ishead(db)){
-        puts(
-                "1"
-            );
+        puts("1");
         fscanf_bak_0a(db->file, flag);
+        puts("1");
 
         len = 0;
         flag = '\0';
