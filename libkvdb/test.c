@@ -16,7 +16,7 @@ int main(int argc, char *argv[]){
 
     while (1){
       //kvdb_put(&db, "zzw", argv[1]);
-      kvdb_get_log(&db, "abd");
+      kvdb_get_log(&db, "abc");
       assert(value!=NULL);
     }
 

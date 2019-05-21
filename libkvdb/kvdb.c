@@ -70,6 +70,11 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
 #define fscanf_bak_0a(file, c) \
     fscanf_bak(file, c); \
     assert(c=='\n')
+#define fscanf_val(file, des, len)\
+    tmp_value = malloc(len);\
+    fseek(file, 1, SEEK_CUR);\
+    fscanf(file, " %s", tmp_value);\
+    fseek(file, -len-1, SEEK_CUR)
 
 static inline bool ishead(kvdb_t *db){
     printf("ftell=%ld\n", ftell(db->file));
@@ -83,43 +88,32 @@ char *kvdb_get(kvdb_t *db, const char *key){
     int len;
 
     file_lock_sh(db, NULL);
-
     fseek(db->file, -1, SEEK_END);
     while (!finded && !ishead(db)){
         //Check the last \n
         fscanf_bak_0a(db->file, flag);
         //Value
-        len = 0;
-        flag = '\0';
+        len = 0; flag = '\0';
         while (flag!=' ' && !ishead(db)){
             len++;
             fscanf_bak(db->file, flag);
             assert(flag!='\n');
         }
         assert(flag==' ');
-        tmp_value = malloc(len);
-        fseek(db->file, 1, SEEK_CUR);
-        fscanf(db->file, " %s", tmp_value);
+        fscanf_val(db->file, tmp_value, len);
         //Key
-        fseek(db->file, -len-1, SEEK_CUR);
-        len = 0;
-        flag = '\0';
+        len = 0; flag = '\0';
         while (flag!='\n' && !ishead(db)){
             len++;
             fscanf_bak(db->file, flag);
-        printf("sflag = %c\n", flag);
             assert(flag!=' ');
         }
         if (ishead(db)) {
-fscanf_bak(db->file, flag);
+            fscanf_bak(db->file, flag);
         }
-        printf("flag = %c\n", flag);
         assert(flag=='\n');
-        tmp_key = malloc(len);
-        fseek(db->file, 1, SEEK_CUR);
-        fscanf(db->file, " %s", tmp_key);
+        fscanf_val(db->file, tmp_key, len);
         //Check
-        fseek(db->file, -len-1, SEEK_CUR);
         if (strcmp(tmp_key, key)==0) {
             finded = 1;
         } else {
