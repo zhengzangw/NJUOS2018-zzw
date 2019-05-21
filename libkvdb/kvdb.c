@@ -50,7 +50,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
     int distohead = ftell(db->file);
     printf("%d\n", distohead);
 
-    while (!finded){
+    while (!finded && !ishead(db)){
         fscanf_bak_0a(db->file, flag);
 
         len = 0;
@@ -82,5 +82,9 @@ char *kvdb_get(kvdb_t *db, const char *key){
         }
         free(tmp_key);
     }
-    return tmp_value;
+    if (finded){
+        return tmp_value;
+    } else {
+        return NULL;
+    }
 }
