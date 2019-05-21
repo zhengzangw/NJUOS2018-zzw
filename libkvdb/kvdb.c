@@ -90,6 +90,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
         }
         free(tmp_key);
     }
+
     if (finded){
         return tmp_value;
     } else {
