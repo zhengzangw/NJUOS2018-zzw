@@ -55,28 +55,21 @@ char *kvdb_get(kvdb_t *db, const char *key){
 
         char* value = malloc(len);
         fscanf(db->file, "%s", value);
-        printf("\n%s\n", value);
-        fseek(db->file, -len, SEEK_CUR);
-        fscanf_bak(db->file, flag);
-        printf("%x\n", flag);
-        assert(0);
+        fseek(db->file, -len+1, SEEK_CUR);
 
-        /*
-        fseek(db->file, -1, SEEK_CUR);
-        fscanf_cb(db->file, flag);
-        assert(flag=='\n');
-        int len = 0;
+        len = 0;
         flag = '\0';
-        while (flag!='\n'){
+        while (flag!=' '){
             len++;
-            fscanf_cb(db->file, flag);
+            fscanf_bak(db->file, flag);
+            printf("%c", flag);
         }
-        fseek(db->file, 2, SEEK_CUR);
 
-        fseek(db->file, -1, SEEK_CUR);
-        fscanf_cb(db->file, flag);
-        assert(flag=='\n');
-        */
+        char* key = malloc(len);
+        fscanf(db->file, "%s", key);
+        fseek(db->file, -len+1, SEEK_CUR);
+
+        fscanf_bak_0a(db->file, flag);
     }
     return NULL;
 }
