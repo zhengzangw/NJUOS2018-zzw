@@ -5,3 +5,8 @@ CFLAGS += -U_FORTIFY_SOURCE
 
 include ../Makefile
 include ../Makefile.lab
+
+test: kvdb.c test.c
+	make
+	gcc -L. -Wl,-rpath=. -lkvdb-64 test.c -o test
+	./test
