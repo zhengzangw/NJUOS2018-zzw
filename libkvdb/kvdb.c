@@ -101,7 +101,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
         //Key
         fseek(db->file, -len, SEEK_CUR);
         fscanf_bak(db->file, flag);
-        printf("flag=%c\n, %d", flag, len);
+        printf("flag=%c, %d\n", flag, len);
         assert(0);
         len = 0;
         flag = '\0';
