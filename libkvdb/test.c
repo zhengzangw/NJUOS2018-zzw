@@ -1,18 +1,25 @@
 #include "kvdb.h"
 #include <stdlib.h>
 
+#define kvdb_get_log(db, key)\
+    value = kvdb_get(db, key);\
+    printf("[%s]: [%s]\n", key, value);\
+    free(value)
+
 int main(){
     kvdb_t db;
-    const char *key = "operating-systems";
     char *value;
 
     kvdb_open(&db, "a.db");
-    kvdb_put(&db, "operating", "three-easy-pieces");
-    kvdb_put(&db, key, "ree-easy-pieces");
-    kvdb_put(&db, key, "e-easy-pieces");
-    value = kvdb_get(&db, key);
+    kvdb_put(&db, "zzw", "171860658");
+    kvdb_put(&db, "jyy", "ree-easy-pieces");
+    kvdb_put(&db, "wrong", "e-easy-pieces");
+
+    kvdb_get_log(&db, "zzw");
+    kvdb_get_log(&db, "wrong");
+    kvdb_get_log(&db, "jyy");
+    kvdb_get_log(&db, "zzw");
+
     kvdb_close(&db);
-    printf("[%s]: [%s]\n", key, value);
-    free(value);
     return 0;
 }
