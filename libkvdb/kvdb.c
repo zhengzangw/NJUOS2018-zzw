@@ -98,9 +98,9 @@ char *kvdb_get(kvdb_t *db, const char *key){
         assert(flag==' ');
         tmp_value = malloc(len);
         fseek(db->file, 1, SEEK_CUR);
-        fscanf(db->file, "%s", tmp_value);
+        fscanf(db->file, " %s", tmp_value);
         //Key
-        fseek(db->file, -len+1, SEEK_CUR);
+        fseek(db->file, -len, SEEK_CUR);
         fscanf_bak(db->file, flag);
         printf("flag=%c, %d\n", flag, len);
         assert(0);
