@@ -117,6 +117,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
         if (strcmp(tmp_key, key)==0) {
             finded = 1;
         } else {
+            printf("%s\n", tmp_key);
             free(tmp_value);
         }
         free(tmp_key);
