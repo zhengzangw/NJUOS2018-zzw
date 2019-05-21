@@ -3,7 +3,7 @@
 
 #define kvdb_get_log(db, key)\
     value = kvdb_get(db, key);\
-    printf("[%s]: [%s]\n", key, value);\
+    if (value!=NULL) printf("[%s]: [%s]\n", key, value);\
     free(value)
 
 int main(){
