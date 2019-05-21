@@ -66,7 +66,8 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     fseek(file, num, SEEK_CUR)
 #define fscanf_bak(file, c) \
     fscanf(file, "%c", &c);\
-    backspace(file, -2)
+    backspace(file, -1);\
+    backspace(file, -1)
 #define fscanf_bak_0a(file, c) \
     fscanf_bak(file, c); \
     assert(c=='\n')
