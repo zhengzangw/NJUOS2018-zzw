@@ -1,6 +1,7 @@
 #include "kvdb.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <assert.h>
 
 #define kvdb_get_log(db, key)\
     value = kvdb_get(db, key);\
