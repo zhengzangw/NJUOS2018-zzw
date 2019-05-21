@@ -1,5 +1,6 @@
 #include "kvdb.h"
 #include <stdlib.h>
+#include <unistd.h>
 
 #define kvdb_get_log(db, key)\
     value = kvdb_get(db, key);\
@@ -14,8 +15,7 @@ int main(int argc, char *argv[]){
 
     while (1){
       kvdb_put(&db, "zzw", argv[1]);
-      kvdb_put(&db, "jyy", "ree-easy-pieces");
-      kvdb_put(&db, "wrong", "e-easy-pieces");
+      sleep(1);
       kvdb_get_log(&db, "zzw");
     }
 
