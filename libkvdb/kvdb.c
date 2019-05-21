@@ -12,10 +12,10 @@ int kvdb_open(kvdb_t *db, const char *filename){
         if (access(filename, R_OK)!=0 || access(filename, W_OK)!=0){
             return -1;
         }
-        db->file = fopen(filename, "w+");
+        db->file = fopen(filename, "wb+");
         read(fileno(db->file), db->info, sizeof(kvdb_header_t));
     } else {
-        db->file = fopen(filename, "w+");
+        db->file = fopen(filename, "wb+");
         db->info = malloc(sizeof(kvdb_header_t));
         strcpy(db->info->ind, "MDB");
         db->info->free_ptr = 1;
