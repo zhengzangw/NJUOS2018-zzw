@@ -62,7 +62,12 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     return 0;
 }
 
-#include <assert.h>
+//#include <assert.h>
+#define assert(exp)\
+    do {if (!exp){\
+        error = 1;\
+        return NULL;\
+    }}while (0)
 #define backspace(file, num) \
     fseek(file, num, SEEK_CUR)
 #define fscanf_bak(file, c) \
