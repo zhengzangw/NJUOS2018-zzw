@@ -111,6 +111,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
         if (ishead(db)) {
             len++;
             ishead(db);
+            puts("==");
             fscanf_bak(db->file, flag);
             ishead(db);
         }
