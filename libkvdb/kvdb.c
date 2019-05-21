@@ -6,14 +6,24 @@
 #include <fcntl.h>
 #include <assert.h>
 #include <stdbool.h>
+#include <sys/file.h>
 
 int kvdb_open(kvdb_t *db, const char *filename){
     if (access(filename, F_OK)==0){
         if (access(filename, R_OK)!=0 || access(filename, W_OK)!=0){
+            perror("Permissions not enough");
             return -1;
         }
     }
+
     db->file = fopen(filename, "w+");
+    int ret = flock(fileno(db->file), LOCK_EX);
+
+    if (ret==-1) {
+        perror("Cannot set file lock");
+        return -1;
+    }
+
     return 0;
 }
 
@@ -85,6 +95,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
     if (finded){
         return tmp_value;
     } else {
+        perror("key %s not founded");
         return NULL;
     }
 }
