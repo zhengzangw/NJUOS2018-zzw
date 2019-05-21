@@ -4,7 +4,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <assert.h>
 #include <stdbool.h>
 #include <sys/file.h>
 
@@ -46,7 +45,6 @@ int kvdb_open(kvdb_t *db, const char *filename){
         return -1;
     }
 
-
     return 0;
 }
 
@@ -63,6 +61,11 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     return 0;
 }
 
+#define assert(bool_exp)\
+    if (!(bool_exp)) {\
+        error = 1;\
+        break;\
+    }
 #define backspace(file) \
     fseek(file, -1, SEEK_CUR)
 #define fscanf_bak(file, c) \
@@ -71,9 +74,6 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     backspace(file)
 #define fscanf_bak_0a(file, c) \
     fscanf_bak(file, c); \
-    if (c!='\n'){\
-        printf("flag = %c\n", flag);\
-    }\
     assert(c=='\n')
 
 static inline bool ishead(kvdb_t *db){
@@ -83,38 +83,40 @@ static inline bool ishead(kvdb_t *db){
 char *kvdb_get(kvdb_t *db, const char *key){
     char flag;
     char *tmp_value, *tmp_key;
-    int finded = 0, len;
+    bool finded = 0, error = 0;
+    int len;
 
     file_lock_sh(db, NULL);
+
     fseek(db->file, 0, SEEK_END);
-
     while (!finded && !ishead(db)){
+        //Check the last \n
         fscanf_bak_0a(db->file, flag);
-
+        //Value
         len = 0;
         flag = '\0';
         while (flag!=' ' && !ishead(db)){
             len++;
             fscanf_bak(db->file, flag);
+            assert(flag!='\n');
         }
-        if (ishead(db)) return NULL;
-
+        assert(!ishead(db));
         tmp_value = malloc(len);
         fscanf(db->file, "%s", tmp_value);
+        //Key
         fseek(db->file, -len+1, SEEK_CUR);
-
         len = 0;
         flag = '\0';
         while (flag!='\n' && !ishead(db)){
             len++;
             fscanf_bak(db->file, flag);
+            assert(flag!=' ');
         }
-        if (ishead(db)) return NULL;
-
+        assert(!ishead(db));
         tmp_key = malloc(len);
         fscanf(db->file, "%s", tmp_key);
+        //Check
         fseek(db->file, -len+1, SEEK_CUR);
-
         if (strcmp(tmp_key, key)==0) {
             finded = 1;
         } else {
@@ -122,13 +124,16 @@ char *kvdb_get(kvdb_t *db, const char *key){
         }
         free(tmp_key);
     }
-
     file_lock_un(db, NULL);
 
     if (finded){
         return tmp_value;
     } else {
-        fprintf(stderr, "key [%s] not founded\n", key);
+        if (error) {
+            fprintf(stderr, "Date Base Not Consistent\n");
+        } else {
+            fprintf(stderr, "key [%s] not founded\n", key);
+        }
         return NULL;
     }
 }
