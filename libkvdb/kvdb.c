@@ -59,7 +59,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
 
         len = 0;
         flag = '\0';
-        while (flag!=' '){
+        while (flag!='\n'){
             len++;
             fscanf_bak(db->file, flag);
             printf("%c", flag);
@@ -68,8 +68,6 @@ char *kvdb_get(kvdb_t *db, const char *key){
         char* key = malloc(len);
         fscanf(db->file, "%s", key);
         fseek(db->file, -len+1, SEEK_CUR);
-
-        fscanf_bak_0a(db->file, flag);
     }
     return NULL;
 }
