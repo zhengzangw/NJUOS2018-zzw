@@ -101,13 +101,13 @@ char *kvdb_get(kvdb_t *db, const char *key){
         fseek(db->file, 1, SEEK_CUR);
         fscanf(db->file, " %s", tmp_value);
         //Key
-        fseek(db->file, -len, SEEK_CUR);
-        printf("sflag = %c\n", flag);
+        fseek(db->file, -len-1, SEEK_CUR);
         len = 0;
         flag = '\0';
         while (flag!='\n' && !ishead(db)){
             len++;
             fscanf_bak(db->file, flag);
+        printf("sflag = %c\n", flag);
             assert(flag!=' ');
         }
         if (ishead(db)) fscanf_bak(db->file, flag);
