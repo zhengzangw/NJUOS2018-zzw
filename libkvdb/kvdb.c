@@ -90,11 +90,11 @@ char *kvdb_get(kvdb_t *db, const char *key){
         //Value
         len = 0;
         flag = '\0';
-        do {
+        while (flag!=' ' && !ishead(db)){
             len++;
             fscanf_bak(db->file, flag);
             assert(flag!='\n');
-        } while (flag!=' ' && !ishead(db));
+        }
         assert(flag==' ');
         tmp_value = malloc(len);
         fseek(db->file, 1, SEEK_CUR);
@@ -103,11 +103,12 @@ char *kvdb_get(kvdb_t *db, const char *key){
         fseek(db->file, -len-1, SEEK_CUR);
         len = 0;
         flag = '\0';
-        do {
+        while (flag!='\n' && !ishead(db)){
             len++;
             fscanf_bak(db->file, flag);
             assert(flag!=' ');
-        } while (flag!='\n' && !ishead(db));
+        }
+        if (ishead(db)) fscanf_bak(db->file, flag);
         printf("flag = %c\n", flag);
         assert(flag=='\n');
         tmp_key = malloc(len);
