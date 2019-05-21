@@ -15,11 +15,13 @@ int main(){
     kvdb_put(&db, "jyy", "ree-easy-pieces");
     kvdb_put(&db, "wrong", "e-easy-pieces");
 
+    while (1){
     kvdb_get_log(&db, "zzw");
     kvdb_get_log(&db, "wrong");
     kvdb_get_log(&db, "jyy");
     kvdb_get_log(&db, "problem");
     kvdb_get_log(&db, "zzw");
+    }
 
     kvdb_close(&db);
     return 0;
