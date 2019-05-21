@@ -13,6 +13,7 @@ int kvdb_open(kvdb_t *db, const char *filename){
             return -1;
         }
         db->fd = open(filename, O_RDWR);
+        lseek(db->fd, 0, SEEK_SET);
         read(db->fd, db->info, sizeof(kvdb_header_t));
     } else {
         db->fd = open(filename, O_RDWR|O_CREAT);
