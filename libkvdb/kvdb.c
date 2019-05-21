@@ -17,8 +17,12 @@ int kvdb_open(kvdb_t *db, const char *filename){
     }
 
     db->file = fopen(filename, "w+");
-    int ret = flock(fileno(db->file), LOCK_EX);
+    if (db->file == NULL){
+        perror("Cannot open/create file");
+        return -1;
+    }
 
+    int ret = flock(fileno(db->file), LOCK_EX);
     if (ret==-1) {
         perror("Cannot set file lock");
         return -1;
