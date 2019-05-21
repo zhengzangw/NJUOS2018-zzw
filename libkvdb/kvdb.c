@@ -71,10 +71,10 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     backspace(file)
 #define fscanf_bak_0a(file, c) \
     fscanf_bak(file, c); \
-    if (flag!='\n'){\
+    if (c!='\n'){\
         printf("flag = %c\n", flag);\
     }\
-    assert(flag=='\n')
+    assert(c=='\n')
 
 static inline bool ishead(kvdb_t *db){
     return ftell(db->file)==0;
