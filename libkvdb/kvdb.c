@@ -64,7 +64,7 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
 
 //#include <assert.h>
 #define assert(exp)\
-    do {if (!exp){\
+    do {if (!(exp)){\
         error = 1;\
         return NULL;\
     }}while (0)
