@@ -95,7 +95,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
     if (finded){
         return tmp_value;
     } else {
-        fprintf(stderr, "key %s not founded\n", key);
+        fprintf(stderr, "key [%s] not founded\n", key);
         return NULL;
     }
 }
