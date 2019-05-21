@@ -39,6 +39,7 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
 
 char *kvdb_get(kvdb_t *db, const char *key){
     char flag;
+    char *tmp_value, *tmp_key;
     int finded = 0, len;
     fseek(db->file, 0, SEEK_END);
 
@@ -50,11 +51,10 @@ char *kvdb_get(kvdb_t *db, const char *key){
         while (flag!=' '){
             len++;
             fscanf_bak(db->file, flag);
-            printf("%c", flag);
         }
 
-        char* value = malloc(len);
-        fscanf(db->file, "%s", value);
+        tmp_value = malloc(len);
+        fscanf(db->file, "%s", tmp_value);
         fseek(db->file, -len+1, SEEK_CUR);
 
         len = 0;
@@ -62,12 +62,18 @@ char *kvdb_get(kvdb_t *db, const char *key){
         while (flag!='\n'){
             len++;
             fscanf_bak(db->file, flag);
-            printf("%c", flag);
         }
 
-        char* key = malloc(len);
-        fscanf(db->file, "%s", key);
+        tmp_key = malloc(len);
+        fscanf(db->file, "%s", tmp_key);
         fseek(db->file, -len+1, SEEK_CUR);
+
+        if (strcmp(tmp_key, key)==0) {
+            finded = 1;
+        } else {
+            free(tmp_value);
+        }
+        free(tmp_key);
     }
-    return NULL;
+    return tmp_value;
 }
