@@ -94,7 +94,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
         while (flag!=' ' && !ishead(db)){
             len++;
             fscanf_bak(db->file, flag);
-            assert(flag!='\n');
+            if (len>1) assert(flag!='\n');
         }
         assert(!ishead(db));
         tmp_value = malloc(len);
