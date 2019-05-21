@@ -78,7 +78,6 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     fseek(file, -len-1, SEEK_CUR)
 
 static inline bool ishead(kvdb_t *db){
-    printf("ftell=%ld\n", ftell(db->file));
     return ftell(db->file)==0;
 }
 
@@ -122,7 +121,6 @@ char *kvdb_get(kvdb_t *db, const char *key){
         if (strcmp(tmp_key, key)==0) {
             finded = 1;
         } else {
-            printf("%s\n", tmp_key);
             free(tmp_value);
         }
         free(tmp_key);
