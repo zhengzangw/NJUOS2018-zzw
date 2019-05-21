@@ -16,7 +16,7 @@ int kvdb_open(kvdb_t *db, const char *filename){
         }
     }
 
-    db->file = fopen(filename, "w+");
+    db->file = fopen(filename, "r+");
     if (db->file == NULL){
         perror("Cannot open/create file");
         return -1;
