@@ -44,16 +44,15 @@ char *kvdb_get(kvdb_t *db, const char *key){
 
     while (!finded){
         fscanf_bak_0a(db->file, flag);
-        fscanf_bak_0a(db->file, flag);
-        fscanf_bak_0a(db->file, flag);
 
         len = 0;
         flag = '\0';
         while (flag!=' '){
             len++;
             fscanf_bak(db->file, flag);
+            printf("%c", flag);
         }
-        printf("len=%d\n", len);
+        printf("\nlen=%d\n", len);
         assert(0);
         /*
         fseek(db->file, 2, SEEK_CUR);
