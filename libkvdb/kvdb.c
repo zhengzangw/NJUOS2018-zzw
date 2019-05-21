@@ -58,7 +58,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
         printf("\n%s\n", value);
         fseek(db->file, -len, SEEK_CUR);
         fscanf_bak(db->file, flag);
-        printf("%d\n", flag);
+        printf("%x\n", flag);
         assert(0);
 
         /*
