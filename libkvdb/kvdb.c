@@ -107,6 +107,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
         while (flag!='\n' && !ishead(db)){
             len++;
             fscanf_bak(db->file, flag);
+        printf("flag = %c\n", flag);
             assert(flag!=' ');
         }
         if (ishead(db)) fscanf_bak(db->file, flag);
