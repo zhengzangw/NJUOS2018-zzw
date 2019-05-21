@@ -21,6 +21,7 @@ int main(){
     kvdb_get_log(&db, "wrong");
     kvdb_get_log(&db, "jyy");
     kvdb_get_log(&db, "problem");
+    kvdb_get_log(&db, "zzw");
     }
 
     kvdb_close(&db);
