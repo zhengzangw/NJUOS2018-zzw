@@ -95,7 +95,9 @@ char *kvdb_get(kvdb_t *db, const char *key){
 
     file_lock_sh(db, NULL);
     fseek(db->file, -1, SEEK_END);
+    int cnt = 0;
     while (!finded && !ishead(db)){
+        cnt ++;
         //Check the last \n
         fscanf_bak_0a(db->file, flag);
         //Value
@@ -136,7 +138,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
         return tmp_value;
     } else {
         if (error) {
-            fprintf(stderr, "Date Base Not Consistent\n");
+            fprintf(stderr, "Date Base Not Consistent %d\n", cnt);
         } else {
             fprintf(stderr, "key [%s] not founded\n", key);
         }
