@@ -8,12 +8,12 @@
 #include <stdbool.h>
 #include <sys/file.h>
 
-#define file_lock_ex(db) \
+#define file_lock_ex(db) do {\
     int ret = flock(fileno(db->file), LOCK_EX);\
     if (ret==-1) { \
         perror("Cannot set file lock"); \
         return -1; \
-    }()\
+    } } while (0)\
 
 int kvdb_open(kvdb_t *db, const char *filename){
     if (access(filename, F_OK)==0){
