@@ -14,11 +14,18 @@ int kvdb_open(kvdb_t *db, const char *filename){
             perror("Permissions not enough");
             return -1;
         }
+    } else {
+        FILE* tmpf = fopen(filename, "w+");
+        if (tmpf == NULL){
+            perror("Cannot create file");
+            return -1;
+        }
+        fclose(tmpf);
     }
 
     db->file = fopen(filename, "r+");
     if (db->file == NULL){
-        perror("Cannot open/create file");
+        perror("Cannot open file");
         return -1;
     }
 
