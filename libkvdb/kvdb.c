@@ -72,6 +72,7 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
     assert(c=='\n')
 
 static inline bool ishead(kvdb_t *db){
+    printf("ftell=%ld\n", ftell(db->file));
     return ftell(db->file)==0;
 }
 
@@ -108,7 +109,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
             fscanf_bak(db->file, flag);
             assert(flag!=' ');
         }
-        //if (ishead(db)) fscanf_bak(db->file, flag);
+        if (ishead(db)) fscanf_bak(db->file, flag);
         printf("flag = %c\n", flag);
         assert(flag=='\n');
         tmp_key = malloc(len);
