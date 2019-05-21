@@ -18,6 +18,7 @@ int main(){
     while (1){
     //for (int i=0;i<100;++i){
     kvdb_get_log(&db, "zzw");
+    kvdb_get_log(&db, "problem");
     }
 
     kvdb_close(&db);
