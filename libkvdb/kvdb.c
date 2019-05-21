@@ -122,6 +122,8 @@ char *kvdb_get(kvdb_t *db, const char *key){
         }
         free(tmp_key);
     }
+        puts("1");
+
     file_lock_un(db, NULL);
 
     if (finded){
