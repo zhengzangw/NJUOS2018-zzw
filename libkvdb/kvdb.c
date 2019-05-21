@@ -4,6 +4,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <assert.h>
 
 int kvdb_open(kvdb_t *db, const char *filename){
     // Judge
@@ -12,12 +13,15 @@ int kvdb_open(kvdb_t *db, const char *filename){
             return -1;
         }
         db->file = fopen(filename, "w+");
+        read(fileno(db->file), db->info, sizeof(kvdb_header_t));
     } else {
         db->file = fopen(filename, "w+");
-        fprintf(db->file, "%s%16d%16d", "KVDB", 1, 0);
+        db->info = malloc(sizeof(kvdb_header_t));
+        strcpy(db->info->ind, "MDB");
+        db->info->free_ptr = 1;
+        write(fileno(db->file), db->info, sizeof(kvdb_header_t));
     }
-    fseek(db->file, 0, SEEK_SET);
-    read(fileno(db->file), db->info, sizeof(kvdb_header_t));
+    assert(strcmp(db->info->ind, "MDB")==0);
     return -1;
 }
 int kvdb_close(kvdb_t *db){
