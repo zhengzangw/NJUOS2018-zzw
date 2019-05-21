@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <assert.h>
+#include <stdbool.h>
 
 int kvdb_open(kvdb_t *db, const char *filename){
     if (access(filename, F_OK)==0){
@@ -36,6 +37,10 @@ int kvdb_put(kvdb_t *db, const char *key, const char *value){
 #define fscanf_bak_0a(file, c) \
     fscanf_bak(file, c); \
     assert(flag=='\n');
+
+static inline bool ishead(kvdb_t *db){
+    return ftell(db->file)==0;
+}
 
 char *kvdb_get(kvdb_t *db, const char *key){
     char flag;
