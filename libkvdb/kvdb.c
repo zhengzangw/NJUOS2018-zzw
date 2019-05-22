@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <sys/file.h>
 #include <pthread.h>
+#include <assert.h>
 
 #define backspace(file, num) \
     fseek(file, num, SEEK_CUR)
@@ -29,7 +30,9 @@ int check_journal(kvdb_t *db){
 
     fseek(db->file, 0, SEEK_END);
     int to_trun = ftell(db->file);
+    int cnt = 0;
     while (!consist && !ishead(db)){
+        cnt = 1;
         to_trun = ftell(db->file);
         fscanf_bak(db->file, flag);
         if (flag=='\n'){
@@ -46,7 +49,7 @@ int check_journal(kvdb_t *db){
             }
         }
     }
-    printf("to_trun = %d\n", to_trun);
+    assert(cnt<=1);
     ftruncate(fileno(db->file), to_trun);
     return 0;
 }
