@@ -24,7 +24,6 @@ static inline bool ishead(kvdb_t *db){
 }
 
 int check_journal(kvdb_t *db){
-    return 0;
     char flag;
     bool consist = 0, has_blank = 0;
 
