@@ -16,7 +16,6 @@ int main(int argc, char *argv[]){
     kvdb_put(&db, "zzw", "awsl");
 
     kvdb_get_log(&db, "zzw");
-    assert(0);
     while (1){
       kvdb_put(&db, "zzw", argv[1]);
       kvdb_get_log(&db, "zzw");
