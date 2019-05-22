@@ -30,7 +30,6 @@ void *consumer(void* key){
 }
 
 int main(int argc, char *argv[]){
-    char *value;
     kvdb_open(&db, "a.db");
 
     ds_t tmp;
