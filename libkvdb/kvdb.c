@@ -49,7 +49,6 @@ int check_journal(kvdb_t *db){
             }
         }
     }
-    assert(cnt<=1);
     ftruncate(fileno(db->file), to_trun);
     return 0;
 }
