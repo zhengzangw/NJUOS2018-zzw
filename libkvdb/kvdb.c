@@ -139,6 +139,8 @@ char *kvdb_get(kvdb_t *db, const char *key){
         printf("%s\n", tmp_value);
             fscanf_bak(db->file, flag);
             printf("c=%c\n",flag);
+            fscanf_bak(db->file, flag);
+            printf("c=%c\n",flag);
         return NULL;
         //Key
         len = 0; flag = '\0';
