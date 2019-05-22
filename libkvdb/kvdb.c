@@ -46,7 +46,7 @@ int check_journal(kvdb_t *db){
         fprintf(stderr, "Not a valid DB\n");
         return -1;
     }
-    ftruncate(fileno(db->file), ftell(db->file));
+    ftruncate(fileno(db->file), to_trun);
     return 0;
 }
 
