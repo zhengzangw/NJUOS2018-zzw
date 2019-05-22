@@ -42,6 +42,7 @@ int check_journal(kvdb_t *db){
             if (flag == '\n' && has_blank == 1) consist = 1;
         }
     }
+    printf("to_trun = %d", to_trun);
     ftruncate(fileno(db->file), to_trun);
     return 0;
 }
