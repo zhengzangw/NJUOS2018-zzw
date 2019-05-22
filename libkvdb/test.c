@@ -32,11 +32,16 @@ void *consumer(void* key){
 int main(int argc, char *argv[]){
     kvdb_open(&db, "a.db");
 
-    ds_t tmp;
-    tmp.key = "zzw"; tmp.value = "171860658";
-    pthread_create(&threads[0], NULL, producer, (void*)&tmp);
+    ds_t tmp[10];
+    tmp[0].key = "zzw"; tmp[0].value = "171860658";
+    pthread_create(&threads[0], NULL, producer, (void*)&tmp[0]);
+    tmp[1].key = "zzw"; tmp[1].value = "awsl";
+    pthread_create(&threads[1], NULL, producer, (void*)&tmp[1]);
+    tmp[2].key = "lyz"; tmp[2].value = "jntm";
+    pthread_create(&threads[2], NULL, producer, (void*)&tmp[2]);
 
     pthread_create(&threads[5], NULL, consumer, (void*)"zzw");
+    pthread_create(&threads[5], NULL, consumer, (void*)"jntm");
 
     void *tptr;
     pthread_join(threads[0], &tptr);
