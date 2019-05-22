@@ -26,9 +26,11 @@ static inline bool ishead(kvdb_t *db){
 int check_journal(kvdb_t *db){
     char flag;
     bool consist = 0, has_blank = 0;
+    int to_trun;
 
     fseek(db->file, 0, SEEK_END);
     while (!consist && !ishead(db)){
+        to_trun = ftell(db->file);
         fscanf_bak(db->file, flag);
         if (flag=='\n'){
             has_blank = 0;
