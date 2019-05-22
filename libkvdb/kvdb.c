@@ -30,9 +30,7 @@ int check_journal(kvdb_t *db){
 
     fseek(db->file, 0, SEEK_END);
     int to_trun = ftell(db->file);
-    int cnt = 0;
     while (!consist && !ishead(db)){
-        cnt = 1;
         to_trun = ftell(db->file);
         fscanf_bak(db->file, flag);
         if (flag=='\n'){
