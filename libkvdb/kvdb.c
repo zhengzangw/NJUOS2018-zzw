@@ -27,7 +27,6 @@ int check_journal(kvdb_t *db){
     char flag;
     bool consist = 0, has_blank = 0;
     int to_trun = ftell(db->file);
-    if (to_trun == 0) return 0;
 
     fseek(db->file, 0, SEEK_END);
     while (!consist && !ishead(db)){
@@ -42,10 +41,6 @@ int check_journal(kvdb_t *db){
             }
             if (flag == '\n' && has_blank == 1) consist = 1;
         }
-    }
-    if (ishead(db)) {
-        fprintf(stderr, "Not a valid DB\n");
-        return -1;
     }
     ftruncate(fileno(db->file), to_trun);
     return 0;
