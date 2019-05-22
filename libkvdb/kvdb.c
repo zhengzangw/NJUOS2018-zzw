@@ -47,6 +47,7 @@ int check_journal(kvdb_t *db){
             }
         }
     }
+    if (!consist && ishead(db)) to_trun = ftell(db->file);
     ftruncate(fileno(db->file), to_trun);
     return 0;
 }
