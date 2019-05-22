@@ -55,6 +55,10 @@ int kvdb_open(kvdb_t *db, const char *filename){
         if (access(filename, R_OK)!=0 || access(filename, W_OK)!=0){
             return -1;
         }
+        db->file = fopen(filename, "r+");
+        if (db->file == NULL) return -1;
+        if (pthread_mutex_init(&db->mutex, NULL) != 0) return -1;
+
         if (pthread_mutex_lock(&db->mutex)!=0) return -1;
         if (flock(fileno(db->file), LOCK_EX) !=0) return -1;
         if (check_journal(db)!=0) return -1;
@@ -64,13 +68,10 @@ int kvdb_open(kvdb_t *db, const char *filename){
         FILE* tmpf = fopen(filename, "w+");
         if (tmpf == NULL) return -1;
         fclose(tmpf);
+        db->file = fopen(filename, "r+");
+        if (db->file == NULL) return -1;
+        if (pthread_mutex_init(&db->mutex, NULL) != 0) return -1;
     }
-
-    if (pthread_mutex_init(&db->mutex, NULL) != 0) return -1;
-
-    db->file = fopen(filename, "r+");
-    if (db->file == NULL) return -1;
-
     return 0;
 }
 
