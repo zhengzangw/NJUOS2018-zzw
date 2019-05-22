@@ -27,7 +27,7 @@ int check_journal(kvdb_t *db){
     char flag;
     bool consist = 0, has_blank = 0;
 
-    fseek(db->file, -1, SEEK_END);
+    fseek(db->file, 0, SEEK_END);
     while (!consist && !ishead(db)){
         fscanf_bak(db->file, flag);
         if (flag=='\n'){
