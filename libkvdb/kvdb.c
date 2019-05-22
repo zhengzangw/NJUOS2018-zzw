@@ -136,24 +136,11 @@ char *kvdb_get(kvdb_t *db, const char *key){
         }
         assert(flag==' ');
         fscanf_val(db->file, tmp_value, len);
-        printf("%s\n", tmp_value);
-            fscanf_bak(db->file, flag);
-            printf("c=%c\n",flag);
-            fscanf_bak(db->file, flag);
-            printf("c=%c\n",flag);
-        return NULL;
         //Key
         len = 0; flag = '\0';
         while (flag!='\n' && !ishead(db)){
             len++;
             fscanf_bak(db->file, flag);
-            assert(flag!=' ');
-        }
-        if (ishead(db)) {
-            len++;
-            ishead(db);
-            fscanf_bak(db->file, flag);
-            ishead(db);
         }
         assert(flag=='\n');
         fscanf_val(db->file, tmp_key, len);
