@@ -113,8 +113,10 @@ char *kvdb_get(kvdb_t *db, const char *key){
 
     if (db->file==NULL) return NULL;
     if (pthread_mutex_lock(&db->mutex)!=0) return NULL;
-    if (flock(fileno(db->file), LOCK_SH) !=0) return NULL;
+    if (flock(fileno(db->file), LOCK_EX) !=0) return NULL;
     if (check_journal(db)!=0) return NULL;
+    if (flock(fileno(db->file), LOCK_UN) !=0) return NULL;
+    if (flock(fileno(db->file), LOCK_SH) !=0) return NULL;
     fseek(db->file, 0, SEEK_END);
     while (!finded && !ishead(db)){
         //Check the last \n
