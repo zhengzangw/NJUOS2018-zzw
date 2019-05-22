@@ -170,7 +170,7 @@ char *kvdb_get(kvdb_t *db, const char *key){
         return tmp_value;
     } else {
         if (error) {
-            fprintf(stderr, "Date Base Not Consistent %d\n", cnt);
+            fprintf(stderr, "Date Base Not Consistent\n");
         } else {
             fprintf(stderr, "key [%s] not founded\n", key);
         }
