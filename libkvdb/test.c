@@ -31,6 +31,7 @@ void *consumer(void* key){
 
 int main(int argc, char *argv[]){
     kvdb_open(&db, "a.db");
+    kvdb_put(&db, "jntm", "lyz");
 
     ds_t tmp[10];
     tmp[0].key = "zzw"; tmp[0].value = "171860658";
