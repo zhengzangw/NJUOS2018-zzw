@@ -35,11 +35,15 @@ int check_journal(kvdb_t *db){
         if (flag=='\n'){
             has_blank = 0;
             flag = '\0';
-            while (flag!='\n'){
+            while (flag!='\n' && !ishead(db)){
                 fscanf_bak(db->file, flag);
                 if (flag == ' ') has_blank = 1;
             }
-            if (flag == '\n' && has_blank == 1) consist = 1;
+            if (flag == '\n' && has_blank == 1) {
+                consist = 1;
+            } else if (flag=='\n'){
+                fseek(db->file, 1, SEEK_CUR);
+            }
         }
     }
     printf("to_trun = %d\n", to_trun);
