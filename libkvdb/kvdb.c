@@ -40,7 +40,7 @@
 #define fscanf_val(file, des, len)\
     des = malloc(len);\
     fscanf(file, "%s", des);\
-    fseek(file, -len-1, SEEK_CUR)
+    fseek(file, -len, SEEK_CUR)
 
 static inline bool ishead(kvdb_t *db){
     return ftell(db->file)==0;
