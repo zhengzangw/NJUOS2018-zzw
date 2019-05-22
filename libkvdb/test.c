@@ -42,10 +42,10 @@ int main(int argc, char *argv[]){
 
     pthread_create(&threads[5], NULL, consumer, (void*)"zzw");
     pthread_create(&threads[5], NULL, consumer, (void*)"jntm");
+    pthread_create(&threads[5], NULL, consumer, (void*)"lyz");
 
     void *tptr;
     pthread_join(threads[0], &tptr);
-    pthread_join(threads[5], &tptr);
 
     kvdb_close(&db);
     return 0;
