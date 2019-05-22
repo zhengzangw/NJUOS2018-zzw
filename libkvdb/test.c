@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
     char *value;
 
     kvdb_open(&db, "a.db");
-    kvdb_put(&db, "zzw", "awsl");
+    //kvdb_put(&db, "zzw", "awsl");
 
     kvdb_get_log(&db, "zzw");
     assert(0);
