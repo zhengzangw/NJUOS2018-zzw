@@ -3,6 +3,19 @@
 
 #include <common.h>
 
+typedef struct inode {
+  int refcnt;
+  void *ptr;
+  filesystem_t *fs;
+  inodeops_t *ops;
+} inode_t;
+
+typedef struct file {
+  int refcnt;
+  inode_t *inode;
+  uint64_t offset;
+} file_t;
+
 typedef struct filesystem {
   fsops_t *ops;
   device_t *dev;
@@ -26,18 +39,6 @@ typedef struct inodeops {
   int (*unlink)(const char *name);
 } inodeops_t;
 
-typedef struct inode {
-  int refcnt;
-  void *ptr;
-  filesystem_t *fs;
-  inodeops_t *ops;
-} inode_t;
-
-typedef struct file {
-  int refcnt;
-  inode_t *inode;
-  uint64_t offset;
-} file_t;
 
 typedef struct {
   void (*init)();
