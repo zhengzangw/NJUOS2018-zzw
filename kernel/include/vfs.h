@@ -3,11 +3,16 @@
 
 #include <common.h>
 
-typedef struct file {
-  int refcnt;
-  inode_t *inode;
-  uint64_t offset;
-} file_t;
+typedef struct filesystem {
+  fsops_t *ops;
+  device_t *dev;
+} filesystem_t;
+
+typedef struct fsops {
+  void (*init)(filesystem_t *fs, const char *name, device_t *dev);
+  inode_t *(*lookup)(filesystem_t *fs, const char *name, int flags);
+  int (*close)(inode_t *inode);
+} fsops_t;
 
 typedef struct inodeops {
   int (*open)(file_t *file, int flags);
@@ -28,16 +33,11 @@ typedef struct inode {
   inodeops_t *ops;
 } inode_t;
 
-typedef struct fsops {
-  void (*init)(filesystem_t *fs, const char *name, device_t *dev);
-  inode_t *(*lookup)(filesystem_t *fs, const char *name, int flags);
-  int (*close)(inode_t *inode);
-} fsops_t;
-
-typedef struct filesystem {
-  fsops_t *ops;
-  device_t *dev;
-} filesystem_t;
+typedef struct file {
+  int refcnt;
+  inode_t *inode;
+  uint64_t offset;
+} file_t;
 
 typedef struct {
   void (*init)();
