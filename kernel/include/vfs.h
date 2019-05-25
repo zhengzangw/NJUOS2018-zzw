@@ -4,6 +4,8 @@
 #include <common.h>
 
 typedef struct inodeops inodeops_t;
+typedef struct filesystem filesystem_t;
+typedef struct fsops fsops_t;
 typedef struct inode {
   int refcnt;
   void *ptr;
@@ -11,8 +13,7 @@ typedef struct inode {
   inodeops_t *ops;
 } inode_t;
 
-typedef struct fsops fsops_t;
-typedef struct filesystem {
+struct filesystem {
   fsops_t *ops;
   device_t *dev;
 } filesystem_t;
