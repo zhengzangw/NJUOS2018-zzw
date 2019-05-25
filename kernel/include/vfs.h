@@ -16,7 +16,7 @@ typedef struct inode {
 struct filesystem {
   fsops_t *ops;
   device_t *dev;
-} filesystem_t;
+};
 
 struct fsops {
   void (*init)(filesystem_t *fs, const char *name, device_t *dev);
