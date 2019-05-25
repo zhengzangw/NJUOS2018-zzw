@@ -3,6 +3,7 @@
 
 #include <common.h>
 
+typedef struct inodeops inodeops_t;
 typedef struct inode {
   int refcnt;
   void *ptr;
@@ -10,24 +11,25 @@ typedef struct inode {
   inodeops_t *ops;
 } inode_t;
 
+typedef struct fsops fsops_t;
+typedef struct filesystem {
+  fsops_t *ops;
+  device_t *dev;
+} filesystem_t;
+
+struct fsops {
+  void (*init)(filesystem_t *fs, const char *name, device_t *dev);
+  inode_t *(*lookup)(filesystem_t *fs, const char *name, int flags);
+  int (*close)(inode_t *inode);
+};
+
 typedef struct file {
   int refcnt;
   inode_t *inode;
   uint64_t offset;
 } file_t;
 
-typedef struct filesystem {
-  fsops_t *ops;
-  device_t *dev;
-} filesystem_t;
-
-typedef struct fsops {
-  void (*init)(filesystem_t *fs, const char *name, device_t *dev);
-  inode_t *(*lookup)(filesystem_t *fs, const char *name, int flags);
-  int (*close)(inode_t *inode);
-} fsops_t;
-
-typedef struct inodeops {
+struct inodeops {
   int (*open)(file_t *file, int flags);
   int (*close)(file_t *file);
   ssize_t (*read)(file_t *file, char *buf, size_t size);
@@ -37,8 +39,7 @@ typedef struct inodeops {
   int (*rmdir)(const char *name);
   int (*link)(const char *name, inode_t *inode);
   int (*unlink)(const char *name);
-} inodeops_t;
-
+};
 
 typedef struct {
   void (*init)();
