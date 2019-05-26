@@ -2,6 +2,7 @@
 #define __COMMON_H__
 
 #include <kernel.h>
+#include <vfs.h>
 #include <nanos.h>
 #include <debug.h>
 #include <kmt.h>
