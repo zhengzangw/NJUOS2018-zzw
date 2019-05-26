@@ -17,6 +17,7 @@ static void os_init() {
     // Init module
     pmm->init();
     kmt->init();
+    vfs->init();
     //dev->init();
 }
 
