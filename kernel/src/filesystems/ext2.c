@@ -6,11 +6,11 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 
 }
 
-inode_t ext2_lookup(filesystem_t *fs, const char *name, int flags){
+inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
     return NULL;
 }
 
-int close(inode_t *inode){
+int ext2_close(inode_t *inode){
     return 0;
 }
 
