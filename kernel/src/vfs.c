@@ -5,6 +5,7 @@
 void vfs_init(){
     filesystem_t fs;
     fs.dev = dev_lookup("ramdisk0");
+}
 
 int vfs_access(const char *path, int mode){
     return 0;
