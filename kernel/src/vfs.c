@@ -11,7 +11,7 @@ void vfs_init(){
 
     fs->ops->init(fs, "/", fs->dev);
     printf("preparing to mount\n");
-    vfs->mount("/", &fs);
+    vfs->mount("/", fs);
 }
 
 mountpoint_t mpt[MAXMP];
