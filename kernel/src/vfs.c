@@ -5,10 +5,10 @@
 extern fsops_t ext2_ops;
 
 void vfs_init(){
-    filesystem_t fs = {
-        .ops = &ext2_ops,
-        .dev = dev_lookup("ramdisk0"),
-    };
+    filesystem_t fs = pmm->alloc(sizeof(fs));
+    fs->ops = &ext2_ops;
+    fs->dev = dev_lookup("ramdisk0");
+
     fs->ops->init(fs, "/", fs->dev);
     printf("preparing to mount\n");
     vfs->mount("/", &fs);
