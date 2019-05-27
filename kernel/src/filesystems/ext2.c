@@ -35,7 +35,7 @@ int get_free_data(filesystem_t *fs, device_t *dev){
 
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     printf("size=%ld", sizeof(ext2_inode));
-    ext2_inode_t *root = pmm->malloc(sizeof(ext2_inode));
+    ext2_inode_t *root = pmm->malloc(sizeof(ext2_inode_t));
     memset(root, 0, sizeof(root));
     root->exists = 1;
     root->type = DR;
