@@ -16,4 +16,8 @@ extern spinlock_t lock_print;
 #define warning(format, ...) \
     lprintf("\033[33m" format "\033[0m", ## __VA_ARGS__);
 
+typedef unsigned char bool
+#define true 1
+#define false 0
+
 #endif
