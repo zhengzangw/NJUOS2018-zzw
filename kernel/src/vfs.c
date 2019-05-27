@@ -7,9 +7,9 @@ extern fsops_t ext2_ops;
 void vfs_init(){
     filesystem_t fs = {
         .ops = &ext2_ops,
-        .dev = dev_lookup("ramdisk0");
+        .dev = dev_lookup("ramdisk0"),
     };
-    vfs_mount("/", fs);
+    vfs->mount("/", fs);
 }
 
 int vfs_access(const char *path, int mode){
