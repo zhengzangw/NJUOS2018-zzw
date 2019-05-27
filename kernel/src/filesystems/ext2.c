@@ -6,8 +6,7 @@
 struct ext2_inode {
   unsigned char exists : 1;
   unsigned char type : 3;
-  unsigned char permission :3;
-  unsigned char none : 1;
+  unsigned short permission :3;
   int len;
   int link[62];
 }__attribute__((packed));
@@ -40,7 +39,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     root->exists = 1;
     root->type = DR;
     root->permission = R_OK|W_OK|X_OK;
-    root->none = 0;
     root->len = 1;
     root->link[0] = get_free_data(fs, dev);
 
