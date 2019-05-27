@@ -8,6 +8,7 @@ typedef struct filesystem filesystem_t;
 typedef struct fsops fsops_t;
 typedef struct inode {
   int refcnt;
+  int permission;
   void *ptr;
   filesystem_t *fs;
   inodeops_t *ops;
@@ -42,6 +43,13 @@ struct inodeops {
   int (*unlink)(const char *name);
 };
 
+typedef struct mountpoint {
+  const char * path;
+  filesystem_t fs;
+  bool exists;
+} mountpoint_t;
+#define MAXMP 64
+
 typedef struct {
   void (*init)();
   int (*access)(const char *path, int mode);
@@ -57,5 +65,11 @@ typedef struct {
   off_t (*lseek)(int fd, off_t offset, int whence);
   int (*close)(int fd);
 } MODULE(vfs);
+
+/* ====== access ====== */
+#define R_OK 1
+#define W_OK 2
+#define X_OK 8
+#define F_OK 16
 
 #endif
