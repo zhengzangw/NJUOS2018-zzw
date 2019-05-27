@@ -28,7 +28,7 @@ int vfs_mount(const char *path, filesystem_t *fs){
         .path = path,
         .fs = fs,
         .exists = 1,
-    }
+    };
     return 0;
 }
 
