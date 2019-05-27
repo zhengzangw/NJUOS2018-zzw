@@ -1,6 +1,6 @@
 #include <common.h>
 #include <vfs.h>
-#include <device.h>
+#include <devices.h>
 
 void vfs_init(){
     filesystem_t fs;
