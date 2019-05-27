@@ -5,7 +5,7 @@
 extern fsops_t ext2_ops;
 
 void vfs_init(){
-    filesystem_t fs = pmm->alloc(sizeof(fs));
+    filesystem_t *fs = pmm->alloc(sizeof(fs));
     fs->ops = &ext2_ops;
     fs->dev = dev_lookup("ramdisk0");
 
