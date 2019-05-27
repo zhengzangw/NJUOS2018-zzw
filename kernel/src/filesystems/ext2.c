@@ -11,7 +11,7 @@ struct ext2_inode {
   int len;
   int link[62];
 }__attribute__((packed));
-typedef ext2_inode ext2_inode_t;
+typedef struct ext2_inode ext2_inode_t;
 enum TYPE {NF, DR, LK, MP};
 
 #define BLOCK_SIZE (1<<10)
