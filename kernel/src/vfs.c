@@ -24,8 +24,8 @@ int vfs_mount(const char *path, filesystem_t *fs){
             }
         }
     }
-    strcpy(mpt[num_mpt], path);
-    mpt[num_mpt++].fs = fs;
+    strcpy(mpt[index], path);
+    mpt[index].fs = fs;
     return 0;
 }
 
@@ -43,7 +43,7 @@ int vfs_unmount(const char *path){
 int get_fs(const char *path){
     int index;
     for (int i=0;i<MAXMP;++i){
-        if (strncmp(path, mpt[i].path)==0){
+        if (strncmp(path, mpt[i].path, strlen(mpt[i].path))==0){
             index = i;
             break;
         }
@@ -53,7 +53,7 @@ int get_fs(const char *path){
 
 int vfs_access(const char *path, int mode){
     int index = get_fs(path);
-    inode_t* cur = mpt[i].fsops->lookup(mpt[i], name, 0);
+    inode_t* cur = mpt[index].fsops->lookup(mpt[i], name, 0);
     if ((mode|F_OK)&&!cur) return -1;
     if ((mode|F_OK)&&(cur->permission|R_OK)) return -1;
     if ((mode|F_OK)&&(cur->permission|W_OK)) return -1;
@@ -64,28 +64,28 @@ int vfs_access(const char *path, int mode){
 
 int vfs_mkdir(const char *path){
     int index = get_fs(path);
-    inode_t* cur = mpt[i].fsops->lookup(mpt[i], name, 0);
+    inode_t* cur = mpt[index].fsops->lookup(mpt[i], name, 0);
     cur->mkdir(path);
     return 0;
 }
 
 int vfs_rmdir(const char *path){
     int index = get_fs(path);
-    inode_t* cur = mpt[i].fsops->lookup(mpt[i], name, 0);
+    inode_t* cur = mpt[index].fsops->lookup(mpt[i], name, 0);
     cur->rmdir(path);
     return 0;
 }
 
 int vfs_link(const char *oldpath, const char *newpath){
     int index = get_fs(path);
-    inode_t* cur = mpt[i].fsops->lookup(mpt[i], name, 0);
+    inode_t* cur = mpt[index].fsops->lookup(mpt[i], name, 0);
     cur->link(path, cur);
     return 0;
 }
 
 int vfs_unlink(const char *path){
     int index = get_fs(path);
-    inode_t* cur = mpt[i].fsops->lookup(mpt[i], name, 0);
+    inode_t* cur = mpt[index].fsops->lookup(mpt[i], name, 0);
     cur->unlink(path);
     return 0;
 }
