@@ -9,7 +9,7 @@ void vfs_init(){
         .ops = &ext2_ops,
         .dev = dev_lookup("ramdisk0"),
     };
-    vfs->mount("/", fs);
+    vfs->mount("/", &fs);
 }
 
 int vfs_access(const char *path, int mode){
