@@ -26,9 +26,9 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
         .type = DR,
         .permission = R_OK|W_OK|X_OK,
         .none = 0,
-        .len = 1;
+        .len = 1,
     };
-    dev->ops->write(dev, inode_table, &root, INODE_SIZE);
+    dev->ops->write(dev, inode_table(0), &root, INODE_SIZE);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
