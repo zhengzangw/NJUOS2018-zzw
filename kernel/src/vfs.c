@@ -24,8 +24,11 @@ int vfs_mount(const char *path, filesystem_t *fs){
             }
         }
     }
-    strcpy(mpt[index], path);
-    mpt[index].fs = fs;
+    mpt[index] = {
+        .path = path,
+        .fs = fs,
+        .exists = 1,
+    }
     return 0;
 }
 
@@ -78,7 +81,7 @@ int vfs_rmdir(const char *path){
 
 int vfs_link(const char *oldpath, const char *newpath){
     int index = get_fs(oldpath);
-    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
+    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, oldpath, 0);
     cur->ops->link(newpath, cur);
     return 0;
 }
