@@ -3,7 +3,7 @@
 
 #include <klib.h>
 
-//#define DEBUG
+#define DEBUG
 //#define DEBUG_LOCK
 //#define DEBUG_PMM
 
