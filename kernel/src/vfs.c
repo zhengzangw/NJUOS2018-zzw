@@ -10,6 +10,7 @@ void vfs_init(){
         .dev = dev_lookup("ramdisk0"),
     };
     fs->ops->init(fs, "/", fs->dev);
+    printf("preparing to mount\n");
     vfs->mount("/", &fs);
 }
 

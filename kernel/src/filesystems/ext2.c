@@ -16,18 +16,34 @@ enum TYPE {NF, DR, LK, MP};
 
 #define BLOCK_SIZE (1<<10)
 #define BLOCK(x) (x)*BLOCK_SIZE
-#define BLOCK_NUM 128
+#define BLOCK_NUM (1<<7)
 #define inode_table(i) BLOCK(0)+(i)*INODE_SIZE
 #define data(i) BLOCK(16)+(i)*BLOCK_SIZE
 
+int get_free_data(filesystem_t *fs, device_t *dev){
+    int tmp = 1;
+    for (int i=0;i<BLOCK_NUM;++i){
+        dev->ops->read(dev, data(i), &tmp, sizeof(int));
+        if (tmp==0) {
+            tmp = 1;
+            dev-ops-write(dev, data(i), &tmp, sizeof(int));
+            return i;
+        }
+    }
+    return -1;
+}
+
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
-    ext2_inode_t root = {
-        .exists = 1,
-        .type = DR,
-        .permission = R_OK|W_OK|X_OK,
-        .none = 0,
-        .len = 1,
-    };
+    printf("size=%ld", sizeof(ext2_inode));
+    ext2_inode_t *root = pmm->malloc(sizeof(ext2_inode));
+    memset(root, 0, sizeof(root));
+    root->exists = 1;
+    root->type = DR;
+    root->permission = R_OK|W_OK|X_OK;
+    root->none = 0;
+    root->len = 1;
+    root->link[0] = get_free_data(fs, dev);
+
     dev->ops->write(dev, inode_table(0), &root, INODE_SIZE);
 }
 
