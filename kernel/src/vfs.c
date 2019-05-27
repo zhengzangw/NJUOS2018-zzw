@@ -44,7 +44,7 @@ int vfs_unmount(const char *path){
 }
 
 int get_fs(const char *path){
-    int index;
+    int index=-1;
     for (int i=0;i<MAXMP;++i){
         if (strncmp(path, mpt[i].path, strlen(mpt[i].path))==0){
             index = i;
