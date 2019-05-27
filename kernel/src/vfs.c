@@ -2,9 +2,14 @@
 #include <vfs.h>
 #include <devices.h>
 
+extern fsops_t ext2_ops;
+
 void vfs_init(){
-    filesystem_t fs;
-    fs.dev = dev_lookup("ramdisk0");
+    filesystem_t fs = {
+        .ops = &ext2_ops,
+        .dev = dev_lookup("ramdisk0");
+    };
+    vfs_mount("/", fs);
 }
 
 int vfs_access(const char *path, int mode){
