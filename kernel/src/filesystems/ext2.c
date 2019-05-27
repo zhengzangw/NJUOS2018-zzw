@@ -38,7 +38,8 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     memset(root, 0, sizeof(root));
     root->exists = 1;
     root->type = DR;
-    root->permission = R_OK|W_OK|X_OK;
+    unsigned short per = R_OK|W_OK|X_OK;
+    root->permission = per;
     root->len = 1;
     root->link[0] = get_free_data(fs, dev);
 
