@@ -9,6 +9,7 @@ void vfs_init(){
         .ops = &ext2_ops,
         .dev = dev_lookup("ramdisk0"),
     };
+    fs->ops->init(fs, "/", fs->dev);
     vfs->mount("/", &fs);
 }
 
