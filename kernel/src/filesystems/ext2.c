@@ -4,11 +4,11 @@
 
 #define INODE_SIZE 64
 struct ext2_inode {
-  unsigned char exists : 1;
-  unsigned char type : 3;
-  unsigned short permission :3;
+  int exists;
+  unsigned short type;
+  unsigned short permission;
   int len;
-  int link[62];
+  int link[60];
 }__attribute__((packed));
 typedef struct ext2_inode ext2_inode_t;
 enum TYPE {NF, DR, LK, MP};
