@@ -24,7 +24,7 @@ int vfs_mount(const char *path, filesystem_t *fs){
             }
         }
     }
-    mpt[index] = {
+    mpt[index] = (mountpoint_t){
         .path = path,
         .fs = fs,
         .exists = 1,
