@@ -6,15 +6,15 @@
 #define BLOCK_BYTES (1<<7)
 #define BLOCK(x) (x)*BLOCK_BYTES
 void bzero(int x, device_t* dev){
-    void *zeros = pmm->alloc(BLOCKS_BYTES);
+    void *zeros = pmm->alloc(BLOCK_BYTES);
     for (int i=0;i<BLOCK_BYTES;++i){
         *((char *)zeros+i) = 0;
     }
-    dev->ops->write(dev, BLOCK(x), &zeros, BLOCKS_BYTES);
+    dev->ops->write(dev, BLOCK(x), &zeros, BLOCK_BYTES);
 }
 void LogBlock(int x, device_t* dev) {
-    void *logs = pmm->alloc(BLOCKS_BYTES);
-    dev->ops->read(dev, BLOCK(x), &logs, BLOCKS_BYTES);
+    void *logs = pmm->alloc(BLOCK_BYTES);
+    dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
     for (int i=0;i<BLOCK_BYTES;++i){
         printf("%x ", *((char *)logs+i));
         if (i%(1<<4)) printf("\n");
