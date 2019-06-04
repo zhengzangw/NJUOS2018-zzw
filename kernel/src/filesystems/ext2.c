@@ -5,7 +5,6 @@
 /*========== BLOCK ===============*/
 #define BLOCK_BYTES (1<<7)
 #define BLOCK(x) (x)*BLOCK_BYTES
-#define bzero(x) bzero(x, dev)
 void bzero(int x, device_t* dev){
     void *zeros = pmm->alloc(BLOCKS_BYTES);
     for (int i=0;i<BLOCK_BYTES;++i){
@@ -91,10 +90,10 @@ typedef struct dir_entry dir_entry_t;
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("EXT2 INFO:\ninode size=%ld", sizeof(ext2_inode_t));
     //clear
-    bzero(IMAP);
-    bzero(DMAP);
+    bzero(IMAP, dev);
+    bzero(DMAP, dev);
     for (int i=ITABLE; i<ITABLE_NUM; ++i){
-        bzero(i);
+        bzero(i, dev);
     }
 
     ext2_inode_t *root = balloc(sizeof(ext2_inode_t));
@@ -104,7 +103,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     root->permission = per;
     root->len = 1;
     root->link[0] = free_map(DMAP, dev);
-    bzero(DATA(root->link[0]));
+    bzero(DATA(root->link[0]), dev);
 
     /*
     dir_entry_t dir = balloc(sizeof(dir_entry_t));
