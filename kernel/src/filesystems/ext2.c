@@ -129,8 +129,8 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     pmm->free(root);
 
     LogBlock(IMAP, dev);
-    //LogBlock(DMAP, dev);
-    //LogBlock(ITABLE, dev);
+    LogBlock(DMAP, dev);
+    LogBlock(ITABLE, dev);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
