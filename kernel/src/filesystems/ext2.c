@@ -103,6 +103,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
         bzero(i, dev);
     }
 
+    LogBlock(ITABLE, dev);
     ext2_inode_t *root = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     root->exists = 1;
     root->type = DR;
