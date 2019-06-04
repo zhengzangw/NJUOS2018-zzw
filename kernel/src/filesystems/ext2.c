@@ -80,6 +80,7 @@ typedef struct ext2_inode ext2_inode_t;
 
 ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     int index_inode = free_map(dev, IMAP);
+    Logint(index_inode);
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     inode->exists = 1;
     inode->type = type;
@@ -102,7 +103,7 @@ struct dir_entry {
 };
 typedef struct dir_entry dir_entry_t;
 
-void ext2_create_dir(device_t *dev){
+void ext2_create_dir(device_t *dev, const char *name){
     unsigned short per = R_OK|W_OK|X_OK;
     ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
     pmm->free(dir);
@@ -118,9 +119,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     for (int i=ITABLE; i<ITABLE+ITABLE_NUM; ++i){
         bzero(i);
     }
-
-    //create root
-    ext2_create_dir(dev);
+    ext2_create_dir(dev, name);
 
     /*
     dir_entry_t dir = balloc(sizeof(dir_entry_t));
