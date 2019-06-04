@@ -11,6 +11,7 @@ void *balloc(int size){
 /*========== BLOCK ===============*/
 #define BLOCK_BYTES (1<<9)
 #define BLOCK(x) ((x)*BLOCK_BYTES)
+#define bzero(x) bzero(dev, x)
 void bzero(device_t* dev, int x){
     void *zeros = balloc(BLOCK_BYTES);
     dev->ops->write(dev, BLOCK(x), zeros, BLOCK_BYTES);
@@ -112,10 +113,10 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("EXT2 INFO: inode size=%ld", sizeof(ext2_inode_t));
 
     //clear
-    bzero(IMAP, dev);
-    bzero(DMAP, dev);
+    bzero(IMAP);
+    bzero(DMAP);
     for (int i=ITABLE; i<ITABLE+ITABLE_NUM; ++i){
-        bzero(i, dev);
+        bzero(i);
     }
 
     //create root
