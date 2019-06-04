@@ -22,6 +22,7 @@ void LogBlock(int x, device_t* dev) {
         if (i%(1<<6)==0) printf("\n");
     }
     printf("======== LOG ENDED =======\n");
+    assert(0);
 }
 
 void *balloc(int size){
