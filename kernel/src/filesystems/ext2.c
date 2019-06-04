@@ -41,7 +41,7 @@ int write_map(int block, int i, uint8_t x, device_t* dev){
     uint8_t m = 1<<(i%8);
     uint8_t b;
     dev->ops->read(dev, MAP(block, i), &b, sizeof(uint8_t));
-    assert(read(block, i)!=x);
+    assert(read(block, i, dev)!=x);
     if (x==1) b |= m; else b &= ~m;
     dev->ops->write(dev, MAP(block, i), &b, sizeof(uint8_t));
     return 0;
@@ -49,7 +49,7 @@ int write_map(int block, int i, uint8_t x, device_t* dev){
 int free_map(int block, device_t* dev){
     int ret = -1;
     for (int i=0;i<BLOCK_BYTES;++i){
-        if (read_map(block, i)==1) {
+        if (read_map(block, i, dev)==1) {
             ret = i;
             break;
         }
