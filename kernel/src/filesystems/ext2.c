@@ -9,17 +9,15 @@ void *balloc(int size){
 }
 
 // 1 if splited, 0 if done
-int split(const char *path, char *pre, char *post){
+int split(const char *path, char **pre, char **post){
     int ret = 0, len = strlen(path);
     for (int i=0;i<len;++i){
         if (path[i]=='/'){
             ret = 1;
             pre = pmm->alloc(i+1);
-            strncpy(pre, path, i+1);
+            strncpy(*pre, path, i+1);
             post = pmm->alloc(len-i+1);
-            strncpy(post, path+i+1, len-i+1);
-            Log("%s", pre);
-            Log("%s", post);
+            strncpy(*post, path+i+1, len-i+1);
             break;
         }
     }
@@ -167,7 +165,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 
     char *tmp1=NULL, *tmp2=NULL;
     Log("!\n");
-    split("/bin/etc/a.txt", tmp1, tmp2);
+    split("/bin/etc/a.txt", &tmp1, &tmp2);
     printf("%s\n", tmp1);
     printf("%s\n", tmp2);
     Log("!\n");
