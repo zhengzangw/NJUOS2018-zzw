@@ -19,7 +19,7 @@ void LogBlock(int x, device_t* dev) {
     printf("======== LOG BLOCK =======\n");
     for (int i=0;i<BLOCK_BYTES;++i){
         printf("%02x ", *((char *)logs+i));
-        if (i%(1<<6)==0) printf("\n");
+        if ((i+1)%(1<<6)==0) printf("\n");
     }
     printf("======== LOG ENDED =======\n");
     assert(0);
