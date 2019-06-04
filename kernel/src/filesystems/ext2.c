@@ -11,8 +11,8 @@ void *balloc(int size){
 /*========== BLOCK ===============*/
 #define BLOCK_BYTES (1<<9)
 #define BLOCK(x) ((x)*BLOCK_BYTES)
-#define bzero(x) bzero(dev, x)
-void bzero(device_t* dev, int x){
+#define bzero(x) bzero_dev(dev, x)
+void bzero_dev(device_t* dev, int x){
     void *zeros = balloc(BLOCK_BYTES);
     dev->ops->write(dev, BLOCK(x), zeros, BLOCK_BYTES);
     pmm->free(zeros);
