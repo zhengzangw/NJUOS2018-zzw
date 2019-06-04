@@ -103,7 +103,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
         bzero(i, dev);
     }
 
-    LogBlock(ITABLE, dev);
     ext2_inode_t *root = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     root->exists = 1;
     root->type = DR;
@@ -124,12 +123,13 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     dev->ops->write(dev, data(root->link[0]))
     */
 
+    LogBlock(ITABLE, dev);
     dev->ops->write(dev, TABLE(0), &root, INODE_BYTES);
+    LogBlock(ITABLE, dev);
     pmm->free(root);
 
-    LogBlock(IMAP, dev);
-    LogBlock(DMAP, dev);
-    LogBlock(ITABLE, dev);
+    //LogBlock(IMAP, dev);
+    //LogBlock(DMAP, dev);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
