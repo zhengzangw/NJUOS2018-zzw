@@ -15,12 +15,12 @@ void bzero(int x, device_t* dev){
 void LogBlock(int x, device_t* dev) {
     void *logs = pmm->alloc(BLOCK_BYTES);
     dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
-    printf("======== LOG BLOCK =======");
+    printf("======== LOG BLOCK =======\n");
     for (int i=0;i<BLOCK_BYTES;++i){
-        printf("%x ", *((char *)logs+i));
-        if (i%(1<<4)) printf("\n");
+        printf("%02x ", *((char *)logs+i));
+        if (i%(1<<6)==0) printf("\n");
     }
-    printf("======== LOG ENDED =======");
+    printf("======== LOG ENDED =======\n");
 }
 void *balloc(int size){
     void *ret = pmm->alloc(size);
@@ -120,8 +120,8 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     dev->ops->write(dev, TABLE(0), &root, INODE_BYTES);
 
     LogBlock(IMAP, dev);
-    LogBlock(DMAP, dev);
-    LogBlock(ITABLE, dev);
+    //LogBlock(DMAP, dev);
+    //LogBlock(ITABLE, dev);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
