@@ -14,9 +14,9 @@ int split(const char *path, char *pre, char *post){
     for (int i=0;i<strlen(path);++i){
         if (path[i]=='/'){
             ret = 1;
-            pre = pmm->malloc(i);
+            pre = pmm->alloc(i);
             strncpy(pre, path, i-1);
-            post = pmm->malloc(n-i);
+            post = pmm->alloc(n-i);
             strncpy(post, path+i, n-i);
             break;
         }
@@ -115,7 +115,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char name*){
 /*======== DATA ===========*/
 #define DATA_B ITABLE+ITABLE_NUM
 #define DATA(i) BLOCK(DATA_B)+(i)*BLOCK_BYTES
-void ext2_write_data(device_t *dev, uint32_t inode, void *buf, int size){
+void ext2_append_data(device_t *dev, uint32_t inode, void *buf, int size){
     return;
 }
 
@@ -136,8 +136,8 @@ dir_entry_t* ext2_create_entry(device_t *dev, uint32_t inode, uint32_t entry_ino
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
     dir->file_type = DR;
 
-    ext2_write_data(dev, inode, dir, sizeof(dir_entry_t));
-    ext2_write_data(dev, inode, entry_name, dir->name_len);
+    ext2_append_data(dev, inode, dir, sizeof(dir_entry_t));
+    ext2_append_data(dev, inode, entry_name, dir->name_len);
 }
 
 void ext2_create_dir(device_t *dev, const char *name){
