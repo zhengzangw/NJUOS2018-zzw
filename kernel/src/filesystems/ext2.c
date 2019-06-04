@@ -2,14 +2,17 @@
 #include <vfs.h>
 #include <devices.h>
 
+void *balloc(int size){
+    void *ret = pmm->alloc(size);
+    ret = memset(ret, 0, size);
+    return ret;
+}
+
 /*========== BLOCK ===============*/
 #define BLOCK_BYTES (1<<9)
-#define BLOCK(x) (x)*BLOCK_BYTES
-void bzero(int x, device_t* dev){
-    void *zeros = pmm->alloc(BLOCK_BYTES);
-    for (int i=0;i<BLOCK_BYTES;++i){
-        *((char *)zeros+i) = 0;
-    }
+#define BLOCK(x) ((x)*BLOCK_BYTES)
+void bzero(device_t* dev, int x){
+    void *zeros = balloc(BLOCK_BYTES);
     dev->ops->write(dev, BLOCK(x), zeros, BLOCK_BYTES);
     pmm->free(zeros);
 }
@@ -17,42 +20,37 @@ void bzero(int x, device_t* dev){
 void LogBlock(int x, device_t* dev) {
     void *logs = pmm->alloc(BLOCK_BYTES);
     dev->ops->read(dev, BLOCK(x), logs, BLOCK_BYTES);
-    printf("======== LOG BLOCK %d =======\n", x);
+    printf("======== LOG BLOCK %d ========\n", x);
     for (int i=0;i<BLOCK_BYTES;++i){
         printf("%02x ", *((unsigned char *)logs+i));
-        if ((i+1)%(1<<6)==0) printf("\n");
+        if ((i+1)%(1<<4)==0) printf("\n");
     }
-    printf("======== LOG ENDED %d =======\n", x);
+    printf("======== LOG ENDED %d ========\n", x);
     pmm->free(logs);
-}
-
-void *balloc(int size){
-    void *ret = pmm->alloc(size);
-    ret = memset(ret, 0, size);
-    return ret;
 }
 
 /*========== IMAP,DMAP ===========*/
 #define IMAP 0
 #define DMAP 1
 #define MAP(block,i) (BLOCK(block)+(i)/8)
-int read_map(int block, int i, device_t* dev){
-    uint8_t m = 1<<(i%8);
-    uint8_t b;
+int read_map(device_t *dev, int block, uint8_t i){
+    uint8_t m = 1<<(i%8), b;
     dev->ops->read(dev, MAP(block,i), &b, sizeof(uint8_t));
-    return (b&m)==1;
+    return ((b&m)!=0);
 }
-int write_map(int block, int i, uint8_t x, device_t* dev){
+
+int write_map(device_t* dev, int block, int i, uint8_t x){
     assert(x==0||x==1);
-    uint8_t m = 1<<(i%8);
-    uint8_t b;
+    uint8_t m = 1<<(i%8), b;
     dev->ops->read(dev, MAP(block, i), &b, sizeof(uint8_t));
     assert(read_map(block, i, dev)!=x);
     if (x==1) b |= m; else b &= ~m;
     dev->ops->write(dev, MAP(block, i), &b, sizeof(uint8_t));
+    assert(read_map(block, i, dev)==x);
     return 0;
 }
-int free_map(int block, device_t* dev){
+
+int free_map(device_t* dev, int block){
     int ret = -1;
     for (int i=0;i<BLOCK_BYTES;++i){
         if (read_map(block, i, dev)==1) {
@@ -67,17 +65,28 @@ int free_map(int block, device_t* dev){
 #define ITABLE 3
 #define ITABLE_NUM 2
 #define INODE_BYTES (1<<8)
-#define TABLE(i) BLOCK(ITABLE)+(i)*INODE_BYTES
+#define TABLE(i) (BLOCK(ITABLE)+(i)*INODE_BYTES)
 enum TYPE {NF, DR, LK, MP};
 struct ext2_inode {
   uint32_t exists; //Whether this inode exists
-  unsigned short type; //Type of this inode
-  unsigned short permission; //Permission of this inode
+  uint16_t type; //Type of this inode
+  uint16_t permission; //Permission of this inode
   uint32_t size; //Size of file
   uint32_t len; //Number of link
   uint32_t link[60];
 }__attribute__((packed));
 typedef struct ext2_inode ext2_inode_t;
+
+ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
+    int index_inode = free_map(IMAP, dev);
+    ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
+    inode->exists = 1;
+    inode->type = type;
+    inode->permission = per;
+    inode->len = 0;
+    dev->ops->write(dev, TABLE(index_inode), inode, INODE_BYTES);
+    return inode;
+}
 
 /*======== DATA ===========*/
 #define DATA_B ITABLE+ITABLE_NUM
@@ -85,12 +94,18 @@ typedef struct ext2_inode ext2_inode_t;
 
 /*======== DIR ============*/
 struct dir_entry {
-    int inode;
-    int rec_len;
-    int name_len;
-    int file_type;
+    uint32_t inode;
+    uint32_t rec_len;
+    uint32_t name_len;
+    uint32_t file_type;
 };
 typedef struct dir_entry dir_entry_t;
+
+void ext2_create_dir(device_t *dev){
+    unsigned short per = R_OK|W_OK|X_OK;
+    ext2_inode_t* dir = ext2_create_inode(DR, per, dev);
+    pmm->free(dir);
+}
 
 /*======== API ============*/
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
@@ -103,15 +118,8 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
         bzero(i, dev);
     }
 
-    ext2_inode_t *root = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
-    root->exists = 1;
-    root->type = DR;
-    unsigned short per = R_OK|W_OK|X_OK;
-
-    root->permission = per;
-    root->len = 1;
-    root->link[0] = free_map(DMAP, dev);
-    bzero(DATA(root->link[0]), dev);
+    //create root
+    ext2_create_dir(dev);
 
     /*
     dir_entry_t dir = balloc(sizeof(dir_entry_t));
@@ -123,13 +131,9 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     dev->ops->write(dev, data(root->link[0]))
     */
 
-    LogBlock(ITABLE, dev);
-    dev->ops->write(dev, TABLE(0), root, INODE_BYTES);
-    LogBlock(ITABLE, dev);
-    pmm->free(root);
-
     //LogBlock(IMAP, dev);
     //LogBlock(DMAP, dev);
+    LogBlock(ITABLE, dev);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
