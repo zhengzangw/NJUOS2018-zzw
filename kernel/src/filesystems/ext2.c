@@ -99,7 +99,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     //clear
     bzero(IMAP, dev);
     bzero(DMAP, dev);
-    for (int i=ITABLE; i<ITABLE_NUM; ++i){
+    for (int i=ITABLE; i<ITABLE+ITABLE_NUM; ++i){
         bzero(i, dev);
     }
 
@@ -113,6 +113,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     }
     printf("======== LOG ENDED =======\n");
     pmm->free(logs);
+    LogBlock(IMAP, dev);
 
     ext2_inode_t *root = (ext2_inode_t *)pmm->alloc(sizeof(ext2_inode_t));
     root->exists = 1;
@@ -135,6 +136,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     */
 
     dev->ops->write(dev, TABLE(0), &root, INODE_BYTES);
+    pmm->free(root);
 
     x = IMAP;
     logs = pmm->alloc(BLOCK_BYTES);
