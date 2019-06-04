@@ -108,7 +108,7 @@ int ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     return index_inode;
 }
 
-ext2_inode_t* ext2_lookup_inode(device_t *dev, const char name*){
+ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     return NULL;
 }
 
