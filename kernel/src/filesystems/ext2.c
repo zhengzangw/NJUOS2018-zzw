@@ -10,7 +10,7 @@ void bzero(int x, device_t* dev){
     for (int i=0;i<BLOCK_BYTES;++i){
         *((char *)zeros+i) = 0;
     }
-    dev->ops->write(dev, BLOCK(x), &zeros, BLOCK_BYTES);
+    dev->ops->write(dev, BLOCK(x), zeros, BLOCK_BYTES);
     pmm->free(zeros);
 }
 
