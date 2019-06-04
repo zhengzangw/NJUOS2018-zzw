@@ -103,7 +103,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
         bzero(i, dev);
     }
 
-    ext2_inode_t *root = balloc(sizeof(ext2_inode_t));
     int x = IMAP;
     void *logs = pmm->alloc(BLOCK_BYTES);
     dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
@@ -114,6 +113,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     }
     printf("======== LOG ENDED =======\n");
     pmm->free(logs);
+    ext2_inode_t *root = balloc(sizeof(ext2_inode_t));
 
     root->exists = 1;
     root->type = DR;
