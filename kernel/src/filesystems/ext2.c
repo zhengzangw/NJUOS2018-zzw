@@ -54,7 +54,7 @@ int write_map(device_t* dev, int block, int i, uint8_t x){
 int free_map(device_t* dev, int block){
     int ret = -1;
     for (int i=0;i<BLOCK_BYTES;++i){
-        if (read_map(dev, block, i)==1) {
+        if (read_map(dev, block, i)==0) {
             ret = i;
             break;
         }
