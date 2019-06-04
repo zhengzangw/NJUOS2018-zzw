@@ -17,12 +17,12 @@ void bzero(int x, device_t* dev){
 void LogBlock(int x, device_t* dev) {
     void *logs = pmm->alloc(BLOCK_BYTES);
     dev->ops->read(dev, BLOCK(x), logs, BLOCK_BYTES);
-    printf("======== LOG BLOCK =======\n");
+    printf("======== LOG BLOCK %d =======\n", x);
     for (int i=0;i<BLOCK_BYTES;++i){
         printf("%02x ", *((char *)logs+i));
         if ((i+1)%(1<<6)==0) printf("\n");
     }
-    printf("======== LOG ENDED =======\n");
+    printf("======== LOG ENDED %d =======\n", x);
     pmm->free(logs);
 }
 
