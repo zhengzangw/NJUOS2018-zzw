@@ -44,17 +44,17 @@ int write_map(device_t* dev, int block, int i, uint8_t x){
     assert(x==0||x==1);
     uint8_t m = 1<<(i%8), b;
     dev->ops->read(dev, MAP(block, i), &b, sizeof(uint8_t));
-    assert(read_map(block, i, dev)!=x);
+    assert(read_map(dev, block, i)!=x);
     if (x==1) b |= m; else b &= ~m;
     dev->ops->write(dev, MAP(block, i), &b, sizeof(uint8_t));
-    assert(read_map(block, i, dev)==x);
+    assert(read_map(dev, block, i)==x);
     return 0;
 }
 
 int free_map(device_t* dev, int block){
     int ret = -1;
     for (int i=0;i<BLOCK_BYTES;++i){
-        if (read_map(block, i, dev)==1) {
+        if (read_map(dev, block, i)==1) {
             ret = i;
             break;
         }
@@ -79,7 +79,7 @@ struct ext2_inode {
 typedef struct ext2_inode ext2_inode_t;
 
 ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
-    int index_inode = free_map(IMAP, dev);
+    int index_inode = free_map(dev, IMAP);
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     inode->exists = 1;
     inode->type = type;
@@ -104,7 +104,7 @@ typedef struct dir_entry dir_entry_t;
 
 void ext2_create_dir(device_t *dev){
     unsigned short per = R_OK|W_OK|X_OK;
-    ext2_inode_t* dir = ext2_create_inode(DR, per, dev);
+    ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
     pmm->free(dir);
 }
 
