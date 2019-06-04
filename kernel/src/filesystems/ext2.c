@@ -115,7 +115,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
 /*======== DATA ===========*/
 #define DATA_B ITABLE+ITABLE_NUM
 #define DATA(i) BLOCK(DATA_B)+(i)*BLOCK_BYTES
-void ext2_append_data(device_t *dev, uint32_t inode, void *buf, int size){
+void ext2_append_data(device_t *dev, uint32_t inode, const void *buf, int size){
     return;
 }
 
@@ -131,7 +131,7 @@ typedef struct dir_entry dir_entry_t;
 void ext2_create_entry(device_t *dev, uint32_t inode, uint32_t entry_inode, const char* entry_name, uint32_t type){
     dir_entry_t* dir = balloc(sizeof(dir_entry_t));
     dir->inode = inode;
-    name_len = strlen(entry_name);
+    uint32_t name_len = strlen(entry_name);
     dir->name_len = name_len+1;
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
     dir->file_type = type;
