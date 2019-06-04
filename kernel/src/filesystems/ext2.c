@@ -164,11 +164,9 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/etc");
 
     char *tmp1=NULL, *tmp2=NULL;
-    Log("!\n");
     split("/bin/etc/a.txt", &tmp1, &tmp2);
     printf("%s\n", tmp1);
     printf("%s\n", tmp2);
-    Log("!\n");
 
     //LogBlock(IMAP, dev);
     //LogBlock(DMAP, dev);
