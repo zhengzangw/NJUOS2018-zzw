@@ -5,7 +5,7 @@
 
 #define DEBUG
 //#define DEBUG_LOCK
-//#define DEBUG_PMM
+#define DEBUG_PMM
 
 // ========== General ============
 
