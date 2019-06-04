@@ -11,6 +11,7 @@ void bzero(int x, device_t* dev){
         *((char *)zeros+i) = 0;
     }
     dev->ops->write(dev, BLOCK(x), &zeros, BLOCK_BYTES);
+    pmm->free(zeros);
 }
 
 void LogBlock(int x, device_t* dev) {
@@ -22,6 +23,7 @@ void LogBlock(int x, device_t* dev) {
         if ((i+1)%(1<<6)==0) printf("\n");
     }
     printf("======== LOG ENDED =======\n");
+    pmm->free(logs);
     assert(0);
 }
 
