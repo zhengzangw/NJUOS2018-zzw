@@ -94,7 +94,18 @@ typedef struct dir_entry dir_entry_t;
 
 /*======== API ============*/
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
-    Log("EXT2 INFO:\ninode size=%ld", sizeof(ext2_inode_t));
+    Log("EXT2 INFO: inode size=%ld", sizeof(ext2_inode_t));
+
+    int x = IMAP;
+    void *logs = pmm->alloc(BLOCK_BYTES);
+    dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
+    printf("======== LOG BLOCK =======\n");
+    for (int i=0;i<BLOCK_BYTES;++i){
+        printf("%02x ", *((char *)logs+i));
+        if ((i+1)%(1<<6)==0) printf("\n");
+    }
+    printf("======== LOG ENDED =======\n");
+    pmm->free(logs);
     //clear
     bzero(IMAP, dev);
     bzero(DMAP, dev);
