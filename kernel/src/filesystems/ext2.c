@@ -19,6 +19,15 @@ enum TYPE {NF, DR, LK, MP};
 #define inode_table(i) BLOCK(0)+(i)*INODE_SIZE
 #define data(i) BLOCK(16)+(i)*BLOCK_SIZE
 
+struct dir_entry {
+    int exists;
+    int inode;
+    int rec_len;
+    int name_len;
+    int file_type;
+};
+typedef struct dir_entry dir_entry_t;
+
 int get_free_data(filesystem_t *fs, device_t *dev){
     int tmp = 1;
     for (int i=0;i<BLOCK_NUM;++i){
@@ -42,6 +51,14 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     root->permission = per;
     root->len = 1;
     root->link[0] = get_free_data(fs, dev);
+
+    dir_entry_t dot = pmm->alloc(sizeof(dir_entry_t));
+    dot->exists = 1;
+    dot->inode = 0;
+    dot->rec_len = sizeof(dir_entry_t)+8*name_len;
+    dot->name_len = 1;
+    dot->file_type = DR;
+    dev->ops->write(dev, data(root->link[0])+)
 
     dev->ops->write(dev, inode_table(0), &root, INODE_SIZE);
 }
