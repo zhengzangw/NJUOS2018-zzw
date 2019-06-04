@@ -104,10 +104,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     }
 
     ext2_inode_t *root = balloc(sizeof(ext2_inode_t));
-    root->exists = 1;
-    root->type = DR;
-    unsigned short per = R_OK|W_OK|X_OK;
-
     int x = IMAP;
     void *logs = pmm->alloc(BLOCK_BYTES);
     dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
@@ -118,6 +114,10 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     }
     printf("======== LOG ENDED =======\n");
     pmm->free(logs);
+
+    root->exists = 1;
+    root->type = DR;
+    unsigned short per = R_OK|W_OK|X_OK;
 
     root->permission = per;
     root->len = 1;
