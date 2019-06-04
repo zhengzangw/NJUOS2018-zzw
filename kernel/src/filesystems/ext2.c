@@ -120,16 +120,15 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     dir->name_len = name_len+1;
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
     dir->file_type = DR;
-    dev->ops->write(dev, data(root->link[0])+)
+    dev->ops->write(dev, data(root->link[0]))
     */
 
     dev->ops->write(dev, TABLE(0), &root, INODE_BYTES);
     pmm->free(root);
 
     LogBlock(IMAP, dev);
-    assert(0);
-    //LogBlock(DMAP, dev);
-    //LogBlock(ITABLE, dev);
+    LogBlock(DMAP, dev);
+    LogBlock(ITABLE, dev);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
