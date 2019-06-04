@@ -102,16 +102,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     for (int i=ITABLE; i<ITABLE_NUM; ++i){
         bzero(i, dev);
     }
-    int x = IMAP;
-    void *logs = pmm->alloc(BLOCK_BYTES);
-    dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
-    printf("======== LOG BLOCK =======\n");
-    for (int i=0;i<BLOCK_BYTES;++i){
-        printf("%02x ", *((char *)logs+i));
-        if ((i+1)%(1<<6)==0) printf("\n");
-    }
-    printf("======== LOG ENDED =======\n");
-    pmm->free(logs);
 
     ext2_inode_t *root = balloc(sizeof(ext2_inode_t));
     root->exists = 1;
@@ -131,6 +121,16 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     dir->file_type = DR;
     dev->ops->write(dev, data(root->link[0])+)
     */
+    int x = IMAP;
+    void *logs = pmm->alloc(BLOCK_BYTES);
+    dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
+    printf("======== LOG BLOCK =======\n");
+    for (int i=0;i<BLOCK_BYTES;++i){
+        printf("%02x ", *((char *)logs+i));
+        if ((i+1)%(1<<6)==0) printf("\n");
+    }
+    printf("======== LOG ENDED =======\n");
+    pmm->free(logs);
 
     dev->ops->write(dev, TABLE(0), &root, INODE_BYTES);
 
