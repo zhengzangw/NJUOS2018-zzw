@@ -12,6 +12,7 @@ void bzero(int x, device_t* dev){
     }
     dev->ops->write(dev, BLOCK(x), &zeros, BLOCK_BYTES);
 }
+
 void LogBlock(int x, device_t* dev) {
     void *logs = pmm->alloc(BLOCK_BYTES);
     dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
@@ -22,6 +23,7 @@ void LogBlock(int x, device_t* dev) {
     }
     printf("======== LOG ENDED =======\n");
 }
+
 void *balloc(int size){
     void *ret = pmm->alloc(size);
     memset(ret, 0, size);
@@ -117,10 +119,10 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     dev->ops->write(dev, data(root->link[0])+)
     */
 
-    printf("1");
     dev->ops->write(dev, TABLE(0), &root, INODE_BYTES);
 
-    //LogBlock(IMAP, dev);
+    LogBlock(IMAP, dev);
+    assert(0);
     //LogBlock(DMAP, dev);
     //LogBlock(ITABLE, dev);
 }
