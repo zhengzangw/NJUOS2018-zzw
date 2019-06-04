@@ -80,6 +80,7 @@ typedef struct ext2_inode ext2_inode_t;
 
 ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     int index_inode = free_map(dev, IMAP);
+    write_map(dev, IMAP, 1);
     Logint(index_inode);
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     inode->exists = 1;
