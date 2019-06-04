@@ -25,7 +25,7 @@ int split(const char *path, char *pre, char *post){
 }
 
 /*========== BLOCK ===============*/
-#define BLOCK_BYTES (1<<9)
+#define BLOCK_BYTES (1<<10)
 #define BLOCK(x) ((x)*BLOCK_BYTES)
 #define bzero(x) bzero_dev(dev, x)
 void bzero_dev(device_t* dev, int x){
@@ -81,7 +81,7 @@ int free_map(device_t* dev, int block){
 /*======== ITABLE =========*/
 #define ITABLE 3
 #define ITABLE_NUM 2
-#define INODE_BYTES (1<<8)
+#define INODE_BYTES (1<<7)
 #define TABLE(i) (BLOCK(ITABLE)+(i)*INODE_BYTES)
 enum TYPE {NF, DR, LK, MP};
 struct ext2_inode {
@@ -90,7 +90,7 @@ struct ext2_inode {
   uint16_t permission; //Permission of this inode
   uint32_t size; //Size of file
   uint32_t len; //Number of link
-  uint32_t link[60];
+  uint32_t link[28];
 }__attribute__((packed));
 typedef struct ext2_inode ext2_inode_t;
 
