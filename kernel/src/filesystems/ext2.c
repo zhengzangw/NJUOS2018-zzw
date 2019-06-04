@@ -131,8 +131,8 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     dev->ops->write(dev, data(root->link[0]))
     */
 
-    //LogBlock(IMAP, dev);
-    //LogBlock(DMAP, dev);
+    LogBlock(IMAP, dev);
+    LogBlock(DMAP, dev);
     LogBlock(ITABLE, dev);
 }
 
