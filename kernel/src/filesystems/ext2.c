@@ -16,8 +16,8 @@ int split(const char *path, char *pre, char *post){
             ret = 1;
             pre = pmm->alloc(i+1);
             strncpy(pre, path, i+1);
-            post = pmm->alloc(n-i+1);
-            strncpy(post, path+i, n-i+1);
+            post = pmm->alloc(len-i+1);
+            strncpy(post, path+i, len-i+1);
             break;
         }
     }
