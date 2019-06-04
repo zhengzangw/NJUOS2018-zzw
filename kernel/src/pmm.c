@@ -101,7 +101,7 @@ static void kfree(void *ptr) {
 #else
   struct node *p = (struct node *)((uintptr_t)ptr - BIAS);
   kmt->spin_lock(&alloc_lock);
-  Assert(p->next->pre==p, "%p != %p", p->next->pre, p);
+  if (p->next!=NULL) Assert(p->next->pre==p, "%p != %p", p->next->pre, p);
   #ifdef DEBUG_PMM
     Lognode("[free] ", p);
   #endif
