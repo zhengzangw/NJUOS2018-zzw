@@ -11,11 +11,11 @@ void *balloc(int size){
 // 1 if splited, 0 if done
 int split(const char *path, char *pre, char *post){
     int ret = 0, len = strlen(path);
-    Logint(len);
     for (int i=0;i<len;++i){
         if (path[i]=='/'){
             ret = 1;
             pre = pmm->alloc(i);
+            Logint(len);
             strncpy(pre, path, i-1);
             break;
         }
