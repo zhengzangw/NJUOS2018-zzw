@@ -134,8 +134,8 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 
     dev->ops->write(dev, TABLE(0), &root, INODE_BYTES);
 
-    int x = IMAP;
-    void *logs = pmm->alloc(BLOCK_BYTES);
+    x = IMAP;
+    logs = pmm->alloc(BLOCK_BYTES);
     dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
     printf("======== LOG BLOCK =======\n");
     for (int i=0;i<BLOCK_BYTES;++i){
