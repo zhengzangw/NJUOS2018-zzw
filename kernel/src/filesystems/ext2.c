@@ -97,9 +97,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("EXT2 INFO: inode size=%ld", sizeof(ext2_inode_t));
 
     //clear
-    LogBlock(IMAP, dev);
     bzero(IMAP, dev);
-    LogBlock(IMAP, dev);
     bzero(DMAP, dev);
     for (int i=ITABLE; i<ITABLE+ITABLE_NUM; ++i){
         bzero(i, dev);
