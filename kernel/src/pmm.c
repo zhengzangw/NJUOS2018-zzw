@@ -51,7 +51,7 @@ static void pmm_init() {
 #endif
 
 #ifdef DEBUG
-  Log("pm_start = %p\tpm_end = %p\tsize of heap=%d", pm_start, pm_end, pm_end-pm_start);
+  Log("pm_start = %p\tpm_end = %p\tsize of heap=%x", pm_start, pm_end, pm_end-pm_start);
 #endif
 }
 
