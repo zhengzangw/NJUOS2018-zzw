@@ -106,6 +106,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     }
     printf("======== LOG ENDED =======\n");
     pmm->free(logs);
+    printf("======== LOG =======\n");
     //clear
     bzero(IMAP, dev);
     bzero(DMAP, dev);
