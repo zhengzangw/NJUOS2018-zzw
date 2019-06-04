@@ -103,9 +103,10 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
         bzero(i, dev);
     }
 
+    ext2_inode_t *root = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     int x = IMAP;
     void *logs = pmm->alloc(BLOCK_BYTES);
-    dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
+    dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES/8);
     printf("======== LOG BLOCK =======\n");
     for (int i=0;i<BLOCK_BYTES;++i){
         printf("%02x ", *((char *)logs+i));
@@ -114,18 +115,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     printf("======== LOG ENDED =======\n");
     pmm->free(logs);
 
-    x = IMAP;
-    logs = pmm->alloc(BLOCK_BYTES);
-    dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
-    printf("======== LOG BLOCK =======\n");
-    for (int i=0;i<BLOCK_BYTES;++i){
-        printf("%02x ", *((char *)logs+i));
-        if ((i+1)%(1<<6)==0) printf("\n");
-    }
-    printf("======== LOG ENDED =======\n");
-    pmm->free(logs);
-
-    ext2_inode_t *root = (ext2_inode_t *)pmm->alloc(sizeof(ext2_inode_t));
     root->exists = 1;
     root->type = DR;
     unsigned short per = R_OK|W_OK|X_OK;
