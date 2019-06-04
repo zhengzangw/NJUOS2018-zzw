@@ -3,7 +3,7 @@
 #include <devices.h>
 
 /*========== BLOCK ===============*/
-#define BLOCK_BYTES (1<<7)
+#define BLOCK_BYTES (1<<10)
 #define BLOCK(x) (x)*BLOCK_BYTES
 void bzero(int x, device_t* dev){
     void *zeros = pmm->alloc(BLOCK_BYTES);
@@ -15,10 +15,12 @@ void bzero(int x, device_t* dev){
 void LogBlock(int x, device_t* dev) {
     void *logs = pmm->alloc(BLOCK_BYTES);
     dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
+    printf("======== LOG BLOCK =======");
     for (int i=0;i<BLOCK_BYTES;++i){
         printf("%x ", *((char *)logs+i));
         if (i%(1<<4)) printf("\n");
     }
+    printf("======== LOG ENDED =======");
 }
 void *balloc(int size){
     void *ret = pmm->alloc(size);
@@ -60,16 +62,16 @@ int free_map(int block, device_t* dev){
 /*======== ITABLE =========*/
 #define ITABLE 3
 #define ITABLE_NUM 2
-#define INODE_BYTES 64
+#define INODE_BYTES (1<<8)
 #define TABLE(i) BLOCK(ITABLE)+(i)*INODE_BYTES
 enum TYPE {NF, DR, LK, MP};
 struct ext2_inode {
-  int exists; //Whether this inode exists
+  uint16_t exists; //Whether this inode exists
   unsigned short type; //Type of this inode
   unsigned short permission; //Permission of this inode
-  int size; //Size of file
-  int len; //Number of link
-  int link[60];
+  uint16_t size; //Size of file
+  uint16_t len; //Number of link
+  uint16_t link[60];
 }__attribute__((packed));
 typedef struct ext2_inode ext2_inode_t;
 
@@ -116,6 +118,10 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     */
 
     dev->ops->write(dev, TABLE(0), &root, INODE_BYTES);
+
+    LogBlock(IMAP);
+    LogBlock(DMAP);
+    LogBlock(ITABLE);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
