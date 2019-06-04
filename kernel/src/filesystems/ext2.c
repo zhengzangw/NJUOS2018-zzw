@@ -3,7 +3,7 @@
 #include <devices.h>
 
 /*========== BLOCK ===============*/
-#define BLOCK_BYTES (1<<10)
+#define BLOCK_BYTES (1<<9)
 #define BLOCK(x) (x)*BLOCK_BYTES
 void bzero(int x, device_t* dev){
     void *zeros = pmm->alloc(BLOCK_BYTES);
@@ -106,7 +106,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_inode_t *root = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     int x = IMAP;
     void *logs = pmm->alloc(BLOCK_BYTES);
-    dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES/8);
+    dev->ops->read(dev, BLOCK(x), &logs, BLOCK_BYTES);
     printf("======== LOG BLOCK =======\n");
     for (int i=0;i<BLOCK_BYTES;++i){
         printf("%02x ", *((char *)logs+i));
