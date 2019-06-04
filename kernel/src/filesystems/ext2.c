@@ -5,7 +5,7 @@
 /*========== BLOCK ===============*/
 #define BLOCK_BYTES (1<<7)
 #define BLOCK(x) (x)*BLOCK_BYTES
-void bzero(int x, devices_t* dev){
+void bzero(int x, device_t* dev){
     void *zeros = pmm->alloc(BLOCKS_BYTES);
     for (int i=0;i<BLOCK_BYTES;++i){
         *((char *)zeros+i) = 0;
@@ -30,13 +30,13 @@ void *balloc(int size){
 #define IMAP 0
 #define DMAP 1
 #define MAP(block,i) (BLOCK(block)+(i)/8)
-int read_map(int block, int i, devices_t* dev){
+int read_map(int block, int i, device_t* dev){
     uint8_t m = 1<<(i%8);
     uint8_t b;
     dev->ops->read(dev, MAP(block,i), &b, sizeof(uint8_t));
     return (b&m)==1;
 }
-int write_map(int block, int i, uint8_t x, devices_t* dev){
+int write_map(int block, int i, uint8_t x, device_t* dev){
     assert(x==0||x==1);
     uint8_t m = 1<<(i%8);
     uint8_t b;
@@ -46,7 +46,7 @@ int write_map(int block, int i, uint8_t x, devices_t* dev){
     dev->ops->write(dev, MAP(block, i), &b, sizeof(uint8_t));
     return 0;
 }
-int free_map(int block, devices_t* dev){
+int free_map(int block, device_t* dev){
     int ret = -1;
     for (int i=0;i<BLOCK_BYTES;++i){
         if (read_map(block, i)==1) {
