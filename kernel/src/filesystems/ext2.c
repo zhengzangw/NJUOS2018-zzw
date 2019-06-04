@@ -163,9 +163,14 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/test");
     ext2_create_dir(dev, "/etc");
 
-    LogBlock(IMAP, dev);
-    LogBlock(DMAP, dev);
-    LogBlock(ITABLE, dev);
+    char *tmp1, *tmp2;
+    split("/bin/etc/a.txt", tmp1, tmp2);
+    printf("%s\n", tmp1);
+    printf("%s\n", tmp2);
+
+    //LogBlock(IMAP, dev);
+    //LogBlock(DMAP, dev);
+    //LogBlock(ITABLE, dev);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
