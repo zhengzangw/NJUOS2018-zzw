@@ -3,7 +3,7 @@
 #include <common.h>
 #include <klib.h>
 
-//#define CORRECTNESS_FIRST
+#define CORRECTNESS_FIRST
 
 #ifndef CORRECTNESS_FIRST
 struct node {
