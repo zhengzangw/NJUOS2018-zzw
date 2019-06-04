@@ -24,7 +24,6 @@ void LogBlock(int x, device_t* dev) {
     }
     printf("======== LOG ENDED =======\n");
     pmm->free(logs);
-    assert(0);
 }
 
 void *balloc(int size){
