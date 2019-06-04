@@ -5,14 +5,14 @@
 /*========== BLOCK ===============*/
 #define BLOCK_BYTES (1<<7)
 #define BLOCK(x) (x)*BLOCK_BYTES
-void bzero(int x, devices* dev){
+void bzero(int x, devices_t* dev){
     void *zeros = pmm->alloc(BLOCKS_BYTES);
     for (int i=0;i<BLOCK_BYTES;++i){
         *((char *)zeros+i) = 0;
     }
     dev->ops->write(dev, BLOCK(x), &zeros, BLOCKS_BYTES);
 }
-void LogBlock(int x, device* dev) {
+void LogBlock(int x, device_t* dev) {
     void *logs = pmm->alloc(BLOCKS_BYTES);
     dev->ops->read(dev, BLOCK(x), &logs, BLOCKS_BYTES);
     for (int i=0;i<BLOCK_BYTES;++i){
@@ -30,13 +30,13 @@ void *balloc(int size){
 #define IMAP 0
 #define DMAP 1
 #define MAP(block,i) (BLOCK(block)+(i)/8)
-int read_map(int block, int i, devices* dev){
+int read_map(int block, int i, devices_t* dev){
     uint8_t m = 1<<(i%8);
     uint8_t b;
     dev->ops->read(dev, MAP(block,i), &b, sizeof(uint8_t));
     return (b&m)==1;
 }
-int write_map(int block, int i, uint8_t x, devices* dev){
+int write_map(int block, int i, uint8_t x, devices_t* dev){
     assert(x==0||x==1);
     uint8_t m = 1<<(i%8);
     uint8_t b;
@@ -46,7 +46,7 @@ int write_map(int block, int i, uint8_t x, devices* dev){
     dev->ops->write(dev, MAP(block, i), &b, sizeof(uint8_t));
     return 0;
 }
-int free_map(int block, devices* dev){
+int free_map(int block, devices_t* dev){
     int ret = -1;
     for (int i=0;i<BLOCK_BYTES;++i){
         if (read_map(block, i)==1) {
@@ -115,7 +115,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     dev->ops->write(dev, data(root->link[0])+)
     */
 
-    dev->ops->write(dev, TABLE(0), &root, INODE_SIZE);
+    dev->ops->write(dev, TABLE(0), &root, INODE_BYTES);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
