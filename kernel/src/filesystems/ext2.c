@@ -2,25 +2,83 @@
 #include <vfs.h>
 #include <devices.h>
 
-#define INODE_SIZE 64
+/*========== BLOCK ===============*/
+#define BLOCK_BYTES (1<<7)
+#define BLOCK(x) (x)*BLOCK_BYTES
+void bzero(int x, devices* dev){
+    void *zeros = pmm->alloc(BLOCKS_BYTES);
+    for (int i=0;i<BLOCK_BYTES;++i){
+        *((char *)zeros+i) = 0;
+    }
+    dev->ops->write(dev, BLOCK(x), &zeros, BLOCKS_BYTES);
+}
+void LogBlock(int x, device* dev) {
+    void *logs = pmm->alloc(BLOCKS_BYTES);
+    dev->ops->read(dev, BLOCK(x), &logs, BLOCKS_BYTES);
+    for (int i=0;i<BLOCK_BYTES;++i){
+        printf("%x ", *((char *)logs+i));
+        if (i%(1<<4)) printf("\n");
+    }
+}
+void *balloc(int size){
+    void *ret = pmm->alloc(size);
+    memset(ret, 0, size);
+    return ret;
+}
+
+/*========== IMAP,DMAP ===========*/
+#define IMAP 0
+#define DMAP 1
+#define MAP(block,i) (BLOCK(block)+(i)/8)
+int read_map(int block, int i, devices* dev){
+    uint8_t m = 1<<(i%8);
+    uint8_t b;
+    dev->ops->read(dev, MAP(block,i), &b, sizeof(uint8_t));
+    return (b&m)==1;
+}
+int write_map(int block, int i, uint8_t x, devices* dev){
+    assert(x==0||x==1);
+    uint8_t m = 1<<(i%8);
+    uint8_t b;
+    dev->ops->read(dev, MAP(block, i), &b, sizeof(uint8_t));
+    assert(read(block, i)!=x);
+    if (x==1) b |= m; else b &= ~m;
+    dev->ops->write(dev, MAP(block, i), &b, sizeof(uint8_t));
+    return 0;
+}
+int free_map(int block, devices* dev){
+    int ret = -1;
+    for (int i=0;i<BLOCK_BYTES;++i){
+        if (read_map(block, i)==1) {
+            ret = i;
+            break;
+        }
+    }
+    return ret;
+}
+
+/*======== ITABLE =========*/
+#define ITABLE 3
+#define ITABLE_NUM 2
+#define INODE_BYTES 64
+#define TABLE(i) BLOCK(ITABLE)+(i)*INODE_BYTES
+enum TYPE {NF, DR, LK, MP};
 struct ext2_inode {
-  int exists;
-  unsigned short type;
-  unsigned short permission;
-  int len;
+  int exists; //Whether this inode exists
+  unsigned short type; //Type of this inode
+  unsigned short permission; //Permission of this inode
+  int size; //Size of file
+  int len; //Number of link
   int link[60];
 }__attribute__((packed));
 typedef struct ext2_inode ext2_inode_t;
-enum TYPE {NF, DR, LK, MP};
 
-#define BLOCK_SIZE (1<<10)
-#define BLOCK(x) (x)*BLOCK_SIZE
-#define BLOCK_NUM (1<<7)
-#define inode_table(i) BLOCK(0)+(i)*INODE_SIZE
-#define data(i) BLOCK(16)+(i)*BLOCK_SIZE
+/*======== DATA ===========*/
+#define DATA_B ITABLE+ITABLE_NUM
+#define DATA(i) BLOCK(DATA_B)+(i)*BLOCK_BYTES
 
+/*======== DIR ============*/
 struct dir_entry {
-    int exists;
     int inode;
     int rec_len;
     int name_len;
@@ -28,39 +86,36 @@ struct dir_entry {
 };
 typedef struct dir_entry dir_entry_t;
 
-int get_free_data(filesystem_t *fs, device_t *dev){
-    int tmp = 1;
-    for (int i=0;i<BLOCK_NUM;++i){
-        dev->ops->read(dev, data(i), &tmp, sizeof(int));
-        if (tmp==0) {
-            tmp = 1;
-            dev->ops->write(dev, data(i), &tmp, sizeof(int));
-            return i;
-        }
-    }
-    return -1;
-}
-
+/*======== API ============*/
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
-    Log("size=%ld", sizeof(ext2_inode_t));
-    ext2_inode_t *root = pmm->alloc(sizeof(ext2_inode_t));
-    memset(root, 0, sizeof(root));
+    Log("EXT2 INFO:\ninode size=%ld", sizeof(ext2_inode_t));
+    //clear
+    bzero(IMAP);
+    bzero(DMAP);
+    for (int i=ITABLE; i<ITABLE_NUM; ++i){
+        bzero(i);
+    }
+
+    ext2_inode_t *root = balloc(sizeof(ext2_inode_t));
     root->exists = 1;
     root->type = DR;
     unsigned short per = R_OK|W_OK|X_OK;
     root->permission = per;
     root->len = 1;
-    root->link[0] = get_free_data(fs, dev);
+    root->link[0] = free_map(DMAP, dev);
+    bzero(DATA(root->link[0]));
 
-    dir_entry_t dot = pmm->alloc(sizeof(dir_entry_t));
-    dot->exists = 1;
-    dot->inode = 0;
-    dot->rec_len = sizeof(dir_entry_t)+8*name_len;
-    dot->name_len = 1;
-    dot->file_type = DR;
+    /*
+    dir_entry_t dir = balloc(sizeof(dir_entry_t));
+    dir->inode = 0;
+    name_len = strlen(name);
+    dir->name_len = name_len+1;
+    dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
+    dir->file_type = DR;
     dev->ops->write(dev, data(root->link[0])+)
+    */
 
-    dev->ops->write(dev, inode_table(0), &root, INODE_SIZE);
+    dev->ops->write(dev, TABLE(0), &root, INODE_SIZE);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
