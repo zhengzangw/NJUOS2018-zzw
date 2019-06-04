@@ -119,7 +119,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 
     dev->ops->write(dev, TABLE(0), &root, INODE_BYTES);
 
-    LogBlock(IMAP, dev);
+    //LogBlock(IMAP, dev);
     //LogBlock(DMAP, dev);
     //LogBlock(ITABLE, dev);
 }
