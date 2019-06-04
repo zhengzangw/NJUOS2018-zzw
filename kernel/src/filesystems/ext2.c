@@ -14,9 +14,8 @@ int split(const char *path, char *pre, char *post){
     for (int i=0;i<len;++i){
         if (path[i]=='/'){
             ret = 1;
-            pre = pmm->alloc(i);
-            Logint(i);
-            strncpy(pre, path, i-1);
+            pre = pmm->alloc(i+1);
+            strncpy(pre, path, i);
             break;
         }
     }
