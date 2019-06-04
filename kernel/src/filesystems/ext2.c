@@ -66,12 +66,12 @@ int free_map(int block, device_t* dev){
 #define TABLE(i) BLOCK(ITABLE)+(i)*INODE_BYTES
 enum TYPE {NF, DR, LK, MP};
 struct ext2_inode {
-  uint16_t exists; //Whether this inode exists
+  uint32_t exists; //Whether this inode exists
   unsigned short type; //Type of this inode
   unsigned short permission; //Permission of this inode
-  uint16_t size; //Size of file
-  uint16_t len; //Number of link
-  uint16_t link[60];
+  uint32_t size; //Size of file
+  uint32_t len; //Number of link
+  uint32_t link[60];
 }__attribute__((packed));
 typedef struct ext2_inode ext2_inode_t;
 
@@ -117,6 +117,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     dev->ops->write(dev, data(root->link[0])+)
     */
 
+    printf("1");
     dev->ops->write(dev, TABLE(0), &root, INODE_BYTES);
 
     //LogBlock(IMAP, dev);
