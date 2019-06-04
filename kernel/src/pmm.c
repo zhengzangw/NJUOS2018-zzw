@@ -75,7 +75,7 @@ static void *kalloc(size_t size) {
 #else
 
     for (struct node*p=head;p!=tail;p=p->next){
-      Assert(p->next->pre==p, "%p != %p", p->next->pre, p);
+      if (p->next) Assert(p->next->pre==p, "%p != %p", p->next->pre, p);
       if (p->next->start-p->end>=size+BIAS){
         ret = add_node(p, size);
 
@@ -101,7 +101,7 @@ static void kfree(void *ptr) {
 #else
   struct node *p = (struct node *)((uintptr_t)ptr - BIAS);
   kmt->spin_lock(&alloc_lock);
-  if (p->next!=NULL) Assert(p->next->pre==p, "%p != %p", p->next->pre, p);
+  if (p->next) Assert(p->next->pre==p, "%p != %p", p->next->pre, p);
   #ifdef DEBUG_PMM
     Lognode("[free] ", p);
   #endif
