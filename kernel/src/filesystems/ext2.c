@@ -128,7 +128,7 @@ struct dir_entry {
 };
 typedef struct dir_entry dir_entry_t;
 
-dir_entry_t* ext2_create_entry(device_t *dev, uint32_t inode, uint32_t entry_inode, const char* entry_name, uint32_t type){
+void ext2_create_entry(device_t *dev, uint32_t inode, uint32_t entry_inode, const char* entry_name, uint32_t type){
     dir_entry_t* dir = balloc(sizeof(dir_entry_t));
     dir->inode = inode;
     name_len = strlen(name);
@@ -144,7 +144,7 @@ void ext2_create_dir(device_t *dev, const char *name){
     unsigned short per = R_OK|W_OK|X_OK;
     int dir = ext2_create_inode(dev, DR, per);
 
-    dir_entry_t* entry = ext2_create_entry(dev, dir, dir, name, DR);
+    ext2_create_entry(dev, dir, dir, name, DR);
 }
 
 /*======== API ============*/
