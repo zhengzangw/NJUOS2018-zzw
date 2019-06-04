@@ -5,6 +5,7 @@
 /*========== BLOCK ===============*/
 #define BLOCK_BYTES (1<<7)
 #define BLOCK(x) (x)*BLOCK_BYTES
+#define bzero(x) bzero(x, dev)
 void bzero(int x, device_t* dev){
     void *zeros = pmm->alloc(BLOCKS_BYTES);
     for (int i=0;i<BLOCK_BYTES;++i){
