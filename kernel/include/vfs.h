@@ -8,6 +8,7 @@ typedef struct filesystem filesystem_t;
 typedef struct fsops fsops_t;
 typedef struct inode {
   //int refcnt;
+  int permission;
   void *fs_inode;
   filesystem_t *fs;
   inodeops_t *ops;
