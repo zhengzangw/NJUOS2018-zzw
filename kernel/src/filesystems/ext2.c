@@ -268,7 +268,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("%p", fs->dev);
     Log("%p", fs);
     //clear
-    bzero(dev, IMAP);
+    bzero(fs->dev, IMAP);
     Log("%p", fs->dev);
     Log("%p", fs);
     assert(dev == fs->dev);
