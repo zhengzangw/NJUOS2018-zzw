@@ -231,7 +231,7 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
         ext2_create_entry(dev, dir, dir, ".", DR);
         ext2_create_entry(dev, dir, dir, "..", DR);
     }
-    dev->ops->write(dev, TABLE(dir->inode), inode, INODE_BYTES);
+    dev->ops->write(dev, TABLE(dir->index), inode, INODE_BYTES);
 }
 
 /*======== API ============*/
