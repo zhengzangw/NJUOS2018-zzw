@@ -232,7 +232,7 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
 
         ext2_inode_t* father = ext2_lookup_dir(dev, pre);
         ext2_create_entry(dev, father, dir, post, DR);
-        dev->ops->write(dev, TABLE(father->index), dir, INODE_BYTES);
+        dev->ops->write(dev, TABLE(father->index), father, INODE_BYTES);
         pmm->free(father);
     }
     dev->ops->write(dev, TABLE(dir->index), dir, INODE_BYTES);
