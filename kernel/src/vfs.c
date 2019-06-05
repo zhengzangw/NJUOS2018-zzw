@@ -120,7 +120,6 @@ int vfs_mkdir(const char *path){
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, raw_path, 0);
     pmm->free(raw_path);
 
-    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
     cur->ops->mkdir(path);
     return 0;
 }
@@ -130,7 +129,6 @@ int vfs_rmdir(const char *path){
     int index = get_mount(path, &raw_path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, raw_path, 0);
     pmm->free(raw_path);
-    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
     cur->ops->rmdir(path);
     return 0;
 }
