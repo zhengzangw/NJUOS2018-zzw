@@ -196,7 +196,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset)+cur->name_len, cur, cur->name_len);
         pmm->free(tmp_name);
 
-        if (strncmp(dir_entry, tmp_name, cur->name_len)==0){
+        if (strncmp(name, tmp_name, cur->name_len)==0){
             break;
         }
         offset += cur->rec_len;
