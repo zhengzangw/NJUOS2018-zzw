@@ -133,9 +133,9 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     dev->ops->read(dev, TABLE(0), inode, INODE_BYTES);
 
+    Log("!");
     char *pre = NULL, *post = NULL, *tmp;
     tmp = pmm->alloc(strlen(name)+1);
-    Log("!");
     strcpy(tmp, name);
     Log("!");
     int splited = split(tmp, &pre, &post);
