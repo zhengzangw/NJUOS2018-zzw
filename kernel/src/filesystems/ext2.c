@@ -195,10 +195,13 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
 #define OFFSET_BLOCK(offset) (inode->link[(offset)/BLOCK_BYTES])
 #define OFFSET_REMAIN(offset) ((offset)%BLOCK_BYTES)
 int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
+    Log("!");
     dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
     int offset = 0;
     while (offset < inode->size){
         dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
+        Log("inode=%d", cur->inode);
+        assert(0);
         char *tmp_name = pmm->alloc(cur->name_len+1);
         dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset)+cur->name_len, cur, cur->name_len);
         pmm->free(tmp_name);
@@ -209,6 +212,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         offset += cur->rec_len;
     }
     pmm->free(cur);
+    Log("!");
     return cur->inode;
 }
 
