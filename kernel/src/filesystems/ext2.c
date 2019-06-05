@@ -123,7 +123,7 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
         dev->ops->write(dev, BLOCK(inode->link[inode->len-1])+offset, inode, towrite);
         size-=towrite;
     }
-
+    Logint(size);
     while (size){
         inode->link[inode->len] = free_map(dev, DMAP);
         inode->len ++;
