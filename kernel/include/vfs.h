@@ -72,4 +72,9 @@ typedef struct {
 #define X_OK 8
 #define F_OK 16
 
+/* ====== util ========*/
+void *balloc(int);
+int split(const char *, char **, char **);
+int split2(const char *, char **, char **);
+
 #endif

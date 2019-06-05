@@ -7,44 +7,6 @@
     for (int i=0;i<DATA_B+LOG_NUM;++i)\
         LogBlock(dev, i)
 
-void *balloc(int size){
-    void *ret = pmm->alloc(size+1);
-    ret = memset(ret, 0, size);
-    return ret;
-}
-
-// 1 if splited, 0 if done
-int split(const char *path, char **pre, char **post){
-    int ret = 0, len = strlen(path);
-    for (int i=0;i<len;++i){
-        if (path[i]=='/'){
-            ret = 1;
-            *pre = balloc(i+2);
-            strncpy(*pre, path, i+1);
-            (*pre)[i+1] = '\0';
-            *post = balloc(len-i+2);
-            strncpy(*post, path+i+1, len-i+1);
-            break;
-        }
-    }
-    if (strlen(*post)==0) ret = 0;
-    return ret;
-}
-int split2(const char *path, char **pre, char **post){
-    int ret = 0, len = strlen(path);
-    for (int i=len-1;i>=0;--i){
-        if (path[i]=='/'){
-            ret = 1;
-            *pre = pmm->alloc(i+2);
-            strncpy(*pre, path, i+1);
-            (*pre)[i+1] = '\0';
-            *post = pmm->alloc(len-i+2);
-            strncpy(*post, path+i+1, len-i+1);
-            break;
-        }
-    }
-    return ret;
-}
 
 /*========== BLOCK ===============*/
 #define BLOCK_BYTES (1<<8)
@@ -272,10 +234,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/bin", 0);
     ext2_create_dir(dev, "/test", 0);
     ext2_create_dir(dev, "/bin/a.txt", 0);
-
-    inode_t* tmp = ext2_lookup(fs, "/bin/a.txt", 0);
-    Log("inode=%d", ((ext2_inode_t*)tmp->fs_inode)->index);
-    pmm->free(tmp);
 
     LOGBLOCK();
     assert(0);
