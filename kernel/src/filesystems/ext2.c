@@ -253,7 +253,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     bzero(DATA_B);
     ext2_create_dir(dev, name, 1);
     ext2_create_dir(dev, "/bin", 0);
-    ext2_create_dir(dev, "/test", 0);
+    //ext2_create_dir(dev, "/test", 0);
     //ext2_create_dir(dev, "/etc");
 
     LOGBLOCK();
