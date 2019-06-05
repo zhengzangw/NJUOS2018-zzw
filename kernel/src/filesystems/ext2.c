@@ -83,10 +83,9 @@ int free_map(device_t* dev, int block){
 #define ITABLE_NUM 2
 #define INODE_BYTES (1<<7)
 #define TABLE(i) (BLOCK(ITABLE)+(i)*INODE_BYTES)
-#define TABLE_INV(inode) (((uint32_t)inode - BLOCK(ITABLE))/INODE_BYTES)
 enum TYPE {NF, DR, LK, MP};
 struct ext2_inode {
-  uint32_t exists; //Whether this inode exists
+  uint32_t index; //index of inode
   uint16_t type; //Type of this inode
   uint16_t permission; //Permission of this inode
   uint32_t size; //Size of file
@@ -98,9 +97,8 @@ typedef struct ext2_inode ext2_inode_t;
 ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     int index_inode = free_map(dev, IMAP);
     write_map(dev, IMAP, index_inode, 1);
-    Logint(index_inode);
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
-    inode->exists = 1;
+    inode->index = index_inode;
     inode->type = type;
     inode->permission = per;
     inode->len = 0;
@@ -133,7 +131,7 @@ typedef struct dir_entry dir_entry_t;
 
 void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type){
     dir_entry_t* dir = balloc(sizeof(dir_entry_t));
-    dir->inode = TABLE_INV(inode);
+    dir->inode = inode->index;
     Log("inv=%d", dir->inode);
     uint32_t name_len = strlen(entry_name);
     dir->name_len = name_len+1;
