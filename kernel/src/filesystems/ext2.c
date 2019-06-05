@@ -14,10 +14,10 @@ int split(const char *path, char **pre, char **post){
     for (int i=0;i<len;++i){
         if (path[i]=='/'){
             ret = 1;
-            *pre = pmm->alloc(i+1);
+            *pre = pmm->alloc(i+2);
             strncpy(*pre, path, i+1);
-            *pre[i+1] = '\0';
-            *post = pmm->alloc(len-i+1);
+            (*pre)[i+1] = '\0';
+            *post = pmm->alloc(len-i+2);
             strncpy(*post, path+i+1, len-i+1);
             break;
         }
@@ -204,7 +204,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 
     bzero(DATA_B);
     ext2_create_dir(dev, name, 1);
-    ext2_create_dir(dev, "/bin", 0);
+    ext2_create_dir(dev, "/bin/a", 0);
     //ext2_create_dir(dev, "/test");
     //ext2_create_dir(dev, "/etc");
 
