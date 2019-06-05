@@ -271,13 +271,13 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/bin/a.txt", 0);
 
     inode_t* tmp = ext2_lookup(fs, name, 0);
-    free(tmp);
+    pmm->free(tmp);
     //LOGBLOCK();
     //assert(0);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
-    inode_t ret = balloc(sizeof(inode_t));
+    inode_t* ret = balloc(sizeof(inode_t));
     ret->fs = fs;
     ret->fs_inode = ext2_lookup_inode(name);
 
@@ -304,4 +304,4 @@ inodeops ext2_inodeops = {
     .rmdir = NULL,
     .link = NULL,
     .unlink = NULL,
-}
+};
