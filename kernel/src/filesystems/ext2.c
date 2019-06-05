@@ -41,7 +41,7 @@ int split2(const char *path, char **pre, char **post){
 }
 
 /*========== BLOCK ===============*/
-#define BLOCK_BYTES (1<<9)
+#define BLOCK_BYTES (1<<8)
 #define BLOCK(x) ((x)*BLOCK_BYTES)
 #define bzero(x) bzero_dev(dev, x)
 void bzero_dev(device_t* dev, int x){
@@ -51,11 +51,8 @@ void bzero_dev(device_t* dev, int x){
 }
 
 #define LOGBLOCK() \
-    LogBlock(IMAP, dev);\
-    LogBlock(DMAP, dev);\
-    LogBlock(ITABLE, dev);\
-    LogBlock(DATA_B, dev);\
-    LogBlock(DATA_B+1,dev)
+    for (int i=0;i<DATA_B+2;++i)\
+    LogBlock(i, dev);
 
 void LogBlock(int x, device_t* dev) {
     void *logs = pmm->alloc(BLOCK_BYTES);
@@ -103,7 +100,7 @@ int free_map(device_t* dev, int block){
 
 /*======== ITABLE =========*/
 #define ITABLE 3
-#define ITABLE_NUM 2
+#define ITABLE_NUM 3
 #define INODE_BYTES (1<<7)
 #define TABLE(i) (BLOCK(ITABLE)+(i)*INODE_BYTES)
 enum TYPE {NF, DR, LK, MP};
