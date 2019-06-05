@@ -83,6 +83,7 @@ int free_map(device_t* dev, int block){
 #define ITABLE_NUM 2
 #define INODE_BYTES (1<<7)
 #define TABLE(i) (BLOCK(ITABLE)+(i)*INODE_BYTES)
+#define TABLE_INV(inode) (((uint32_t)inode - BLOCK(ITABLE))/INODE_BYTES)
 enum TYPE {NF, DR, LK, MP};
 struct ext2_inode {
   uint32_t exists; //Whether this inode exists
@@ -94,7 +95,7 @@ struct ext2_inode {
 }__attribute__((packed));
 typedef struct ext2_inode ext2_inode_t;
 
-int ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
+ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     int index_inode = free_map(dev, IMAP);
     write_map(dev, IMAP, index_inode, 1);
     Logint(index_inode);
@@ -104,8 +105,7 @@ int ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     inode->permission = per;
     inode->len = 0;
     dev->ops->write(dev, TABLE(index_inode), inode, INODE_BYTES);
-    pmm->free(inode);
-    return index_inode;
+    return inode;
 }
 
 ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
@@ -116,7 +116,10 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
 #define DATA_B ITABLE+ITABLE_NUM
 #define DATA(i) BLOCK(DATA_B)+(i)*BLOCK_BYTES
 void ext2_append_data(device_t *dev, uint32_t inode, const void *buf, int size){
-    return;
+    while (size){
+
+
+    }
 }
 
 /*======== DIR ============*/
@@ -128,9 +131,10 @@ struct dir_entry {
 };
 typedef struct dir_entry dir_entry_t;
 
-void ext2_create_entry(device_t *dev, uint32_t inode, uint32_t entry_inode, const char* entry_name, uint32_t type){
+void ext2_create_entry(device_t *dev, ext2_inode_t* inode, uint32_t entry_inode, const char* entry_name, uint32_t type){
     dir_entry_t* dir = balloc(sizeof(dir_entry_t));
-    dir->inode = inode;
+    dir->inode = TABLE_INV(inode);
+    Log("inv=%d", dir->inode);
     uint32_t name_len = strlen(entry_name);
     dir->name_len = name_len+1;
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
@@ -142,7 +146,7 @@ void ext2_create_entry(device_t *dev, uint32_t inode, uint32_t entry_inode, cons
 
 void ext2_create_dir(device_t *dev, const char *name){
     unsigned short per = R_OK|W_OK|X_OK;
-    int dir = ext2_create_inode(dev, DR, per);
+    ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
 
     ext2_create_entry(dev, dir, dir, name, DR);
 }
@@ -159,9 +163,9 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     }
 
     ext2_create_dir(dev, name);
-    ext2_create_dir(dev, "/bin");
-    ext2_create_dir(dev, "/test");
-    ext2_create_dir(dev, "/etc");
+    //ext2_create_dir(dev, "/bin");
+    //ext2_create_dir(dev, "/test");
+    //ext2_create_dir(dev, "/etc");
 
     //LogBlock(IMAP, dev);
     //LogBlock(DMAP, dev);
