@@ -269,6 +269,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("%p", fs->dev);
     //clear
     bzero(IMAP);
+    Log("%p", fs->dev);
     assert(dev == fs->dev);
     bzero(DMAP);
     for (int i=ITABLE; i<ITABLE+ITABLE_NUM; ++i){
