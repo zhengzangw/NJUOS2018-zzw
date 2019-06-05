@@ -119,7 +119,7 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
     assert(left>=0);
     if (left>0){
         int offset = inode->size - (inode->len - 1)*BLOCK_BYTES;
-        int towrite = left>size?left:size;
+        int towrite = left<size?left:size;
         dev->ops->write(dev, BLOCK(inode->link[inode->len-1])+offset, inode, towrite);
         size-=towrite;
     }
@@ -127,10 +127,11 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
     while (size){
         inode->link[inode->len] = free_map(dev, DMAP);
         inode->len ++;
-        int towrite = BLOCK_BYTES>size?BLOCK_BYTES:size;
+        int towrite = BLOCK_BYTES<size?BLOCK_BYTES:size;
         dev->ops->write(dev, BLOCK(inode->link[inode->len-1]), inode, towrite);
         size -= towrite;
     }
+    Logint(size)
     inode->size += add_size;
 }
 
