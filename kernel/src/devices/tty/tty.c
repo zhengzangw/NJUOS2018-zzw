@@ -288,8 +288,12 @@ void shell_task(void *name){
         int nread = tty->ops->read(tty, 0, line, sizeof(line));
         line[nread-1] = '\0';
 
+        char name[128];
         if (strcmp(line, "pwd")==0){
             sprintf(text, "%s\n", pwd);
+        } else if (strncmp(line, "stat", 4)==0){
+            strcpy(name, line+5);
+            strcpy(text, name);
         } else {
             text[0] = '\0';
         }
