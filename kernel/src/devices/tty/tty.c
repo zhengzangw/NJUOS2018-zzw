@@ -294,7 +294,7 @@ void shell_task(void *name){
         } else if (strncmp(line, "stat", 4)==0){
             sprintf(name, "%s%s", pwd, line+5);
             int fd = vfs->open(name, 0);
-            sprintf("  File: %s\n  Size: %d\nDevice: %s\n", name,
+            sprintf(text, "  File: %s\n  Size: %d\nDevice: %s\n", name,
                     cputask[_cpu()]->flides[fd]->inode->size,
                     cputask[_cpu()]->flides[fd]->inode->fs->dev->name
                     );
