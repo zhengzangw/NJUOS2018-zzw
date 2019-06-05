@@ -120,7 +120,7 @@ typedef struct ext2_inode ext2_inode_t;
 ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     int index_inode = free_map(dev, IMAP);
     write_map(dev, IMAP, index_inode, 1);
-    ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
+    ext2_inode_t *inode = (ext2_inode_t *)(balloc(sizeof(ext2_inode_t)));
     inode->index = index_inode;
     inode->type = type;
     inode->permission = per;
@@ -253,7 +253,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     bzero(DATA_B);
     ext2_create_dir(dev, name, 1);
     ext2_create_dir(dev, "/bin", 0);
-    //ext2_create_dir(dev, "/test", 0);
+    ext2_create_dir(dev, "/test", 0);
     //ext2_create_dir(dev, "/etc");
 
     LOGBLOCK();
