@@ -80,4 +80,8 @@ void *balloc(int);
 int split(const char *, char **, char **);
 int split2(const char *, char **, char **);
 
+/* ====== ext2 ======= */
+extern fsops_t ext2_ops;
+extern inodeps_t ext2_inodeops;
+
 #endif

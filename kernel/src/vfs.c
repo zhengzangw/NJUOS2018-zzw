@@ -43,7 +43,6 @@ int split2(const char *path, char **pre, char **post){
     return ret;
 }
 
-extern fsops_t ext2_ops;
 void vfs_init(){
     // Load / as ext2 filesystem
     filesystem_t *fs = pmm->alloc(sizeof(filesystem_t));
