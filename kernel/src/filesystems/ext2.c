@@ -131,7 +131,7 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
         dev->ops->write(dev, BLOCK(inode->link[inode->len-1]), inode, towrite);
         size -= towrite;
     }
-    Logint(size)
+    Logint(size);
     inode->size += add_size;
 }
 
