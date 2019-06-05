@@ -217,6 +217,7 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
         char *pre, *post;
         split2(name, &pre, &post);
         Log("pre=%s post=%s", pre, post);
+    assert(0);
         ext2_inode_t* father = ext2_lookup_dir(dev, pre);
         ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
         ext2_create_entry(dev, father, dir, post, DR);
@@ -238,7 +239,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 
     bzero(DATA_B);
     ext2_create_dir(dev, name, 1);
-    assert(0);
     ext2_create_dir(dev, "/bin", 0);
     //ext2_create_dir(dev, "/test");
     //ext2_create_dir(dev, "/etc");
