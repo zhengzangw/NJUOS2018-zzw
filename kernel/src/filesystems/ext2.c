@@ -278,6 +278,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/bin/a.txt", 0);
 
     inode_t* tmp = ext2_lookup(fs, "/bin/a.txt", 0);
+    Log("inode=%d", ((ext2_inode_t*)tmp->fs_inode)->index);
     pmm->free(tmp);
     //LOGBLOCK();
     //assert(0);
