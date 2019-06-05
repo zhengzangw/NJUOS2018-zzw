@@ -123,7 +123,6 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
         dev->ops->write(dev, BLOCK(inode->link[inode->len-1])+offset, inode, towrite);
         size-=towrite;
     }
-    Logint(size);
     while (size){
         inode->link[inode->len] = free_map(dev, DMAP);
         inode->len ++;
@@ -131,7 +130,6 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
         dev->ops->write(dev, BLOCK(inode->link[inode->len-1]), inode, towrite);
         size -= towrite;
     }
-    Logint(size);
     inode->size += add_size;
 }
 
@@ -152,9 +150,7 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
     dir->file_type = type;
 
-    Log("!");
     ext2_append_data(dev, inode, dir, sizeof(dir_entry_t));
-    Log("!");
     ext2_append_data(dev, inode, entry_name, dir->name_len);
 }
 
@@ -181,9 +177,10 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     //ext2_create_dir(dev, "/test");
     //ext2_create_dir(dev, "/etc");
 
-    //LogBlock(IMAP, dev);
-    //LogBlock(DMAP, dev);
-    //LogBlock(ITABLE, dev);
+    LogBlock(IMAP, dev);
+    LogBlock(DMAP, dev);
+    LogBlock(ITABLE, dev);
+    LogBlock(DTABLE, dev);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
