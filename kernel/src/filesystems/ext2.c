@@ -23,6 +23,20 @@ int split(const char *path, char **pre, char **post){
     }
     return ret;
 }
+int split2(const char *path, char **pre, char **post){
+    int ret = 0, len = strlen(path);
+    for (int i=len-1;i>=0;--i){
+        if (path[i]=='/'){
+            ret = 1;
+            *pre = pmm->alloc(i+1);
+            strncpy(*pre, path, i+1);
+            *post = pmm->alloc(len-i+1);
+            strncpy(*post, path+i+1, len-i+1);
+            break;
+        }
+    }
+    return ret;
+}
 
 /*========== BLOCK ===============*/
 #define BLOCK_BYTES (1<<10)
@@ -106,7 +120,7 @@ ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     return inode;
 }
 
-ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
+ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
     return NULL;
 }
 
@@ -155,11 +169,24 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
     ext2_append_data(dev, inode, entry_name, dir->name_len);
 }
 
-void ext2_create_dir(device_t *dev, const char *name){
+void ext2_create_dir(device_t *dev, const char *name, int isroot){
     unsigned short per = R_OK|W_OK|X_OK;
-    ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
-
-    ext2_create_entry(dev, dir, dir, name, DR);
+    if (isroot){
+        ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
+        ext2_create_entry(dev, dir, dir, ".", DR);
+        ext2_create_entry(dev, dir, dir, "..", DR);
+    } else {
+        char *pre, *post;
+        split2(name, pre, post);
+        Log("post=%s", pre);
+        Log("post=%s", post);
+        ext2_inode_t* father = ext2_lookup_dir(pre);
+        assert(0);
+        ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
+        ext2_create_entry(dev, father, dir, post, DR);
+        ext2_create_entry(dev, dir, dir, ".", DR);
+        ext2_create_entry(dev, dir, dir, "..", DR);
+    }
 }
 
 /*======== API ============*/
@@ -174,8 +201,8 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     }
 
     bzero(DATA_B);
-    ext2_create_dir(dev, name);
-    //ext2_create_dir(dev, "/bin");
+    ext2_create_dir(dev, name, 1);
+    ext2_create_dir(dev, "/bin", 0);
     //ext2_create_dir(dev, "/test");
     //ext2_create_dir(dev, "/etc");
 
