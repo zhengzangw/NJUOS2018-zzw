@@ -295,6 +295,7 @@ void shell_task(void *name){
             sprintf(name, "%s%s", pwd, line+5);
             int fd = vfs->open(name, 0);
             sprintf(text, "fd=%d", fd);
+            vfs->close(fd);
         } else {
             text[0] = '\0';
         }
