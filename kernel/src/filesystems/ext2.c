@@ -250,6 +250,7 @@ inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
     ret->permission = ((ext2_inode_t*)ret->fs_inode)->permission;
     ret->size = ((ext2_inode_t*)ret->fs_inode)->size;
     ret->id = ((ext2_inode_t*)ret->fs_inode)->id;
+    ret->type = ((ext2_inode_t*)ret->fs_inode)->type;
 
     return ret;
 }

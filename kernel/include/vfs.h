@@ -14,6 +14,7 @@ typedef struct inode {
   uint16_t permission;
   uint32_t size;
   uint32_t id;
+  uint32_t type;
 } inode_t;
 
 struct filesystem {
