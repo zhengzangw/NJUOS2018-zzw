@@ -8,7 +8,7 @@
     LogBlock(dev, i);
 
 void *balloc(int size){
-    void *ret = pmm->alloc(size);
+    void *ret = pmm->alloc(size+1);
     ret = memset(ret, 0, size);
     return ret;
 }
