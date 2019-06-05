@@ -97,7 +97,6 @@ typedef struct ext2_inode ext2_inode_t;
 ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     int index_inode = free_map(dev, IMAP);
     write_map(dev, IMAP, index_inode, 1);
-    LogBlock(IMAP, dev);
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     inode->index = index_inode;
     inode->type = type;
@@ -121,7 +120,7 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
     if (left>0){
         int offset = inode->size - (inode->len - 1)*BLOCK_BYTES;
         int towrite = left<size?left:size;
-        dev->ops->write(dev, BLOCK(inode->link[inode->len-1])+offset, inode, towrite);
+        dev->ops->write(dev, DATA(inode->link[inode->len-1])+offset, inode, towrite);
         size-=towrite;
     }
     while (size){
@@ -129,7 +128,7 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
         write_map(dev, DMAP, inode->link[inode->len], 1);
         inode->len ++;
         int towrite = BLOCK_BYTES<size?BLOCK_BYTES:size;
-        dev->ops->write(dev, BLOCK(inode->link[inode->len-1]), inode, towrite);
+        dev->ops->write(dev, DATA(inode->link[inode->len-1]), inode, towrite);
         size -= towrite;
     }
     inode->size += add_size;
@@ -152,6 +151,7 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
     dir->file_type = type;
 
+    LogBlock(IMAP, dev);
     ext2_append_data(dev, inode, dir, sizeof(dir_entry_t));
     ext2_append_data(dev, inode, entry_name, dir->name_len);
 }
@@ -159,7 +159,6 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
 void ext2_create_dir(device_t *dev, const char *name){
     unsigned short per = R_OK|W_OK|X_OK;
     ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
-    LogBlock(IMAP, dev);
 
     ext2_create_entry(dev, dir, dir, name, DR);
 }
