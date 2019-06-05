@@ -18,7 +18,7 @@ struct task {
   _Context context;
   int run, id, sleep;
   char* stack;
-  file_t *fildes[NOFILE];
+  file_t *flides[NOFILE];
 };
 extern task_t *cputask[MAXCPU];  // task running on each cpu
 

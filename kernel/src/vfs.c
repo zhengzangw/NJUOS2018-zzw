@@ -146,7 +146,7 @@ int vfs_open(const char *path, int flags){
     assert(index>=0);
     cputask[_cpu()]->flides[index] = pmm->alloc(sizeof(file_t));
 
-    cur->ops->open(cputasks[_cpu()]->flides[index], flags);
+    cur->ops->open(cputask[_cpu()]->flides[index], flags);
 
     return 0;
 }
