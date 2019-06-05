@@ -2,9 +2,8 @@
 #include <vfs.h>
 #include <devices.h>
 
-extern fsops_t ext2_ops;
 
-/* ======== UTIL ========*/
+/* ======== Util ========*/
 void *balloc(int size){
     void *ret = pmm->alloc(size+1);
     ret = memset(ret, 0, size);
@@ -44,7 +43,9 @@ int split2(const char *path, char **pre, char **post){
     return ret;
 }
 
+extern fsops_t ext2_ops;
 void vfs_init(){
+    // Load / as ext2 filesystem
     filesystem_t *fs = pmm->alloc(sizeof(filesystem_t));
     fs->ops = &ext2_ops;
     fs->dev = dev_lookup("ramdisk0");
@@ -84,20 +85,26 @@ int vfs_unmount(const char *path){
     return finded;
 }
 
-int get_fs(const char *path){
-    int index=-1;
+int get_mount(const char *path, char **raw_path){
+    int index=-1, len = 0;
     for (int i=0;i<MAXMP;++i){
         if (strncmp(path, mpt[i].path, strlen(mpt[i].path))==0){
-            index = i;
-            break;
+            if (len<strlen(mpt[i].path)){
+                len = strlen(mpt[i].path);
+                index = mpt[i];
+            }
         }
     }
+    raw_path = pmm->alloc(len+1);
+    strcpy(raw_path, path);
     return index;
 }
 
 int vfs_access(const char *path, int mode){
-    int index = get_fs(path);
+    char *raw_path;
+    int index = get_fs(path, &raw_path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
+
     if ((mode|F_OK)&&!cur) return -1;
     if ((mode|F_OK)&&(cur->permission|R_OK)) return -1;
     if ((mode|F_OK)&&(cur->permission|W_OK)) return -1;
