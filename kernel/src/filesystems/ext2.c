@@ -5,7 +5,7 @@
 #define LOG_NUM 4
 #define LOGBLOCK() \
     for (int i=0;i<DATA_B+LOG_NUM;++i)\
-    LogBlock(dev, i);
+        LogBlock(dev, i)
 
 void *balloc(int size){
     void *ret = pmm->alloc(size+1);
