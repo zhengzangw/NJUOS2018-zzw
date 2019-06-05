@@ -1,7 +1,7 @@
 #include <common.h>
 #include <vfs.h>
 #include <devices.h>
-
+#include <kmt.h>
 
 /* ======== Util ========*/
 void *balloc(int size){
@@ -85,7 +85,7 @@ int vfs_unmount(const char *path){
     return finded;
 }
 
-int get_mount(const char *path, char **raw_path){
+int get_mount(const char *path){
     int index=-1, len = 0;
     for (int i=0;i<MAXMP;++i){
         if (strncmp(path, mpt[i].path, strlen(mpt[i].path))==0){
@@ -95,14 +95,12 @@ int get_mount(const char *path, char **raw_path){
             }
         }
     }
-    raw_path = pmm->alloc(len+1);
-    strcpy(*raw_path, path);
     return index;
 }
 
 int vfs_access(const char *path, int mode){
     char *raw_path;
-    int index = get_mount(path, &raw_path);
+    index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, raw_path, 0);
     pmm->free(raw_path);
 
@@ -115,21 +113,10 @@ int vfs_access(const char *path, int mode){
 
 
 int vfs_mkdir(const char *path){
-    char *raw_path;
-    int index = get_mount(path, &raw_path);
-    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, raw_path, 0);
-    pmm->free(raw_path);
-
-    cur->ops->mkdir(path);
     return 0;
 }
 
 int vfs_rmdir(const char *path){
-    char *raw_path;
-    int index = get_mount(path, &raw_path);
-    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, raw_path, 0);
-    pmm->free(raw_path);
-    cur->ops->rmdir(path);
     return 0;
 }
 
@@ -141,7 +128,26 @@ int vfs_unlink(const char *path){
     return 0;
 }
 
+int get_free_flides(int ccppuu){
+    int index = -1;
+    for (int i=0;i<NOFILE;++i){
+        if (cputasks[ccppuu]->flides[i]==NULL){
+            index = i;
+            break;
+        }
+    }
+    return index;
+}
 int vfs_open(const char *path, int flags){
+    index = get_mount(path);
+    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
+
+    int index = get_free_flides(_cpu());
+    assert(index>=0);
+    cputasks[_cpu()]->flides[index] = pmm->alloc(sizeof(file_t));
+
+    cur->ops->open(cputasks[_cpu()]->flides[index], flags);
+
     return 0;
 }
 

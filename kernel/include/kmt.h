@@ -12,12 +12,15 @@
 #define MAXTASK 1024
 #define INT_MAX 2147483647
 #define INT_MIN (-INT_MAX-1)
+#define NOFILE 64
 struct task {
   const char *name;
   _Context context;
   int run, id, sleep;
   char* stack;
+  file_t *fildes[NOFILE];
 };
+extern task_t *cputask[MAXCPU];  // task running on each cpu
 
 // ============= SPINLOCK =============
 

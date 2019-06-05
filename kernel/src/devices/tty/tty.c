@@ -293,7 +293,7 @@ void shell_task(void *name){
             sprintf(text, "%s\n", pwd);
         } else if (strncmp(line, "stat", 4)==0){
             strcpy(name, line+5);
-            strcpy(text, name);
+            int fd = vfs->open(name, 0);
         } else {
             text[0] = '\0';
         }

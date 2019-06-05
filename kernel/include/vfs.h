@@ -43,6 +43,7 @@ struct inodeops {
   int (*rmdir)(const char *name);
   int (*link)(const char *name, inode_t *inode);
   int (*unlink)(const char *name);
+  //Additional
 };
 
 typedef struct mountpoint {
@@ -66,6 +67,7 @@ typedef struct {
   ssize_t (*write)(int fd, void *buf, size_t nbyte);
   off_t (*lseek)(int fd, off_t offset, int whence);
   int (*close)(int fd);
+  //Additional
 } MODULE(vfs);
 
 /* ====== access ====== */
