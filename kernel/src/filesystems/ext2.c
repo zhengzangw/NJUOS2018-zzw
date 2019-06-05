@@ -55,7 +55,7 @@ void bzero(device_t* dev, int x){
     pmm->free(zeros);
 }
 
-void LogBlock(int x, device_t* dev) {
+void LogBlock(device_t dev, int x) {
     void *logs = pmm->alloc(BLOCK_BYTES);
     dev->ops->read(dev, BLOCK(x), logs, BLOCK_BYTES);
     printf("======== LOG BLOCK %d ========\n", x);
