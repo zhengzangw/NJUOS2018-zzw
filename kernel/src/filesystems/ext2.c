@@ -159,6 +159,7 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
 void ext2_create_dir(device_t *dev, const char *name){
     unsigned short per = R_OK|W_OK|X_OK;
     ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
+    LogBlock(IMAP, dev);
 
     ext2_create_entry(dev, dir, dir, name, DR);
 }
@@ -174,14 +175,15 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
         bzero(i);
     }
 
+    bzero(DATA_B);
     ext2_create_dir(dev, name);
     //ext2_create_dir(dev, "/bin");
     //ext2_create_dir(dev, "/test");
     //ext2_create_dir(dev, "/etc");
 
     LogBlock(IMAP, dev);
-    LogBlock(DMAP, dev);
-    LogBlock(ITABLE, dev);
+    //LogBlock(DMAP, dev);
+    //LogBlock(ITABLE, dev);
     LogBlock(DATA_B, dev);
 }
 
