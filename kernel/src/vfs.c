@@ -144,7 +144,7 @@ int vfs_open(const char *path, int flags){
 
     cur->ops->open(cputask[_cpu()]->flides[findex], flags);
 
-    return 0;
+    return findex;
 }
 
 ssize_t vfs_read(int fd, void *buf, size_t nbyte){

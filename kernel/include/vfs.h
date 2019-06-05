@@ -28,7 +28,6 @@ struct fsops {
 };
 
 typedef struct file {
-  int refcnt;
   inode_t *inode;
   uint64_t offset;
 } file_t;
