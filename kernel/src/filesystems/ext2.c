@@ -269,8 +269,8 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("%p", fs);
     //clear
     //bzero(fs->dev, IMAP);
-    void *zeros = pmm->alloc(size);
-    zeros = memset(ret, 0, size);
+    void *zeros = pmm->alloc(BLOCK_BYTES);
+    zeros = memset(ret, 0, BLOCK_BYTES);
     //dev->ops->write(dev, BLOCK(IMAP), zeros, BLOCK_BYTES);
     Log("%p", fs->dev);
     Log("%p", fs);
