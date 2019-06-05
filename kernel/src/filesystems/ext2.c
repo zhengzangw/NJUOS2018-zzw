@@ -138,7 +138,7 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
     tmp = pmm->alloc(strlen(name)+1);
     strcpy(tmp, name);
     int splited = split(tmp, &pre, &post);
-    Log("tmp=%s, name=%s, splited=%d", tmp, name, splited);
+    Log("tmp=%s name=%s splited=%d", tmp, name, splited);
     while (splited){
         strcpy(tmp, post);
         pmm->free(pre); pmm->free(post);
@@ -199,24 +199,25 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
 #define OFFSET_BLOCK(offset) (inode->link[(offset)/BLOCK_BYTES])
 #define OFFSET_REMAIN(offset) ((offset)%BLOCK_BYTES)
 int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
-    Log("!");
     dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
+    int finded = 0;
     int offset = 0;
     while (offset < inode->size){
         dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
         char *tmp_name = pmm->alloc(cur->name_len+1);
         int name_offset = offset+sizeof(dir_entry_t);
         dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
-        Log("tmp_name=%s, name=%s", tmp_name, name);
+        Log("tmp_name=%s name=%s", tmp_name, name);
 
-        if (strncmp(name, tmp_name, cur->name_len)==0){
+        if (strncmp(name, tmp_name, cur->name_len-1)==0){
+            finded =1;
             break;
         }
         pmm->free(tmp_name);
         offset += cur->rec_len;
     }
     pmm->free(cur);
-    Log("!");
+    assert(finded==1);
     return cur->inode;
 }
 
