@@ -29,10 +29,10 @@ int split2(const char *path, char **pre, char **post){
     for (int i=len-1;i>=0;--i){
         if (path[i]=='/'){
             ret = 1;
-            *pre = pmm->alloc(i+1);
+            *pre = pmm->alloc(i+2);
             strncpy(*pre, path, i+1);
             (*pre)[i+1] = '\0';
-            *post = pmm->alloc(len-i+1);
+            *post = pmm->alloc(len-i+2);
             strncpy(*post, path+i+1, len-i+1);
             break;
         }
