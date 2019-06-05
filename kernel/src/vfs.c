@@ -52,6 +52,7 @@ void vfs_init(){
 
     fs->ops->init(fs, "/", fs->dev);
     vfs->mount("/", fs);
+    Log("dev = %p", fs->dev);
 }
 
 mountpoint_t mpt[MAXMP];
@@ -138,6 +139,7 @@ int vfs_open(const char *path, int flags){
     Log("path=%s", path);
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
+    asssert(0);
 
     int findex = get_free_flides(_cpu());
     assert(findex>=0);
