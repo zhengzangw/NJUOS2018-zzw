@@ -128,7 +128,7 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
         inode->link[inode->len] = free_map(dev, DMAP);
         inode->len ++;
         int towrite = BLOCK_BYTES>size?BLOCK_BYTES:size;
-        dev->ops->write(dev, BLOCK(inode->link[inode->len-1])+offset, inode, towrite);
+        dev->ops->write(dev, BLOCK(inode->link[inode->len-1]), inode, towrite);
         size -= towrite;
     }
     inode->size += add_size;
