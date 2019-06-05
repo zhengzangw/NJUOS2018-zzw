@@ -142,12 +142,17 @@ int vfs_open(const char *path, int flags){
     int findex = get_free_flides(_cpu());
     assert(findex>=0);
     assert(cputask[_cpu()]);
-    Log("findex = %d", findex);
     cputask[_cpu()]->flides[findex] = pmm->alloc(sizeof(file_t));
 
     cur->ops->open(cputask[_cpu()]->flides[findex], flags);
 
     return findex;
+}
+
+int vfs_close(int fd){
+    cur->ops->close(cputask[_cpu()]->flides[fd]);
+    pmm->free(cputask[_cpu()]->flides[fd]);
+    return 0;
 }
 
 ssize_t vfs_read(int fd, void *buf, size_t nbyte){
@@ -162,9 +167,6 @@ off_t vfs_lseek(int fd, off_t offset, int whence){
     return 0;
 }
 
-int vfs_close(int fd){
-    return 0;
-}
 
 MODULE_DEF(vfs){
     .init = vfs_init,

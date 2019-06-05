@@ -264,15 +264,21 @@ fsops_t ext2_ops = {
     .close = ext2_close,
 };
 
+/* ===== Inode API ====== */
+
 int ext2_inode_open(file_t *file, int flags){
     //ext2_inode_t inode = (ext2_inode_t*)file->inode->fs_inode;
     file->offset = 0;
     return 0;
 }
 
+int ext2_inode_close(file_t *file){
+    return 0;
+}
+
 inodeops_t ext2_inodeops = {
     .open = ext2_inode_open,
-    .close = NULL,
+    .close = ext2_inode_close,
     .read = NULL,
     .write = NULL,
     .lseek = NULL,
