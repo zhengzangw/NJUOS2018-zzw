@@ -19,14 +19,15 @@ int split(const char *path, char **pre, char **post){
     for (int i=0;i<len;++i){
         if (path[i]=='/'){
             ret = 1;
-            *pre = pmm->alloc(i+2);
+            *pre = balloc(i+2);
             strncpy(*pre, path, i+1);
             (*pre)[i+1] = '\0';
-            *post = pmm->alloc(len-i+2);
+            *post = balloc(len-i+2);
             strncpy(*post, path+i+1, len-i+1);
             break;
         }
     }
+    if (strlen(post)==0) ret = 0;
     return ret;
 }
 int split2(const char *path, char **pre, char **post){
