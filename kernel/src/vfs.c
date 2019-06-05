@@ -150,7 +150,7 @@ int vfs_open(const char *path, int flags){
 }
 
 int vfs_close(int fd){
-    cur->ops->close(cputask[_cpu()]->flides[fd]);
+    cputask[_cpu()]->inode->ops->close(cputask[_cpu()]->flides[fd]);
     pmm->free(cputask[_cpu()]->flides[fd]);
     return 0;
 }
