@@ -269,9 +269,9 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("%p", fs);
     //clear
     //bzero(fs->dev, IMAP);
-    void *zeros = balloc(BLOCK_BYTES);
-    dev->ops->write(dev, BLOCK(IMAP), zeros, BLOCK_BYTES);
-    pmm->free(zeros);
+    //void *zeros = balloc(BLOCK_BYTES);
+    //dev->ops->write(dev, BLOCK(IMAP), zeros, BLOCK_BYTES);
+    //pmm->free(zeros);
     Log("%p", fs->dev);
     Log("%p", fs);
     assert(dev == fs->dev);
