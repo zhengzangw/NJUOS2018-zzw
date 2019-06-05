@@ -129,6 +129,7 @@ ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
 
 int ext2_dir_search(device_t *, ext2_inode_t*, const char*);
 ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
+    Log("look up %s", name);
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     dev->ops->read(dev, TABLE(0), inode, INODE_BYTES);
     char *pre = NULL, *post = NULL, *tmp;
@@ -203,9 +204,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         char *tmp_name = pmm->alloc(cur->name_len+1);
         int name_offset = offset+sizeof(dir_entry_t);
         dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
-        LOGBLOCK();
         Log("tmp_name=%s, name=%s", tmp_name, name);
-        assert(0);
 
         if (strncmp(name, tmp_name, cur->name_len)==0){
             break;
