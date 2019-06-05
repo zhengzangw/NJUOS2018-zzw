@@ -274,7 +274,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     //dev->ops->write(dev, BLOCK(IMAP), zeros, BLOCK_BYTES);
     Log("%p", fs->dev);
     Log("%p", fs);
-    pmm->free(zeros);
+    //pmm->free(zeros);
     assert(dev == fs->dev);
     bzero(dev, DMAP);
     for (int i=ITABLE; i<ITABLE+ITABLE_NUM; ++i){
