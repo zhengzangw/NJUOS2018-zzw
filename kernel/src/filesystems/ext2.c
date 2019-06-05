@@ -186,9 +186,9 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
 }
 
 #define OFFSET_BLOCK(offset) (cur->link[(offset)/BLOCK_BYTES])
-#define OFFSET_BLOCK(offset) ((offset)%BLOCK_BYTES)
+#define OFFSET_REMAIN(offset) ((offset)%BLOCK_BYTES)
 int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
-    dir_entry_t* cur = pmm->malloc(sizeof(dir_entry));
+    dir_entry_t* cur = pmm->alloc(sizeof(dir_entry));
     int offset = 0;
     while (offset < inode->size){
         dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry));
