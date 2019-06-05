@@ -27,7 +27,7 @@ int split(const char *path, char **pre, char **post){
             break;
         }
     }
-    if (strlen(post)==0) ret = 0;
+    if (strlen(*post)==0) ret = 0;
     return ret;
 }
 int split2(const char *path, char **pre, char **post){
