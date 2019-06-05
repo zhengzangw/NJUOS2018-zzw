@@ -91,7 +91,7 @@ int get_mount(const char *path, char **raw_path){
         if (strncmp(path, mpt[i].path, strlen(mpt[i].path))==0){
             if (len<strlen(mpt[i].path)){
                 len = strlen(mpt[i].path);
-                index = mpt[i];
+                index = i;
             }
         }
     }
