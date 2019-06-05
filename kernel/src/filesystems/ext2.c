@@ -220,7 +220,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         char *tmp_name = pmm->alloc(cur->name_len+1);
         int name_offset = offset+sizeof(dir_entry_t);
         dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
-        Log("tmp_name=%s name=%s", tmp_name, name);
+        //Log("tmp_name=%s name=%s", tmp_name, name);
 
         if (strncmp(name, tmp_name, cur->name_len-1)==0){
             finded =1;
