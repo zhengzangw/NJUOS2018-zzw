@@ -292,7 +292,7 @@ void shell_task(void *name){
         if (strcmp(line, "pwd")==0){
             sprintf(text, "%s\n", pwd);
         } else if (strncmp(line, "stat", 4)==0){
-            sprintf(name, "%s", pwd, line+5);
+            sprintf(name, "%s%s", pwd, line+5);
             int fd = vfs->open(name, 0);
             sprintf(text, "fd=%d", fd);
         } else {
