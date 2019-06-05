@@ -153,8 +153,8 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
 
     Log("!");
     ext2_append_data(dev, inode, dir, sizeof(dir_entry_t));
-    ext2_append_data(dev, inode, entry_name, dir->name_len);
     Log("!");
+    ext2_append_data(dev, inode, entry_name, dir->name_len);
 }
 
 void ext2_create_dir(device_t *dev, const char *name){
