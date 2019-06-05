@@ -137,19 +137,16 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
     char *pre = NULL, *post = NULL, *tmp;
     tmp = pmm->alloc(strlen(name)+1);
     strcpy(tmp, name);
-    Log("tmp=%s, name=%s", tmp, name);
     int splited = split(tmp, &pre, &post);
     Log("tmp=%s, name=%s, splited=%d", tmp, name, splited);
     while (splited){
         strcpy(tmp, post);
-        Log("tmp=%s, post=%s", tmp, post);
         pmm->free(pre); pmm->free(post);
         splited = split(tmp, &pre, &post);
-        Log("pre=%s post=%s", pre, post);
+        Log("pre=%s post=%s splited=%d", pre, post, splited);
         int inode_index = ext2_dir_search(dev, inode, pre);
         dev->ops->read(dev, TABLE(inode_index), inode, INODE_BYTES);
     }
-    assert(0);
 
     return inode;
 }
