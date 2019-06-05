@@ -133,7 +133,7 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
         strcpy(tmp, post);
         splited = split(tmp, pre, post);
         Log("pre=%s post=%s", pre, post);
-        inode_index = ext2_dir_search(dev, inode, pre);
+        int inode_index = ext2_dir_search(dev, inode, pre);
         dev->ops->read(dev, TABLE(inode_index), inode, INODE_BYTES);
     }
 
