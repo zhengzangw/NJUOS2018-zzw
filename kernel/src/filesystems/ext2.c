@@ -228,6 +228,7 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
         Log("fat=%d", father->index);
         dir = ext2_create_inode(dev, DR, per);
         Log("cur=%d", dir->index);
+        LOGBLOCK();
         assert(0);
         ext2_create_entry(dev, father, dir, post, DR);
         ext2_create_entry(dev, dir, dir, ".", DR);
