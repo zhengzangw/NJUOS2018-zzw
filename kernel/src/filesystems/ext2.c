@@ -154,7 +154,6 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
 }
 
 ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
-    Log("%p", dev);
     char *pre = NULL, *post = NULL, *tmp;
     tmp = pmm->alloc(strlen(name)+1);
     strcpy(tmp, name);
@@ -290,6 +289,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
     inode_t* ret = balloc(sizeof(inode_t));
     ret->fs = fs;
+    Log("%p", fs->dev);
     ret->fs_inode = ext2_lookup_inode(fs->dev, name);
 
     return ret;
