@@ -137,7 +137,7 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
     tmp = pmm->alloc(strlen(name)+1);
     strcpy(tmp, name);
     int splited = split(tmp, &pre, &post);
-    //Log("tmp=%s name=%s splited=%d", tmp, name, splited);
+    Log("tmp=%s name=%s splited=%d", tmp, name, splited);
     while (splited){
         strcpy(tmp, post);
         pmm->free(pre); pmm->free(post);
