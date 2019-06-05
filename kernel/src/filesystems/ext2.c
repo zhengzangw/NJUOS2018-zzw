@@ -180,7 +180,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     LogBlock(IMAP, dev);
     LogBlock(DMAP, dev);
     LogBlock(ITABLE, dev);
-    LogBlock(DATA, dev);
+    LogBlock(DATA_B, dev);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
