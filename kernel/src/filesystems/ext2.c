@@ -218,7 +218,7 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
         split2(name, &pre, &post);
         Log("pre=%s post=%s", pre, post);
         ext2_inode_t* father = ext2_lookup_dir(dev, pre);
-        Log("fat=%d", father->inode);
+        Log("fat=%d", father->index);
         assert(0);
         ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
         ext2_create_entry(dev, father, dir, post, DR);
