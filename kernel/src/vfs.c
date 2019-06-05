@@ -102,8 +102,9 @@ int get_mount(const char *path, char **raw_path){
 
 int vfs_access(const char *path, int mode){
     char *raw_path;
-    int index = get_fs(path, &raw_path);
-    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
+    int index = get_mount(path, &raw_path);
+    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, raw_path, 0);
+    pmm->free(raw_path);
 
     if ((mode|F_OK)&&!cur) return -1;
     if ((mode|F_OK)&&(cur->permission|R_OK)) return -1;
