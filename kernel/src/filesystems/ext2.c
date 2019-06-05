@@ -279,6 +279,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/test", 0);
     ext2_create_dir(dev, "/bin/a.txt", 0);
 
+    assert(dev == fs->dev);
     inode_t* tmp = ext2_lookup(fs, "/bin/a.txt", 0);
     Log("inode=%d", ((ext2_inode_t*)tmp->fs_inode)->index);
     pmm->free(tmp);
@@ -289,7 +290,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
     inode_t* ret = balloc(sizeof(inode_t));
     ret->fs = fs;
-    Log("%p", fs->dev);
     ret->fs_inode = ext2_lookup_inode(fs->dev, name);
 
     return ret;
