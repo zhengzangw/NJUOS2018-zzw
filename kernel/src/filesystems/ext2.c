@@ -123,6 +123,7 @@ ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     inode->index = index_inode;
     inode->type = type;
     inode->permission = per;
+    inode->size = 0;
     inode->len = 0;
     dev->ops->write(dev, TABLE(index_inode), inode, INODE_BYTES);
     return inode;
@@ -227,8 +228,6 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
         Log("fat=%d", father->index);
         ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
         Log("cur=%d", dir->index);
-        LOGBLOCK();
-        assert(0);
         ext2_create_entry(dev, father, dir, post, DR);
         ext2_create_entry(dev, dir, dir, ".", DR);
         ext2_create_entry(dev, dir, dir, "..", DR);
@@ -248,14 +247,12 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 
     bzero(DATA_B);
     ext2_create_dir(dev, name, 1);
-    ext2_create_dir(dev, "/bin", 0);
+    //ext2_create_dir(dev, "/bin", 0);
     //ext2_create_dir(dev, "/test");
     //ext2_create_dir(dev, "/etc");
 
-    LogBlock(IMAP, dev);
-    LogBlock(DMAP, dev);
-    LogBlock(ITABLE, dev);
-    LogBlock(DATA_B, dev);
+    LOGBLOCK();
+    assert(0);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
