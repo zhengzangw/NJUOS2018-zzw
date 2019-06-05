@@ -131,7 +131,7 @@ int vfs_unlink(const char *path){
 int get_free_flides(int ccppuu){
     int index = -1;
     for (int i=0;i<NOFILE;++i){
-        if (cputasks[ccppuu]->flides[i]==NULL){
+        if (cputask[ccppuu]->flides[i]==NULL){
             index = i;
             break;
         }
@@ -139,12 +139,12 @@ int get_free_flides(int ccppuu){
     return index;
 }
 int vfs_open(const char *path, int flags){
-    index = get_mount(path);
+    int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
 
     int index = get_free_flides(_cpu());
     assert(index>=0);
-    cputasks[_cpu()]->flides[index] = pmm->alloc(sizeof(file_t));
+    cputask[_cpu()]->flides[index] = pmm->alloc(sizeof(file_t));
 
     cur->ops->open(cputasks[_cpu()]->flides[index], flags);
 
