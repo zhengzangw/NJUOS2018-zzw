@@ -131,9 +131,7 @@ int ext2_dir_search(device_t *, ext2_inode_t*, const char*);
 ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
     Log("%p", dev);
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
-    Log("!");
     dev->ops->read(dev, TABLE(0), inode, INODE_BYTES);
-    Log("!");
 
     char *pre = NULL, *post = NULL, *tmp;
     tmp = pmm->alloc(strlen(name)+1);
@@ -265,17 +263,8 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags);
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("EXT2 INFO: inode size=%ld", sizeof(ext2_inode_t));
-    Log("%p", fs->dev);
-    Log("%p", fs);
     //clear
-    //bzero(fs->dev, IMAP);
-    pmm->alloc(BLOCK_BYTES);
-    //zeros = memset(zeros, 0, BLOCK_BYTES);
-    //dev->ops->write(dev, BLOCK(IMAP), zeros, BLOCK_BYTES);
-    Log("%p", fs->dev);
-    Log("%p", fs);
-    //pmm->free(zeros);
-    assert(dev == fs->dev);
+    bzero(dev, IMAP);
     bzero(dev, DMAP);
     for (int i=ITABLE; i<ITABLE+ITABLE_NUM; ++i){
         bzero(dev, i);
@@ -289,6 +278,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     inode_t* tmp = ext2_lookup(fs, "/bin/a.txt", 0);
     Log("inode=%d", ((ext2_inode_t*)tmp->fs_inode)->index);
     pmm->free(tmp);
+
     //LOGBLOCK();
     //assert(0);
 }
