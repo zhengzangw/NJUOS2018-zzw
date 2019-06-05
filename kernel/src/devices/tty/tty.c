@@ -289,7 +289,9 @@ void shell_task(void *name){
         line[nread-1] = '\0';
 
         if (strcmp(line, "pwd")==0){
-            sprintf(text, "%s", pwd);
+            sprintf(text, "%s\n", pwd);
+        } else {
+            line[0] = '\0';
         }
 
         tty_write(tty, 0, text, strlen(text));
