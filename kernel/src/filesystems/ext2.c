@@ -5,7 +5,7 @@
 #define LOG_NUM 4
 #define LOGBLOCK() \
     for (int i=0;i<DATA_B+LOG_NUM;++i)\
-    LogBlock(i, dev);
+    LogBlock(dev, i);
 
 void *balloc(int size){
     void *ret = pmm->alloc(size);
@@ -49,13 +49,9 @@ int split2(const char *path, char **pre, char **post){
 /*========== BLOCK ===============*/
 #define BLOCK_BYTES (1<<8)
 #define BLOCK(x) ((x)*BLOCK_BYTES)
-#define bzero(x) bzero_dev(dev, x)
-void bzero_dev(device_t* dev, int x){
-    Log("%p", dev);
+void bzero(device_t* dev, int x){
     void *zeros = balloc(BLOCK_BYTES);
-    Log("%p", dev);
     dev->ops->write(dev, BLOCK(x), zeros, BLOCK_BYTES);
-    Log("%p", dev);
     pmm->free(zeros);
 }
 
@@ -272,13 +268,13 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("%p", fs->dev);
     Log("%p", fs);
     //clear
-    bzero(IMAP);
+    bzero(dev, IMAP);
     Log("%p", fs->dev);
     Log("%p", fs);
     assert(dev == fs->dev);
-    bzero(DMAP);
+    bzero(dev, DMAP);
     for (int i=ITABLE; i<ITABLE+ITABLE_NUM; ++i){
-        bzero(i);
+        bzero(dev, i);
     }
 
     ext2_create_dir(dev, name, 1);
