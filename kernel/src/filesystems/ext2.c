@@ -62,7 +62,7 @@ void LogBlock(int x, device_t* dev) {
         printf("%02x ", *((unsigned char *)logs+i));
         if ((i+1)%(1<<4)==0) printf("\n");
     }
-    printf("======== LOG ENDED %d ========\n", x);
+    printf("######## LOG ENDED %d ########\n", x);
     pmm->free(logs);
 }
 
@@ -247,7 +247,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
         bzero(i);
     }
 
-    bzero(DATA_B);
     ext2_create_dir(dev, name, 1);
     ext2_create_dir(dev, "/bin", 0);
     ext2_create_dir(dev, "/test", 0);
