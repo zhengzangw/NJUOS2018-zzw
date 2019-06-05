@@ -215,8 +215,9 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
 
 void ext2_create_dir(device_t *dev, const char *name, int isroot){
     unsigned short per = R_OK|W_OK|X_OK;
+    ext_inode_t* dir;
     if (isroot){
-        ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
+        dir = ext2_create_inode(dev, DR, per);
         ext2_create_entry(dev, dir, dir, ".", DR);
         ext2_create_entry(dev, dir, dir, "..", DR);
     } else {
@@ -225,12 +226,14 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
         Log("pre=%s post=%s", pre, post);
         ext2_inode_t* father = ext2_lookup_dir(dev, pre);
         Log("fat=%d", father->index);
-        ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
+        dir = ext2_create_inode(dev, DR, per);
         Log("cur=%d", dir->index);
         ext2_create_entry(dev, father, dir, post, DR);
         ext2_create_entry(dev, dir, dir, ".", DR);
         ext2_create_entry(dev, dir, dir, "..", DR);
+        pmm->free(father);
     }
+    pmm->free(dir);
     dev->ops->write(dev, TABLE(dir->index), dir, INODE_BYTES);
 }
 
