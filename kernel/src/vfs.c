@@ -96,7 +96,7 @@ int get_mount(const char *path, char **raw_path){
         }
     }
     raw_path = pmm->alloc(len+1);
-    strcpy(raw_path, path);
+    strcpy(*raw_path, path);
     return index;
 }
 
