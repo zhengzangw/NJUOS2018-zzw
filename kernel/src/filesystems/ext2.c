@@ -270,9 +270,11 @@ inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags);
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("EXT2 INFO: inode size=%ld", sizeof(ext2_inode_t));
     Log("%p", fs->dev);
+    Log("%p", fs);
     //clear
     bzero(IMAP);
     Log("%p", fs->dev);
+    Log("%p", fs);
     assert(dev == fs->dev);
     bzero(DMAP);
     for (int i=ITABLE; i<ITABLE+ITABLE_NUM; ++i){
