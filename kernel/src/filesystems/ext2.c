@@ -51,8 +51,11 @@ int split2(const char *path, char **pre, char **post){
 #define BLOCK(x) ((x)*BLOCK_BYTES)
 #define bzero(x) bzero_dev(dev, x)
 void bzero_dev(device_t* dev, int x){
+    Log("%p", fs->dev);
     void *zeros = balloc(BLOCK_BYTES);
+    Log("%p", fs->dev);
     dev->ops->write(dev, BLOCK(x), zeros, BLOCK_BYTES);
+    Log("%p", fs->dev);
     pmm->free(zeros);
 }
 
