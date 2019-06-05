@@ -100,7 +100,7 @@ int get_mount(const char *path){
 
 int vfs_access(const char *path, int mode){
     char *raw_path;
-    index = get_mount(path);
+    int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, raw_path, 0);
     pmm->free(raw_path);
 
@@ -142,11 +142,11 @@ int vfs_open(const char *path, int flags){
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
 
-    int index = get_free_flides(_cpu());
-    assert(index>=0);
-    cputask[_cpu()]->flides[index] = pmm->alloc(sizeof(file_t));
+    int findex = get_free_flides(_cpu());
+    assert(findex>=0);
+    cputask[_cpu()]->flides[findex] = pmm->alloc(sizeof(file_t));
 
-    cur->ops->open(cputask[_cpu()]->flides[index], flags);
+    cur->ops->open(cputask[_cpu()]->flides[findex], flags);
 
     return 0;
 }
