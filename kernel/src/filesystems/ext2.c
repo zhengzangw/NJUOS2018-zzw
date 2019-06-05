@@ -130,7 +130,6 @@ ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
 
 int ext2_dir_search(device_t *, ext2_inode_t*, const char*);
 ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
-    Log("look up %s", name);
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     dev->ops->read(dev, TABLE(0), inode, INODE_BYTES);
 
@@ -149,6 +148,15 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
     }
 
     return inode;
+}
+
+ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
+    char *pre = NULL, *post = NULL, *tmp;
+    tmp = pmm->alloc(strlen(name)+1);
+    strcpy(tmp, name);
+    int splited = split2(tmp, &pre, &post);
+    Log("tmp=%s name=%s splited=%d", tmp, name, splited);
+    assert(0);
 }
 
 /*======== DATA ===========*/
@@ -231,7 +239,6 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
     } else {
         char *pre, *post;
         split2(name, &pre, &post);
-        Log("pre=%s post=%s", pre, post);
 
         dir = ext2_create_inode(dev, DR, per);
         ext2_create_entry(dev, dir, dir, ".", DR);
@@ -247,6 +254,7 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
 }
 
 /*======== API ============*/
+inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags);
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("EXT2 INFO: inode size=%ld", sizeof(ext2_inode_t));
 
@@ -262,12 +270,18 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/test", 0);
     ext2_create_dir(dev, "/bin/a.txt", 0);
 
-    LOGBLOCK();
-    assert(0);
+    inode_t* tmp = ext2_lookup(fs, name, 0);
+    free(tmp);
+    //LOGBLOCK();
+    //assert(0);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
-    return NULL;
+    inode_t ret = balloc(sizeof(inode_t));
+    ret->fs = fs;
+    ret->fs_inode = ext2_lookup_inode(name);
+
+    return ret;
 }
 
 int ext2_close(inode_t *inode){
@@ -279,3 +293,15 @@ fsops_t ext2_ops = {
     .lookup = ext2_lookup,
     .close = ext2_close,
 };
+
+inodeops ext2_inodeops = {
+    .open = NULL,
+    .close = NULL,
+    .read = NULL,
+    .write = NULL,
+    .lseek = NULL,
+    .mkdir = NULL,
+    .rmdir = NULL,
+    .link = NULL,
+    .unlink = NULL,
+}

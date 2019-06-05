@@ -7,9 +7,8 @@ typedef struct inodeops inodeops_t;
 typedef struct filesystem filesystem_t;
 typedef struct fsops fsops_t;
 typedef struct inode {
-  int refcnt;
-  int permission;
-  void *ptr;
+  //int refcnt;
+  void *fs_inode;
   filesystem_t *fs;
   inodeops_t *ops;
 } inode_t;
@@ -44,7 +43,7 @@ struct inodeops {
 };
 
 typedef struct mountpoint {
-  const char * path;
+  const char *path;
   filesystem_t *fs;
   int exists;
 } mountpoint_t;
