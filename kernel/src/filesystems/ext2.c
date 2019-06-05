@@ -238,8 +238,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/test", 0);
     ext2_create_dir(dev, "/bin/a.txt", 0);
 
-    LOGBLOCK();
-    assert(0);
+    //LOGBLOCK();
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
