@@ -82,6 +82,6 @@ int split2(const char *, char **, char **);
 
 /* ====== ext2 ======= */
 extern fsops_t ext2_ops;
-extern inodeps_t ext2_inodeops;
+extern inodeops_t ext2_inodeops;
 
 #endif
