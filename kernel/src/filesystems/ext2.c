@@ -294,7 +294,7 @@ fsops_t ext2_ops = {
     .close = ext2_close,
 };
 
-inodeops ext2_inodeops = {
+inodeops_t ext2_inodeops = {
     .open = NULL,
     .close = NULL,
     .read = NULL,
