@@ -54,7 +54,8 @@ void bzero_dev(device_t* dev, int x){
     LogBlock(IMAP, dev);\
     LogBlock(DMAP, dev);\
     LogBlock(ITABLE, dev);\
-    LogBlock(DATA_B, dev)
+    LogBlock(DATA_B, dev);\
+    LogBlock(DATA_B+1,dev)
 
 void LogBlock(int x, device_t* dev) {
     void *logs = pmm->alloc(BLOCK_BYTES);
@@ -226,19 +227,17 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
         Log("pre=%s post=%s", pre, post);
 
         dir = ext2_create_inode(dev, DR, per);
-        Log("cur=%d", dir->index);
+        ext2_create_entry(dev, dir, dir, ".", DR);
+        ext2_create_entry(dev, dir, dir, "..", DR);
+        LOGBLOCK();
+        assert(0);
 
         ext2_inode_t* father = ext2_lookup_dir(dev, pre);
-        Log("fat=%d", father->index);
         ext2_create_entry(dev, father, dir, post, DR);
         dev->ops->write(dev, TABLE(father->index), dir, INODE_BYTES);
         pmm->free(father);
 
-        LOGBLOCK();
-        assert(0);
 
-        ext2_create_entry(dev, dir, dir, ".", DR);
-        ext2_create_entry(dev, dir, dir, "..", DR);
     }
     dev->ops->write(dev, TABLE(dir->index), dir, INODE_BYTES);
     pmm->free(dir);
