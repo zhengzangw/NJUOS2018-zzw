@@ -115,30 +115,31 @@ int vfs_access(const char *path, int mode){
 
 
 int vfs_mkdir(const char *path){
-    int index = get_fs(path);
+    char *raw_path;
+    int index = get_mount(path, &raw_path);
+    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, raw_path, 0);
+    pmm->free(raw_path);
+
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
     cur->ops->mkdir(path);
     return 0;
 }
 
 int vfs_rmdir(const char *path){
-    int index = get_fs(path);
+    char *raw_path;
+    int index = get_mount(path, &raw_path);
+    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, raw_path, 0);
+    pmm->free(raw_path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
     cur->ops->rmdir(path);
     return 0;
 }
 
 int vfs_link(const char *oldpath, const char *newpath){
-    int index = get_fs(oldpath);
-    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, oldpath, 0);
-    cur->ops->link(newpath, cur);
     return 0;
 }
 
 int vfs_unlink(const char *path){
-    int index = get_fs(path);
-    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
-    cur->ops->unlink(path);
     return 0;
 }
 
