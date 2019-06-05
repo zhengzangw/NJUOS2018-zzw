@@ -151,8 +151,10 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
     dir->file_type = type;
 
+    Log("!");
     ext2_append_data(dev, inode, dir, sizeof(dir_entry_t));
     ext2_append_data(dev, inode, entry_name, dir->name_len);
+    Log("!");
 }
 
 void ext2_create_dir(device_t *dev, const char *name){
