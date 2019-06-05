@@ -139,13 +139,14 @@ int vfs_open(const char *path, int flags){
     Log("path=%s", path);
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
-    assert(0);
 
     int findex = get_free_flides(_cpu());
     assert(findex>=0);
     cputask[_cpu()]->flides[findex] = pmm->alloc(sizeof(file_t));
 
+Log("!");
     cur->ops->open(cputask[_cpu()]->flides[findex], flags);
+assert(0);
 
     return findex;
 }
