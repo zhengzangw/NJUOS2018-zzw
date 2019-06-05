@@ -125,7 +125,6 @@ ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     inode->permission = per;
     inode->size = 0;
     inode->len = 0;
-    dev->ops->write(dev, TABLE(index_inode), inode, INODE_BYTES);
     return inode;
 }
 
@@ -232,6 +231,7 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
         ext2_create_entry(dev, dir, dir, ".", DR);
         ext2_create_entry(dev, dir, dir, "..", DR);
     }
+    dev->ops->write(dev, TABLE(dir->inode), inode, INODE_BYTES);
 }
 
 /*======== API ============*/
