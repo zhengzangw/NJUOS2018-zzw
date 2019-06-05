@@ -290,7 +290,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
 
                 cnt ++;
-                if (cnt>flie->offset){
+                if (cnt>file->offset){
                     size--;
                     ret++;
                     strncpy(buf+buf_offset, tmp_name, strlen(tmp_name));
@@ -304,7 +304,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
             pmm->free(cur);
             return ret;
 
-        case NR:
+        case NF:
         default: assert(0);
     }
     return 0;
