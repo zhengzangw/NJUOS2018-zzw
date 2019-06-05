@@ -279,7 +279,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
     inode_t* ret = balloc(sizeof(inode_t));
     ret->fs = fs;
-    ret->fs_inode = ext2_lookup_inode(dev, name);
+    ret->fs_inode = ext2_lookup_inode(fs->dev, name);
 
     return ret;
 }
