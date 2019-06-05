@@ -7,11 +7,13 @@ typedef struct inodeops inodeops_t;
 typedef struct filesystem filesystem_t;
 typedef struct fsops fsops_t;
 typedef struct inode {
-  //int refcnt;
-  int permission;
-  void *fs_inode;
   filesystem_t *fs;
   inodeops_t *ops;
+  void *fs_inode;
+  //Public
+  uint16_t permission;
+  uint32_t size;
+  uint32_t id;
 } inode_t;
 
 struct filesystem {

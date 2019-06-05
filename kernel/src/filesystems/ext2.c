@@ -73,8 +73,10 @@ struct ext2_inode {
   uint16_t permission; //Permission of this inode
   uint32_t size; //Size of file
   uint32_t len; //Number of link
-  uint32_t link[28];
+  uint32_t id;
+  uint32_t link[27];
 }__attribute__((packed));
+uint32_t gid;
 typedef struct ext2_inode ext2_inode_t;
 
 ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
@@ -86,6 +88,7 @@ ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     inode->permission = per;
     inode->size = 0;
     inode->len = 0;
+    inode->id = ++gid;
     return inode;
 }
 
@@ -235,14 +238,18 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/test", 0);
     ext2_create_dir(dev, "/bin/a.txt", 0);
 
-    //LOGBLOCK();
-    //assert(0);
+    LOGBLOCK();
+    assert(0);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
     inode_t* ret = balloc(sizeof(inode_t));
     ret->fs = fs;
     ret->fs_inode = ext2_lookup_inode(fs->dev, name);
+
+    ret->permission = ret->fs_inode->permission;
+    ret->size = ret->fs_inode->size;
+    ret->id = ret->fs_inode->id;
 
     return ret;
 }
