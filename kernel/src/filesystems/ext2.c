@@ -115,7 +115,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
 /*======== DATA ===========*/
 #define DATA_B ITABLE+ITABLE_NUM
 #define DATA(i) BLOCK(DATA_B)+(i)*BLOCK_BYTES
-void ext2_append_data(device_t *dev, uint32_t inode, const void *buf, int size){
+void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int size){
     while (size){
 
 
