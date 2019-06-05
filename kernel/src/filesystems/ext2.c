@@ -161,7 +161,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     int index = ext2_dir_search(dev, dir, post);
     pmm->free(dir);
     ext2_inode_t* ret = pmm->alloc(sizeof(ext2_inode_t));
-    dev->ops->read(dev, TABLE(index), inode, INODE_BYTES);
+    dev->ops->read(dev, TABLE(index), ret, INODE_BYTES);
     return ret;
 }
 
