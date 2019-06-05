@@ -266,6 +266,7 @@ fsops_t ext2_ops = {
 int ext2_inode_open(file_t *file, int flags){
     //ext2_inode_t inode = (ext2_inode_t*)file->inode->fs_inode;
     file->offset = 0;
+    return 0;
 }
 
 inodeops_t ext2_inodeops = {
