@@ -123,7 +123,21 @@ ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
 }
 
 ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
-    return NULL;
+    ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
+    dev->ops->read(dev, TABLE(0), inode, INODE_BYTES);
+    char *pre, *post, *tmp;
+    tmp = pmm->alloc(strlen(name)+1);
+    strcpy(tmp, name);
+    int splited = split(tmp, pre, post);
+    while (splited){
+        strcpy(tmp, post);
+        splited = split(tmp, pre, post);
+        Log("pre=%s post=%s", pre, post);
+        inode_index = ext2_dir_search(dev, inode, pre);
+        dev->ops->read(dev, TABLE(inode_index), inode, INODE_BYTES);
+    }
+
+    return inode;
 }
 
 /*======== DATA ===========*/
@@ -171,6 +185,21 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
     ext2_append_data(dev, inode, entry_name, dir->name_len);
 }
 
+int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
+    dir_entry cur = pmm->malloc(sizeof(dir_entry));
+    int offset = 0;
+    while (offset < inode->size){
+        dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry));
+        char *tmp_name = pmm->alloc(inode->name_len+1);
+        dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset)+inode->name_len, cur, sizeof(dir_entry));
+        pmm->free(tmp_name);
+
+        if (strncmp(dir_entry, tmp_name, name->len)==0){
+
+        }
+    }
+}
+
 void ext2_create_dir(device_t *dev, const char *name, int isroot){
     unsigned short per = R_OK|W_OK|X_OK;
     if (isroot){
@@ -180,10 +209,8 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
     } else {
         char *pre, *post;
         split2(name, &pre, &post);
-        Log("post=%s", pre);
-        Log("post=%s", post);
+        Log("pre=%s post=%s", pre, post);
         ext2_inode_t* father = ext2_lookup_dir(dev, pre);
-        assert(0);
         ext2_inode_t* dir = ext2_create_inode(dev, DR, per);
         ext2_create_entry(dev, father, dir, post, DR);
         ext2_create_entry(dev, dir, dir, ".", DR);
@@ -204,7 +231,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 
     bzero(DATA_B);
     ext2_create_dir(dev, name, 1);
-    ext2_create_dir(dev, "/bin/a", 0);
+    ext2_create_dir(dev, "/bin", 0);
     //ext2_create_dir(dev, "/test");
     //ext2_create_dir(dev, "/etc");
 
