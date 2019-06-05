@@ -270,7 +270,7 @@ int ext2_inode_open(file_t *file, int flags){
 }
 
 inodeops_t ext2_inodeops = {
-    .open = NULL,
+    .open = ext2_inode_open,
     .close = NULL,
     .read = NULL,
     .write = NULL,
