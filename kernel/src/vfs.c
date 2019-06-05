@@ -143,6 +143,7 @@ int vfs_open(const char *path, int flags){
     int findex = get_free_flides(_cpu());
     assert(findex>=0);
     assert(cputask[_cpu()]);
+    Log("findex = %d", findex);
     cputask[_cpu()]->flides[findex] = pmm->alloc(sizeof(file_t));
 
 Log("!");
