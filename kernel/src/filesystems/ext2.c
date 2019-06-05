@@ -2,6 +2,11 @@
 #include <vfs.h>
 #include <devices.h>
 
+#define LOG_NUM 4
+#define LOGBLOCK() \
+    for (int i=0;i<DATA_B+LOG_NUM;++i)\
+    LogBlock(i, dev);
+
 void *balloc(int size){
     void *ret = pmm->alloc(size);
     ret = memset(ret, 0, size);
@@ -49,10 +54,6 @@ void bzero_dev(device_t* dev, int x){
     dev->ops->write(dev, BLOCK(x), zeros, BLOCK_BYTES);
     pmm->free(zeros);
 }
-
-#define LOGBLOCK() \
-    for (int i=0;i<DATA_B+2;++i)\
-    LogBlock(i, dev);
 
 void LogBlock(int x, device_t* dev) {
     void *logs = pmm->alloc(BLOCK_BYTES);
@@ -250,7 +251,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, name, 1);
     ext2_create_dir(dev, "/bin", 0);
     ext2_create_dir(dev, "/test", 0);
-    //ext2_create_dir(dev, "/etc");
+    ext2_create_dir(dev, "/bin/a.txt", 0);
 
     LOGBLOCK();
     assert(0);
