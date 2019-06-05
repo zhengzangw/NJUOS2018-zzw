@@ -114,10 +114,24 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
 #define DATA_B ITABLE+ITABLE_NUM
 #define DATA(i) BLOCK(DATA_B)+(i)*BLOCK_BYTES
 void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int size){
-    while (size){
-
-
+    int add_size = size;
+    int left = inode->len*BLOCK_BYTES - inode->size;
+    assert(left>=0);
+    if (left>0){
+        int offset = inode->size - (inode->len - 1)*BLOCK_BYTES;
+        int towrite = left>size?left:size;
+        dev->ops->write(dev, BLOCK(inode->link[inode->len-1])+offset, inode, towrite);
+        size-=towrite;
     }
+
+    while (size){
+        inode->link[inode->len] = free_map(dev, DMAP);
+        inode->len ++;
+        int towrite = BLOCK_BYTES>size?BLOCK_BYTES:size;
+        dev->ops->write(dev, BLOCK(inode->link[inode->len-1])+offset, inode, towrite);
+        size -= towrite;
+    }
+    inode->size += add_size;
 }
 
 /*======== DIR ============*/
@@ -132,7 +146,6 @@ typedef struct dir_entry dir_entry_t;
 void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type){
     dir_entry_t* dir = balloc(sizeof(dir_entry_t));
     dir->inode = inode->index;
-    Log("inv=%d", dir->inode);
     uint32_t name_len = strlen(entry_name);
     dir->name_len = name_len+1;
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
