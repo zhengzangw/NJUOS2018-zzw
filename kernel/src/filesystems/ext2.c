@@ -200,15 +200,16 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
     int offset = 0;
     while (offset < inode->size){
         dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
-        Log("inode=%d", cur->inode);
-        assert(0);
         char *tmp_name = pmm->alloc(cur->name_len+1);
-        dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset)+cur->name_len, cur, cur->name_len);
-        pmm->free(tmp_name);
+        int name_offset = offset+sizeof(dir_entry_t);
+        dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
+        Log("tmp_name=%s, name=%s", tmp_name, name);
+        assert(0);
 
         if (strncmp(name, tmp_name, cur->name_len)==0){
             break;
         }
+        pmm->free(tmp_name);
         offset += cur->rec_len;
     }
     pmm->free(cur);
