@@ -16,6 +16,7 @@ int split(const char *path, char **pre, char **post){
             ret = 1;
             *pre = pmm->alloc(i+1);
             strncpy(*pre, path, i+1);
+            *pre[i+1] = '\0';
             *post = pmm->alloc(len-i+1);
             strncpy(*post, path+i+1, len-i+1);
             break;
@@ -30,6 +31,7 @@ int split2(const char *path, char **pre, char **post){
             ret = 1;
             *pre = pmm->alloc(i+1);
             strncpy(*pre, path, i+1);
+            *pre[i+1] = '\0';
             *post = pmm->alloc(len-i+1);
             strncpy(*post, path+i+1, len-i+1);
             break;
