@@ -276,10 +276,44 @@ int ext2_inode_close(file_t *file){
     return 0;
 }
 
+ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
+    switch (file->inode->type){
+        case DR:
+            dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
+            int finded = 0;
+            int offset = 0;
+            int cnt = 0 ,ret = 0, buf_offset = 0;
+            while (offset < inode->size && size){
+                dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
+                char *tmp_name = pmm->alloc(cur->name_len+1);
+                int name_offset = offset+sizeof(dir_entry_t);
+                dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
+
+                cnt ++;
+                if (cnt>flie->offset){
+                    size--;
+                    ret++;
+                    strncpy(buf+buf_offset, tmp_name, strlen(tmp_name));
+                    strcat(buf, " ");
+                    buf_offset += strlen(tmp_name)+1;
+                }
+
+                pmm->free(tmp_name);
+                offset += cur->rec_len;
+            }
+            pmm->free(cur);
+            return ret;
+
+        case NR:
+        default: assert(0);
+    }
+    return 0;
+}
+
 inodeops_t ext2_inodeops = {
     .open = ext2_inode_open,
     .close = ext2_inode_close,
-    .read = NULL,
+    .read = ext2_inode_read,
     .write = NULL,
     .lseek = NULL,
     .mkdir = NULL,

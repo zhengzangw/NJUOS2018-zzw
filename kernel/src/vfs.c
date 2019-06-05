@@ -99,11 +99,14 @@ int get_mount(const char *path){
 }
 
 int vfs_access(const char *path, int mode){
-    /*if ((mode|F_OK)&&!cur) return -1;
+    int index = get_mount(path);
+    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
+
+    if ((mode|F_OK)&&!cur) return -1;
     if ((mode|F_OK)&&(cur->permission|R_OK)) return -1;
     if ((mode|F_OK)&&(cur->permission|W_OK)) return -1;
     if ((mode|F_OK)&&(cur->permission|X_OK)) return -1;
-    */
+
     return 0;
 }
 
@@ -135,7 +138,6 @@ int get_free_flides(int ccppuu){
     return index;
 }
 int vfs_open(const char *path, int flags){
-    Log("path=%s", path);
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
 
@@ -159,7 +161,7 @@ int vfs_close(int fd){
 }
 
 ssize_t vfs_read(int fd, void *buf, size_t nbyte){
-    return 0;
+    return cputask[_cpu()]->flides[fd]->inode->ops->read(cputask[_cpu()]->flides[fd], (char *)buf, nbyte);
 }
 
 ssize_t vfs_write(int fd, void *buf, size_t nbyte){

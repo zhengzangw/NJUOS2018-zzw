@@ -301,6 +301,15 @@ void shell_task(void *name){
                     cputask[_cpu()]->flides[fd]->inode->id
                     );
             vfs->close(fd);
+        } else if (strncmp(line, "ls", 2)==0){
+            sprintf(name, "%s%s", pwd, line+3);
+            int fd = vfs->open(name, 0);
+            char tmp[128];
+            while (vfs->read(fs, tmp, 1)>0){
+                strcat(text, tmp);
+                break;
+            }
+            vfs->close(fd);
         } else {
             text[0] = '\0';
         }
