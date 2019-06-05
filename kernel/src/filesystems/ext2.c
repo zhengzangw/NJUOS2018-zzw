@@ -265,7 +265,6 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
 /*======== API ============*/
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags);
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
-    assert(dev == fs->dev);
     Log("EXT2 INFO: inode size=%ld", sizeof(ext2_inode_t));
 
     //clear
@@ -275,6 +274,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
         bzero(i);
     }
 
+    assert(dev == fs->dev);
     ext2_create_dir(dev, name, 1);
     ext2_create_dir(dev, "/bin", 0);
     ext2_create_dir(dev, "/test", 0);
