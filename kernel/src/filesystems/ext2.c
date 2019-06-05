@@ -131,7 +131,7 @@ struct dir_entry {
 };
 typedef struct dir_entry dir_entry_t;
 
-void ext2_create_entry(device_t *dev, ext2_inode_t* inode, uint32_t entry_inode, const char* entry_name, uint32_t type){
+void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type){
     dir_entry_t* dir = balloc(sizeof(dir_entry_t));
     dir->inode = TABLE_INV(inode);
     Log("inv=%d", dir->inode);
