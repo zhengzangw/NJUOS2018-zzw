@@ -284,7 +284,6 @@ void shell_task(void *name){
     while (1){
         char line[128], text[128];
         sprintf(text, "(%s):%s $ ", name, pwd);
-        assert(0);
         tty_write(tty, 0, text, strlen(text));
         int nread = tty->ops->read(tty, 0, line, sizeof(line));
         line[nread-1] = '\0';
