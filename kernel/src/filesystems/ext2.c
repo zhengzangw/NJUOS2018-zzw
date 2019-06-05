@@ -245,6 +245,7 @@ inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
     inode_t* ret = balloc(sizeof(inode_t));
     ret->fs = fs;
     ret->fs_inode = ext2_lookup_inode(fs->dev, name);
+    ret->ops = ext2_ops;
 
     ret->permission = ((ext2_inode_t*)ret->fs_inode)->permission;
     ret->size = ((ext2_inode_t*)ret->fs_inode)->size;
