@@ -277,8 +277,8 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     Log("inode=%d", ((ext2_inode_t*)tmp->fs_inode)->index);
     pmm->free(tmp);
 
-    //LOGBLOCK();
-    //assert(0);
+    LOGBLOCK();
+    assert(0);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
