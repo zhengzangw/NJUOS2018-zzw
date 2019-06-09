@@ -244,6 +244,7 @@ int ext2_create_dir(device_t *dev, const char *name, int isroot){
 
         ext2_inode_t* father = ext2_lookup_dir(dev, pre);
         if (father==NULL) return -1;
+        assert(0);
         dir = ext2_create_inode(dev, DR, per);
         ext2_create_entry(dev, dir, dir, ".", DR);
         ext2_create_entry(dev, dir, father, "..", DR);
@@ -281,7 +282,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
     ext2_inode_t* tmp = ext2_lookup_inode(fs->dev, name);
-    assert(tmp != NULL);
     if (tmp){
         inode_t* ret = balloc(sizeof(inode_t));
         ret->fs = fs;
