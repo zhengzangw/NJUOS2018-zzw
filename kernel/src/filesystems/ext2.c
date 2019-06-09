@@ -109,6 +109,7 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
         splited = split(tmp, &pre, &post);
         Log("pre=%s post=%s splited=%d", pre, post, splited);
         int inode_index = ext2_dir_search(dev, inode, pre);
+        Logint(inode_index);
         if (inode_index>=0){
             dev->ops->read(dev, TABLE(inode_index), inode, INODE_BYTES);
         } else {
