@@ -153,6 +153,7 @@ int vfs_open(const char *path, int flags){
             int ret = mpt[index].fs->ops->create(mpt[index].fs, path);
             if (ret==0) cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
             else return -1;
+            assert(0);
             if (cur == NULL) return -1;
         } else {
             return 0;
