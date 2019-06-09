@@ -300,11 +300,11 @@ inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
 
         ret->permission = ((ext2_inode_t*)ret->fs_inode)->permission;
         ret->size = ((ext2_inode_t*)ret->fs_inode)->size;
-    Logint(((ext2_inode_t*)ret->fs_inode)->size);
-    Logint(((ext2_inode_t*)ret->fs_inode)->id);
         ret->id = ((ext2_inode_t*)ret->fs_inode)->id;
         ret->type = ((ext2_inode_t*)ret->fs_inode)->type;
         ret->dir_len = ((ext2_inode_t*)ret->fs_inode)->dir_len;
+    Logint(((ext2_inode_t*)ret->fs_inode)->size);
+    Logint(((ext2_inode_t*)ret->fs_inode)->id);
         return ret;
     } else {
         return NULL;
