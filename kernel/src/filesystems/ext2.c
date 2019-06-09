@@ -109,7 +109,7 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
         splited = split(tmp, &pre, &post);
         //Log("pre=%s post=%s splited=%d", pre, post, splited);
         int inode_index = ext2_dir_search(dev, inode, pre);
-        if (inode_inde>=0){
+        if (inode_index>=0){
             dev->ops->read(dev, TABLE(inode_index), inode, INODE_BYTES);
         } else {
             inode = NULL;
@@ -136,8 +136,9 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
 
     //Get parent dir inode
     ext2_inode_t* dir = ext2_lookup_dir(dev, pre);
+    int index;
     if (dir){
-        int index = ext2_dir_search(dev, dir, post);
+        index = ext2_dir_search(dev, dir, post);
         pmm->free(dir);
     } else {
         return NULL;
@@ -275,7 +276,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
-    ext2_inode_t tmp = ext2_lookup_inode(fs->dev, name);
+    ext2_inode_t* tmp = ext2_lookup_inode(fs->dev, name);
     if (tmp){
         inode_t* ret = balloc(sizeof(inode_t));
         ret->fs = fs;
