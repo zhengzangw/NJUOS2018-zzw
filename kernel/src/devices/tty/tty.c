@@ -284,7 +284,7 @@ void echo_task(void *name){
         Log("%c", file[0]);\
         char tmpname[128];\
         strcpy(tmpname, file);\
-        sprintf(file, "%s%s", pwd, file);\
+        sprintf(file, "%s%s", pwd, tmpname);\
         Log("file = %s", file);\
     }
 
