@@ -308,7 +308,8 @@ void shell_task(void *name){
         if (strcmp(line, "pwd")==0){
             sprintf(text, "%s\n", pwd);
         } else if (strncmp(line, "cd", 2)==0){
-            if (line[3]!=' ') {
+            int len = 2;
+            if (line[2]!=' ') {
                 strcpy(pwd, "/");
             }
             else {
