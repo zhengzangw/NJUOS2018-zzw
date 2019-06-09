@@ -211,6 +211,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
     dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
     int finded = 0;
     int offset = 0;
+    Logint(inode->size);
     while (offset < inode->size){
         dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
         char *tmp_name = pmm->alloc(cur->name_len+1);
