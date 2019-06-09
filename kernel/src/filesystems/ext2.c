@@ -178,7 +178,7 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
         size -= towrite;
     }
     inode->size += add_size;
-    dev->ops->write(dev, TABLE(father->index), father, INODE_BYTES);
+    dev->ops->write(dev, TABLE(inode->index), inode->index, INODE_BYTES);
 }
 
 /*======== DIR ============*/
