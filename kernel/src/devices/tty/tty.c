@@ -281,6 +281,7 @@ void echo_task(void *name){
 #define getname(len)\
     strcpy(file, line+len+1);\
     if (file[0]!='/') {\
+        Log("%c", file[0]);\
         char tmpname[128];\
         strcpy(tmpname, file);\
         sprintf(file, "%s%s", pwd, file);\
