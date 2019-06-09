@@ -311,7 +311,7 @@ void shell_task(void *name){
             switch (cputask[_cpu()]->flides[fd]->inode->type){
                 case DR:
                     strcpy(typename, "directory");
-                    sprintf(additional, "Number of Files: %d\n", cputask[_cpu()]->flides[fd]->inode->dir_len);
+                    sprintf(additional, "Number of Files: %d\n", cputask[_cpu()]->flides[fd]->inode->dir_len-2);
                     break;
                 default:
                     strcpy(typename, "normal file");

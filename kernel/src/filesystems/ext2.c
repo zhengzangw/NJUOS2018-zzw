@@ -303,13 +303,14 @@ int ext2_inode_close(file_t *file){
 ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
     ext2_inode_t* inode = file->inode->fs_inode;
     device_t* dev = file->inode->fs->dev;
-    int offset = file->offset;
-            int cnt = 0 ,ret = 0, buf_offset = 0;
+    int offset = 0;
+    int cnt = 0 ,ret = 0, buf_offset = 0;
     switch (file->inode->type){
         case DR:
-            while (offset < inode->size && size){
+            while (offset < inode->dir_len && size){
                 dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
+
                 char *tmp_name = pmm->alloc(cur->name_len+1);
                 int name_offset = offset+sizeof(dir_entry_t);
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
