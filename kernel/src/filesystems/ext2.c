@@ -231,8 +231,8 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         return -1;
 }
 
-#define ext2_create_dir(dev, name, isroot) ext2_create_inode(dev, name, isroot, R_OK|W_OK|X_OK, DR)
-int ext2_create_inode(device_t *dev, const char *name, int isroot, int per, int type){
+#define ext2_create_dir(dev, name, isroot) ext2_create_file(dev, name, isroot, R_OK|W_OK|X_OK, DR)
+int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int type){
     ext2_inode_t* dir;
     if (isroot){
         dir = ext2_create_inode(dev, type, per);
@@ -304,7 +304,7 @@ int ext2_mkdir(filesystem_t *fs, const char *name){
 }
 
 int ext2_create(filesystem_t *fs, const char *name){
-    return ext2_create_inode(fs->dev, name, 0, R_OK|W_OK|X_OK, NF);
+    return ext2_create_file(fs->dev, name, 0, R_OK|W_OK|X_OK, NF);
 }
 
 fsops_t ext2_ops = {
@@ -315,6 +315,7 @@ fsops_t ext2_ops = {
     .rmdir = NULL,
     .link = NULL,
     .unlink = NULL,
+    .create = ext2_create,
 };
 
 /* ===== Inode API ====== */
