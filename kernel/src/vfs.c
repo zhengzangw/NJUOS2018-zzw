@@ -167,6 +167,7 @@ int vfs_close(int fd){
 
 ssize_t vfs_read(int fd, void *buf, size_t nbyte){
     inode_t* tmp = cputask[_cpu()]->flides[fd]->inode;
+    Logint(tmp->ops);
     assert(0);
     return tmp->ops->read(cputask[_cpu()]->flides[fd], (char *)buf, nbyte);
 }
