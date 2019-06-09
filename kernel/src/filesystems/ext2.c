@@ -280,7 +280,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_file(dev, "/etc/passwd", 0, R_OK|W_OK|X_OK, NF);
 
     char *words = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
-    inode_t* tmp = lookup(fs, "/etc/passwd", 0);
+    inode_t* tmp = ext2_lookup(fs, "/etc/passwd", 0);
     ext2_append_data(dev, tmp->fs_inode, words, strlen(words));
 
     //LOGBLOCK();
