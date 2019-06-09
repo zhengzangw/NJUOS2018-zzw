@@ -308,7 +308,7 @@ void shell_task(void *name){
         if (strcmp(line, "pwd")==0){
             sprintf(text, "%s\n", pwd);
         } else if (strncmp(line, "cd", 2)==0){
-            int len = 2;
+            int len = 2, ret = 0;
             if (line[2]!=' ') {
                 strcpy(pwd, "/");
             }
@@ -345,13 +345,18 @@ void shell_task(void *name){
                             if (fd>=0) {
                                 vfs->close(fd);
                                 sprintf(pwd, "%s/", tmppwd);
+                            } else {
+                                ret = -1;
+                                break;
                             }
                             ptr++;
                     }
-                    Log("pwd=%s", pwd);
                 }
             }
-            sprintf(text, SUCCESS "change director to %s\n", pwd);
+            if (ret==0)
+                sprintf(text, SUCCESS "change director to %s\n", pwd);
+            else
+                sprintf(text, FAIL "no such file or directory: %s\n");
         } else if (strncmp(line, "stat", 4)==0){
             getname(4);
             if (nofile) strcpy(text, FAIL "missing operand\n");
