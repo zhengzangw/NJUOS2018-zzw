@@ -313,7 +313,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
     return 0;
 }
 
-int mkdir(const char *name){
+int ext2_inode_mkdir(const char *name){
     return 0;
 }
 
