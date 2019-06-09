@@ -284,6 +284,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     assert(tmp!=NULL);
     ext2_append_data(dev, tmp->fs_inode, words, strlen(words));
     Logint(((ext2_inode_t*)tmp->fs_inode)->size);
+    Logint(((ext2_inode_t*)tmp->fs_inode)->id);
 
     //LOGBLOCK();
     //assert(0);
