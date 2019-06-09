@@ -1,4 +1,5 @@
 #include <devices.h>
+#include <vfs.h>
 
 #define TTY_COOK_BUF_SZ 1024
 
@@ -321,7 +322,7 @@ void shell_task(void *name){
                 cputask[_cpu()]->flides[fd]->inode->fs->dev->name,
                 cputask[_cpu()]->flides[fd]->inode->permission,
                 cputask[_cpu()]->flides[fd]->inode->id,
-                addtional
+                additional
             );
 
             vfs->close(fd);
