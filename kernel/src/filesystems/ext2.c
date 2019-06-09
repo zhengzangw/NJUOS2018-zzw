@@ -316,14 +316,11 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
 
                 cnt ++;
-                Logint(inode->dir_len);
-                Logint(cnt);
                 if (cnt>file->offset){
                     size--;
                     ret++;
                     strncpy(buf+buf_offset, tmp_name, strlen(tmp_name));
                     strcat(buf, "\n");
-                    Log("%s", buf);
                     buf_offset += strlen(tmp_name)+1;
                 }
 
