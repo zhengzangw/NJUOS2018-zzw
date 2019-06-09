@@ -304,10 +304,11 @@ void shell_task(void *name){
         int nread = tty->ops->read(tty, 0, line, sizeof(line));
         line[nread-1] = '\0';
 
-        if (strncmp(line, "pwd", 3)==0){
+        if (strcmp(line, "pwd")==0){
             sprintf(text, "%s\n", pwd);
         } else if (strncmp(line, "stat", 4)==0){
             getname(4);
+            if (nofile) strcpy(text, FAIL "missing operand");
             int fd = vfs->open(file, O_RDONLY);
 
             char typename[10];
@@ -344,6 +345,7 @@ void shell_task(void *name){
             vfs->close(fd);
         } else if (strncmp(line, "mkdir", 5)==0){
             getname(5);
+            if (nofile) strcpy(text, FAIL "missing operand");
             vfs->mkdir(file);
             sprintf(text, SUCCESS "create %s\n", file);
         } else {
