@@ -202,7 +202,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
 
         int clen = (name[strlen(name)-1]=='/')?strlen(name)-1:strlen(name);
         Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
-        if (strncmp(name, tmp_name, clen)){
+        if (strncmp(name, tmp_name, clen)==0){
             finded =1;
             break;
         }
