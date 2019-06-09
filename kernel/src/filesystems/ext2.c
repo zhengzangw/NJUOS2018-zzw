@@ -149,7 +149,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     if (index>=0){
         //Get inode
         ret = pmm->alloc(sizeof(ext2_inode_t));
-        dev->ops->read(dev, table(index), ret, inode_bytes);
+        dev->ops->read(dev, TABLE(index), ret, INODE_BYTES);
     } else {
         return NULL;
     }
@@ -178,7 +178,7 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
         size -= towrite;
     }
     inode->size += add_size;
-    dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
+    dev->ops->write(dev, TABLE(father->index), father, INODE_BYTES);
 }
 
 /*======== DIR ============*/
