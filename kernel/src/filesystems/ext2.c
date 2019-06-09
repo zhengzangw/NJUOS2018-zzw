@@ -281,6 +281,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
     ext2_inode_t* tmp = ext2_lookup_inode(fs->dev, name);
+    assert(tmp!=NULL);
     if (tmp){
         inode_t* ret = balloc(sizeof(inode_t));
         ret->fs = fs;

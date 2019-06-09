@@ -145,7 +145,6 @@ int vfs_open(const char *path, int flags){
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
     if (cur == NULL) return -1;
-    assert(0);
 
     int findex = get_free_flides(_cpu());
     assert(findex>=0);
