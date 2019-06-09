@@ -53,15 +53,6 @@ void vfs_init(){
 
     fs->ops->init(fs, "/", fs->dev);
     vfs->mount("/", fs);
-    vfs->mkdir("/bin");
-    vfs->mkdir("/etc");
-
-    int fd = vfs->open("/etc/passwd", O_CREAT|O_WRONLY);
-    vfs->write(fd, tmp, strlen(tmp)+1);
-
-    vfs->mkdir("/usr");
-    vfs->mkdir("/usr/bin");
-    //Log("dev = %p", fs->dev);
 }
 
 mountpoint_t mpt[MAXMP];
