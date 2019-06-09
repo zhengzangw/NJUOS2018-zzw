@@ -160,8 +160,8 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
 #define DATA_B ITABLE+ITABLE_NUM
 #define DATA(i) BLOCK(DATA_B)+(i)*BLOCK_BYTES
 void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int size){
-    Logint(add_size);
     int add_size = size;
+    Logint(add_size);
     int left = inode->len*BLOCK_BYTES - inode->size;
     assert(left>=0);
     if (left>0){
