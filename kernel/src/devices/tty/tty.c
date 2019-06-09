@@ -279,18 +279,18 @@ void echo_task(void *name){
 }
 
 #define getname(len)\
-    strcpy(name, line+len+1);\
+    strcpy(file, line+len+1);\
     if (name[0]!='/') {\
         char tmpname[128];\
-        strcpy(tmpname, name);\
-        sprintf(name, "%s%s", pwd, name);\
+        strcpy(tmpname, file);\
+        sprintf(file, "%s%s", pwd, file);\
     }
 
 void shell_task(void *name){
     char *pwd = "/";
     device_t *tty = dev_lookup(name);
     while (1){
-        char line[128], text[128], name[128];
+        char line[128], text[128], file[128];
         sprintf(text, "(%s):%s $ ", name, pwd);
         tty_write(tty, 0, text, strlen(text));
         int nread = tty->ops->read(tty, 0, line, sizeof(line));
@@ -302,7 +302,7 @@ void shell_task(void *name){
             getname(4);
             int fd = vfs->open(name, O_RDONLY);
 
-            sprintf(text, "  File: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n", name,
+            sprintf(text, "  File: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n", file,
                 cputask[_cpu()]->flides[fd]->inode->size,
                 cputask[_cpu()]->flides[fd]->inode->fs->dev->name,
                 cputask[_cpu()]->flides[fd]->inode->permission,
@@ -312,7 +312,7 @@ void shell_task(void *name){
             vfs->close(fd);
         } else if (strncmp(line, "ls", 2)==0){
             getname(2);
-            int fd = vfs->open(name, O_RDONLY);
+            int fd = vfs->open(file, O_RDONLY);
             char tmp[128];
             while (vfs->read(fd, tmp, 1)>0){
                 strcat(text, tmp);
@@ -321,7 +321,7 @@ void shell_task(void *name){
             vfs->close(fd);
         } else if (strncmp(line, "mkdir", 5)==0){
             getname(5);
-            vfs->mkdir(name);
+            vfs->mkdir(file);
         } else {
             text[0] = '\0';
         }
