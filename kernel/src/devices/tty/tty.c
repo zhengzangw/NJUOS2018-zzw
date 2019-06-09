@@ -334,12 +334,13 @@ void shell_task(void *name){
                             strncpy(tmpfile, file+oldptr, ptr-oldptr);
                             sprintf(tmppwd, "%s%s", pwd, tmpfile);
                             int fd = vfs->open(tmppwd, O_RDONLY);
-                            if (fd) {
+                            if (fd>=0) {
                                 vfs->close(fd);
                                 sprintf(pwd, "%s/", tmppwd);
                             }
                             ptr++;
                     }
+                    Log("pwd=%s", pwd);
                 }
             }
             sprintf(text, SUCCESS "change director to %s\n", pwd);
