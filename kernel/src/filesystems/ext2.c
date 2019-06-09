@@ -376,17 +376,10 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
             return ret;
 
         case NF:
-            assert(0);
             while (offset < inode->size && size){
-                Logint(inode->size);
-                Logint(inode->len);
-                assert(0);
-                Logint(cnt);
                 int left;
                 if (cnt<inode->len-1) left = BLOCK_BYTES;
                 else left =  inode->size - (inode->len-1)*BLOCK_BYTES;
-                Logint(left);
-                assert(0);
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), buf+offset, left);
                 size-=left;
                 offset+=left;
