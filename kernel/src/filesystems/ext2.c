@@ -385,8 +385,13 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 offset+=left;
                 cnt++;
             }
-            buf[offset] = '\0';
-            Log("buf = %s", buf);
+            if (buf[offset-1] !='\n') {
+                buf[offset] = '\n';
+                buf[offset+1] = '\0';
+            } else {
+                buf[offset] = '\0';
+            }
+
     }
     return 0;
 }
