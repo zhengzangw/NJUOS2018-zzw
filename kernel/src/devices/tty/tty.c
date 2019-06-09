@@ -286,6 +286,7 @@ void echo_task(void *name){
         sprintf(file, "%s%s", pwd, tmpname);\
         Log("file = %s", file);\
     }
+#define SUCCESS "[\e[#m32Success \e[#m0]"
 
 void shell_task(void *name){
     char *pwd = "/";
@@ -323,6 +324,7 @@ void shell_task(void *name){
         } else if (strncmp(line, "mkdir", 5)==0){
             getname(5);
             vfs->mkdir(file);
+            sprintf(text, SUCCESS "create %s", file);
         } else {
             text[0] = '\0';
         }
