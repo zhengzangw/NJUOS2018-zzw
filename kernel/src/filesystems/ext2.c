@@ -269,10 +269,12 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     }
 
     ext2_create_dir(dev, name, 1);
-    ext2_create_dir(dev, "/11111111111", 0);
-    ext2_create_dir(dev, "/22222222222", 0);
-    ext2_create_dir(dev, "/33333333333", 0);
-    ext2_create_dir(dev, "/44444444444", 0);
+    ext2_create_dir(dev, "/1", 0);
+    ext2_create_dir(dev, "/2", 0);
+    ext2_create_dir(dev, "/3", 0);
+    ext2_create_dir(dev, "/4", 0);
+    ext2_create_dir(dev, "/5", 0);
+    ext2_create_dir(dev, "/6", 0);
 
     //LOGBLOCK();
 }
