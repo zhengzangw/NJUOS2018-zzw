@@ -121,6 +121,7 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
 }
 
 ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
+    Log("name = %s", name);
     char *pre = NULL, *post = NULL;
     char tmp[128];
     strcpy(tmp, name);
@@ -244,7 +245,6 @@ int ext2_create_dir(device_t *dev, const char *name, int isroot){
 
         ext2_inode_t* father = ext2_lookup_dir(dev, pre);
         if (father==NULL) return -1;
-        assert(0);
         dir = ext2_create_inode(dev, DR, per);
         ext2_create_entry(dev, dir, dir, ".", DR);
         ext2_create_entry(dev, dir, father, "..", DR);
