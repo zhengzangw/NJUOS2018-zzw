@@ -150,7 +150,7 @@ int vfs_open(const char *path, int flags){
             else return -1;
             if (cur == NULL) return -1;
         } else {
-            return 0;
+            return -1;
         }
     }
 
