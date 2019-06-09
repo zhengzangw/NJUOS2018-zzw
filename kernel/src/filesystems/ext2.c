@@ -73,8 +73,9 @@ struct ext2_inode {
   uint16_t permission; //Permission of this inode
   uint32_t size; //Size of file
   uint32_t len; //Number of link
-  uint32_t id;
-  uint32_t link[27];
+  uint32_t id; //File id
+  uint32_t dir_len; //Special for dir
+  uint32_t link[26];
 }__attribute__((packed));
 uint32_t gid;
 typedef struct ext2_inode ext2_inode_t;
@@ -89,6 +90,7 @@ ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     inode->size = 0;
     inode->len = 0;
     inode->id = ++gid;
+    inode->dir_len = 0;
     return inode;
 }
 
@@ -179,6 +181,8 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
     dir->file_type = type;
 
+    inode->dir_len++;
+
     ext2_append_data(dev, inode, dir, sizeof(dir_entry_t));
     ext2_append_data(dev, inode, entry_name, dir->name_len);
 }
@@ -261,6 +265,7 @@ inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
     ret->size = ((ext2_inode_t*)ret->fs_inode)->size;
     ret->id = ((ext2_inode_t*)ret->fs_inode)->id;
     ret->type = ((ext2_inode_t*)ret->fs_inode)->type;
+    ret->dir_len = ((ext2_inode_t*)ret->fs_inode)->dir_len;
 
     return ret;
 }

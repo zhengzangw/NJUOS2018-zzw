@@ -305,11 +305,23 @@ void shell_task(void *name){
             getname(4);
             int fd = vfs->open(file, O_RDONLY);
 
-            sprintf(text, "  File: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n", file,
+            char typename[10];
+            char additional[20];
+            switch (cputask[_cpu()]->flides[fd]->inode->type){
+                case DR:
+                    strcpy(typename, "directory");
+                    sprintf(additional, "Number of Files: %d\n", cputask[_cpu()]->flides[fd]->inode->dir_len);
+                    break;
+                default:
+                    strcpy(typename, "normal file");
+            }
+            sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n%s", file,
                 cputask[_cpu()]->flides[fd]->inode->size,
+                typename,
                 cputask[_cpu()]->flides[fd]->inode->fs->dev->name,
                 cputask[_cpu()]->flides[fd]->inode->permission,
-                cputask[_cpu()]->flides[fd]->inode->id
+                cputask[_cpu()]->flides[fd]->inode->id,
+                addtional
             );
 
             vfs->close(fd);
