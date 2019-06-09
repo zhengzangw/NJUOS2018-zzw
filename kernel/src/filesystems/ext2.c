@@ -142,6 +142,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     ext2_inode_t *ret;
     if (dir){
         index = ext2_dir_search(dev, dir, post);
+        Logint(index);
         pmm->free(dir);
     } else {
         return NULL;
