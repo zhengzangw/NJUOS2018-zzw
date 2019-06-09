@@ -308,7 +308,7 @@ void shell_task(void *name){
             sprintf(text, "%s\n", pwd);
         } else if (strncmp(line, "stat", 4)==0){
             getname(4);
-            if (nofile) strcpy(text, FAIL "missing operand");
+            if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
                 int fd = vfs->open(file, O_RDONLY);
 
@@ -337,20 +337,18 @@ void shell_task(void *name){
         } else if (strncmp(line, "ls", 2)==0){
             getname(2);
             if (nofile) strcpy(file, pwd);
-            else {
-                int fd = vfs->open(file, O_RDONLY);
-                char tmp[128];
-                strcpy(text, "");
-                vfs->read(fd, tmp, 128);
-                Log("tmp = %s", tmp);
-                char texttmp[128];
-                strcpy(texttmp, text);
-                sprintf(text, "%s%s\n", texttmp, tmp);
-                vfs->close(fd);
-            }
+            int fd = vfs->open(file, O_RDONLY);
+            char tmp[128];
+            strcpy(text, "");
+            vfs->read(fd, tmp, 128);
+            Log("tmp = %s", tmp);
+            char texttmp[128];
+            strcpy(texttmp, text);
+            sprintf(text, "%s%s\n", texttmp, tmp);
+            vfs->close(fd);
         } else if (strncmp(line, "mkdir", 5)==0){
             getname(5);
-            if (nofile) strcpy(text, FAIL "missing operand");
+            if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
                 vfs->mkdir(file);
                 sprintf(text, SUCCESS "create %s\n", file);
