@@ -66,7 +66,6 @@ int free_map(device_t* dev, int block){
 #define ITABLE_NUM 3
 #define INODE_BYTES (1<<7)
 #define TABLE(i) (BLOCK(ITABLE)+(i)*INODE_BYTES)
-enum TYPE {NF, DR, LK, MP};
 struct ext2_inode {
   uint32_t index; //index of inode
   uint16_t type; //Type of this inode

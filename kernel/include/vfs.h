@@ -71,6 +71,7 @@ typedef struct {
   //Additional
 } MODULE(vfs);
 
+enum TYPE {NF, DR, LK, MP};
 /* ====== access ====== */
 #define R_OK 1
 #define W_OK 2
