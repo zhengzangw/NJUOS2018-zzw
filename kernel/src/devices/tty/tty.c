@@ -315,12 +315,10 @@ void shell_task(void *name){
             else {
                 strcpy(file, line+len+1);
                 if (file[0]=='.' && file[1]=='.'){
-                    if (strlen(pwd)!=1){
-                        for (int i=strlen(pwd)-1;i>=0;--i){
-                            if (file[i]=='/'){
-                                file[i]='\0';
-                                break;
-                            }
+                    for (int i=strlen(pwd)-2;i>=0;--i){
+                        if (file[i]=='/'){
+                            file[i]='\0';
+                            break;
                         }
                     }
                 } else {
