@@ -278,32 +278,41 @@ void echo_task(void *name){
     }
 }
 
+#define getname(len)\
+    strcpy(name, line+len+1);\
+    if (name[0]!='/') {\
+        char tmpname[128];\
+        strcpy(tmpname, name);\
+        sprintf(name, "%s%s", pwd, name);\
+    }
+
 void shell_task(void *name){
     char *pwd = "/";
     device_t *tty = dev_lookup(name);
     while (1){
-        char line[128], text[128];
+        char line[128], text[128], name[128];
         sprintf(text, "(%s):%s $ ", name, pwd);
         tty_write(tty, 0, text, strlen(text));
         int nread = tty->ops->read(tty, 0, line, sizeof(line));
         line[nread-1] = '\0';
 
-        char name[128];
-        if (strcmp(line, "pwd")==0){
+        if (strncmp(line, "pwd", 3)==0){
             sprintf(text, "%s\n", pwd);
         } else if (strncmp(line, "stat", 4)==0){
-            sprintf(name, "%s%s", pwd, line+5);
-            int fd = vfs->open(name, 0);
+            getname(4);
+            int fd = vfs->open(name, O_RDONLY);
+
             sprintf(text, "  File: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n", name,
-                    cputask[_cpu()]->flides[fd]->inode->size,
-                    cputask[_cpu()]->flides[fd]->inode->fs->dev->name,
-                    cputask[_cpu()]->flides[fd]->inode->permission,
-                    cputask[_cpu()]->flides[fd]->inode->id
-                    );
+                cputask[_cpu()]->flides[fd]->inode->size,
+                cputask[_cpu()]->flides[fd]->inode->fs->dev->name,
+                cputask[_cpu()]->flides[fd]->inode->permission,
+                cputask[_cpu()]->flides[fd]->inode->id
+            );
+
             vfs->close(fd);
         } else if (strncmp(line, "ls", 2)==0){
-            sprintf(name, "%s%s", pwd, line+3);
-            int fd = vfs->open(name, 0);
+            getname(2);
+            int fd = vfs->open(name, O_RDONLY);
             char tmp[128];
             while (vfs->read(fd, tmp, 1)>0){
                 strcat(text, tmp);
@@ -311,7 +320,7 @@ void shell_task(void *name){
             }
             vfs->close(fd);
         } else if (strncmp(line, "mkdir", 5)==0){
-            strcpy(name, line+6);
+            getname(5);
             vfs->mkdir(name);
         } else {
             text[0] = '\0';
