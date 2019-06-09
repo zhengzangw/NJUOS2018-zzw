@@ -127,7 +127,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     }
     int splited = split2(tmp, &pre, &post);
 
-    Log("tmp=%s pre=%s post=%s splited=%d", tmp, pre, post, splited);
+    //Log("tmp=%s pre=%s post=%s splited=%d", tmp, pre, post, splited);
 
     //Get parent dir inode
     ext2_inode_t* dir = ext2_lookup_dir(dev, pre);
@@ -201,7 +201,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         //Log("tmp_name=%s name=%s", tmp_name, name);
 
         int clen = (name[strlen(name)-1]=='/')?strlen(name)-1:strlen(name);
-        Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
+        //Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
         if (strncmp(name, tmp_name, clen)==0){
             finded =1;
             break;
