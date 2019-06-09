@@ -175,7 +175,7 @@ typedef struct dir_entry dir_entry_t;
 void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type){
     dir_entry_t* dir = balloc(sizeof(dir_entry_t));
     dir->inode = entry_inode->index;
-    Logint(dir->inode);
+    Log("name = %s, inode = %d", entry_name, entry_inode);
     uint32_t name_len = strlen(entry_name);
     dir->name_len = name_len+1;
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
