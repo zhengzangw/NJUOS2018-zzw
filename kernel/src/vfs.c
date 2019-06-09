@@ -116,6 +116,7 @@ int vfs_access(const char *path, int mode){
 int vfs_mkdir(const char *path){
     int index = get_mount(path);
     char *pre, *post;
+    Log("path = %s", path);
     split2(path, &pre, &post);
     Log("pre = %s", pre);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, pre, 0);
