@@ -161,7 +161,6 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
 #define DATA(i) BLOCK(DATA_B)+(i)*BLOCK_BYTES
 void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int size){
     int add_size = size;
-    Logint(add_size);
     int left = inode->len*BLOCK_BYTES - inode->size;
     assert(left>=0);
     if (left>0){
@@ -179,6 +178,7 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
         size -= towrite;
     }
     inode->size += add_size;
+    Logint(inode->size);
 }
 
 /*======== DIR ============*/
