@@ -419,8 +419,7 @@ void shell_task(void *name){
                     sprintf(text, FAIL "cannot create file %s", file);
                 }
             }
-
-        } {
+        } else {
             sprintf(text, FAIL "command not found \"%s\"\n", line);
         }
 
