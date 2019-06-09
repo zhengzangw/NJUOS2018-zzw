@@ -288,7 +288,7 @@ void echo_task(void *name){
             char tmpname[128];\
             strcpy(tmpname, file);\
             sprintf(file, "%s%s", pwd, tmpname);\
-            Log("file = %s", file);\
+//            Log("file = %s", file);\
         }\
     }
 #define SUCCESS "[SUCCESS]: "
