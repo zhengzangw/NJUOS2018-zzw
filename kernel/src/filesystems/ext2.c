@@ -135,6 +135,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     //Log("tmp=%s pre=%s post=%s splited=%d", tmp, pre, post, splited);
 
     //Get parent dir inode
+    Log("name = %s", name);
     ext2_inode_t* dir = ext2_lookup_dir(dev, pre);
     int index;
     ext2_inode_t *ret;
