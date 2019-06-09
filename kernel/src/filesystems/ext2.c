@@ -125,7 +125,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
         tmp[len] = '.';
         tmp[len+1] = '\0';
     }
-    int splited = split2(tmp, &pre, &post);
+    split2(tmp, &pre, &post);
 
     //Log("tmp=%s pre=%s post=%s splited=%d", tmp, pre, post, splited);
 
