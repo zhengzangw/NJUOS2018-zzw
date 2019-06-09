@@ -9,7 +9,7 @@
 
 
 /*========== BLOCK ===============*/
-#define BLOCK_BYTES (1<<8)
+#define BLOCK_BYTES (1<<10)
 #define BLOCK(x) ((x)*BLOCK_BYTES)
 void bzero(device_t* dev, int x){
     void *zeros = balloc(BLOCK_BYTES);
@@ -63,7 +63,7 @@ int free_map(device_t* dev, int block){
 
 /*======== ITABLE =========*/
 #define ITABLE 2
-#define ITABLE_NUM 3
+#define ITABLE_NUM 10
 #define INODE_BYTES (1<<7)
 #define TABLE(i) (BLOCK(ITABLE)+(i)*INODE_BYTES)
 struct ext2_inode {
@@ -281,8 +281,8 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/5", 0);
     ext2_create_dir(dev, "/6", 0);
 
-    LOGBLOCK();
-    assert(0);
+    //LOGBLOCK();
+    //assert(0);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
