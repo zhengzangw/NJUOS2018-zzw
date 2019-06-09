@@ -361,6 +361,9 @@ void shell_task(void *name){
             if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
                 int fd = vfs->open(file, O_RDONLY);
+            if (fd<0){
+                sprintf(text, FAIL "no such file or directory %s\n", file);
+            } else {
 
                 char typename[10];
                 char additional[20];
@@ -382,6 +385,7 @@ void shell_task(void *name){
                 );
 
                 vfs->close(fd);
+                }
 
             }
         } else if (strncmp(line, "ls", 2)==0){
