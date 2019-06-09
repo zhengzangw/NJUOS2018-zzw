@@ -309,45 +309,52 @@ void shell_task(void *name){
         } else if (strncmp(line, "stat", 4)==0){
             getname(4);
             if (nofile) strcpy(text, FAIL "missing operand");
-            int fd = vfs->open(file, O_RDONLY);
+            else {
+                int fd = vfs->open(file, O_RDONLY);
 
-            char typename[10];
-            char additional[20];
-            switch (cputask[_cpu()]->flides[fd]->inode->type){
-                case DR:
-                    strcpy(typename, "directory");
-                    sprintf(additional, "Number of Files: %d\n", cputask[_cpu()]->flides[fd]->inode->dir_len-2);
-                    break;
-                default:
-                    strcpy(typename, "normal file");
+                char typename[10];
+                char additional[20];
+                switch (cputask[_cpu()]->flides[fd]->inode->type){
+                    case DR:
+                        strcpy(typename, "directory");
+                        sprintf(additional, "Number of Files: %d\n", cputask[_cpu()]->flides[fd]->inode->dir_len-2);
+                        break;
+                    default:
+                        strcpy(typename, "normal file");
+                }
+                sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n%s", file,
+                    typename,
+                    cputask[_cpu()]->flides[fd]->inode->size,
+                    cputask[_cpu()]->flides[fd]->inode->fs->dev->name,
+                    cputask[_cpu()]->flides[fd]->inode->permission,
+                    cputask[_cpu()]->flides[fd]->inode->id,
+                    additional
+                );
+
+                vfs->close(fd);
+
             }
-            sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n%s", file,
-                typename,
-                cputask[_cpu()]->flides[fd]->inode->size,
-                cputask[_cpu()]->flides[fd]->inode->fs->dev->name,
-                cputask[_cpu()]->flides[fd]->inode->permission,
-                cputask[_cpu()]->flides[fd]->inode->id,
-                additional
-            );
-
-            vfs->close(fd);
         } else if (strncmp(line, "ls", 2)==0){
             getname(2);
             if (nofile) strcpy(file, pwd);
-            int fd = vfs->open(file, O_RDONLY);
-            char tmp[128];
-            strcpy(text, "");
-            vfs->read(fd, tmp, 128);
-            Log("tmp = %s", tmp);
-            char texttmp[128];
-            strcpy(texttmp, text);
-            sprintf(text, "%s%s\n", texttmp, tmp);
-            vfs->close(fd);
+            else {
+                int fd = vfs->open(file, O_RDONLY);
+                char tmp[128];
+                strcpy(text, "");
+                vfs->read(fd, tmp, 128);
+                Log("tmp = %s", tmp);
+                char texttmp[128];
+                strcpy(texttmp, text);
+                sprintf(text, "%s%s\n", texttmp, tmp);
+                vfs->close(fd);
+            }
         } else if (strncmp(line, "mkdir", 5)==0){
             getname(5);
             if (nofile) strcpy(text, FAIL "missing operand");
-            vfs->mkdir(file);
-            sprintf(text, SUCCESS "create %s\n", file);
+            else {
+                vfs->mkdir(file);
+                sprintf(text, SUCCESS "create %s\n", file);
+            }
         } else {
             text[0] = '\0';
         }
