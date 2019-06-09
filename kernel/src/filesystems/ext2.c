@@ -149,7 +149,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     if (index>=0){
         //Get inode
         ret = pmm->alloc(sizeof(ext2_inode_t));
-        dev->ops->read(dev, TABLE(index), ret, INODE_BYTES);
+        dev->ops->read(dev, table(index), ret, inode_bytes);
     } else {
         return NULL;
     }
@@ -178,6 +178,7 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
         size -= towrite;
     }
     inode->size += add_size;
+    dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
 }
 
 /*======== DIR ============*/
@@ -283,8 +284,6 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     inode_t* tmp = ext2_lookup(fs, "/etc/passwd", 0);
     assert(tmp!=NULL);
     ext2_append_data(dev, tmp->fs_inode, words, strlen(words));
-    Logint(((ext2_inode_t*)tmp->fs_inode)->size);
-    Logint(((ext2_inode_t*)tmp->fs_inode)->id);
 
     //LOGBLOCK();
     //assert(0);
@@ -303,8 +302,6 @@ inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
         ret->id = ((ext2_inode_t*)ret->fs_inode)->id;
         ret->type = ((ext2_inode_t*)ret->fs_inode)->type;
         ret->dir_len = ((ext2_inode_t*)ret->fs_inode)->dir_len;
-    Logint(((ext2_inode_t*)ret->fs_inode)->size);
-    Logint(((ext2_inode_t*)ret->fs_inode)->id);
         return ret;
     } else {
         return NULL;
