@@ -341,6 +341,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
 
                 char *tmp_name = pmm->alloc(cur->name_len+1);
                 int name_offset = offset+sizeof(dir_entry_t);
+                Log("offset = %d, cnt = %d, name_offset = %d", offset, cnt, name_offset);
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
 
                 cnt ++;
