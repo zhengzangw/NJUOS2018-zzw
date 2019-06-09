@@ -275,13 +275,13 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/4", 0);
     ext2_create_dir(dev, "/5", 0);
     ext2_create_dir(dev, "/6", 0);
-    ext2_lookup(fs, "/1", 0);
 
     //LOGBLOCK();
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
     ext2_inode_t* tmp = ext2_lookup_inode(fs->dev, name);
+    assert(tmp != NULL);
     if (tmp){
         inode_t* ret = balloc(sizeof(inode_t));
         ret->fs = fs;
