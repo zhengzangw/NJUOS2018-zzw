@@ -381,9 +381,10 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 if (cnt<inode->len) left = BLOCK_BYTES;
                 else left =  inode->size - (inode->len-1)*BLOCK_BYTES;
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), buf+offset, left);
-                Log("buf = %s", buf);
                 size-=left;
+                offset+=left;
             }
+            buf[offset] = '\0';
     }
     return 0;
 }
