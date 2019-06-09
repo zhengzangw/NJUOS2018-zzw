@@ -120,9 +120,9 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     strcpy(tmp, name);
 
     int len = strlen(tmp);
-    if (tmp[len]=='/'){
-        tmp[len+1] = '.';
-        tmp[len+2] = '\0';
+    if (tmp[len-1]=='/'){
+        tmp[len] = '.';
+        tmp[len+1] = '\0';
     }
     int splited = split2(tmp, &pre, &post);
 
