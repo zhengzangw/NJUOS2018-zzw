@@ -317,8 +317,6 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 Log("Name = %s", tmp_name);
 
                 cnt ++;
-                Logint(cnt);
-                Logint(file->offset);
                 if (cnt>file->offset){
                     size--;
                     ret++;
@@ -331,7 +329,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 pmm->free(cur);
                 offset += cur->rec_len;
             }
-            Logint(ret);
+            Log("buf = %s", buf);
             return ret;
 
         case NF:
