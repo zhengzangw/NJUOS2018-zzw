@@ -333,7 +333,6 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
     device_t* dev = file->inode->fs->dev;
     int offset = 0;
     int cnt = 0 ,ret = 0, buf_offset = 0;
-    assert(0);
     switch (file->inode->type){
         case DR:
             while (cnt < inode->dir_len && size){
