@@ -376,6 +376,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
             return ret;
 
         case NF:
+            assert(0);
             while (offset < inode->size && size){
                 Logint(inode->size);
                 Logint(inode->len);
