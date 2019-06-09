@@ -109,7 +109,6 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
         splited = split(tmp, &pre, &post);
         Log("pre=%s post=%s splited=%d", pre, post, splited);
         int inode_index = ext2_dir_search(dev, inode, pre);
-        Logint(inode_index);
         if (inode_index>=0){
             dev->ops->read(dev, TABLE(inode_index), inode, INODE_BYTES);
         } else {
@@ -216,10 +215,9 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         char *tmp_name = pmm->alloc(cur->name_len+1);
         int name_offset = offset+sizeof(dir_entry_t);
         dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
-        //Log("tmp_name=%s name=%s", tmp_name, name);
 
         int clen = (name[strlen(name)-1]=='/')?strlen(name)-1:strlen(name);
-        //Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
+        Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
         if (strncmp(name, tmp_name, clen)==0){
             finded =1;
             break;
