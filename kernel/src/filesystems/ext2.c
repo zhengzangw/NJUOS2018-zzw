@@ -314,6 +314,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
 }
 
 int ext2_inode_mkdir(const char *name){
+Log("mkdir:%s", name);
     return 0;
 }
 

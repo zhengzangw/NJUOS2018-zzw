@@ -115,8 +115,11 @@ int vfs_access(const char *path, int mode){
 
 int vfs_mkdir(const char *path){
     int index = get_mount(path);
-    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
-
+    char *pre, *post;
+    split2(path, pre, post);
+    Log("pre = %s", pre);
+    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, pre, 0);
+    cur->mkdir(post);
     return 0;
 }
 
