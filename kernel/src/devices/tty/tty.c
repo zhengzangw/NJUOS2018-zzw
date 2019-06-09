@@ -332,11 +332,11 @@ void shell_task(void *name){
                             while (file[ptr]!='/' && ptr<strlen(file)) ptr++;
                             char tmpfile[128], tmppwd[128];
                             strncpy(tmpfile, file+oldptr, ptr-oldptr);
-                            sprintf(tmppwd, "%s%s/", pwd, tmpfile);
+                            sprintf(tmppwd, "%s%s", pwd, tmpfile);
                             int fd = vfs->open(tmppwd, O_RDONLY);
                             if (fd) {
                                 vfs->close(fd);
-                                strcpy(pwd, tmppwd);
+                                sprinf(pwd, "%s/", tmppwd);
                             }
                             ptr++;
                     }
