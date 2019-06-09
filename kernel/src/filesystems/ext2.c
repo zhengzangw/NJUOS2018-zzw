@@ -269,8 +269,8 @@ int ext2_close(inode_t *inode){
     return 0;
 }
 
-int ext2_inode_mkdir(filesystem_t *fs, const char *name){
-    ext2_create_dir(dev, name, 0);
+int ext2_mkdir(filesystem_t *fs, const char *name){
+    ext2_create_dir(fs->dev, name, 0);
     return 0;
 }
 
