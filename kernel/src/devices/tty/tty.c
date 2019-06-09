@@ -361,32 +361,31 @@ void shell_task(void *name){
             if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
                 int fd = vfs->open(file, O_RDONLY);
-            if (fd<0){
-                sprintf(text, FAIL "no such file or directory %s\n", file);
-            } else {
+                    if (fd<0){
+                        sprintf(text, FAIL "no such file or directory %s\n", file);
+                    } else {
 
-                char typename[10];
-                char additional[20];
-                switch (cputask[_cpu()]->flides[fd]->inode->type){
-                    case DR:
-                        strcpy(typename, "directory");
-                        sprintf(additional, "Number of Files: %d\n", cputask[_cpu()]->flides[fd]->inode->dir_len-2);
-                        break;
-                    default:
-                        strcpy(typename, "normal file");
-                }
-                sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n%s", file,
-                    typename,
-                    cputask[_cpu()]->flides[fd]->inode->size,
-                    cputask[_cpu()]->flides[fd]->inode->fs->dev->name,
-                    cputask[_cpu()]->flides[fd]->inode->permission,
-                    cputask[_cpu()]->flides[fd]->inode->id,
-                    additional
-                );
+                        char typename[10];
+                        char additional[20];
+                        switch (cputask[_cpu()]->flides[fd]->inode->type){
+                            case DR:
+                                strcpy(typename, "directory");
+                                sprintf(additional, "Number of Files: %d\n", cputask[_cpu()]->flides[fd]->inode->dir_len-2);
+                                break;
+                            default:
+                                strcpy(typename, "normal file");
+                        }
+                        sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n%s", file,
+                            typename,
+                            cputask[_cpu()]->flides[fd]->inode->size,
+                            cputask[_cpu()]->flides[fd]->inode->fs->dev->name,
+                            cputask[_cpu()]->flides[fd]->inode->permission,
+                            cputask[_cpu()]->flides[fd]->inode->id,
+                            additional
+                        );
 
-                vfs->close(fd);
-                }
-
+                        vfs->close(fd);
+                    }
             }
         } else if (strncmp(line, "ls", 2)==0){
             getname(2);
