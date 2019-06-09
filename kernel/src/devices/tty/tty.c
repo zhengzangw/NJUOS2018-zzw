@@ -405,9 +405,13 @@ void shell_task(void *name){
             if (fd<0){
                 sprintf(text, FAIL "no such file or directory %s\n", file);
             } else {
-                memset(text, 0, 128);;
-                vfs->read(fd, text, 128);
-                vfs->close(fd);
+                if (FILE(fd)->inode->type!=DR){
+                    sprintf(text, FAIL "not a directory: %s\n", file);
+                } else {
+                    memset(text, 0, 128);;
+                    vfs->read(fd, text, 128);
+                    vfs->close(fd);
+                }
             }
         } else if (strncmp(line, "mkdir", 5)==0){
             getname(5);
@@ -434,9 +438,13 @@ void shell_task(void *name){
             else {
                 int fd = vfs->open(file, O_RD);
                 if (fd>=0){
-                    memset(text, 0, 1024);;
-                    vfs->read(fd, text, 1024);
-                    vfs->close(fd);
+                    if (FILE(fd)->inode->type!=NF){
+                        sprintf(text, FAIL "Is a directory: %s\n", file);
+                    } else {
+                        memset(text, 0, 1024);;
+                        vfs->read(fd, text, 1024);
+                        vfs->close(fd);
+                    }
                 } else {
                     sprintf(text, FAIL "no such file or directory %s\n", file);
                 }
