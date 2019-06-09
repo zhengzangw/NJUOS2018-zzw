@@ -280,12 +280,16 @@ void echo_task(void *name){
 }
 
 #define getname(len)\
-    strcpy(file, line+len+1);\
-    if (file[0]!='/') {\
-        char tmpname[128];\
-        strcpy(tmpname, file);\
-        sprintf(file, "%s%s", pwd, tmpname);\
-        Log("file = %s", file);\
+    int nofile = 1;\
+    if (file[line+len+1]==' '){\
+        nofile = 0;\
+        strcpy(file, line+len+1);\
+        if (file[0]!='/') {\
+            char tmpname[128];\
+            strcpy(tmpname, file);\
+            sprintf(file, "%s%s", pwd, tmpname);\
+            Log("file = %s", file);\
+        }\
     }
 #define SUCCESS "[SUCCESS]: "
 #define FAIL "[FAIL]: "
@@ -328,6 +332,7 @@ void shell_task(void *name){
             vfs->close(fd);
         } else if (strncmp(line, "ls", 2)==0){
             getname(2);
+            if (nofile) strcpy(file, pwd);
             int fd = vfs->open(file, O_RDONLY);
             char tmp[128];
             strcpy(text, "");
