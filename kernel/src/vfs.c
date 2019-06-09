@@ -115,7 +115,7 @@ int vfs_access(const char *path, int mode){
 
 int vfs_mkdir(const char *path){
     int index = get_mount(path);
-    mpt[index].fs->mkdir(path);
+    mpt[index].fs->ops->mkdir(path);
     return 0;
 }
 
