@@ -316,7 +316,7 @@ void shell_task(void *name){
                 strcpy(file, line+len+1);
                 for (int ptr=0;ptr<strlen(file);){
                     if (file[ptr]=='.'){
-                        if (file[ptr+1]=='.' && file[ptr+2]=='/'){
+                        if (file[ptr+1]=='.'){
                             for (int i=strlen(pwd)-2;i>=0;--i){
                                 if (file[i]=='/'){
                                     file[i+1]='\0';
@@ -324,7 +324,7 @@ void shell_task(void *name){
                                     }
                             }
                             ptr+=3;
-                        } else if (file[ptr+1]=='/'){
+                        } else {
                             ptr+=2;
                         }
                     } else {
