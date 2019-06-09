@@ -137,6 +137,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     //Get parent dir inode
     ext2_inode_t* dir = ext2_lookup_dir(dev, pre);
     int index;
+    ext2_inode_t *ret;
     if (dir){
         index = ext2_dir_search(dev, dir, post);
         pmm->free(dir);
@@ -145,7 +146,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     }
     if (index>=0){
         //Get inode
-        ext2_inode_t* ret = pmm->alloc(sizeof(ext2_inode_t));
+        ret = pmm->alloc(sizeof(ext2_inode_t));
         dev->ops->read(dev, TABLE(index), ret, INODE_BYTES);
     } else {
         return NULL;
