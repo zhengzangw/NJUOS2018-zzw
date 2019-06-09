@@ -331,13 +331,11 @@ void shell_task(void *name){
             int fd = vfs->open(file, O_RDONLY);
             char tmp[128];
             strcpy(text, "");
-            while (vfs->read(fd, tmp, 1)>0){
-                Log("tmp = %s", tmp);
-                char texttmp[128];
-                strcpy(texttmp, text);
-                sprintf("%s%s\n", texttmp, tmp);
-                break;
-            }
+            vfs->read(fd, tmp, 128);
+            Log("tmp = %s", tmp);
+            char texttmp[128];
+            strcpy(texttmp, text);
+            sprintf(text, "%s%s\n", texttmp, tmp);
             vfs->close(fd);
         } else if (strncmp(line, "mkdir", 5)==0){
             getname(5);
