@@ -330,8 +330,11 @@ void shell_task(void *name){
             getname(2);
             int fd = vfs->open(file, O_RDONLY);
             char tmp[128];
+            strcpy(text, "");
             while (vfs->read(fd, tmp, 1)>0){
-                strcat(text, tmp);
+                char texttmp[128];
+                strcpy(texttmp, text);
+                sprintf("%s%s\n", texttmp, tmp);
                 break;
             }
             vfs->close(fd);
