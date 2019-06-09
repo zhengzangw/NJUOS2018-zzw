@@ -311,7 +311,7 @@ void shell_task(void *name){
             }
             vfs->close(fd);
         } else if (strncmp(line, "mkdir", 5)==0){
-            strcpy(name, line+3);
+            strcpy(name, line+6);
             vfs->mkdir(name);
         } else {
             text[0] = '\0';
