@@ -116,7 +116,7 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
 
 ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name)
     char *pre = NULL, *post = NULL, *tmp;
-    tmp = pmm->alloc(strlen(name)+1);
+    char tmp[128];
     strcpy(tmp, name);
 
     int len = strlen(tmp);
