@@ -177,7 +177,6 @@ off_t vfs_lseek(int fd, off_t offset, int whence){
     return 0;
 }
 
-
 MODULE_DEF(vfs){
     .init = vfs_init,
     .access = vfs_access,

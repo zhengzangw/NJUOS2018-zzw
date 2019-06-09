@@ -314,20 +314,33 @@ void shell_task(void *name){
             }
             else {
                 strcpy(file, line+len+1);
-                if (file[0]=='.' && file[1]=='.'){
-                    for (int i=strlen(pwd)-2;i>=0;--i){
-                        if (file[i]=='/'){
-                            file[i]='\0';
-                            break;
+                for (int ptr=0;ptr<strlen(file);){
+                    if (file[ptr]=='.'){
+                        if (file[ptr+1]=='.' && file[ptr+2]=='/'){
+                            for (int i=strlen(pwd)-2;i>=0;--i){
+                                if (file[i]=='/'){
+                                    file[i+1]='\0';
+                                    break;
+                                    }
+                            }
+                            ptr+=3;
+                        } else if (file[ptr+1]=='/'){
+                            ptr+=2;
                         }
+                    } else {
+                            int oldptr = ptr;
+                            while (file[ptr]!='/' && ptr<strlen(file)) ptr++;
+                            char tmpfile[128], tmppwd[128];
+                            strncpy(tmpfile, file+oldptr, ptr-oldptr);
+                            sprintf(tmppwd, "%s%s/", pwd, tmpfile);
+                            int fd = vfs->open(tmppwd, RDONLY);
+                            if (fd) {
+                                vfs->close(fd);
+                                strcpy(pwd, tmppwd);
+                            }
+                            ptr++;
                     }
-                } else {
-                    char tmpfile[128];
-                    strcpy(tmpfile, file);
-                    sprintf(file, "%s%s", pwd, tmpfile);
-                    sprintf(pwd, "%s/", file);
                 }
-            }
             sprintf(text, SUCCESS "change director to %s\n", pwd);
         } else if (strncmp(line, "stat", 4)==0){
             getname(4);
