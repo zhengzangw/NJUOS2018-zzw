@@ -318,8 +318,8 @@ void shell_task(void *name){
                     if (file[ptr]=='.'){
                         if (file[ptr+1]=='.'){
                             for (int i=strlen(pwd)-2;i>=0;--i){
-                                if (file[i]=='/'){
-                                    file[i+1]='\0';
+                                if (pwd[i]=='/'){
+                                    pwd[i+1]='\0';
                                     break;
                                     }
                             }
