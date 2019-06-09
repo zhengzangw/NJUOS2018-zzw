@@ -314,14 +314,13 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 char *tmp_name = pmm->alloc(cur->name_len+1);
                 int name_offset = offset+sizeof(dir_entry_t);
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
-                Log("Name = %s", tmp_name);
 
                 cnt ++;
                 if (cnt>file->offset){
                     size--;
                     ret++;
                     strncpy(buf+buf_offset, tmp_name, strlen(tmp_name));
-                    strcat(buf, " ");
+                    strcat(buf, "\n");
                     buf_offset += strlen(tmp_name)+1;
                 }
 
@@ -329,7 +328,6 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 pmm->free(cur);
                 offset += cur->rec_len;
             }
-            Log("buf = %s", buf);
             return ret;
 
         case NF:
