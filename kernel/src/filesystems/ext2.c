@@ -313,13 +313,17 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
     return 0;
 }
 
+int mkdir(const char *name){
+    return 0;
+}
+
 inodeops_t ext2_inodeops = {
     .open = ext2_inode_open,
     .close = ext2_inode_close,
     .read = ext2_inode_read,
     .write = NULL,
     .lseek = NULL,
-    .mkdir = NULL,
+    .mkdir = ext2_inode_mkdir,
     .rmdir = NULL,
     .link = NULL,
     .unlink = NULL,
