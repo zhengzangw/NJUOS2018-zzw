@@ -420,6 +420,7 @@ void shell_task(void *name){
                 }
             }
         } else if (strncmp(line, "cat", 3)==0) {
+            getname(3);
             int fd = vfs->open(file, O_RDONLY);
             if (fd<0){
                 sprintf(text, FAIL "no such file or directory %s\n", file);
