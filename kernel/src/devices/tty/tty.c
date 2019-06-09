@@ -356,7 +356,7 @@ void shell_task(void *name){
             if (ret==0)
                 sprintf(text, SUCCESS "change director to %s\n", pwd);
             else
-                sprintf(text, FAIL "no such file or directory: %s\n");
+                sprintf(text, FAIL "no such file or directory: %s\n", file);
         } else if (strncmp(line, "stat", 4)==0){
             getname(4);
             if (nofile) strcpy(text, FAIL "missing operand\n");
