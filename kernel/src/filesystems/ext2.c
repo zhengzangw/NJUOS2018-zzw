@@ -331,6 +331,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 pmm->free(cur);
                 offset += cur->rec_len;
             }
+            Logint(ret);
             return ret;
 
         case NF:
