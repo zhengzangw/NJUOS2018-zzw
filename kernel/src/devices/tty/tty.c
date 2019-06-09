@@ -281,7 +281,6 @@ void echo_task(void *name){
 #define getname(len)\
     strcpy(file, line+len+1);\
     if (file[0]!='/') {\
-        Log("%c", file[0]);\
         char tmpname[128];\
         strcpy(tmpname, file);\
         sprintf(file, "%s%s", pwd, tmpname);\
@@ -302,7 +301,7 @@ void shell_task(void *name){
             sprintf(text, "%s\n", pwd);
         } else if (strncmp(line, "stat", 4)==0){
             getname(4);
-            int fd = vfs->open(name, O_RDONLY);
+            int fd = vfs->open(file, O_RDONLY);
 
             sprintf(text, "  File: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n", file,
                 cputask[_cpu()]->flides[fd]->inode->size,
