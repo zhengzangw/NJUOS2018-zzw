@@ -144,7 +144,6 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     } else {
         return NULL;
     }
-    Logint(index);
     if (index>=0){
         //Get inode
         ret = pmm->alloc(sizeof(ext2_inode_t));
@@ -276,6 +275,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/4", 0);
     ext2_create_dir(dev, "/5", 0);
     ext2_create_dir(dev, "/6", 0);
+    ext2_lookup(fs, "/1", 0);
 
     //LOGBLOCK();
 }
