@@ -388,9 +388,13 @@ void shell_task(void *name){
             getname(2);
             if (nofile) strcpy(file, pwd);
             int fd = vfs->open(file, O_RDONLY);
-            memset(text, 0, 128);;
-            vfs->read(fd, text, 128);
-            vfs->close(fd);
+            if (fd<0){
+                sprintf(text, FAIL "no such file or directory %s", file);
+            } else {
+                memset(text, 0, 128);;
+                vfs->read(fd, text, 128);
+                vfs->close(fd);
+            }
         } else if (strncmp(line, "mkdir", 5)==0){
             getname(5);
             if (nofile) strcpy(text, FAIL "missing operand\n");
