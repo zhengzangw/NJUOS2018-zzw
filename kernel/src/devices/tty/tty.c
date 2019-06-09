@@ -388,7 +388,6 @@ void shell_task(void *name){
             getname(2);
             if (nofile) strcpy(file, pwd);
             int fd = vfs->open(file, O_RDONLY);
-            assert(0);
             memset(text, 0, 128);;
             vfs->read(fd, text, 128);
             vfs->close(fd);
