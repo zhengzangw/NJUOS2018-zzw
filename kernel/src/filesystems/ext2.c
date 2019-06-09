@@ -137,6 +137,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
 
     //Get parent dir inode
     ext2_inode_t* dir = ext2_lookup_dir(dev, pre);
+    assert(dir!=NULL);
     int index;
     ext2_inode_t *ret;
     if (dir){
