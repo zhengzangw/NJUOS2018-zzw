@@ -368,6 +368,18 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
     return 0;
 }
 
+ssize_t write(file_t *file, const char *buf, size_t size){
+    ext2_inode_t* inode = file->inode;
+    device_t* dev = file->inode->fs->dev;
+    int offset = inode->offset;
+    switch (inode->type){
+        case DR: assert(0);
+        case NF:
+                ext2_append_data(dev, inode, buf, size);
+    }
+    return size;
+}
+
 inodeops_t ext2_inodeops = {
     .open = ext2_inode_open,
     .close = ext2_inode_close,

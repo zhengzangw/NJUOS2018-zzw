@@ -55,6 +55,12 @@ void vfs_init(){
     vfs->mount("/", fs);
     vfs->mkdir("/bin");
     vfs->mkdir("/etc");
+
+    int fd = vfs->open("/etc/passwd", O_CREAT|O_WRONLY);
+    char *tmp = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
+    vfs->write(fd, tmp, strlen(tmp)+1);
+    vfs->close(fd);
+
     vfs->mkdir("/usr");
     vfs->mkdir("/usr/bin");
     //Log("dev = %p", fs->dev);
@@ -184,6 +190,8 @@ ssize_t vfs_read(int fd, void *buf, size_t nbyte){
 }
 
 ssize_t vfs_write(int fd, void *buf, size_t nbyte){
+    inode_t* tmp = cputask[_cpu()]->flides[fd]->inode;
+    return tmp->ops->write(cputask[_cpu()]->flides[fd], (char *)buf, nbyte);
     return 0;
 }
 
