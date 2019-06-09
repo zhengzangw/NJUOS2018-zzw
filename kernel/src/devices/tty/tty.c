@@ -314,7 +314,12 @@ void shell_task(void *name){
             }
             else {
                 strcpy(file, line+len+1);
-                for (int ptr=0;ptr<strlen(file);){
+                int ptr = 0;
+                if (file[0] == '/'){
+                    ptr = 1;
+                    strcpy(pwd, "/");
+                }
+                while (ptr<strlen(file)){
                     if (file[ptr]=='.'){
                         if (file[ptr+1]=='.'){
                             for (int i=strlen(pwd)-2;i>=0;--i){
