@@ -408,7 +408,7 @@ void shell_task(void *name){
                 sprintf(text, SUCCESS "create %s\n", file);
             }
         } else {
-            text[0] = '\0';
+            sprintf(text, FAIL "command not found %s\n", line);
         }
 
         tty_write(tty, 0, text, strlen(text));
