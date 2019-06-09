@@ -336,7 +336,7 @@ void shell_task(void *name){
                             int fd = vfs->open(tmppwd, O_RDONLY);
                             if (fd) {
                                 vfs->close(fd);
-                                sprinf(pwd, "%s/", tmppwd);
+                                sprintf(pwd, "%s/", tmppwd);
                             }
                             ptr++;
                     }
