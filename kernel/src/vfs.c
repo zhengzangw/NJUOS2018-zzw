@@ -120,6 +120,7 @@ int vfs_mkdir(const char *path){
     split2(path, &pre, &post);
     Log("pre = %s", pre);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, pre, 0);
+    Log("id = %d", cur->id);
     cur->ops->mkdir(post);
     return 0;
 }
