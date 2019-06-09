@@ -389,7 +389,7 @@ void shell_task(void *name){
             if (nofile) strcpy(file, pwd);
             int fd = vfs->open(file, O_RDONLY);
             if (fd<0){
-                sprintf(text, FAIL "no such file or directory %s", file);
+                sprintf(text, FAIL "no such file or directory %s\n", file);
             } else {
                 memset(text, 0, 128);;
                 vfs->read(fd, text, 128);

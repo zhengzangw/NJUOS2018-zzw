@@ -126,7 +126,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     strcpy(tmp, name);
 
     int len = strlen(tmp);
-    if (tmp[len-1]=='/'){
+    if (len!=1 && tmp[len-1]=='/'){
         tmp[len] = '.';
         tmp[len+1] = '\0';
     }
@@ -329,7 +329,6 @@ int ext2_inode_close(file_t *file){
 }
 
 ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
-    assert(0);
     ext2_inode_t* inode = file->inode->fs_inode;
     device_t* dev = file->inode->fs->dev;
     int offset = 0;
