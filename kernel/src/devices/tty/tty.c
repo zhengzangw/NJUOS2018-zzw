@@ -322,13 +322,15 @@ void shell_task(void *name){
                 while (ptr<strlen(file)){
                     if (file[ptr]=='.'){
                         if (file[ptr+1]=='.'){
-                            for (int i=strlen(pwd)-2;i>=0;--i){
-                                if (pwd[i]=='/'){
-                                    pwd[i+1]='\0';
-                                    break;
-                                    }
+                            if (strlen(pwd)>1){
+                                for (int i=strlen(pwd)-2;i>=0;--i){
+                                    if (pwd[i]=='/'){
+                                        pwd[i+1]='\0';
+                                        break;
+                                        }
+                                }
+                                ptr+=3;
                             }
-                            ptr+=3;
                         } else {
                             ptr+=2;
                         }
