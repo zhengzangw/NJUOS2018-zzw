@@ -166,6 +166,7 @@ int vfs_close(int fd){
 }
 
 ssize_t vfs_read(int fd, void *buf, size_t nbyte){
+    assert(0);
     return cputask[_cpu()]->flides[fd]->inode->ops->read(cputask[_cpu()]->flides[fd], (char *)buf, nbyte);
 }
 
