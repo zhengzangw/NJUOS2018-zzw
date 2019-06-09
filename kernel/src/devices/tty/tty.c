@@ -412,7 +412,7 @@ void shell_task(void *name){
             if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
                 int fd = vfs->open(file, O_CREAT);
-                if (fd>0){
+                if (fd>=0){
                     vfs->close(fd);
                     sprintf(text, SUCCESS "create file %s\n", file);
                 } else {
