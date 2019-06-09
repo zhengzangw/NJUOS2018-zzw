@@ -304,7 +304,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
     ext2_inode_t* inode = file->inode->fs_inode;
     device_t* dev = file->inode->fs->dev;
     int offset = 0;
-    int cnt = 0 ,ret = 0, buf_offset = 0, first = 1;
+    int cnt = 0 ,ret = 0, buf_offset = 0;
     switch (file->inode->type){
         case DR:
             while (cnt < inode->dir_len && size){
@@ -321,7 +321,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 if (cnt>file->offset){
                     size--;
                     ret++;
-                    if (first) first = 0; else strcat(buf, "\n");
+                    strcat(buf, "\n");
                     strncpy(buf+buf_offset, tmp_name, strlen(tmp_name));
                     buf_offset += strlen(tmp_name)+1;
                 }
