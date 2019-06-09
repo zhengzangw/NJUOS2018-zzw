@@ -79,7 +79,7 @@ struct ext2_inode {
 uint32_t gid;
 typedef struct ext2_inode ext2_inode_t;
 
-static ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
+ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     int index_inode = free_map(dev, IMAP);
     write_map(dev, IMAP, index_inode, 1);
     ext2_inode_t *inode = (ext2_inode_t *)(balloc(sizeof(ext2_inode_t)));
@@ -93,8 +93,7 @@ static ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per)
 }
 
 int ext2_dir_search(device_t *, ext2_inode_t*, const char*);
-ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
-    Log("lookup %s", name);
+ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     dev->ops->read(dev, TABLE(0), inode, INODE_BYTES);
 
@@ -102,15 +101,31 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     tmp = pmm->alloc(strlen(name)+1);
     strcpy(tmp, name);
     int splited = split(tmp, &pre, &post);
+    //Log("tmp=%s name=%s splited=%d", tmp, name, splited);
     while (splited){
         strcpy(tmp, post);
         pmm->free(pre); pmm->free(post);
         splited = split(tmp, &pre, &post);
+        //Log("pre=%s post=%s splited=%d", pre, post, splited);
         int inode_index = ext2_dir_search(dev, inode, pre);
         dev->ops->read(dev, TABLE(inode_index), inode, INODE_BYTES);
     }
 
     return inode;
+}
+
+ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
+    char *pre = NULL, *post = NULL, *tmp;
+    tmp = pmm->alloc(strlen(name)+1);
+    strcpy(tmp, name);
+    int splited = split2(tmp, &pre, &post);
+    Log("tmp=%s pre=%s post=%s splited=%d", tmp, pre, post, splited);
+    ext2_inode_t* dir = ext2_lookup_dir(dev, pre);
+    int index = ext2_dir_search(dev, dir, post);
+    pmm->free(dir);
+    ext2_inode_t* ret = pmm->alloc(sizeof(ext2_inode_t));
+    dev->ops->read(dev, TABLE(index), ret, INODE_BYTES);
+    return ret;
 }
 
 /*======== DATA ===========*/
@@ -169,6 +184,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         char *tmp_name = pmm->alloc(cur->name_len+1);
         int name_offset = offset+sizeof(dir_entry_t);
         dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
+        //Log("tmp_name=%s name=%s", tmp_name, name);
 
         if (strncmp(name, tmp_name, cur->name_len-1)==0){
             finded =1;
@@ -197,7 +213,7 @@ void ext2_create_dir(device_t *dev, const char *name, int isroot){
         ext2_create_entry(dev, dir, dir, ".", DR);
         ext2_create_entry(dev, dir, dir, "..", DR);
 
-        ext2_inode_t* father = ext2_lookup_inode(dev, pre);
+        ext2_inode_t* father = ext2_lookup_dir(dev, pre);
         ext2_create_entry(dev, father, dir, post, DR);
         dev->ops->write(dev, TABLE(father->index), father, INODE_BYTES);
         pmm->free(father);
@@ -298,7 +314,6 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
 }
 
 int ext2_inode_mkdir(const char *name){
-Log("mkdir:%s", name);
     return 0;
 }
 
