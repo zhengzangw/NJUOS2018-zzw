@@ -317,8 +317,8 @@ void shell_task(void *name){
                     strcpy(typename, "normal file");
             }
             sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n%s", file,
-                cputask[_cpu()]->flides[fd]->inode->size,
                 typename,
+                cputask[_cpu()]->flides[fd]->inode->size,
                 cputask[_cpu()]->flides[fd]->inode->fs->dev->name,
                 cputask[_cpu()]->flides[fd]->inode->permission,
                 cputask[_cpu()]->flides[fd]->inode->id,
