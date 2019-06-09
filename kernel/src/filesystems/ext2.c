@@ -227,6 +227,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         offset += cur->rec_len;
     }
     pmm->free(cur);
+    Logint(fined);
     if (finded)
         return cur->inode;
     else
