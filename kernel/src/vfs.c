@@ -51,7 +51,7 @@ void vfs_init(){
 
     fs->ops->init(fs, "/", fs->dev);
     vfs->mount("/", fs);
-    Log("dev = %p", fs->dev);
+    //Log("dev = %p", fs->dev);
 }
 
 mountpoint_t mpt[MAXMP];
