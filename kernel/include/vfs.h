@@ -87,7 +87,7 @@ enum TYPE {NF, DR, LK, MP};
 #define O_CREAT  8
 #define O_EXCL   16
 #define O_TRUNC  32
-#define O_APPEND 64
+#define O_DIR 64
 
 /* ====== util ======= */
 void *balloc(int);

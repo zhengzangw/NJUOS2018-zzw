@@ -143,6 +143,7 @@ int get_free_flides(int ccppuu){
 int vfs_open(const char *path, int flags){
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
+    assert(0);
     if (cur == NULL) {
         if (flags & O_CREAT){
             int ret = mpt[index].fs->ops->create(mpt[index].fs, path);
