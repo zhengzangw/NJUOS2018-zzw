@@ -414,9 +414,9 @@ void shell_task(void *name){
                 int fd = vfs->open(file, O_CREAT);
                 if (fd>0){
                     vfs->close(fd);
-                    sprintf(text, SUCCESS "create file %s", file);
+                    sprintf(text, SUCCESS "create file %s\n", file);
                 } else {
-                    sprintf(text, FAIL "cannot create file %s", file);
+                    sprintf(text, FAIL "cannot create file %s\n", file);
                 }
             }
         } else {
