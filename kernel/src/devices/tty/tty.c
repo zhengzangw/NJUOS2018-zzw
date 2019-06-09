@@ -295,7 +295,8 @@ void echo_task(void *name){
 #define FAIL "[FAIL]: "
 
 void shell_task(void *name){
-    char *pwd = "/";
+    char pwd[128];
+    strcpy(pwd, "/");
     device_t *tty = dev_lookup(name);
     while (1){
         char line[128], text[128], file[128];
@@ -306,6 +307,11 @@ void shell_task(void *name){
 
         if (strcmp(line, "pwd")==0){
             sprintf(text, "%s\n", pwd);
+        } else if (strncmp(line, "cd", 2)==0){
+            getname(2);
+            if (nofile) strcpy(file, "");
+            char tmppwd[128]; strcpy(tmppwd, pwd);
+            sprintf(pwd, "%s/", file);
         } else if (strncmp(line, "stat", 4)==0){
             getname(4);
             if (nofile) strcpy(text, FAIL "missing operand\n");
