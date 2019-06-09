@@ -376,12 +376,30 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
             return ret;
 
         case NF:
+            while (offset < inode->size && size){
+                int left;
+                if (cnt<inode->dir_len-1) left = BLOCK_BYTES;
+                else left =  inode->size - inode->len*BLOCK_BYTES;
+                dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), buf+offset, left);
+                size-=left;
+            }
+    }
+    while (size){
+        inode->link[inode->len] = free_map(dev, DMAP);
+        write_map(dev, DMAP, inode->link[inode->len], 1);
+        inode->len ++;
+        int towrite = BLOCK_BYTES<size?BLOCK_BYTES:size;
+        dev->ops->write(dev, DATA(inode->link[inode->len-1]), buf, towrite);
+        size -= towrite;
+    }
+    inode->size += add_size;
+    dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
         default: assert(0);
     }
     return 0;
 }
 
-ssize_t write(file_t *file, const char *buf, size_t size){
+ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
     ext2_inode_t* inode = file->inode->fs_inode;
     device_t* dev = file->inode->fs->dev;
     switch (inode->type){
@@ -396,6 +414,6 @@ inodeops_t ext2_inodeops = {
     .open = ext2_inode_open,
     .close = ext2_inode_close,
     .read = ext2_inode_read,
-    .write = NULL,
+    .write = ext2_inode_write,
     .lseek = NULL,
 };
