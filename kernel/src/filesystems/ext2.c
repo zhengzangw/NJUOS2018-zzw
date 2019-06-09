@@ -102,12 +102,12 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
     tmp = pmm->alloc(strlen(name)+1);
     strcpy(tmp, name);
     int splited = split(tmp, &pre, &post);
-    Log("tmp=%s name=%s splited=%d", tmp, name, splited);
+    //Log("tmp=%s name=%s splited=%d", tmp, name, splited);
     while (splited){
         strcpy(tmp, post);
         pmm->free(pre); pmm->free(post);
         splited = split(tmp, &pre, &post);
-        Log("pre=%s post=%s splited=%d", pre, post, splited);
+        //Log("pre=%s post=%s splited=%d", pre, post, splited);
         int inode_index = ext2_dir_search(dev, inode, pre);
         if (inode_index>=0){
             dev->ops->read(dev, TABLE(inode_index), inode, INODE_BYTES);
@@ -121,7 +121,7 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
 }
 
 ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
-    Log("name = %s", name);
+    //Log("name = %s", name);
     char *pre = NULL, *post = NULL;
     char tmp[128];
     strcpy(tmp, name);
@@ -133,7 +133,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     }
     split2(tmp, &pre, &post);
 
-    Log("tmp=%s pre=%s post=%s", tmp, pre, post);
+    //Log("tmp=%s pre=%s post=%s", tmp, pre, post);
 
     //Get parent dir inode
     ext2_inode_t* dir = ext2_lookup_dir(dev, pre);
@@ -142,7 +142,6 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     ext2_inode_t *ret;
     if (dir){
         index = ext2_dir_search(dev, dir, post);
-        Logint(index);
         pmm->free(dir);
     } else {
         return NULL;
@@ -193,7 +192,6 @@ typedef struct dir_entry dir_entry_t;
 void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type){
     dir_entry_t* dir = balloc(sizeof(dir_entry_t));
     dir->inode = entry_inode->index;
-    //Log("name = %s, inode = %d", entry_name, entry_inode->index);
     uint32_t name_len = strlen(entry_name);
     dir->name_len = name_len+1;
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
@@ -211,7 +209,6 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
     dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
     int finded = 0;
     int offset = 0;
-    Logint(inode->size);
     while (offset < inode->size){
         dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
         char *tmp_name = pmm->alloc(cur->name_len+1);
@@ -219,17 +216,15 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
 
         int clen = (name[strlen(name)-1]=='/')?strlen(name)-1:strlen(name);
-        Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
+        //Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
         if (strncmp(name, tmp_name, clen)==0){
             finded =1;
             break;
         }
         pmm->free(tmp_name);
         offset += cur->rec_len;
-        Logint(offset);
     }
     pmm->free(cur);
-    Logint(finded);
     if (finded)
         return cur->inode;
     else
@@ -265,7 +260,7 @@ int ext2_create_dir(device_t *dev, const char *name, int isroot){
 /*======== API ============*/
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags);
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
-    Log("EXT2 INFO: inode size=%ld", sizeof(ext2_inode_t));
+    Log("EXT2 INFO:\nBlock Size:%#lx\n Inode Nums:%d\nInode Start:%d\nInode Size:%#lx\n Data Start:%d\n",BLOCK_BYTES, ITABLE_NUM, ITABLE, sizeof(ext2_inode_t), DATA_NUM);
     //clear
     bzero(dev, IMAP);
     bzero(dev, DMAP);
@@ -347,7 +342,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
 
                 char *tmp_name = pmm->alloc(cur->name_len+1);
                 int name_offset = offset+sizeof(dir_entry_t);
-                Log("offset = %d, cnt = %d, name_offset = %d", offset, cnt, name_offset);
+                //Log("offset = %d, cnt = %d, name_offset = %d", offset, cnt, name_offset);
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
 
                 cnt ++;
