@@ -115,8 +115,7 @@ int vfs_access(const char *path, int mode){
 
 int vfs_mkdir(const char *path){
     int index = get_mount(path);
-    mpt[index].fs->ops->mkdir(mpt[index].fs, path);
-    return 0;
+    return mpt[index].fs->ops->mkdir(mpt[index].fs, path);
 }
 
 int vfs_rmdir(const char *path){
@@ -141,10 +140,11 @@ int get_free_flides(int ccppuu){
     }
     return index;
 }
+
 int vfs_open(const char *path, int flags){
-Log("path = %s", path);
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
+    if (cur == NULL) return -1;
 
     int findex = get_free_flides(_cpu());
     assert(findex>=0);
