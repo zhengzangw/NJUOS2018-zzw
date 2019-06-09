@@ -53,6 +53,10 @@ void vfs_init(){
 
     fs->ops->init(fs, "/", fs->dev);
     vfs->mount("/", fs);
+    vfs_mkdir("/bin");
+    vfs_mkdir("/etc");
+    vfs_mkdir("/usr");
+    vfs_mkdir("/usr/bin");
     //Log("dev = %p", fs->dev);
 }
 
