@@ -261,6 +261,7 @@ int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int t
 }
 
 /*======== API ============*/
+inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags);
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     printf("==== EXT2 INFO ====\n Block Size:%#lx\n Inode Nums:%d\nInode Start:%d\n Inode Size:%#lx\n Data Start:%d\n",BLOCK_BYTES, ITABLE_NUM, ITABLE, sizeof(ext2_inode_t), DATA_B);
     //clear
@@ -271,6 +272,16 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     }
 
     ext2_create_dir(dev, name, 1);
+    ext2_create_dir(dev, "/bin", 0);
+    ext2_create_dir(dev, "/home", 0);
+    ext2_create_dir(dev, "/usr", 0);
+    ext2_create_dir(dev, "/usr/bin", 0);
+    ext2_create_dir(dev, "/etc", 0);
+    ext2_create_file(dev, "/etc/passwd", 0, R_OK|W_OK|X_OK, NF);
+
+    char *words = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
+    inode_t* tmp = lookup(fs, "/etc/passwd", 0);
+    ext2_append_data(dev, tmp->fs_inode, words, strlen(words));
 
     //LOGBLOCK();
     //assert(0);

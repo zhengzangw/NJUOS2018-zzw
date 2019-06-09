@@ -57,9 +57,7 @@ void vfs_init(){
     vfs->mkdir("/etc");
 
     int fd = vfs->open("/etc/passwd", O_CREAT|O_WRONLY);
-    char *tmp = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
     vfs->write(fd, tmp, strlen(tmp)+1);
-    vfs->close(fd);
 
     vfs->mkdir("/usr");
     vfs->mkdir("/usr/bin");
