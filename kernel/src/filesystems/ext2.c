@@ -196,6 +196,7 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
     //Log("name = %s, inode = %d", entry_name, entry_inode->index);
     uint32_t name_len = strlen(entry_name);
     dir->name_len = name_len+1;
+    Log("%s", entry_name);
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
     dir->file_type = type;
 
