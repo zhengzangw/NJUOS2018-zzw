@@ -378,13 +378,15 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
         case NF:
             while (offset < inode->size && size){
                 int left;
-                if (cnt<inode->len) left = BLOCK_BYTES;
+                if (cnt<inode->len-1) left = BLOCK_BYTES;
                 else left =  inode->size - (inode->len-1)*BLOCK_BYTES;
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), buf+offset, left);
                 size-=left;
                 offset+=left;
+                cnt++;
             }
             buf[offset] = '\0';
+            Log("buf = %s", buf);
     }
     return 0;
 }
