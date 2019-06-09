@@ -342,9 +342,9 @@ void shell_task(void *name){
                             strncpy(tmpfile, file+oldptr, ptr-oldptr);
                             tmpfile[ptr-oldptr] = '\0';
                             sprintf(tmppwd, "%s%s", pwd, tmpfile);
-                            int fd = vfs->open(tmppwd, O_RDONLY);
+                            int fd = vfs->open(tmppwd, O_RD);
                             if (fd>=0) {
-                                if (FILE(fd)->type!=DR) ret = -2;
+                                if (FILE(fd)->inode->type!=DR) ret = -2;
                                 else {
                                     vfs->close(fd);
                                     sprintf(pwd, "%s/", tmppwd);
@@ -371,7 +371,7 @@ void shell_task(void *name){
             getname(4);
             if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
-                int fd = vfs->open(file, O_RDONLY);
+                int fd = vfs->open(file, O_RD);
                     if (fd<0){
                         sprintf(text, FAIL "no such file or directory %s\n", file);
                     } else {
@@ -401,7 +401,7 @@ void shell_task(void *name){
         } else if (strncmp(line, "ls", 2)==0){
             getname(2);
             if (nofile) strcpy(file, pwd);
-            int fd = vfs->open(file, O_RDONLY);
+            int fd = vfs->open(file, O_RD);
             if (fd<0){
                 sprintf(text, FAIL "no such file or directory %s\n", file);
             } else {
@@ -432,7 +432,7 @@ void shell_task(void *name){
             getname(3);
             if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
-                int fd = vfs->open(file, O_RDONLY);
+                int fd = vfs->open(file, O_RD);
                 if (fd>=0){
                     memset(text, 0, 1024);;
                     vfs->read(fd, text, 1024);
