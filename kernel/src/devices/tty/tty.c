@@ -327,8 +327,8 @@ void shell_task(void *name){
                     char tmpfile[128];
                     strcpy(tmpfile, file);
                     sprintf(file, "%s%s", pwd, tmpfile);
+                    sprintf(pwd, "%s/", file);
                 }
-                sprintf(pwd, "%s/", file);
             }
             sprintf(text, SUCCESS "change director to %s\n", pwd);
         } else if (strncmp(line, "stat", 4)==0){
