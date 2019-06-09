@@ -281,7 +281,7 @@ void echo_task(void *name){
 
 #define getname(len)\
     int nofile = 1;\
-    if (line[len+1]==' '){\
+    if (line[len]==' '){\
         nofile = 0;\
         strcpy(file, line+len+1);\
         if (file[0]!='/') {\
@@ -341,7 +341,6 @@ void shell_task(void *name){
             char tmp[128];
             strcpy(text, "");
             vfs->read(fd, tmp, 128);
-            Log("tmp = %s", tmp);
             char texttmp[128];
             strcpy(texttmp, text);
             sprintf(text, "%s%s\n", texttmp, tmp);
