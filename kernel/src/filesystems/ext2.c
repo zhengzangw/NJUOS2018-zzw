@@ -226,6 +226,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         }
         pmm->free(tmp_name);
         offset += cur->rec_len;
+        Logint(offset);
     }
     pmm->free(cur);
     Logint(finded);
