@@ -307,7 +307,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
     int cnt = 0 ,ret = 0, buf_offset = 0;
     switch (file->inode->type){
         case DR:
-            while (offset < inode->dir_len && size){
+            while (cnt < inode->dir_len && size){
                 dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
 
@@ -327,7 +327,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
 
                 pmm->free(tmp_name);
                 pmm->free(cur);
-                offset += 1;
+                offset += cur->rec_len;
             }
             Log("buf = %s", buf);
             return ret;
