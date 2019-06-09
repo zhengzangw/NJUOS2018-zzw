@@ -312,7 +312,7 @@ void shell_task(void *name){
             if (nofile) strcpy(file, "");
             char tmppwd[128]; strcpy(tmppwd, pwd);
             sprintf(pwd, "%s/", file);
-            strcpy(text, SUCCES "change director to %s\n", pwd);
+            strcpy(text, SUCCESS "change director to %s\n", pwd);
         } else if (strncmp(line, "stat", 4)==0){
             getname(4);
             if (nofile) strcpy(text, FAIL "missing operand\n");
