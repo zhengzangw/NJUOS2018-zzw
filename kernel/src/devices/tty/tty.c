@@ -421,13 +421,16 @@ void shell_task(void *name){
             }
         } else if (strncmp(line, "cat", 3)==0) {
             getname(3);
-            int fd = vfs->open(file, O_RDONLY);
-            if (fd<0){
-                sprintf(text, FAIL "no such file or directory %s\n", file);
-            } else {
-                memset(text, 0, 1024);;
-                vfs->read(fd, text, 1024);
-                vfs->close(fd);
+            if (nofile) strcpy(text, FAIL "missing operand\n");
+            else {
+                int fd = vfs->open(file, O_RDONLY);
+                if (fd>=0){
+                    memset(text, 0, 1024);;
+                    vfs->read(fd, text, 1024);
+                    vfs->close(fd);
+                } else {
+                    sprintf(text, FAIL "no such file or directory %s\n", file);
+                }
             }
         } else {
             sprintf(text, FAIL "command not found \"%s\"\n", line);
