@@ -310,6 +310,9 @@ void shell_task(void *name){
                 break;
             }
             vfs->close(fd);
+        } else if (strncmp(line, "mkdir", 5)==0){
+            strcpy(name, line+3);
+            int ret = vfs->mkdir(name);
         } else {
             text[0] = '\0';
         }

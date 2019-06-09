@@ -302,9 +302,9 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 }
 
                 pmm->free(tmp_name);
+                pmm->free(cur);
                 offset += cur->rec_len;
             }
-            pmm->free(cur);
             return ret;
 
         case NF:

@@ -11,6 +11,7 @@ void *balloc(int size){
 }
 
 // 1 if splited, 0 if done
+// /bin/test/a -> / + bin/test/a
 int split(const char *path, char **pre, char **post){
     int ret = 0, len = strlen(path);
     for (int i=0;i<len;++i){
@@ -27,6 +28,7 @@ int split(const char *path, char **pre, char **post){
     if (strlen(*post)==0) ret = 0;
     return ret;
 }
+// /bin/test/a -> / + /bin/test/
 int split2(const char *path, char **pre, char **post){
     int ret = 0, len = strlen(path);
     for (int i=len-1;i>=0;--i){
@@ -112,6 +114,9 @@ int vfs_access(const char *path, int mode){
 
 
 int vfs_mkdir(const char *path){
+    int index = get_mount(path);
+    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
+
     return 0;
 }
 
