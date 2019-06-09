@@ -178,7 +178,6 @@ void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int s
         size -= towrite;
     }
     inode->size += add_size;
-    Logint(inode->size);
 }
 
 /*======== DIR ============*/
@@ -284,6 +283,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     inode_t* tmp = ext2_lookup(fs, "/etc/passwd", 0);
     assert(tmp!=NULL);
     ext2_append_data(dev, tmp->fs_inode, words, strlen(words));
+    Logint(((ext2_inode_t*)tmp->fs_inode)->size);
 
     //LOGBLOCK();
     //assert(0);
