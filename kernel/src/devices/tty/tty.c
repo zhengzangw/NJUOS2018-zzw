@@ -281,7 +281,7 @@ void echo_task(void *name){
 
 #define getname(len)\
     int nofile = 1;\
-    if (file[line+len+1]==' '){\
+    if (line[len+1]==' '){\
         nofile = 0;\
         strcpy(file, line+len+1);\
         if (file[0]!='/') {\
