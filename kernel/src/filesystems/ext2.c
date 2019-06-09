@@ -384,18 +384,6 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 size-=left;
             }
     }
-    while (size){
-        inode->link[inode->len] = free_map(dev, DMAP);
-        write_map(dev, DMAP, inode->link[inode->len], 1);
-        inode->len ++;
-        int towrite = BLOCK_BYTES<size?BLOCK_BYTES:size;
-        dev->ops->write(dev, DATA(inode->link[inode->len-1]), buf, towrite);
-        size -= towrite;
-    }
-    inode->size += add_size;
-    dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
-        default: assert(0);
-    }
     return 0;
 }
 
