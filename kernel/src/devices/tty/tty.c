@@ -306,6 +306,8 @@ void shell_task(void *name){
 
         if (strcmp(line, "pwd")==0){
             sprintf(text, "%s\n", pwd);
+        } else if (strcmp(line, "exit")==0){
+            _halt(0);
         } else if (strncmp(line, "cd", 2)==0){
             int len = 2, ret = 0;
             if (line[2]!=' ') {
