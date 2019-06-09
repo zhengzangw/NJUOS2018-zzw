@@ -350,6 +350,7 @@ void shell_task(void *name){
             vfs->read(fd, tmp, 128);
             char texttmp[128];
             strcpy(texttmp, text);
+            Log("tmp = %s");
             sprintf(text, "%s%s\n", texttmp, tmp);
             vfs->close(fd);
         } else if (strncmp(line, "mkdir", 5)==0){
