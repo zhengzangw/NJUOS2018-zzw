@@ -278,9 +278,31 @@ int ext2_inode_close(file_t *file){
 }
 
 ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
-    int ret = 0;
+            dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
+            ext2_inode_t* inode = file->inode;
+            int offset = 0;
+            int cnt = 0 ,ret = 0, buf_offset = 0;
     switch (file->inode->type){
         case DR:
+            while (offset < cur->size && size){
+                dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
+                char *tmp_name = pmm->alloc(cur->name_len+1);
+                int name_offset = offset+sizeof(dir_entry_t);
+                dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
+
+                cnt ++;
+                if (cnt>file->offset){
+                    size--;
+                    ret++;
+                    strncpy(buf+buf_offset, tmp_name, strlen(tmp_name));
+                    strcat(buf, " ");
+                    buf_offset += strlen(tmp_name)+1;
+                }
+
+                pmm->free(tmp_name);
+                offset += cur->rec_len;
+            }
+            pmm->free(cur);
             return ret;
 
         case NF:

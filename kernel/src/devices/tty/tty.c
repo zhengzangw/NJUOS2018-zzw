@@ -305,7 +305,7 @@ void shell_task(void *name){
             sprintf(name, "%s%s", pwd, line+3);
             int fd = vfs->open(name, 0);
             char tmp[128];
-            while (vfs->read(fs, tmp, 1)>0){
+            while (vfs->read(fd, tmp, 1)>0){
                 strcat(text, tmp);
                 break;
             }
