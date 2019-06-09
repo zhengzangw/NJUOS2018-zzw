@@ -329,8 +329,8 @@ void shell_task(void *name){
                                         break;
                                         }
                                 }
-                                ptr+=3;
                             }
+                            ptr+=3;
                         } else {
                             ptr+=2;
                         }
