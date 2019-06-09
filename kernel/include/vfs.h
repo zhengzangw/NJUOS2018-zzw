@@ -82,8 +82,8 @@ enum TYPE {NF, DR, LK, MP};
 
 /* ====== open ======= */
 #define O_RDONLY 1
-#define O_wRONLY 2
-#define O_RDwR   4
+#define O_WRONLY 2
+#define O_RDWR   4
 #define O_CREAT  8
 #define O_EXCL   16
 #define O_TRUNC  32
