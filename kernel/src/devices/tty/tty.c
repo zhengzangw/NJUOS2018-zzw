@@ -344,8 +344,11 @@ void shell_task(void *name){
                             sprintf(tmppwd, "%s%s", pwd, tmpfile);
                             int fd = vfs->open(tmppwd, O_RDONLY);
                             if (fd>=0) {
-                                vfs->close(fd);
-                                sprintf(pwd, "%s/", tmppwd);
+                                if (FILE(fd)->type!=DR) ret = -2;
+                                else {
+                                    vfs->close(fd);
+                                    sprintf(pwd, "%s/", tmppwd);
+                                }
                             } else {
                                 ret = -1;
                                 break;
@@ -354,10 +357,16 @@ void shell_task(void *name){
                     }
                 }
             }
-            if (ret==0)
-                sprintf(text, SUCCESS "change director to %s\n", pwd);
-            else
-                sprintf(text, FAIL "no such file or directory: %s\n", file);
+            switch (ret){
+                case 0:
+                    sprintf(text, SUCCESS "change director to %s\n", pwd);
+                    break;
+                case -1:
+                    sprintf(text, FAIL "no such file or directory: %s\n", file);
+                    break;
+                case -2:
+                    sprintf(text, FAIL "not a directory: %s\n", file);
+            }
         } else if (strncmp(line, "stat", 4)==0){
             getname(4);
             if (nofile) strcpy(text, FAIL "missing operand\n");

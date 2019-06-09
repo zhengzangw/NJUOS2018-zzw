@@ -81,18 +81,16 @@ enum TYPE {NF, DR, LK, MP};
 #define F_OK 16
 
 /* ====== open ======= */
-#define O_RDONLY 1
-#define O_WRONLY 2
-#define O_RDWR   4
-#define O_CREAT  8
-#define O_EXCL   16
-#define O_TRUNC  32
-#define O_DIR 64
+#define O_RD 1
+#define O_WR 2
+#define O_CREAT  4
+#define O_TRUNC  8
 
 /* ====== util ======= */
 void *balloc(int);
 int split(const char *, char **, char **);
 int split2(const char *, char **, char **);
+#define FILE(fd) cputask[_cpu()]->flides[fd]
 
 /* ====== ext2 ======= */
 extern fsops_t ext2_ops;
