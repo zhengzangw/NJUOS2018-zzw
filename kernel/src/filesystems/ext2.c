@@ -323,6 +323,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                     ret++;
                     strncpy(buf+buf_offset, tmp_name, strlen(tmp_name));
                     strcat(buf, "\n");
+                    Log("%s", buf);
                     buf_offset += strlen(tmp_name)+1;
                 }
 
