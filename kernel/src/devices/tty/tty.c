@@ -407,7 +407,20 @@ void shell_task(void *name){
                 vfs->mkdir(file);
                 sprintf(text, SUCCESS "create %s\n", file);
             }
-        } else {
+        } else if (strncmp(line, "touch", 5)==0){
+            getname(5);
+            if (nofile) strcpy(text, FAIL "missing operand\n");
+            else {
+                int fd = vfs->open(file, O_CREATE);
+                if (fd>0){
+                    vfs->close(fd);
+                    sprintf(text, SUCCESS "create file %s", file);
+                } else {
+                    sprintf(text, FAIL "cannot create file %s", file);
+                }
+            }
+
+        } {
             sprintf(text, FAIL "command not found \"%s\"\n", line);
         }
 

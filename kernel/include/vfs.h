@@ -27,10 +27,12 @@ struct fsops {
   void (*init)(filesystem_t *fs, const char *name, device_t *dev);
   inode_t *(*lookup)(filesystem_t *fs, const char *name, int flags);
   int (*close)(inode_t *inode);
+  //Additional
   int (*mkdir)(filesystem_t *fs, const char *name);
   int (*rmdir)(filesystem_t *fs, const char *name);
   int (*link)(filesystem_t *fs, const char *name, inode_t *inode);
   int (*unlink)(filesystem_t *fs, const char *name);
+  int (*create)(filesystem_t *fs, const char *name);
 };
 
 typedef struct file {

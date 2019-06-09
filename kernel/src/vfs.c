@@ -148,7 +148,13 @@ int get_free_flides(int ccppuu){
 int vfs_open(const char *path, int flags){
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
-    if (cur == NULL) return -1;
+    if (cur == NULL) {
+        if (flags & O_CREAT){
+            cur = mpt[index].fs->ops->create(mpt[index].fs, path);
+        } else {
+            return 0;
+        }
+    }
 
     int findex = get_free_flides(_cpu());
     assert(findex>=0);

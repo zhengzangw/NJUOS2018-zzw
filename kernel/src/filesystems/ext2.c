@@ -231,11 +231,11 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         return -1;
 }
 
-int ext2_create_dir(device_t *dev, const char *name, int isroot){
-    unsigned short per = R_OK|W_OK|X_OK;
+#define ext2_create_dir(dev, name, isroot) ext2_create_inode(dev, name, isroot, R_OK|W_OK|X_OK, DR)
+int ext2_create_inode(device_t *dev, const char *name, int isroot, int per, int type){
     ext2_inode_t* dir;
     if (isroot){
-        dir = ext2_create_inode(dev, DR, per);
+        dir = ext2_create_inode(dev, type, per);
         ext2_create_entry(dev, dir, dir, ".", DR);
         ext2_create_entry(dev, dir, dir, "..", DR);
     } else {
@@ -244,11 +244,14 @@ int ext2_create_dir(device_t *dev, const char *name, int isroot){
 
         ext2_inode_t* father = ext2_lookup_dir(dev, pre);
         if (father==NULL) return -1;
-        dir = ext2_create_inode(dev, DR, per);
-        ext2_create_entry(dev, dir, dir, ".", DR);
-        ext2_create_entry(dev, dir, father, "..", DR);
 
-        ext2_create_entry(dev, father, dir, post, DR);
+        dir = ext2_create_inode(dev, type, per);
+        if (type == DR){
+            ext2_create_entry(dev, dir, dir, ".", DR);
+            ext2_create_entry(dev, dir, father, "..", DR);
+        }
+
+        ext2_create_entry(dev, father, dir, post, type);
         dev->ops->write(dev, TABLE(father->index), father, INODE_BYTES);
         pmm->free(father);
     }
@@ -258,7 +261,6 @@ int ext2_create_dir(device_t *dev, const char *name, int isroot){
 }
 
 /*======== API ============*/
-inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags);
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     printf("==== EXT2 INFO ====\n Block Size:%#lx\n Inode Nums:%d\nInode Start:%d\n Inode Size:%#lx\n Data Start:%d\n",BLOCK_BYTES, ITABLE_NUM, ITABLE, sizeof(ext2_inode_t), DATA_B);
     //clear
@@ -299,6 +301,10 @@ int ext2_close(inode_t *inode){
 
 int ext2_mkdir(filesystem_t *fs, const char *name){
     return ext2_create_dir(fs->dev, name, 0);
+}
+
+int ext2_create(filesystem_t *fs, const char *name){
+    return ext2_create_inode(fs->dev, name, 0, R_OK|W_OK|X_OK, NF);
 }
 
 fsops_t ext2_ops = {
