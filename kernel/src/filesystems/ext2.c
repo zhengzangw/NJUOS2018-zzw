@@ -269,10 +269,19 @@ int ext2_close(inode_t *inode){
     return 0;
 }
 
+int ext2_inode_mkdir(filesystem_t *fs, const char *name){
+    ext2_create_dir(dev, name, 0);
+    return 0;
+}
+
 fsops_t ext2_ops = {
     .init = ext2_init,
     .lookup = ext2_lookup,
     .close = ext2_close,
+    .mkdir = ext2_mkdir
+    .rmdir = NULL,
+    .link = NULL,
+    .unlink = NULL,
 };
 
 /* ===== Inode API ====== */
@@ -323,18 +332,10 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
     return 0;
 }
 
-int ext2_inode_mkdir(const char *name){
-    return 0;
-}
-
 inodeops_t ext2_inodeops = {
     .open = ext2_inode_open,
     .close = ext2_inode_close,
     .read = ext2_inode_read,
     .write = NULL,
     .lseek = NULL,
-    .mkdir = ext2_inode_mkdir,
-    .rmdir = NULL,
-    .link = NULL,
-    .unlink = NULL,
 };
