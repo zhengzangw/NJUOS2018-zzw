@@ -281,6 +281,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
     switch (file->inode->type){
         case DR:
             dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
+            ext2_inode_t* inode = file->inode;
             int offset = 0;
             int cnt = 0 ,ret = 0, buf_offset = 0;
             while (offset < cur->size && size){
