@@ -485,15 +485,11 @@ int ext2_inode_link(file_t *file, const char *name){
     ext2_inode_t* inode = file->inode->fs_inode;
     device_t* dev = file->inode->fs->dev;
     char *pre = NULL, *post = NULL;
-    switch (inode->type){
-        case DR: assert(0);
-        case NF:
-                split2(name, &pre, &post);
-                ext2_inode_t* father = ext2_lookup_dir(dev, pre);
-                ext2_create_entry(dev, father, inode, post, NF);
-                inode->link_num++;
-                dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
-    }
+    split2(name, &pre, &post);
+    ext2_inode_t* father = ext2_lookup_dir(dev, pre);
+    ext2_create_entry(dev, father, inode, post, NF);
+    inode->link_num++;
+    dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
     return 0;
 }
 
