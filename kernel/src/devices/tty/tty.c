@@ -279,17 +279,34 @@ void echo_task(void *name){
     }
 }
 
+#define modify(file)\
+    if (file[0]!='/') {\
+        char tmpname[128];\
+        strcpy(tmpname, file);\
+        sprintf(file, "%s%s", pwd, tmpname);\
+    }
+
 #define getname(len)\
     int nofile = 1;\
     if (line[len]==' '){\
         nofile = 0;\
         strcpy(file, line+len+1);\
-        if (file[0]!='/') {\
-            char tmpname[128];\
-            strcpy(tmpname, file);\
-            sprintf(file, "%s%s", pwd, tmpname);\
-        }\
+        modify(file)\
     }
+#define gettwoname(len)\
+    int nofile = 1;\
+    if (line[len]==' '){\
+        int slen;\
+        for (slen = len+1;line[slen]!='\0';slen++){\
+            if (line[slen]==' ') break;\
+        }\
+        if (line[slen]==' ') nofile = 0;\
+        strncpy(file, line+len+1, slen-len-1);\
+        strcpy(file2, line+slen+1);\
+        modify(file);\
+        modify(file2);\
+    }
+
 #define SUCCESS "[SUCCESS]: "
 #define FAIL "[FAIL]: "
 
@@ -298,7 +315,7 @@ void shell_task(void *name){
     strcpy(pwd, "/");
     device_t *tty = dev_lookup(name);
     while (1){
-        char line[128], text[1024], file[128];
+        char line[128], text[1024], file[128], file2[128];
         sprintf(text, "(%s):%s $ ", name, pwd);
         tty_write(tty, 0, text, strlen(text));
         int nread = tty->ops->read(tty, 0, line, sizeof(line));
@@ -469,6 +486,12 @@ void shell_task(void *name){
                 } else {
                     sprintf(text, FAIL "no such file or directory %s\n", file);
                 }
+            }
+        } else if (strncmp(line, "link", 4)){
+            gettwoname(4);
+            if (nofile) strcpy(text, FAIL "missing operand\n");
+            else {
+                sprintf(text, "1=%s, 2=%s\n", file, file2);
             }
         } else {
             sprintf(text, FAIL "command not found \" %s \"\n", line);

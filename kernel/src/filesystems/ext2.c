@@ -43,7 +43,6 @@ int write_map(device_t* dev, int block, int i, uint8_t x){
     assert(x==0||x==1);
     uint8_t m = 1<<(i%8), b;
     dev->ops->read(dev, MAP(block, i), &b, sizeof(uint8_t));
-    Log("block = %d, i = %d, x = %d, m = %d, b = %d", block, i, x, m, b);
     assert(read_map(dev, block, i)!=x);
     if (x==1) b |= m; else b &= ~m;
     dev->ops->write(dev, MAP(block, i), &b, sizeof(uint8_t));
@@ -75,7 +74,8 @@ struct ext2_inode {
   uint32_t len; //Number of link
   uint32_t id; //File id
   uint32_t dir_len; //Special for dir
-  uint32_t link[26];
+  uint32_t link_num;
+  uint32_t link[25];
 }__attribute__((packed));
 uint32_t gid;
 typedef struct ext2_inode ext2_inode_t;
@@ -100,6 +100,7 @@ ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     inode->len = 0;
     inode->id = ++gid;
     inode->dir_len = 0;
+    inode->link_num = 1;
     return inode;
 }
 
