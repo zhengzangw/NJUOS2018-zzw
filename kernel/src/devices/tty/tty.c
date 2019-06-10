@@ -311,7 +311,7 @@ void echo_task(void *name){
 #define FAIL "[FAIL]: "
 
 static int isdigit(int ch){return (ch>='0')&&(ch<='9');}
-static int my_atoi(const char *s){
+static int my_atoi(char *s){
     int i=0, flag = 1;
     char *ptr = s;
     if (*ptr == '-') {
