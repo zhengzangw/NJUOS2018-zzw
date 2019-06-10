@@ -487,6 +487,7 @@ ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
     ext2_inode_t* inode = file->inode->fs_inode;
     device_t* dev = file->inode->fs->dev;
 
+    int add_size = size;
     int offset = file->offset; //offset pointer of file
     int buf_offset = 0; //offset pointer of buffer
     int original_len = inode->len;
@@ -523,11 +524,11 @@ ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
                 buf_offset += towrite;
         }
 
-    int update_size = offset + size;
-    if (update_size>inode->size){
-        inode->size = update_size;
-        dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
-    }
+        int update_size = offset + add_size;
+        if (update_size>inode->size){
+            inode->size = update_size;
+            dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
+        }
     }
 
     return size;
