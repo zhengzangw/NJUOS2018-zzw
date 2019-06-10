@@ -12,15 +12,16 @@ BIAS	include/pmm.h	18;"	d
 BLOCK	src/filesystems/ext2.c	13;"	d	file:
 BLOCK_BYTES	src/filesystems/ext2.c	12;"	d	file:
 CREATE	src/devices/dev.c	44;"	d	file:
-DATA	src/filesystems/ext2.c	159;"	d	file:
-DATA_B	src/filesystems/ext2.c	158;"	d	file:
+DATA	src/filesystems/ext2.c	84;"	d	file:
+DATA_B	src/filesystems/ext2.c	83;"	d	file:
 DEBUG	include/debug.h	6;"	d
 DEVICES	src/devices/dev.c	6;"	d	file:
 DEV_CNT	src/devices/dev.c	16;"	d	file:
 DMAP	src/filesystems/ext2.c	34;"	d	file:
-DR	include/vfs.h	/^enum TYPE {NF, DR, LK, MP};$/;"	e	enum:TYPE
-FAIL	src/devices/tty/tty.c	294;"	d	file:
-F_OK	include/vfs.h	79;"	d
+DR	include/vfs.h	/^enum TYPE {NF, DR, XX, MP};$/;"	e	enum:TYPE
+FAIL	src/devices/tty/tty.c	311;"	d	file:
+FILE	include/vfs.h	94;"	d
+F_OK	include/vfs.h	82;"	d
 IMAP	src/filesystems/ext2.c	33;"	d	file:
 INC_DIR	Makefile	/^INC_DIR        := include\/ framework\/$/;"	m
 INIT	src/devices/dev.c	47;"	d	file:
@@ -30,7 +31,6 @@ INT_MIN	include/kmt.h	14;"	d
 ITABLE	src/filesystems/ext2.c	65;"	d	file:
 ITABLE_NUM	src/filesystems/ext2.c	66;"	d	file:
 LENGTH	include/devices.h	5;"	d
-LK	include/vfs.h	/^enum TYPE {NF, DR, LK, MP};$/;"	e	enum:TYPE
 LOGBLOCK	src/filesystems/ext2.c	6;"	d	file:
 LOG_NUM	src/filesystems/ext2.c	5;"	d	file:
 Log	include/debug.h	21;"	d
@@ -47,7 +47,7 @@ Logsem	include/debug.h	68;"	d
 MAP	src/filesystems/ext2.c	35;"	d	file:
 MAXCB	include/os.h	9;"	d
 MAXCPU	include/kmt.h	7;"	d
-MAXMP	include/vfs.h	55;"	d
+MAXMP	include/vfs.h	58;"	d
 MAXTASK	include/kmt.h	12;"	d
 MODULE	framework/kernel.h	/^} MODULE(dev);$/;"	t	typeref:struct:__anon4
 MODULE	framework/kernel.h	/^} MODULE(kmt);$/;"	t	typeref:struct:__anon3
@@ -61,43 +61,41 @@ MODULE_DEF	src/kmt.c	/^MODULE_DEF(kmt){$/;"	f
 MODULE_DEF	src/os.c	/^MODULE_DEF(os){$/;"	f
 MODULE_DEF	src/pmm.c	/^MODULE_DEF(pmm) {$/;"	f
 MODULE_DEF	src/vfs.c	/^MODULE_DEF(vfs){$/;"	f
-MP	include/vfs.h	/^enum TYPE {NF, DR, LK, MP};$/;"	e	enum:TYPE
+MP	include/vfs.h	/^enum TYPE {NF, DR, XX, MP};$/;"	e	enum:TYPE
 NAME	Makefile	/^NAME           := kernel$/;"	m
 NEVENTS	src/devices/input/input.c	3;"	d	file:
-NF	include/vfs.h	/^enum TYPE {NF, DR, LK, MP};$/;"	e	enum:TYPE
+NF	include/vfs.h	/^enum TYPE {NF, DR, XX, MP};$/;"	e	enum:TYPE
 NOFILE	include/kmt.h	15;"	d
 NSPRITE	src/devices/video/video.c	4;"	d	file:
 NTEXTURE	src/devices/video/video.c	3;"	d	file:
-OFFSET_BLOCK	src/filesystems/ext2.c	205;"	d	file:
-OFFSET_REMAIN	src/filesystems/ext2.c	206;"	d	file:
-O_APPEND	include/vfs.h	88;"	d
-O_CREAT	include/vfs.h	85;"	d
-O_EXCL	include/vfs.h	86;"	d
-O_RDONLY	include/vfs.h	82;"	d
-O_RDwR	include/vfs.h	84;"	d
-O_TRUNC	include/vfs.h	87;"	d
-O_wRONLY	include/vfs.h	83;"	d
+OFFSET_BLOCK	src/filesystems/ext2.c	219;"	d	file:
+OFFSET_REMAIN	src/filesystems/ext2.c	220;"	d	file:
+O_CREAT	include/vfs.h	87;"	d
+O_RD	include/vfs.h	85;"	d
+O_TRUNC	include/vfs.h	88;"	d
+O_WR	include/vfs.h	86;"	d
 PREBUILD	Makefile	/^PREBUILD := git initrd$/;"	m
 Panic	include/debug.h	51;"	d
 QEMU_FLAGS	Makefile	/^QEMU_FLAGS := -serial stdio -machine accel=kvm:tcg -drive format=raw,file=$(BINARY)$/;"	m
 QEMU_FLAGS_TCG	Makefile	/^QEMU_FLAGS_TCG := -serial stdio -machine accel=tcg -drive format=raw,file=$(BINARY)$/;"	m
 RD_SIZE	include/devices.h	36;"	d
-R_OK	include/vfs.h	76;"	d
+R_OK	include/vfs.h	79;"	d
 SHOULD_NOT_REACH_HERE	include/debug.h	54;"	d
 SPRITE_BRK	include/devices.h	58;"	d
 SRCS	Makefile	/^SRCS           := framework\/main.c $(shell find -L .\/src\/ -name "*.c" -o -name "*.S")$/;"	m
 STACKSIZE	include/kmt.h	11;"	d
-SUCCESS	src/devices/tty/tty.c	293;"	d	file:
+SUCCESS	src/devices/tty/tty.c	310;"	d	file:
 TABLE	src/filesystems/ext2.c	68;"	d	file:
 TERM_FONT	include/devices.h	106;"	d
 TEXTURE_H	include/devices.h	57;"	d
 TEXTURE_W	include/devices.h	56;"	d
 TODO	include/debug.h	53;"	d
 TTY_COOK_BUF_SZ	src/devices/tty/tty.c	4;"	d	file:
-TYPE	include/vfs.h	/^enum TYPE {NF, DR, LK, MP};$/;"	g
+TYPE	include/vfs.h	/^enum TYPE {NF, DR, XX, MP};$/;"	g
 Tasknode	include/kmt.h	/^typedef struct Tasknode {$/;"	s
-W_OK	include/vfs.h	77;"	d
-X_OK	include/vfs.h	78;"	d
+W_OK	include/vfs.h	80;"	d
+XX	include/vfs.h	/^enum TYPE {NF, DR, XX, MP};$/;"	e	enum:TYPE
+X_OK	include/vfs.h	81;"	d
 __COMMON_H__	include/common.h	2;"	d
 __DEBUG_H__	include/debug.h	2;"	d
 __KERNEL_H__	framework/kernel.h	2;"	d
@@ -138,6 +136,7 @@ cpuncli	src/kmt.c	/^int cpuncli[MAXCPU], intena[MAXCPU];$/;"	v
 cputask	src/kmt.c	/^task_t *cputask[MAXCPU];  \/\/ task running on each cpu$/;"	v
 cputask_last	src/kmt.c	/^task_t *cputask_last[MAXCPU];$/;"	v
 create	framework/kernel.h	/^  int (*create)(task_t *task, const char *name, void (*entry)(void *arg), void *arg);$/;"	m	struct:__anon3
+create	include/vfs.h	/^  int (*create)(filesystem_t *fs, const char *name);$/;"	m	struct:fsops
 ctrl	include/devices.h	/^  uint32_t ctrl: 1, alt: 1;$/;"	m	struct:input_event
 ctrl_down	include/devices.h	/^  int capslock, shift_down[2], ctrl_down[2], alt_down[2];$/;"	m	struct:__anon6
 current	include/devices.h	/^  uint32_t current;$/;"	m	struct:display_info
@@ -175,22 +174,29 @@ events	include/devices.h	/^  struct input_event *events;$/;"	m	struct:__anon6	ty
 exists	include/vfs.h	/^  int exists;$/;"	m	struct:mountpoint
 ext2_append_data	src/filesystems/ext2.c	/^void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int size){$/;"	f
 ext2_close	src/filesystems/ext2.c	/^int ext2_close(inode_t *inode){$/;"	f
-ext2_create_dir	src/filesystems/ext2.c	/^int ext2_create_dir(device_t *dev, const char *name, int isroot){$/;"	f
+ext2_create	src/filesystems/ext2.c	/^int ext2_create(filesystem_t *fs, const char *name){$/;"	f
+ext2_create_dir	src/filesystems/ext2.c	267;"	d	file:
 ext2_create_entry	src/filesystems/ext2.c	/^void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type){$/;"	f
+ext2_create_file	src/filesystems/ext2.c	/^int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int type){$/;"	f
 ext2_create_inode	src/filesystems/ext2.c	/^ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){$/;"	f
+ext2_dir_remove	src/filesystems/ext2.c	/^void ext2_dir_remove(device_t *dev, ext2_inode_t* inode, int index){$/;"	f
 ext2_dir_search	src/filesystems/ext2.c	/^int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){$/;"	f
 ext2_init	src/filesystems/ext2.c	/^void ext2_init(filesystem_t *fs, const char *name, device_t *dev){$/;"	f
 ext2_inode	src/filesystems/ext2.c	/^struct ext2_inode {$/;"	s	file:
 ext2_inode_close	src/filesystems/ext2.c	/^int ext2_inode_close(file_t *file){$/;"	f
+ext2_inode_link	src/filesystems/ext2.c	/^int ext2_inode_link(file_t *file, const char *name){$/;"	f
 ext2_inode_open	src/filesystems/ext2.c	/^int ext2_inode_open(file_t *file, int flags){$/;"	f
 ext2_inode_read	src/filesystems/ext2.c	/^ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){$/;"	f
+ext2_inode_remove	src/filesystems/ext2.c	/^void ext2_inode_remove(device_t *dev, ext2_inode_t* inode){$/;"	f
 ext2_inode_t	src/filesystems/ext2.c	/^typedef struct ext2_inode ext2_inode_t;$/;"	t	typeref:struct:ext2_inode	file:
+ext2_inode_write	src/filesystems/ext2.c	/^ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){$/;"	f
 ext2_inodeops	src/filesystems/ext2.c	/^inodeops_t ext2_inodeops = {$/;"	v
 ext2_lookup	src/filesystems/ext2.c	/^inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){$/;"	f
 ext2_lookup_dir	src/filesystems/ext2.c	/^ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){$/;"	f
 ext2_lookup_inode	src/filesystems/ext2.c	/^ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){$/;"	f
 ext2_mkdir	src/filesystems/ext2.c	/^int ext2_mkdir(filesystem_t *fs, const char *name){$/;"	f
 ext2_ops	src/filesystems/ext2.c	/^fsops_t ext2_ops = {$/;"	v
+ext2_rmdir	src/filesystems/ext2.c	/^int ext2_rmdir(filesystem_t *fs, const char *name){$/;"	f
 false	include/common.h	20;"	d
 fb_init	src/devices/video/video.c	/^int fb_init(device_t *dev) {$/;"	f
 fb_ops	src/devices/video/video.c	/^devops_t fb_ops = {$/;"	v
@@ -221,7 +227,8 @@ fsops	include/vfs.h	/^struct fsops {$/;"	s
 fsops_t	include/vfs.h	/^typedef struct fsops fsops_t;$/;"	t	typeref:struct:fsops
 get_free_flides	src/vfs.c	/^int get_free_flides(int ccppuu){$/;"	f
 get_mount	src/vfs.c	/^int get_mount(const char *path){$/;"	f
-getname	src/devices/tty/tty.c	282;"	d	file:
+getname	src/devices/tty/tty.c	289;"	d	file:
+gettwoname	src/devices/tty/tty.c	296;"	d	file:
 gid	src/filesystems/ext2.c	/^uint32_t gid;$/;"	v
 h_handlers	src/os.c	/^int h_handlers;$/;"	v
 handler	include/os.h	/^    handler_t handler;$/;"	m	struct:callback
@@ -274,8 +281,10 @@ kmt_teardown	src/kmt.c	/^void kmt_teardown(task_t *task) {$/;"	f
 len	src/filesystems/ext2.c	/^  uint32_t len; \/\/Number of link$/;"	m	struct:ext2_inode	file:
 lines	include/devices.h	/^  int lines, columns, size;$/;"	m	struct:__anon9
 link	include/vfs.h	/^  int (*link)(const char *oldpath, const char *newpath);$/;"	m	struct:__anon5
-link	include/vfs.h	/^  int (*link)(filesystem_t *fs, const char *name, inode_t *inode);$/;"	m	struct:fsops
-link	src/filesystems/ext2.c	/^  uint32_t link[26];$/;"	m	struct:ext2_inode	file:
+link	include/vfs.h	/^  int (*link)(file_t *file, const char*name);$/;"	m	struct:inodeops
+link	src/filesystems/ext2.c	/^  uint32_t link[25];$/;"	m	struct:ext2_inode	file:
+link_num	include/vfs.h	/^  uint32_t link_num;$/;"	m	struct:inode
+link_num	src/filesystems/ext2.c	/^  uint32_t link_num;$/;"	m	struct:ext2_inode	file:
 list_init	src/pmm.c	/^void list_init(uintptr_t pm_start, uintptr_t pm_end) {$/;"	f
 lock	include/devices.h	/^  sem_t lock, cooked;$/;"	m	struct:__anon9
 lock	include/devices.h	/^  spinlock_t lock;$/;"	m	struct:__anon6
@@ -302,6 +311,7 @@ max	include/common.h	21;"	d
 metadata	include/devices.h	/^  uint32_t metadata;$/;"	m	struct:character
 mkdir	include/vfs.h	/^  int (*mkdir)(const char *path);$/;"	m	struct:__anon5
 mkdir	include/vfs.h	/^  int (*mkdir)(filesystem_t *fs, const char *name);$/;"	m	struct:fsops
+modify	src/devices/tty/tty.c	282;"	d	file:
 mount	include/vfs.h	/^  int (*mount)(const char *path, filesystem_t *fs);$/;"	m	struct:__anon5
 mountpoint	include/vfs.h	/^typedef struct mountpoint {$/;"	s
 mountpoint_t	include/vfs.h	/^} mountpoint_t;$/;"	t	typeref:struct:mountpoint
@@ -360,7 +370,7 @@ rd_write	src/devices/ramdisk/ramdisk.c	/^ssize_t rd_write(device_t *dev, off_t o
 read	framework/kernel.h	/^  ssize_t (*read)(device_t *dev, off_t offset, void *buf, size_t count);$/;"	m	struct:devops
 read	include/vfs.h	/^  ssize_t (*read)(file_t *file, char *buf, size_t size);$/;"	m	struct:inodeops
 read	include/vfs.h	/^  ssize_t (*read)(int fd, void *buf, size_t nbyte);$/;"	m	struct:__anon5
-read_map	src/filesystems/ext2.c	/^int read_map(device_t *dev, int block, uint8_t i){$/;"	f
+read_map	src/filesystems/ext2.c	/^int read_map(device_t *dev, int block, int i){$/;"	f
 rear	include/devices.h	/^  char *buf, *end, *front, *rear;$/;"	m	struct:tty_queue
 rear	include/devices.h	/^  int front, rear;$/;"	m	struct:__anon6
 rec_len	src/filesystems/ext2.c	/^    uint32_t rec_len;$/;"	m	struct:dir_entry	file:
