@@ -32,6 +32,7 @@ struct fsops {
   int (*mkdir)(filesystem_t *fs, const char *name);
   int (*rmdir)(filesystem_t *fs, const char *name);
   int (*unlink)(filesystem_t *fs, const char *name);
+  int (*create)(filesystem_t *fs, const char *name);
 };
 
 typedef struct file {
