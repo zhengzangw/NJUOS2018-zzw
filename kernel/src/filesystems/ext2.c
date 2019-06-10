@@ -497,7 +497,7 @@ ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
         case DR: assert(0);
         case NF:
             while (size){
-                if (offset < cap){
+                if (offset < original_len*BLOCK_BYTES){
                     if (BLOCK_COVER(offset)<original_len-1) {
                         towrite = BLOCK_BYTES;
                         if (first) {
