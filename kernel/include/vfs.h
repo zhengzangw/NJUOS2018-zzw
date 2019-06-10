@@ -87,6 +87,11 @@ enum TYPE {NF, DR, XX, MP};
 #define O_CREAT  4
 #define O_TRUNC  8
 
+/* ====== lseek ====== */
+#define S_SET 0
+#define S_CUR 1
+#define S_END 2
+
 /* ====== util ======= */
 void *balloc(int);
 int split(const char *, char **, char **);

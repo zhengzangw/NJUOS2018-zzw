@@ -185,11 +185,10 @@ ssize_t vfs_read(int fd, void *buf, size_t nbyte){
 ssize_t vfs_write(int fd, void *buf, size_t nbyte){
     inode_t* tmp = cputask[_cpu()]->flides[fd]->inode;
     return tmp->ops->write(cputask[_cpu()]->flides[fd], (char *)buf, nbyte);
-    return 0;
 }
 
 off_t vfs_lseek(int fd, off_t offset, int whence){
-    return 0;
+    return FILE(fd)->inode->ops->lseek(FILE(fd), offset, whence);
 }
 
 MODULE_DEF(vfs){
