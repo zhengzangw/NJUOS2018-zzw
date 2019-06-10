@@ -398,7 +398,7 @@ void shell_task(void *name){
                         vfs->close(fd);
                     }
             }
-        } else if (strcmp(line, "ls")==0){
+        } else if (strncmp(line, "ls", 2)==0){
             getname(2);
             if (nofile) strcpy(file, pwd);
             int fd = vfs->open(file, O_RD);
