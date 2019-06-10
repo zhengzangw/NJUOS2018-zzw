@@ -527,6 +527,7 @@ ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
         inode->size = update_size;
         dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
     }
+    }
 
     return size;
 }
