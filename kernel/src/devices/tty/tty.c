@@ -455,7 +455,7 @@ void shell_task(void *name){
                         vfs->close(fd);
                         int ret = vfs->rmdir(file);
                         if (ret==0) {
-                            sprintf(text, SUCCESS "remove %s\n, Links = %d", file, FILE(fd)->inode->link_num);
+                            sprintf(text, SUCCESS "remove %s, Links = %d\n", file, FILE(fd)->inode->link_num);
                         } else {
                             sprintf(text, FAIL "fail to remove %s\n", file);
                         }
@@ -476,7 +476,7 @@ void shell_task(void *name){
                         vfs->close(fd);
                         int ret = vfs->unlink(file);
                         if (ret==0) {
-                            sprintf(text, SUCCESS "remove %s\n, Links = %d", file, FILE(fd)->inode->link_num);
+                            sprintf(text, SUCCESS "remove %s, Links = %d\n", file, FILE(fd)->inode->link_num);
                         } else {
                             sprintf(text, FAIL "fail to remove %s\n", file);
                         }
