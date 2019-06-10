@@ -404,14 +404,15 @@ void shell_task(void *name){
                                 break;
                             default:
                                 strcpy(typename, "normal file");
-                                sprintf(additional, " Links: %d\n", FILE(fd)->inode->link_num);
+                                sprintf(additional, "\0");
                         }
-                        sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n%s", file,
+                        sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n%s Links: %d\n", file,
                             typename,
-                            cputask[_cpu()]->flides[fd]->inode->size,
-                            cputask[_cpu()]->flides[fd]->inode->fs->dev->name,
-                            cputask[_cpu()]->flides[fd]->inode->permission,
-                            cputask[_cpu()]->flides[fd]->inode->id,
+                            FILE(fd)->inode->size,
+                            FILE(fd)->inode->fs->dev->name,
+                            FILE(fd)->inode->permission,
+                            FILE(fd)->inode->id,
+                            FILE(fd)->inode->link_num,
                             additional
                         );
 
