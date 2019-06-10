@@ -455,7 +455,7 @@ void shell_task(void *name){
                         vfs->close(fd);
                         int ret = vfs->rmdir(file);
                         if (ret==0) {
-                            sprintf(text, SUCCESS "remove %s, Links = %d\n", file, FILE(fd)->inode->link_num);
+                            sprintf(text, SUCCESS "remove %s\n", file);
                         } else {
                             sprintf(text, FAIL "fail to remove %s\n", file);
                         }
@@ -476,7 +476,7 @@ void shell_task(void *name){
                         vfs->close(fd);
                         int ret = vfs->unlink(file);
                         if (ret==0) {
-                            sprintf(text, SUCCESS "remove %s, Links = %d\n", file, FILE(fd)->inode->link_num);
+                            sprintf(text, SUCCESS "remove %s\n", file);
                         } else {
                             sprintf(text, FAIL "fail to remove %s\n", file);
                         }
@@ -523,6 +523,23 @@ void shell_task(void *name){
                     sprintf(text, SUCCESS "create link %s -> %s\n", file2, file);
                 }
             }
+        } else if (strncmp(line, "open", 4)==0){
+            getname(4);
+            if (nofile) strcpy(text, FAIL "missing operand\n");
+            else {
+                int fd = vfs->open(file, 0);
+                sprintf(text, SUCCESS "open file %s -> fd=%d", file, fd);
+            }
+        } else if (strncmp(line, "close", 5)==0){
+            getname(5);
+            int fd = file[0]-'0';
+            close(fd);
+        } else if (strncmp(line, "write", 5)==0){
+            gettwoname(5);
+            int fd = file[0]-'0';
+            vfs->write(fd, file2, strlen(file2));
+        } else if (strncmp(line, "chmod", 5)==0){
+
         } else {
             sprintf(text, FAIL "command not found \" %s \"\n", line);
         }
