@@ -424,7 +424,7 @@ void shell_task(void *name){
             getname(5);
             if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
-                int fd = vfs->open(file);
+                int fd = vfs->open(file, 0);
                 if (fd<0) {
                     sprintf(text, FAIL "no such file or directory");
                 } else {
