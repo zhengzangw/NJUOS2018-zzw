@@ -356,14 +356,14 @@ int ext2_rmdir(filesystem_t *fs, const char *name){
         ext2_dir_remove(fs->dev, dir, index);
         pmm->free(dir);
     } else {
-        return NULL;
+        return -1;
     }
 
     ext2_inode_t *inode;
     if (index>=0){
         //Get inode
         inode = pmm->alloc(sizeof(ext2_inode_t));
-        dev->ops->read(fs->dev, TABLE(index), inode, INODE_BYTES);
+        fs->dev->ops->read(fs->dev, TABLE(index), inode, INODE_BYTES);
         if (inode->dir_len>2) return -1;
         else {
             ext2_inode_remove(fs->dev, inode);
