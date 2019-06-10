@@ -11,6 +11,7 @@ Assert	include/debug.h	48;"	d
 BIAS	include/pmm.h	18;"	d
 BLOCK	src/filesystems/ext2.c	13;"	d	file:
 BLOCK_BYTES	src/filesystems/ext2.c	12;"	d	file:
+BLOCK_COVER	src/filesystems/ext2.c	485;"	d	file:
 CREATE	src/devices/dev.c	44;"	d	file:
 DATA	src/filesystems/ext2.c	84;"	d	file:
 DATA_B	src/filesystems/ext2.c	83;"	d	file:
@@ -20,7 +21,7 @@ DEV_CNT	src/devices/dev.c	16;"	d	file:
 DMAP	src/filesystems/ext2.c	34;"	d	file:
 DR	include/vfs.h	/^enum TYPE {NF, DR, XX, MP};$/;"	e	enum:TYPE
 FAIL	src/devices/tty/tty.c	311;"	d	file:
-FILE	include/vfs.h	94;"	d
+FILE	include/vfs.h	99;"	d
 F_OK	include/vfs.h	82;"	d
 IMAP	src/filesystems/ext2.c	33;"	d	file:
 INC_DIR	Makefile	/^INC_DIR        := include\/ framework\/$/;"	m
@@ -85,6 +86,9 @@ SPRITE_BRK	include/devices.h	58;"	d
 SRCS	Makefile	/^SRCS           := framework\/main.c $(shell find -L .\/src\/ -name "*.c" -o -name "*.S")$/;"	m
 STACKSIZE	include/kmt.h	11;"	d
 SUCCESS	src/devices/tty/tty.c	310;"	d	file:
+S_CUR	include/vfs.h	92;"	d
+S_END	include/vfs.h	93;"	d
+S_SET	include/vfs.h	91;"	d
 TABLE	src/filesystems/ext2.c	68;"	d	file:
 TERM_FONT	include/devices.h	106;"	d
 TEXTURE_H	include/devices.h	57;"	d
@@ -102,6 +106,7 @@ __KERNEL_H__	framework/kernel.h	2;"	d
 __KMT_H__	include/kmt.h	2;"	d
 __LIST_H__	include/pmm.h	2;"	d
 __NANOS_H__	framework/nanos.h	2;"	d
+__UTIL_H__	include/util.h	2;"	d
 __VFS_H__	include/vfs.h	2;"	d
 access	include/vfs.h	/^  int (*access)(const char *path, int mode);$/;"	m	struct:__anon5
 add_node	src/pmm.c	/^void *add_node(struct node *p, size_t size) {$/;"	f
@@ -111,7 +116,7 @@ alt	include/devices.h	/^  uint32_t ctrl: 1, alt: 1;$/;"	m	struct:input_event
 alt_down	include/devices.h	/^  int capslock, shift_down[2], ctrl_down[2], alt_down[2];$/;"	m	struct:__anon6
 assertIF0	include/debug.h	60;"	d
 assertIF1	include/debug.h	61;"	d
-balloc	src/vfs.c	/^void *balloc(int size){$/;"	f
+balloc	src/pmm.c	/^void *balloc(int size){$/;"	f
 buf	include/devices.h	/^  char *buf, *end, *front, *rear;$/;"	m	struct:tty_queue
 buf	include/devices.h	/^  struct character *buf, *end, *cursor;$/;"	m	struct:__anon9	typeref:struct:__anon9::character
 bzero	src/filesystems/ext2.c	/^void bzero(device_t* dev, int x){$/;"	f
@@ -185,6 +190,7 @@ ext2_init	src/filesystems/ext2.c	/^void ext2_init(filesystem_t *fs, const char *
 ext2_inode	src/filesystems/ext2.c	/^struct ext2_inode {$/;"	s	file:
 ext2_inode_close	src/filesystems/ext2.c	/^int ext2_inode_close(file_t *file){$/;"	f
 ext2_inode_link	src/filesystems/ext2.c	/^int ext2_inode_link(file_t *file, const char *name){$/;"	f
+ext2_inode_lseek	src/filesystems/ext2.c	/^off_t ext2_inode_lseek(file_t *file, off_t offset, int whence){$/;"	f
 ext2_inode_open	src/filesystems/ext2.c	/^int ext2_inode_open(file_t *file, int flags){$/;"	f
 ext2_inode_read	src/filesystems/ext2.c	/^ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){$/;"	f
 ext2_inode_remove	src/filesystems/ext2.c	/^void ext2_inode_remove(device_t *dev, ext2_inode_t* inode){$/;"	f
@@ -269,6 +275,7 @@ input_t	include/devices.h	/^} input_t;$/;"	t	typeref:struct:__anon6
 input_task	src/devices/input/input.c	/^void input_task(void *args) {$/;"	f
 input_write	src/devices/input/input.c	/^static ssize_t input_write(device_t *dev, off_t offset, const void *buf, size_t count) {$/;"	f	file:
 intena	src/kmt.c	/^int cpuncli[MAXCPU], intena[MAXCPU];$/;"	v
+isdigit	src/devices/tty/tty.c	/^static int isdigit(int ch){return (ch>='0')&&(ch<='9');}$/;"	f	file:
 kalloc	src/pmm.c	/^static void *kalloc(size_t size) {$/;"	f	file:
 keymap	src/devices/input/keymaps.c	/^char keymap[256] = {$/;"	v
 keymap_shift	src/devices/input/keymaps.c	/^char keymap_shift[256] = {$/;"	v
@@ -309,6 +316,7 @@ main	framework/L2/test_yield.c	/^int main() {$/;"	f
 main	framework/main.c	/^int main() {$/;"	f
 max	include/common.h	21;"	d
 metadata	include/devices.h	/^  uint32_t metadata;$/;"	m	struct:character
+min	include/common.h	22;"	d
 mkdir	include/vfs.h	/^  int (*mkdir)(const char *path);$/;"	m	struct:__anon5
 mkdir	include/vfs.h	/^  int (*mkdir)(filesystem_t *fs, const char *name);$/;"	m	struct:fsops
 modify	src/devices/tty/tty.c	282;"	d	file:
@@ -317,6 +325,7 @@ mountpoint	include/vfs.h	/^typedef struct mountpoint {$/;"	s
 mountpoint_t	include/vfs.h	/^} mountpoint_t;$/;"	t	typeref:struct:mountpoint
 mpt	src/vfs.c	/^mountpoint_t mpt[MAXMP];$/;"	v
 mutex	framework/L2/test_tty_pc.c	/^sem_t sem_p, sem_c, mutex;$/;"	v
+my_atoi	src/devices/tty/tty.c	/^static int my_atoi(char *s){$/;"	f	file:
 name	include/devices.h	/^  const char *name;$/;"	m	struct:device
 name	include/kmt.h	/^  const char *name;$/;"	m	struct:semaphore
 name	include/kmt.h	/^  const char *name;$/;"	m	struct:spinlock
