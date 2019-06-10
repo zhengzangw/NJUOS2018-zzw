@@ -531,6 +531,7 @@ void shell_task(void *name){
                 sprintf(text, SUCCESS "open file %s -> fd=%d\n", file, fd);
             }
         } else if (strncmp(line, "close", 5)==0){
+            int len = 5;
             if (line[len]==' '){
                 strcpy(file, line+len+1);
             }
@@ -538,6 +539,7 @@ void shell_task(void *name){
             vfs->close(fd);
             sprintf(text, SUCCESS "close file with fd=%d\n", file, fd);
         } else if (strncmp(line, "write", 5)==0){
+            int len = 5;
             if (line[len]==' '){
                 int slen;
                 for (slen = len+1;line[slen]!='\0';slen++){
