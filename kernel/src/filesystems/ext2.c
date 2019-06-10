@@ -455,16 +455,17 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 int left;
                 if (cnt<inode->len-1) left = BLOCK_BYTES;
                 else left =  inode->size - (inode->len-1)*BLOCK_BYTES;
-                dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), buf+offset, left);
+                dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), buf+buf_offset, left);
                 size-=left;
                 offset+=left;
+                buf_offset += left;
                 cnt++;
             }
-            if (buf[offset-1] !='\n') {
-                buf[offset] = '\n';
-                buf[offset+1] = '\0';
+            if (buf[buf_offset-1] !='\n') {
+                buf[buf_offset] = '\n';
+                buf[buf_offset+1] = '\0';
             } else {
-                buf[offset] = '\0';
+                buf[buf_offset] = '\0';
             }
 
     }
