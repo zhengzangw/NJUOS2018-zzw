@@ -350,11 +350,11 @@ int ext2_rmdir(filesystem_t *fs, const char *name){
     //Log("tmp=%s pre=%s post=%s", tmp, pre, post);
 
     //Get parent dir inode
-    ext2_inode_t* dir = ext2_lookup_dir(dev, pre);
+    ext2_inode_t* dir = ext2_lookup_dir(fs->dev, pre);
     int index;
     if (dir){
-        index = ext2_dir_search(dev, dir, post);
-        ext2_dir_remove(dev, dir, index);
+        index = ext2_dir_search(fs->dev, dir, post);
+        ext2_dir_remove(fs->dev, dir, index);
         pmm->free(dir);
     } else {
         return NULL;
@@ -364,10 +364,10 @@ int ext2_rmdir(filesystem_t *fs, const char *name){
     if (index>=0){
         //Get inode
         inode = pmm->alloc(sizeof(ext2_inode_t));
-        dev->ops->read(dev, TABLE(index), inode, INODE_BYTES);
+        dev->ops->read(fs->dev, TABLE(index), inode, INODE_BYTES);
         if (inode->dir_len>2) return -1;
         else {
-            ext2_inode_remove(dev, inode);
+            ext2_inode_remove(fs->dev, inode);
         }
     } else {
         return -1;
