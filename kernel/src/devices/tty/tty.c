@@ -426,7 +426,7 @@ void shell_task(void *name){
             else {
                 int fd = vfs->open(file, 0);
                 if (fd<0) {
-                    sprintf(text, FAIL "no such file or directory");
+                    sprintf(text, FAIL "no such file or directory\n");
                 } else {
                     if (FILE(fd)->inode->type!=DR){
                         sprintf(text, FAIL "not a directory: %s\n", file);
