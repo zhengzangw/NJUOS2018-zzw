@@ -316,6 +316,8 @@ void shell_task(void *name){
     device_t *tty = dev_lookup(name);
     while (1){
         char line[128], text[1024], file[128], file2[128];
+        memset(file, 0, sizeof(file));
+        memset(file2, 0, sizeof(file2));
         sprintf(text, "(%s):%s $ ", name, pwd);
         tty_write(tty, 0, text, strlen(text));
         int nread = tty->ops->read(tty, 0, line, sizeof(line));
