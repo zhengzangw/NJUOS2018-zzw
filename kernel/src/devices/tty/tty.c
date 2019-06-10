@@ -545,7 +545,6 @@ void shell_task(void *name){
                 for (slen = len+1;line[slen]!='\0';slen++){
                     if (line[slen]==' ') break;
                 }
-                if (line[slen]==' ') nofile = 0;
                 strncpy(file, line+len+1, slen-len-1);
                 strcpy(file2, line+slen+1);
                 modify(file2);
