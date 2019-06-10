@@ -452,6 +452,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
         case NF:
             offset = file->offset;
             cnt = offset/BLOCK_BYTES;
+            int left;
             int first = 1;
             while (offset < inode->size && size){
                 if (cnt<inode->len-1) {
