@@ -498,7 +498,7 @@ void shell_task(void *name){
                 if (ret == -1){
                     sprintf(text, FAIL "cannot create link to file %s\n", file);
                 } else {
-                    sprintf(text, SUCCESS, "create link %s -> %s", file2, file);
+                    sprintf(text, SUCCESS "create link %s -> %s", file2, file);
                 }
             }
         } else {
