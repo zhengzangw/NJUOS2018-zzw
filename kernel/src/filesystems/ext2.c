@@ -79,9 +79,11 @@ struct ext2_inode {
 uint32_t gid;
 typedef struct ext2_inode ext2_inode_t;
 
+#define DATA_B ITABLE+ITABLE_NUM
+#define DATA(i) BLOCK(DATA_B)+(i)*BLOCK_BYTES
 void ext2_inode_remove(device_t *dev, ext2_inode_t* inode){
     write_map(dev, IMAP, inode->index, 0);
-    for (int i=0;i<inode->link_len;++i){
+    for (int i=0;i<inode->len;++i){
         write_map(dev, DMAP, DATA(inode->link[i]), 0);
     }
 }
@@ -163,8 +165,6 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
 }
 
 /*======== DATA ===========*/
-#define DATA_B ITABLE+ITABLE_NUM
-#define DATA(i) BLOCK(DATA_B)+(i)*BLOCK_BYTES
 void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int size){
     int add_size = size;
     int left = inode->len*BLOCK_BYTES - inode->size;
@@ -240,7 +240,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         return -1;
 }
 
-void ext2_dir_remove(device_t *dev, ext2_inode_t* dir, int index){
+void ext2_dir_remove(device_t *dev, ext2_inode_t* inode, int index){
     dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
     int offset = 0;
     while (offset < inode->size){
