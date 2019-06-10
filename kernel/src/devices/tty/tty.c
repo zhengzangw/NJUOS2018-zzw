@@ -406,7 +406,7 @@ void shell_task(void *name){
                                 strcpy(typename, "normal file");
                                 sprintf(additional, "\0");
                         }
-                        sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n%s Links: %d\n", file,
+                        sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n Links: %d\n%s", file,
                             typename,
                             FILE(fd)->inode->size,
                             FILE(fd)->inode->fs->dev->name,
