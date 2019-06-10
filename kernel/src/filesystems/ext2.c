@@ -49,6 +49,8 @@ int write_map(device_t* dev, int block, int i, uint8_t x){
     if (x==1) b |= m; else b &= ~m;
     Logint(b);
     dev->ops->write(dev, MAP(block, i), &b, sizeof(uint8_t));
+    Logint(x);
+    Logint(read_map(dev,block,i));
     assert(read_map(dev, block, i)==x);
     return 0;
 }
