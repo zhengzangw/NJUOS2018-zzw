@@ -533,7 +533,7 @@ void shell_task(void *name){
         } else if (strncmp(line, "close", 5)==0){
             getname(5);
             int fd = file[0]-'0';
-            close(fd);
+            vfs->close(fd);
         } else if (strncmp(line, "write", 5)==0){
             gettwoname(5);
             int fd = file[0]-'0';
