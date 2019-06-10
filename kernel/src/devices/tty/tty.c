@@ -494,11 +494,11 @@ void shell_task(void *name){
             gettwoname(4);
             if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
-                int ret = vfs->link(file, file1);
-                if (ret = -1){
+                int ret = vfs->link(file, file2);
+                if (ret == -1){
                     sprintf(text, FAIL "cannot create link to file %s\n", file);
                 } else {
-                    sprintf(text, SUCCSS, "create link %s -> %s", file1, file);
+                    sprintf(text, SUCCESS, "create link %s -> %s", file2, file);
                 }
             }
         } else {
