@@ -205,7 +205,6 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
     uint32_t name_len = strlen(entry_name);
     dir->name_len = name_len+1;
     dir->rec_len = sizeof(dir_entry_t)+dir->name_len;
-    Logint(dir->rec_len);
     dir->file_type = type;
 
     inode->dir_len++;
@@ -313,8 +312,8 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     assert(tmp!=NULL);
     ext2_append_data(dev, tmp->fs_inode, words, strlen(words));
 
-    //LOGBLOCK();
-    //assert(0);
+    LOGBLOCK();
+    assert(0);
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
