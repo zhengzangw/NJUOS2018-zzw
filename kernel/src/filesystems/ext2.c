@@ -43,6 +43,7 @@ int write_map(device_t* dev, int block, int i, uint8_t x){
     assert(x==0||x==1);
     uint8_t m = 1<<(i%8), b;
     dev->ops->read(dev, MAP(block, i), &b, sizeof(uint8_t));
+    Log("block = %d, i = %d, x = %d, m = %d, b = %d", block, i, x, m, b);
     assert(read_map(dev, block, i)!=x);
     if (x==1) b |= m; else b &= ~m;
     dev->ops->write(dev, MAP(block, i), &b, sizeof(uint8_t));
