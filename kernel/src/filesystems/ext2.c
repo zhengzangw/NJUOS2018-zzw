@@ -36,6 +36,7 @@ void LogBlock(device_t* dev, int x) {
 int read_map(device_t *dev, int block, uint8_t i){
     uint8_t m = 1<<(i%8), b;
     dev->ops->read(dev, MAP(block,i), &b, sizeof(uint8_t));
+    Logint(MAP(block, i));
     Logint(b);
     return ((b&m)!=0);
 }
@@ -44,6 +45,7 @@ int write_map(device_t* dev, int block, int i, uint8_t x){
 Log("========");
     assert(x==0||x==1);
     uint8_t m = 1<<(i%8), b;
+    Logint(MAP(block, i));
     dev->ops->read(dev, MAP(block, i), &b, sizeof(uint8_t));
     Logint(b);
     assert(read_map(dev, block, i)!=x);
