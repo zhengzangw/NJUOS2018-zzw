@@ -401,7 +401,6 @@ fsops_t ext2_ops = {
     .mkdir = ext2_mkdir,
     .rmdir = ext2_rmdir,
     .unlink = NULL,
-    .create = ext2_create,
 };
 
 /* ===== Inode API ====== */
