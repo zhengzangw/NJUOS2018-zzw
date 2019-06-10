@@ -108,6 +108,7 @@ int vfs_access(const char *path, int mode){
     if ((mode|F_OK)&&(cur->permission|W_OK)) return -1;
     if ((mode|F_OK)&&(cur->permission|X_OK)) return -1;
 
+    pmm->free(cur);
     return 0;
 }
 

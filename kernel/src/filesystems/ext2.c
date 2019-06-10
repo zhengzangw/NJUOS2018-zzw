@@ -125,6 +125,7 @@ ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
             break;
         }
     }
+    pmm->free(tmp);
 
     return inode;
 }
@@ -150,8 +151,10 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     ext2_inode_t *ret;
     if (dir){
         index = ext2_dir_search(dev, dir, post);
+        pmm->free(pre); pmm->free(post);
         pmm->free(dir);
     } else {
+        pmm->free(pre); pmm->free(post);
         return NULL;
     }
     if (index>=0){
@@ -208,6 +211,7 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
 
     ext2_append_data(dev, inode, dir, sizeof(dir_entry_t));
     ext2_append_data(dev, inode, entry_name, dir->name_len);
+    pmm->free(dir);
 }
 
 #define OFFSET_BLOCK(offset) (inode->link[(offset)/BLOCK_BYTES])
@@ -325,6 +329,8 @@ inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
         ret->id = ((ext2_inode_t*)ret->fs_inode)->id;
         ret->type = ((ext2_inode_t*)ret->fs_inode)->type;
         ret->dir_len = ((ext2_inode_t*)ret->fs_inode)->dir_len;
+
+        pmm->free(tmp);
         return ret;
     } else {
         return NULL;
@@ -356,8 +362,10 @@ int ext2_rmdir(filesystem_t *fs, const char *name){
         index = ext2_dir_search(fs->dev, dir, post);
         Logint(index);
         ext2_dir_remove(fs->dev, dir, index);
+        pmm->free(pre); pmm->free(post);
         pmm->free(dir);
     } else {
+        pmm->free(pre); pmm->free(post);
         return -1;
     }
 
@@ -370,6 +378,7 @@ int ext2_rmdir(filesystem_t *fs, const char *name){
         else {
             ext2_inode_remove(fs->dev, inode);
         }
+        pmm->free(inode);
     } else {
         return -1;
     }
