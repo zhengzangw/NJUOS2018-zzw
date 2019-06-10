@@ -589,7 +589,7 @@ void shell_task(void *name){
             int fd = my_atoi(file);
             int offset = my_atoi(file2);
             off_t of = vfs->lseek(fd, offset, S_SET);
-            sprintf(text, "set offset to %d of file with fd=%d", offset, fd);
+            sprintf(text, "set offset to %d of file with fd=%d", of, fd);
 
         } else if (strncmp(line, "lkcur", 5)==0){
 
