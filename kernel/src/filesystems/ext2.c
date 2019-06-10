@@ -500,12 +500,11 @@ ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
             while (size>=0){
                 Logint(size);
                 if (offset < original_len*BLOCK_BYTES){
-                    if (BLOCK_COVER(offset)<original_len-1) {
-                        towrite = BLOCK_BYTES;
-                        if (first) {
-                            first = 0;
-                            towrite -= OFFSET_REMAIN(offset);
-                        }
+                    towrite = BLOCK_BYTES;
+                    if (first) {
+                       first = 0;
+                       towrite -= OFFSET_REMAIN(offset);
+                    }
                 } else {
                     inode->link[inode->len] = free_map(dev, DMAP);
                     write_map(dev, DMAP, inode->link[inode->len], 1);
