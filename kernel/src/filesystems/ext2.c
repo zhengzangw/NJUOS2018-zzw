@@ -422,6 +422,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
             while (cnt < inode->dir_len && size){
                 dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
+                assert(cur->file_type!=XX);
                 if (cur->file_type!=XX){
                     char *tmp_name = pmm->alloc(cur->name_len+1);
                     int name_offset = offset+sizeof(dir_entry_t);
