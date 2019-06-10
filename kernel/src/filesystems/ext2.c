@@ -451,7 +451,7 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
 
         case NF:
             offset = file->offset;
-            cnt = OFFSET_BLOCK(offset);
+            cnt = offset/BLOCK_BYTES;
             int left = BLOCK_BYTES - OFFSET_REMAIN(offset);
             Logint(left);
             Logint(cnt);
