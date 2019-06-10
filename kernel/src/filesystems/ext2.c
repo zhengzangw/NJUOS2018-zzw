@@ -518,7 +518,7 @@ ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
                     inode->len ++;
                     towrite = BLOCK_BYTES<size?BLOCK_BYTES:size;
                 }
-                dev->ops->write(dev, DATA(inode->link[inode->len-1]), buf+buf_offset, towrite);
+                dev->ops->write(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), buf+buf_offset, towrite);
                 size -= towrite;
                 buf_offset += towrite;
         }
