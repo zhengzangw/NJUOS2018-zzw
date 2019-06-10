@@ -312,7 +312,6 @@ void echo_task(void *name){
 
 static int isdigit(int ch){return (ch>='0')&&(ch<='9');}
 static int my_atoi(char *s){
-    Log("s=%s", s);
     int i=0, flag = 1;
     char *ptr = s;
     if (*ptr == '-') {
@@ -323,7 +322,6 @@ static int my_atoi(char *s){
         i = i*10+*ptr-'0';
         ptr++;
     }
-    Log("i=%d", i*flag);
     return i*flag;
 }
 
@@ -586,8 +584,6 @@ void shell_task(void *name){
                 strncpy(file, line+len+1, slen-len-1);
                 strcpy(file2, line+slen+1);
             }
-            Log("%s", file);
-            Log("%s", file2);
             int fd = my_atoi(file);
             int offset = my_atoi(file2);
             off_t of = vfs->lseek(fd, offset, S_SET);
