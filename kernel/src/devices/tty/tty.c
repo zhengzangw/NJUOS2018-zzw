@@ -404,7 +404,7 @@ void shell_task(void *name){
                                 break;
                             default:
                                 strcpy(typename, "normal file");
-                                sprintf(additional, "Links: %d\n", FILE(fd)->inode->link_num);
+                                sprintf(additional, " Links: %d\n", FILE(fd)->inode->link_num);
                         }
                         sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n%s", file,
                             typename,
