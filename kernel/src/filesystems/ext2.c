@@ -353,6 +353,7 @@ int ext2_rmdir(filesystem_t *fs, const char *name){
     int index;
     if (dir){
         index = ext2_dir_search(fs->dev, dir, post);
+        Logint(index);
         ext2_dir_remove(fs->dev, dir, index);
         pmm->free(dir);
     } else {
