@@ -421,7 +421,8 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
         case DR:
             while (cnt < inode->dir_len && size){
                 dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
-                LogBlock(dev, DATA_B);
+                Logint(DATA_B);
+                Logint(DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset));
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
                 Logint(cur->name_len);
                 Logint(cur->rec_len);
