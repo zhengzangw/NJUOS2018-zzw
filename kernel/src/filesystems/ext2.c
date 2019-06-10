@@ -251,6 +251,7 @@ void ext2_dir_remove(device_t *dev, ext2_inode_t* inode, int index){
         }
         offset += cur->rec_len;
     }
+    dev->ops->write(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
     pmm->free(cur);
 }
 
