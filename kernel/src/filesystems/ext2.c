@@ -423,6 +423,9 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
                 Logint(DATA_B);
                 Logint(DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset));
+                Logint(inode->len);
+                Logint(inode->link[0]);
+                assert(0);
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
                 Logint(cur->name_len);
                 Logint(cur->rec_len);
