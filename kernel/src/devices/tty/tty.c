@@ -536,6 +536,7 @@ void shell_task(void *name){
             vfs->close(fd);
         } else if (strncmp(line, "write", 5)==0){
             gettwoname(5);
+            if (nofile) assert(0);
             int fd = file[0]-'0';
             vfs->write(fd, file2, strlen(file2));
         } else if (strncmp(line, "chmod", 5)==0){
