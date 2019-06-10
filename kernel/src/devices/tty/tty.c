@@ -398,7 +398,7 @@ void shell_task(void *name){
                         vfs->close(fd);
                     }
             }
-        } else if (strncmp(line, "ls", 2)==0){
+        } else if (strcmp(line, "ls")==0){
             getname(2);
             if (nofile) strcpy(file, pwd);
             int fd = vfs->open(file, O_RD);
@@ -419,6 +419,27 @@ void shell_task(void *name){
             else {
                 vfs->mkdir(file);
                 sprintf(text, SUCCESS "create %s\n", file);
+            }
+        } else if (strncmp(line, "rmdir", 5)){
+            getname(5);
+            if (nofile) strcpy(text, FAIL "missing operand\n");
+            else {
+                int fd = vfs->open(file);
+                if (fd<0) {
+                    sprintf(text, FAIL "no such file or directory");
+                } else {
+                    if (FILE(fd)->inode->type!=DR){
+                        sprintf(text, FAIL "not a directory: %s\n", file);
+                    } else {
+                        vfs->close(fd);
+                        int ret = vfs->rmdir(file);
+                        if (ret==0) {
+                            sprintf(text, SUCCESS "create %s\n", file);
+                        } else {
+                            sprintf(text, FAIL "fail to remove %s\n", file);
+                        }
+                    }
+                }
             }
         } else if (strncmp(line, "touch", 5)==0){
             getname(5);

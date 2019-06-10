@@ -118,7 +118,8 @@ int vfs_mkdir(const char *path){
 }
 
 int vfs_rmdir(const char *path){
-    return 0;
+    int index = get_mount(path);
+    return mpt[index].fs->ops->rmdir(mpt[index].fs, path);
 }
 
 int vfs_link(const char *oldpath, const char *newpath){

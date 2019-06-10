@@ -79,6 +79,13 @@ struct ext2_inode {
 uint32_t gid;
 typedef struct ext2_inode ext2_inode_t;
 
+void ext2_inode_remove(device_t *dev, ext2_inode_t* inode){
+    write_map(dev, IMAP, inode->index, 0);
+    for (int i=0;i<inode->link_len;++i){
+        write_map(dev, DMAP, DATA(inode->link[i]), 0);
+    }
+}
+
 ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     int index_inode = free_map(dev, IMAP);
     write_map(dev, IMAP, index_inode, 1);
@@ -137,7 +144,6 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
 
     //Get parent dir inode
     ext2_inode_t* dir = ext2_lookup_dir(dev, pre);
-    assert(dir!=NULL);
     int index;
     ext2_inode_t *ret;
     if (dir){
@@ -212,17 +218,19 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
     int offset = 0;
     while (offset < inode->size){
         dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
-        char *tmp_name = pmm->alloc(cur->name_len+1);
-        int name_offset = offset+sizeof(dir_entry_t);
-        dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
+        if (cur->file_type !=XX){
+            char *tmp_name = pmm->alloc(cur->name_len+1);
+            int name_offset = offset+sizeof(dir_entry_t);
+            dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
 
-        int clen = (name[strlen(name)-1]=='/')?strlen(name)-1:strlen(name);
-        //Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
-        if (strncmp(name, tmp_name, clen)==0){
-            finded =1;
-            break;
+            int clen = (name[strlen(name)-1]=='/')?strlen(name)-1:strlen(name);
+            //Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
+            if (strncmp(name, tmp_name, clen)==0){
+                finded =1;
+                break;
+            }
+            pmm->free(tmp_name);
         }
-        pmm->free(tmp_name);
         offset += cur->rec_len;
     }
     pmm->free(cur);
@@ -230,6 +238,20 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
         return cur->inode;
     else
         return -1;
+}
+
+void ext2_dir_remove(device_t *dev, ext2_inode_t* dir, int index){
+    dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
+    int offset = 0;
+    while (offset < inode->size){
+        dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
+        if (cur->inode == index && cur->file_type!=XX){
+            cur->file_type = XX;
+            break;
+        }
+        offset += cur->rec_len;
+    }
+    pmm->free(cur);
 }
 
 #define ext2_create_dir(dev, name, isroot) ext2_create_file(dev, name, isroot, R_OK|W_OK|X_OK, DR)
@@ -316,6 +338,43 @@ int ext2_mkdir(filesystem_t *fs, const char *name){
     return ext2_create_dir(fs->dev, name, 0);
 }
 
+int ext2_rmdir(filesystem_t *fs, const char *name){
+    if (strlen(name)==1) return -1;
+
+    char *pre = NULL, *post = NULL;
+    char tmp[128];
+    strcpy(tmp, name);
+    int len = strlen(tmp);
+    split2(tmp, &pre, &post);
+
+    //Log("tmp=%s pre=%s post=%s", tmp, pre, post);
+
+    //Get parent dir inode
+    ext2_inode_t* dir = ext2_lookup_dir(dev, pre);
+    int index;
+    if (dir){
+        index = ext2_dir_search(dev, dir, post);
+        ext2_dir_remove(dev, dir, index);
+        pmm->free(dir);
+    } else {
+        return NULL;
+    }
+
+    ext2_inode_t *inode;
+    if (index>=0){
+        //Get inode
+        inode = pmm->alloc(sizeof(ext2_inode_t));
+        dev->ops->read(dev, TABLE(index), inode, INODE_BYTES);
+        if (inode->dir_len>2) return -1;
+        else {
+            ext2_inode_remove(dev, inode);
+        }
+    } else {
+        return -1;
+    }
+    return 0;
+}
+
 int ext2_create(filesystem_t *fs, const char *name){
     return ext2_create_file(fs->dev, name, 0, R_OK|W_OK|X_OK, NF);
 }
@@ -325,7 +384,7 @@ fsops_t ext2_ops = {
     .lookup = ext2_lookup,
     .close = ext2_close,
     .mkdir = ext2_mkdir,
-    .rmdir = NULL,
+    .rmdir = ext2_rmdir,
     .link = NULL,
     .unlink = NULL,
     .create = ext2_create,
@@ -353,22 +412,23 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
             while (cnt < inode->dir_len && size){
                 dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
                 dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
+                if (cur->file_type!=XX){
+                    char *tmp_name = pmm->alloc(cur->name_len+1);
+                    int name_offset = offset+sizeof(dir_entry_t);
+                    //Log("offset = %d, cnt = %d, name_offset = %d", offset, cnt, name_offset);
+                    dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
 
-                char *tmp_name = pmm->alloc(cur->name_len+1);
-                int name_offset = offset+sizeof(dir_entry_t);
-                //Log("offset = %d, cnt = %d, name_offset = %d", offset, cnt, name_offset);
-                dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
-
-                cnt ++;
-                if (cnt>file->offset){
-                    size--;
-                    ret++;
-                    strncpy(buf+buf_offset, tmp_name, strlen(tmp_name));
-                    strcat(buf, "\n");
-                    buf_offset += strlen(tmp_name)+1;
+                    cnt ++;
+                    if (cnt>file->offset){
+                        size--;
+                        ret++;
+                        strncpy(buf+buf_offset, tmp_name, strlen(tmp_name));
+                        strcat(buf, "\n");
+                        buf_offset += strlen(tmp_name)+1;
+                    }
+                    pmm->free(tmp_name);
                 }
 
-                pmm->free(tmp_name);
                 pmm->free(cur);
                 offset += cur->rec_len;
             }
