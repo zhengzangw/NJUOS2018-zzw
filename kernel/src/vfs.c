@@ -4,11 +4,6 @@
 #include <kmt.h>
 
 /* ======== Util ========*/
-void *balloc(int size){
-    void *ret = pmm->alloc(size+1);
-    ret = memset(ret, 0, size);
-    return ret;
-}
 
 // 1 if splited, 0 if done
 // /bin/test/a -> / + bin/test/a

@@ -18,4 +18,6 @@ void delete_node(struct node *p);
 #define BIAS sizeof(struct node)
 #endif
 
+void *balloc(int size);
+
 #endif
