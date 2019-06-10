@@ -482,14 +482,52 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
     return 0;
 }
 
+#define BLOCK_COVER(offset) (offset/BLOCK_BYTES)
 ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
     ext2_inode_t* inode = file->inode->fs_inode;
     device_t* dev = file->inode->fs->dev;
+
+    int offset = file->offset; //offset pointer of file
+    int buf_offset = 0; //offset pointer of buffer
+    int original_len = inode->len;
+    int towrite; //bytes to write once
+    int first = 1;
+
     switch (inode->type){
         case DR: assert(0);
         case NF:
-                ext2_append_data(dev, inode, buf, size);
+            while (size){
+                if (offset < cap){
+                    if (BLOCK_COVER(offset)<original_len-1) {
+                        towrite = BLOCK_BYTES;
+                        if (first) {
+                            first = 0;
+                            towrite -= OFFSET_REMAIN(offset);
+                        }
+                    } else {
+                        towrite = inode->size - (original_len-1)*BLOCK_BYTES;
+                        if (first){
+                            first = 0;
+                            towrite -= OFFSET_REMAIN(offset);
+                        }
+                    }
+                } else {
+                    inode->link[inode->len] = free_map(dev, DMAP);
+                    write_map(dev, DMAP, inode->link[inode->len], 1);
+                    inode->len ++;
+                    towrite = BLOCK_BYTES<size?BLOCK_BYTES:size;
+                }
+                dev->ops->write(dev, DATA(inode->link[inode->len-1]), buf+buf_offset, towrite);
+                size -= towrite;
+                buf_offset += towrite;
+        }
+
+    int update_size = offset + size;
+    if (update_size>inode->size){
+        inode->size = update_size;
+        dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
     }
+
     return size;
 }
 
