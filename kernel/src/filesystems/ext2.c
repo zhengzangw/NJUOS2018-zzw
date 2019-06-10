@@ -36,6 +36,8 @@ void LogBlock(device_t* dev, int x) {
 int read_map(device_t *dev, int block, uint8_t i){
     uint8_t m = 1<<(i%8), b;
     dev->ops->read(dev, MAP(block,i), &b, sizeof(uint8_t));
+    Logint(m);
+    Logint(b);
     return ((b&m)!=0);
 }
 
