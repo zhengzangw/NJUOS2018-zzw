@@ -85,7 +85,7 @@ typedef struct ext2_inode ext2_inode_t;
 void ext2_inode_remove(device_t *dev, ext2_inode_t* inode){
     write_map(dev, IMAP, inode->index, 0);
     for (int i=0;i<inode->len;++i){
-        write_map(dev, DMAP, DATA(inode->link[i]), 0);
+        write_map(dev, DMAP, inode->link[i], 0);
     }
 }
 
