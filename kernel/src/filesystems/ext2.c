@@ -257,6 +257,9 @@ void ext2_dir_remove(device_t *dev, ext2_inode_t* inode, int index){
     }
     dev->ops->write(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
     pmm->free(cur);
+
+    inode->dir_len --;
+    dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
 }
 
 #define ext2_create_dir(dev, name, isroot) ext2_create_file(dev, name, isroot, R_OK|W_OK|X_OK, DR)
