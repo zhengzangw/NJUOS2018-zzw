@@ -487,7 +487,7 @@ void shell_task(void *name){
                     sprintf(text, FAIL "no such file or directory %s\n", file);
                 }
             }
-        } else if (strncmp(line, "link", 4)){
+        } else if (strncmp(line, "link", 4)==0){
             gettwoname(4);
             if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
