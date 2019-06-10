@@ -577,7 +577,7 @@ void shell_task(void *name){
             int fd = my_atoi(file);
             vfs->read(fd, text, 1024);
         } else if (strncmp(line, "lkset", 5)==0){
-            int len = 9;
+            int len = 5;
             if (line[len]==' '){
                 int slen;
                 for (slen = len+1;line[slen]!='\0';slen++){
