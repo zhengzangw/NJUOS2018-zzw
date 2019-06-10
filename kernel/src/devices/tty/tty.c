@@ -586,6 +586,8 @@ void shell_task(void *name){
                 strncpy(file, line+len+1, slen-len-1);
                 strcpy(file2, line+slen+1);
             }
+            Log("%s", file);
+            Log("%s", file2);
             int fd = my_atoi(file);
             int offset = my_atoi(file2);
             off_t of = vfs->lseek(fd, offset, S_SET);
