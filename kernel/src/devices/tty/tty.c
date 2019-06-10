@@ -532,6 +532,7 @@ void shell_task(void *name){
             }
         } else if (strncmp(line, "close", 5)==0){
             getname(5);
+            if (nofile) assert(0);
             int fd = file[0]-'0';
             vfs->close(fd);
         } else if (strncmp(line, "write", 5)==0){
