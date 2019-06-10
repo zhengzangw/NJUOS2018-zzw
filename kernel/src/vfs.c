@@ -129,8 +129,8 @@ int vfs_link(const char *oldpath, const char *newpath){
 }
 
 int vfs_unlink(const char *path){
-
-    return 0;
+    int index = get_mount(path);
+    return mpt[index].fs->ops->unlink(mpt[index].fs, path);
 }
 
 int get_free_flides(int ccppuu){

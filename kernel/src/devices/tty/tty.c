@@ -455,7 +455,28 @@ void shell_task(void *name){
                         vfs->close(fd);
                         int ret = vfs->rmdir(file);
                         if (ret==0) {
-                            sprintf(text, SUCCESS "remove %s\n", file);
+                            sprintf(text, SUCCESS "remove %s\n, Links = %d", file, FILE(fd)->inode->link_num);
+                        } else {
+                            sprintf(text, FAIL "fail to remove %s\n", file);
+                        }
+                    }
+                }
+            }
+        } else if (strncmp(line, "rm", 2)==0){
+            getname(2);
+            if (nofile) strcpy(text, FAIL "missing operand\n");
+            else {
+                int fd = vfs->open(file, 0);
+                if (fd<0) {
+                    sprintf(text, FAIL "no such file or directory\n");
+                } else {
+                    if (FILE(fd)->inode->type!=NF){
+                        sprintf(text, FAIL "Is a directory: %s\n", file);
+                    } else {
+                        vfs->close(fd);
+                        int ret = vfs->unlink(file);
+                        if (ret==0) {
+                            sprintf(text, SUCCESS "remove %s\n, Links = %d", file, FILE(fd)->inode->link_num);
                         } else {
                             sprintf(text, FAIL "fail to remove %s\n", file);
                         }
@@ -499,7 +520,7 @@ void shell_task(void *name){
                 if (ret == -1){
                     sprintf(text, FAIL "cannot create link to file %s\n", file);
                 } else {
-                    sprintf(text, SUCCESS "create link %s -> %s", file2, file);
+                    sprintf(text, SUCCESS "create link %s -> %s\n", file2, file);
                 }
             }
         } else {

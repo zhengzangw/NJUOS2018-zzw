@@ -358,35 +358,35 @@ int ext2_rmdir(filesystem_t *fs, const char *name){
     strcpy(tmp, name);
     split2(tmp, &pre, &post);
 
-    //Log("tmp=%s pre=%s post=%s", tmp, pre, post);
-
     //Get parent dir inode
     ext2_inode_t* dir = ext2_lookup_dir(fs->dev, pre);
     int index;
-    if (dir){
-        index = ext2_dir_search(fs->dev, dir, post);
-        //Logint(index);
-        ext2_dir_remove(fs->dev, dir, index);
-        pmm->free(pre); pmm->free(post);
-        pmm->free(dir);
-    } else {
+    if (!dir){
         pmm->free(pre); pmm->free(post);
         return -1;
     }
 
-    ext2_inode_t *inode;
-    if (index>=0){
-        //Get inode
-        inode = pmm->alloc(sizeof(ext2_inode_t));
-        fs->dev->ops->read(fs->dev, TABLE(index), inode, INODE_BYTES);
-        if (inode->dir_len>2) return -1;
-        else {
-            ext2_inode_remove(fs->dev, inode);
-        }
-        pmm->free(inode);
-    } else {
+    index = ext2_dir_search(fs->dev, dir, post);
+    pmm->free(pre); pmm->free(post);
+    if (index<0){
         return -1;
     }
+
+    ext2_inode_t *inode = pmm->alloc(sizeof(ext2_inode_t));
+    fs->dev->ops->read(fs->dev, TABLE(index), inode, INODE_BYTES);
+    if (inode->type==DR && inode->dir_len>2){
+        return -1;
+    }
+    ext2_dir_remove(fs->dev, dir, index);
+    pmm->free(dir);
+    if (inode->link_num==1){
+        ext2_inode_remove(fs->dev, inode);
+    } else {
+        inode->link_num -= 1;
+        fs->dev->ops->write(fs->dev, TABLE(index), inode, INODE_BYTES);
+    }
+    pmm->free(inode);
+
     return 0;
 }
 
@@ -400,7 +400,7 @@ fsops_t ext2_ops = {
     .close = ext2_close,
     .mkdir = ext2_mkdir,
     .rmdir = ext2_rmdir,
-    .unlink = NULL,
+    .unlink = ext2_rmdir,
     .create = ext2_create,
 };
 
