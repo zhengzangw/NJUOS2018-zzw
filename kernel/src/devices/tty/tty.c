@@ -434,7 +434,7 @@ void shell_task(void *name){
                         vfs->close(fd);
                         int ret = vfs->rmdir(file);
                         if (ret==0) {
-                            sprintf(text, SUCCESS "create %s\n", file);
+                            sprintf(text, SUCCESS "remove %s\n", file);
                         } else {
                             sprintf(text, FAIL "fail to remove %s\n", file);
                         }
