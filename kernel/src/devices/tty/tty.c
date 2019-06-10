@@ -575,7 +575,7 @@ void shell_task(void *name){
             }
             int fd = my_atoi(file);
             vfs->read(fd, text, 1024);
-        } else if (strncmp(line, "lkset", 9)==0){
+        } else if (strncmp(line, "lkset", 5)==0){
             int len = 9;
             if (line[len]==' '){
                 int slen;
@@ -589,9 +589,9 @@ void shell_task(void *name){
             int offset = my_atoi(file2);
             vfs->lseek(fd, offset, S_SET);
 
-        } else if (strncmp(line, "lkcur", 9)==0){
+        } else if (strncmp(line, "lkcur", 5)==0){
 
-        } else if (strncmp(line, "lkend", 9)==0){
+        } else if (strncmp(line, "lkend", 5)==0){
 
         } else {
             sprintf(text, FAIL "command not found \" %s \"\n", line);
