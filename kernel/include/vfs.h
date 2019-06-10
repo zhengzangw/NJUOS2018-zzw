@@ -16,6 +16,7 @@ typedef struct inode {
   uint32_t id;
   uint32_t type;
   uint32_t dir_len;
+  uint32_t link_num;
 } inode_t;
 
 struct filesystem {
@@ -30,9 +31,7 @@ struct fsops {
   //Additional
   int (*mkdir)(filesystem_t *fs, const char *name);
   int (*rmdir)(filesystem_t *fs, const char *name);
-  int (*link)(filesystem_t *fs, const char *name, inode_t *inode);
   int (*unlink)(filesystem_t *fs, const char *name);
-  int (*create)(filesystem_t *fs, const char *name);
 };
 
 typedef struct file {
@@ -46,6 +45,7 @@ struct inodeops {
   ssize_t (*read)(file_t *file, char *buf, size_t size);
   ssize_t (*write)(file_t *file, const char *buf, size_t size);
   off_t (*lseek)(file_t *file, off_t offset, int whence);
+  int (*link)(file_t *file, const char*name);
   //Additional
 };
 

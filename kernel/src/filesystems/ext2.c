@@ -334,6 +334,7 @@ inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
         ret->id = ((ext2_inode_t*)ret->fs_inode)->id;
         ret->type = ((ext2_inode_t*)ret->fs_inode)->type;
         ret->dir_len = ((ext2_inode_t*)ret->fs_inode)->dir_len;
+        ret->link_num = ((ext2_inode_t*)ret->fs_inode)->link_num;
 
         return ret;
     } else {
@@ -399,7 +400,6 @@ fsops_t ext2_ops = {
     .close = ext2_close,
     .mkdir = ext2_mkdir,
     .rmdir = ext2_rmdir,
-    .link = NULL,
     .unlink = NULL,
     .create = ext2_create,
 };
@@ -481,10 +481,16 @@ ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
     return size;
 }
 
+int ext2_inode_link(file_t *file, const char *name){
+   assert(0);
+}
+
+
 inodeops_t ext2_inodeops = {
     .open = ext2_inode_open,
     .close = ext2_inode_close,
     .read = ext2_inode_read,
     .write = ext2_inode_write,
+    .link = ext2_inode_link,
     .lseek = NULL,
 };

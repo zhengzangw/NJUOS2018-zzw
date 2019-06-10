@@ -124,10 +124,12 @@ int vfs_rmdir(const char *path){
 }
 
 int vfs_link(const char *oldpath, const char *newpath){
-    return 0;
+    int fd = vfs->open(oldpath, 0);
+    return FILE(fd)->inode->ops->link(FILE(fd), newpath);
 }
 
 int vfs_unlink(const char *path){
+
     return 0;
 }
 

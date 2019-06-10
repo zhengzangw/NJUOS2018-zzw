@@ -400,10 +400,11 @@ void shell_task(void *name){
                         switch (cputask[_cpu()]->flides[fd]->inode->type){
                             case DR:
                                 strcpy(typename, "directory");
-                                sprintf(additional, "Number of Files: %d\n", cputask[_cpu()]->flides[fd]->inode->dir_len-2);
+                                sprintf(additional, "Number of Files: %d\n", FILE(fd)->inode->dir_len-2);
                                 break;
                             default:
                                 strcpy(typename, "normal file");
+                                sprintf(additional, "Links: %d\n", FILE(fd)->inode->link_num);
                         }
                         sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n%s", file,
                             typename,
@@ -493,7 +494,12 @@ void shell_task(void *name){
             gettwoname(4);
             if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
-                sprintf(text, "1=%s, 2=%s\n", file, file2);
+                int ret = vfs->link(file, file1);
+                if (ret = -1){
+                    sprintf(text, FAIL "cannot create link to file %s\n", file);
+                } else {
+                    sprintf(text, SUCCSS, "create link %s -> %s", file1, file);
+                }
             }
         } else {
             sprintf(text, FAIL "command not found \" %s \"\n", line);
