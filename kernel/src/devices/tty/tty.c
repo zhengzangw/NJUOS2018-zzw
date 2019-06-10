@@ -547,7 +547,7 @@ void shell_task(void *name){
             if (line[len]==' '){
                 strcpy(file, line+len+1);
             }
-            int fd = my_atoi(file);
+            int fd = my_atoi(&file);
             vfs->close(fd);
             sprintf(text, SUCCESS "close file with fd=%d\n", fd);
         } else if (strncmp(line, "write", 5)==0){
@@ -561,7 +561,7 @@ void shell_task(void *name){
                 strcpy(file2, line+slen+1);
                 modify(file2);
             }
-            int fd = my_atoi(file);
+            int fd = my_atoi(&file);
             vfs->write(fd, file2, strlen(file2));
             sprintf(text, SUCCESS "write to file with fd=%d\n", fd);
         } else if (strncmp(line, "read", 5)==0){
@@ -569,7 +569,7 @@ void shell_task(void *name){
             if (line[len]==' '){
                 strcpy(file, line+len+1);
             }
-            int fd = my_atoi(file);
+            int fd = my_atoi(&file);
             vfs->read(fd, text, 1024);
         } else if (strncmp(line, "lseek-set", 9)==0){
             int len = 9;
@@ -581,8 +581,8 @@ void shell_task(void *name){
                 strncpy(file, line+len+1, slen-len-1);
                 strcpy(file2, line+slen+1);
             }
-            int fd = my_atoi(file);
-            int offset = my_atoi(file2);
+            int fd = my_atoi(&file);
+            int offset = my_atoi(&file2);
             vfs->lseek(fd, offset, S_SET);
 
         } else if (strncmp(line, "lseek-cur", 9)==0){
