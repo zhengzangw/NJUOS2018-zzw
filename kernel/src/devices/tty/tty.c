@@ -538,7 +538,7 @@ void shell_task(void *name){
             int fd = file[0]-'0';
             Logint(fd);
             vfs->close(fd);
-            sprintf(text, SUCCESS "close file with fd=%d\n", file, fd);
+            sprintf(text, SUCCESS "close file with fd=%d\n", fd);
         } else if (strncmp(line, "write", 5)==0){
             int len = 5;
             if (line[len]==' '){
