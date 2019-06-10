@@ -420,7 +420,7 @@ void shell_task(void *name){
                 vfs->mkdir(file);
                 sprintf(text, SUCCESS "create %s\n", file);
             }
-        } else if (strncmp(line, "rmdir", 5)){
+        } else if (strncmp(line, "rmdir", 5)==0){
             getname(5);
             if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
