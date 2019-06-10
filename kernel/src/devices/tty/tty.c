@@ -272,7 +272,6 @@ void echo_task(void *name){
     device_t *tty = dev_lookup(name);
     while (1){
         char line[128], text[128];
-        line[0] = '\0';
         sprintf(text, "(%s) $ ", name); tty_write(tty, 0, text, strlen(name)+5);
         int nread = tty->ops->read(tty, 0, line, sizeof(line));
         line[nread-1] = '\0';
@@ -472,7 +471,7 @@ void shell_task(void *name){
                 }
             }
         } else {
-            sprintf(text, FAIL "command not found \"%s\"\n", line);
+            sprintf(text, FAIL "command not found \" %s \"\n", line);
         }
 
         tty_write(tty, 0, text, strlen(text));
