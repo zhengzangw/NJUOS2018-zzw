@@ -344,7 +344,6 @@ int ext2_rmdir(filesystem_t *fs, const char *name){
     char *pre = NULL, *post = NULL;
     char tmp[128];
     strcpy(tmp, name);
-    int len = strlen(tmp);
     split2(tmp, &pre, &post);
 
     //Log("tmp=%s pre=%s post=%s", tmp, pre, post);
