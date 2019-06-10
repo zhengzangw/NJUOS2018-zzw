@@ -569,8 +569,8 @@ void shell_task(void *name){
             int fd = my_atoi(file);
             vfs->write(fd, file2, strlen(file2));
             sprintf(text, SUCCESS "write to file with fd=%d\n", fd);
-        } else if (strncmp(line, "read", 5)==0){
-            int len = 5;
+        } else if (strncmp(line, "read", 4)==0){
+            int len = 4;
             if (line[len]==' '){
                 strcpy(file, line+len+1);
             }
