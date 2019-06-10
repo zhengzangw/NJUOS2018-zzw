@@ -536,6 +536,7 @@ void shell_task(void *name){
                 strcpy(file, line+len+1);
             }
             int fd = file[0]-'0';
+            Logint(fd);
             vfs->close(fd);
             sprintf(text, SUCCESS "close file with fd=%d\n", file, fd);
         } else if (strncmp(line, "write", 5)==0){
@@ -551,6 +552,7 @@ void shell_task(void *name){
             }
             int fd = file[0]-'0';
             vfs->write(fd, file2, strlen(file2));
+            sprintf(text, SUCCESS "write to file with fd=%d\n", file, fd);
         } else if (strncmp(line, "chmod", 5)==0){
 
         } else {
