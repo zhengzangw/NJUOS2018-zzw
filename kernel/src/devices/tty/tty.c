@@ -528,16 +528,26 @@ void shell_task(void *name){
             if (nofile) strcpy(text, FAIL "missing operand\n");
             else {
                 int fd = vfs->open(file, 0);
-                sprintf(text, SUCCESS "open file %s -> fd=%d", file, fd);
+                sprintf(text, SUCCESS "open file %s -> fd=%d\n", file, fd);
             }
         } else if (strncmp(line, "close", 5)==0){
-            getname(5);
-            if (nofile) assert(0);
+            if (line[len]==' '){
+                strcpy(file, line+len+1);
+            }
             int fd = file[0]-'0';
             vfs->close(fd);
+            sprintf(text, SUCCESS "close file with fd=%d\n", file, fd);
         } else if (strncmp(line, "write", 5)==0){
-            gettwoname(5);
-            if (nofile) assert(0);
+            if (line[len]==' '){
+                int slen;
+                for (slen = len+1;line[slen]!='\0';slen++){
+                    if (line[slen]==' ') break;
+                }
+                if (line[slen]==' ') nofile = 0;
+                strncpy(file, line+len+1, slen-len-1);
+                strcpy(file2, line+slen+1);
+                modify(file2);
+            }
             int fd = file[0]-'0';
             vfs->write(fd, file2, strlen(file2));
         } else if (strncmp(line, "chmod", 5)==0){
