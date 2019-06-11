@@ -90,7 +90,7 @@ ext2_inode_t* ext2_inode_create(device_t *dev, uint8_t type, uint8_t per){
 
 const  char *mp = "/";
 ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
-    char tmp = pmm->alloc(strlen(name)+1);
+    char* tmp = pmm->alloc(strlen(name)+1);
     strcpy(tmp, name+strlen(mp));
     strip(tmp);
     
