@@ -11,12 +11,16 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
       finded = 1;
       ret->id = 0;
       ret->fs_inode = NULL;
+      ret->type = DV;
+      ret->dir_len = 6;
     } else {
       device_t *tmp = dev_lookup(name);
       if (tmp) {
           finded = 1;
           ret->id = tmp->id;
           ret->fs_inode = tmp;
+          ret->type = DV;
+          ret->dir_len = 0;
       }
     }
     if (!finded) {
@@ -28,8 +32,6 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
         ret->ops = &devfs_inodeops;
         ret->permission = R_OK|W_OK;
         ret->size = 0;
-        ret->type = DV;
-        ret->dir_len = 0;
         ret->link_num = 1;
         return ret;
     }
