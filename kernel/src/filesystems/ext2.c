@@ -117,7 +117,6 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
             break;
         }
     }
-    pmm->free(tmp);
 
     return inode;
 }
@@ -301,7 +300,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/usr/bin", 0);
     ext2_create_dir(dev, "/etc", 0);
     ext2_create_file(dev, "/etc/passwd", 0, R_OK|W_OK|X_OK, NF);
-assert(0);
+
     const char *words = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
     inode_t* tmp = ext2_lookup(fs, "/etc/passwd", 0);
     assert(tmp!=NULL);
