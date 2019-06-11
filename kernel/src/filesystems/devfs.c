@@ -9,14 +9,14 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
     inode_t *ret = balloc(sizeof(inode_t));
     if (strcmp(name,"/")){
       finded = 1;
-      inode->id = 0;
-      inode->fs_inode = NULL;
+      ret->id = 0;
+      ret->fs_inode = NULL;
     } else {
       device_t *tmp = dev_lookup(name);
       if (tmp) {
           finded = 1;
-          inode->id = tmp->id;
-          inode->fs_inode = tmp;
+          ret->id = tmp->id;
+          ret->fs_inode = tmp;
       }
     }
     if (!finded) {
@@ -26,11 +26,11 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
     else {
         ret->fs = fs;
         ret->ops = &devfs_inodeops;
-        inode->permission = R_OK|W_OK;
-        inode->size = 0;
-        inode->type = DV;
-        inode->dir_len = 0;
-        inode->link_num = 1;
+        ret->permission = R_OK|W_OK;
+        ret->size = 0;
+        ret->type = DV;
+        ret->dir_len = 0;
+        ret->link_num = 1;
     }
 }
 
