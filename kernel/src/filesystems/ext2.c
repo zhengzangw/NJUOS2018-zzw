@@ -95,8 +95,7 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
 
     int len = strlen(tmp);
     if (len!=1 && tmp[len-1]=='/'){
-        tmp[len] = '.';
-        tmp[len+1] = '\0';
+        tmp[len-1] = '\0';
     }
 
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
