@@ -121,7 +121,7 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name);
 //Data
 ssize_t ext2_data_write(device_t *dev, ext2_inode_t* inode, const void *buf, int size, int offset);
 #define ext2_append_data(dev, inode, buf, size_t) ext2_data_write(dev, inode, buf, size_t, ((ext2_inode_t*)inode)->size)
-ssize_t ext2_data_read(device_t *dev, ext2_inode_t* inode, const void *buf, int size, int offset);
+ssize_t ext2_data_read(device_t *dev, ext2_inode_t* inode, void *buf, int size, int offset);
 //Dir
 int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name);
 void ext2_dir_remove(device_t *dev, ext2_inode_t* inode, int index);
