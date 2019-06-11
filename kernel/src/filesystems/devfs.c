@@ -2,7 +2,7 @@
 #include <vfs.h>
 #include <devices.h>
 
-const char devfs_devices[6] = {"tty1", "tty2", "tty3", "tyy4", "ramdisk0", "ramdiskm1"};
+const char *devfs_devices[6] = {"tty1", "tty2", "tty3", "tyy4", "ramdisk0", "ramdiskm1"};
 int checkdevice(const char *name){
     for (int i=0;i<6;++i){
         if (strcmp(name, devfs_devices[i])==0) return 1;
