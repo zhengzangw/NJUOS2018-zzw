@@ -19,7 +19,7 @@ static void os_init() {
     kmt->init();
     dev->init();
 
-    char *t = "usr/bin/zsh";
+    char *t = "zsh";
     strip(t);
     rootdir(t);
     alldir(t);
