@@ -153,7 +153,7 @@ ssize_t ext2_data_write(device_t *dev, ext2_inode_t* inode, const void *buf, int
     }
     return size;
 }
-#define ext2_append_data(dev, inode, buf, size_t) ext2_data_write(dev, inode, buf, size_t, inode->size)
+#define ext2_append_data(dev, inode, buf, size_t) ext2_data_write(dev, inode, buf, size_t, ((ext2_inode_t*)inode)->size)
 
 /*======== DIR ============*/
 struct dir_entry {
