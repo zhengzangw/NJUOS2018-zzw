@@ -38,7 +38,13 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
     } else {
 
     }
-    return ret;
+    if (finded){
+        ret->fs_inode = NULL;
+        ret->per = R_OK;
+        return ret;
+    } else {
+        pmm->free(ret);
+    }
 }
 
 ssize_t procfs_inode_read(file_t *file, char *buf, size_t size){
