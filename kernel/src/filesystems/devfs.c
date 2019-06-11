@@ -31,6 +31,7 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
         ret->type = DV;
         ret->dir_len = 0;
         ret->link_num = 1;
+        return ret;
     }
 }
 
