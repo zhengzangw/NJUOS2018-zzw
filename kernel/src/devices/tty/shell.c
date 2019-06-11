@@ -257,7 +257,6 @@ void shell_task(void *name){
                 modify(arg1);
                 int fd = vfs->open(arg1, 0);
                 ifnofd_do(arg1)
-                else ifnotNF_do(arg1)
                 else sprintf(text, SUCCESS "open file %s -> fd=%d\n", arg1, fd);
             }
         } else if (iscmd("close", 5)){
