@@ -39,6 +39,8 @@
 void shell_task(void *name){
     char pwd[128];
     strcpy(pwd, "/");
+    char shell_name[128];
+    shell_name = filename(name);
     char line[128], text[1024], arg1[128], arg2[128];
     int len;
 
@@ -46,7 +48,7 @@ void shell_task(void *name){
     while (1){
         memset(arg1, 0, sizeof(arg1));
         memset(arg2, 0, sizeof(arg2));
-        sprintf(text, "(%s):%s $ ", name, pwd);
+        sprintf(text, "(%s):%s $ ", shell_name, pwd);
 
         vfs->write(task_fd, text, strlen(text));
         int nread = vfs->read(task_fd, line, sizeof(line));
