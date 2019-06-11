@@ -9,6 +9,7 @@ char *rootdir(const char* path){
             break;
         }
     }
+    return ret;
 }
 
 // 1 if splited, 0 if done
