@@ -238,6 +238,7 @@ int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int t
         post = filename(tmp);
 
         ext2_inode_t* father = ext2_inode_lookup(dev, pre);
+        Logint(father->index);
         if (father==NULL) return -1;
 
         dir = ext2_inode_create(dev, type, per);
