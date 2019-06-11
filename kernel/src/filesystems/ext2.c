@@ -102,7 +102,7 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
     post = postname(tmp);
 
     while (pre!=NULL){
-        int inode_index = ext2_dir_search(dev, inode, pre);
+        int inode_index = ext2_dir_lookup(dev, inode, pre);
         if (inode_index>=0){
             dev->ops->read(dev, TABLE(inode_index), inode, INODE_BYTES);
         } else {
@@ -153,7 +153,6 @@ ssize_t ext2_data_write(device_t *dev, ext2_inode_t* inode, const void *buf, int
     }
     return size;
 }
-#define ext2_append_data(dev, inode, buf, size_t) ext2_data_write(dev, inode, buf, size_t, ((ext2_inode_t*)inode)->size)
 
 /*======== DIR ============*/
 struct dir_entry {
@@ -164,7 +163,7 @@ struct dir_entry {
 };
 typedef struct dir_entry dir_entry_t;
 
-void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type){
+static void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type){
     dir_entry_t* dir = balloc(sizeof(dir_entry_t));
     dir->inode = entry_inode->index;
     uint32_t name_len = strlen(entry_name);
@@ -180,8 +179,7 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
 }
 
 
-int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
-    //Log("name=%s", name);
+int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name){
     dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
     int finded = 0;
     int offset = 0;
@@ -193,7 +191,6 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
             dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
 
             int clen = (name[strlen(name)-1]=='/')?strlen(name)-1:strlen(name);
-            //Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
             if (strncmp(name, tmp_name, clen)==0){
                 finded =1;
                 break;
@@ -227,7 +224,6 @@ void ext2_dir_remove(device_t *dev, ext2_inode_t* inode, int index){
     dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
 }
 
-#define ext2_create_dir(dev, name, isroot) ext2_create_file(dev, name, isroot, R_OK|W_OK|X_OK, DR)
 int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int type){
     ext2_inode_t* dir;
     if (isroot){
@@ -236,7 +232,8 @@ int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int t
         ext2_create_entry(dev, dir, dir, "..", DR);
     } else {
         char *pre, *post;
-        split2(name, &pre, &post);
+        pre = alldir(name);
+        post = filename(name);
 
         ext2_inode_t* father = ext2_inode_lookup(dev, pre);
         if (father==NULL) return -1;
@@ -329,7 +326,7 @@ int ext2_rmdir(filesystem_t *fs, const char *name){
         return -1;
     }
 
-    index = ext2_dir_search(fs->dev, dir, post);
+    index = ext2_dir_lookup(fs->dev, dir, post);
     pmm->free(pre); pmm->free(post);
     if (index<0){
         return -1;

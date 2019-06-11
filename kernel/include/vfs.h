@@ -98,6 +98,7 @@ enum TYPE {NF, DR, XX, MP};
 /* ====== ext2 ======= */
 extern fsops_t ext2_ops;
 typedef struct ext2_inode ext2_inode_t;
+
 extern inodeops_t ext2_inodeops;
 
 #define BLOCK_BYTES (1<<10)
@@ -117,8 +118,15 @@ extern inodeops_t ext2_inodeops;
 ext2_inode_t* ext2_inode_create(device_t *dev, uint8_t type, uint8_t per);
 void ext2_inode_remove(device_t *, ext2_inode_t*);
 ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name);
-
-int ext2_dir_search(device_t *, ext2_inode_t*, const char*);
+//Data
+ssize_t ext2_data_write(device_t *dev, ext2_inode_t* inode, const void *buf, int size, int offset);
+#define ext2_append_data(dev, inode, buf, size_t) ext2_data_write(dev, inode, buf, size_t, ((ext2_inode_t*)inode)->size)
+//Dir
+int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name);
+void ext2_dir_remove(device_t *dev, ext2_inode_t* inode, int index);
+//Create
+int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int type);
+#define ext2_create_dir(dev, name, isroot) ext2_create_file(dev, name, isroot, R_OK|W_OK|X_OK, DR)
 //Log
 #define LOG_NUM 4
 #define LOGBLOCK() \
