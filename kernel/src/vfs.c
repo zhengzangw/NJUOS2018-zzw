@@ -18,10 +18,8 @@ void vfs_init(){
     vfs->mkdir("/etc");
     int fd = vfs->open("/etc/passwd", O_CREAT);
     const char *words = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
-    vfs->write(fd, words, strlen(words));
-    assert(0);
+    vfs->write(fd, words, strlen(words))
     vfs->close(fd);
-    assert(0);
 }
 
 mountpoint_t mpt[MAXMP];
