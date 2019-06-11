@@ -8,6 +8,8 @@
 #include <kmt.h>
 #include <klib.h>
 #include <common.h>
+#include <pmm.h>
+#include <util.h>
 
 extern spinlock_t lock_print;
 #define lprintf(format, ...) \
