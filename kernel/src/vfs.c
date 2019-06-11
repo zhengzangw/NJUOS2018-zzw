@@ -161,6 +161,7 @@ int vfs_open(const char *path, int flags){
         }
     }
 
+assert(0);
     int findex = get_free_flides(_cpu());
     assert(findex>=0);
     //assert(cputask[_cpu()]);
