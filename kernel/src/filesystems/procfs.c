@@ -43,8 +43,12 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
 
     }
     if (finded){
-        ret->fs_inode = NULL;
+        ret->fs = fs;
+        ret->ops = &procfs_inodeops;
         ret->permission = R_OK;
+        ret->size = 0;
+        ret->link_num = 1;
+        ret->fs_inode = NULL;
         return ret;
     } else {
         pmm->free(ret);

@@ -28,7 +28,6 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
       device_t *tmp = dev_lookup(name);
       if (tmp) {
           finded = 1;
-          ret->permission = R_OK;
           ret->id = tmp->id;
           ret->fs_inode = tmp;
           if (strncmp(name, "ramdisk",7)==0) ret->type=DV_BLOCK;
