@@ -338,7 +338,7 @@ void shell_task(void *name){
             sprintf(text, "path        device\n");
             for (int i=0;i<MAXMP;++i){
                 if (mpt[i].exists){
-                    sprintf(text+strlen(text), "%12s%s\n", mpt[i].path, mpt[i].fs->dev->name);
+                    sprintf(text+strlen(text), "%-12s%s\n", mpt[i].path, mpt[i].fs->dev->name);
                 }
             }
         } else {
