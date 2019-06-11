@@ -154,8 +154,8 @@ ssize_t ext2_data_write(device_t *dev, ext2_inode_t* inode, const void *buf, int
     return size;
 }
 
-ssize_t ext2_data_read(device_t *dev, ext2_inode_t* inode, const void *buf, int size, int offset){
-    int cnt = offset/BLOCK_BYTES ,ret = 0, buf_offset = 0;
+ssize_t ext2_data_read(device_t *dev, ext2_inode_t* inode, void *buf, int size, int offset){
+    int cnt = offset/BLOCK_BYTES, buf_offset = 0;
     int left;
     int first = 1;
     while (offset < inode->size && size){
