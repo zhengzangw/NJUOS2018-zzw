@@ -57,7 +57,7 @@ void shell_task(void *name){
         memset(file, 0, sizeof(file));
         memset(file2, 0, sizeof(file2));
         sprintf(text, "(%s):%s $ ", name, pwd);
-        tty_write(tty, 0, text, strlen(text));
+        tty->ops->write(tty, 0, text, strlen(text));
         int nread = tty->ops->read(tty, 0, line, sizeof(line));
         line[nread-1] = '\0';
 
@@ -320,6 +320,6 @@ void shell_task(void *name){
             sprintf(text, FAIL "command not found %s\n", line);
         }
 
-        tty_write(tty, 0, text, strlen(text));
+        tty->ops->write(tty, 0, text, strlen(text));
     }
 }
