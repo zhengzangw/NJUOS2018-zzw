@@ -97,7 +97,7 @@ int vfs_mkdir(const char *path){
 
 int vfs_rmdir(const char *path){
     int index = get_mount(path);
-    if (strlen(RAW(path))==1) return -1;
+    if (strlen(RAW(path))<=1) return -1;
     return mpt[index].fs->ops->rmdir(mpt[index].fs, RAW(path));
 }
 
