@@ -9,7 +9,7 @@ void vfs_init(){
     fs->ops = &ext2_ops;
     fs->dev = dev_lookup("ramdisk0");
     fs->ops->init(fs, "/", fs->dev);
-    vfs->mount("", fs);
+    vfs->mount("/", fs);
 
     vfs->mkdir("/bin");
     vfs->mkdir("/home");
@@ -29,21 +29,21 @@ void vfs_init(){
     fs2->ops = &ext2_ops;
     fs2->dev = dev_lookup("ramdisk1");
     fs2->ops->init(fs2, "/", fs2->dev);
-    vfs->mount("/mnt", fs2);
+    vfs->mount("/mnt/", fs2);
 
     // devfs -> /dev
     filesystem_t *devfs = pmm->alloc(sizeof(filesystem_t));
     devfs->ops = &devfs_ops;
     devfs->dev = NULL;
     devfs->ops->init(devfs, "/", devfs->dev);
-    vfs->mount("/dev", devfs);
+    vfs->mount("/dev/", devfs);
 
     // procfs -> /proc
     filesystem_t *procfs = pmm->alloc(sizeof(filesystem_t));
     procfs->ops = &procfs_ops;
     procfs->dev = NULL;
     procfs->ops->init(procfs, "/", procfs->dev);
-    vfs->mount("/proc", procfs);
+    vfs->mount("/proc/", procfs);
 }
 
 mountpoint_t mpt[MAXMP];
@@ -91,7 +91,7 @@ static int get_mount(const char *path){
     return index;
 }
 
-#define RAW(path) (path+strlen(mpt[index].path)+1)
+#define RAW(path) (path+strlen(mpt[index].path))
 int vfs_access(const char *path, int mode){
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
