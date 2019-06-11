@@ -14,7 +14,6 @@ void devfs_init(filesystem_t *fs, const char *name, device_t *dev){
 inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
     int finded = 0;
     inode_t *ret = balloc(sizeof(inode_t));
-    Log("name=%s", name);
     if (strcmp(name,"")==0||strcmp(name,".")==0||strcmp(name,"..")==0){
       finded = 1;
       ret->id = 0;
