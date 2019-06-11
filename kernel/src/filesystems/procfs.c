@@ -45,7 +45,6 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
     if (finded){
         ret->fs_inode = NULL;
         ret->permission = R_OK;
-        assert(0);
         return ret;
     } else {
         pmm->free(ret);
