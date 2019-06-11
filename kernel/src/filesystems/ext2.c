@@ -233,7 +233,7 @@ int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int t
     } else {
         char *pre, *post;
         char *tmp = balloc(strlen(name)+1);
-        strcpy(tmp, name);
+        strcpy(tmp, name+strlen(mp));
         pre = alldir(tmp);
         post = filename(tmp);
 
