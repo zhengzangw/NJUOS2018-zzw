@@ -81,7 +81,7 @@ ssize_t procfs_inode_read(file_t *file, char *buf, size_t size){
         case 1:
             break;
         case 2:
-            sprintf(buf, "Root Filesystem Info\n         FS:ext2\n Block Size:%#lx\n IBlock Num:%d\nInode Start:%d\n Inode Size:%#lx\n Data Start:%d\n",BLOCK_BYTES, ITABLE_NUM, ITABLE, sizeof(ext2_inode_t), DATA_B);
+            sprintf(buf, "heap start:%#lx\n  heap end:%#lx\nRoot Filesystem Info\n         FS:ext2\n Block Size:%#lx\n IBlock Num:%d\nInode Start:%d\n Inode Size:%#lx\n Data Start:%d\n",(uintptr_t)_heap.start, (uintptr_t)_heap.end, BLOCK_BYTES, ITABLE_NUM, ITABLE, sizeof(ext2_inode_t), DATA_B);
             break;
         case 3:
             task_num = atoi(file->inode->fs_inode);
