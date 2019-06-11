@@ -109,7 +109,7 @@ int vfs_link(const char *oldpath, const char *newpath){
 
 int vfs_unlink(const char *path){
     int index = get_mount(path);
-    return mpt[index].fs->ops->unlink(mpt[index].fs, path);
+    return mpt[index].fs->ops->unlink(mpt[index].fs, RAW(path));
 }
 
 int initialized;
