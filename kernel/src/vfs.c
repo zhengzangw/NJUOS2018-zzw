@@ -131,6 +131,7 @@ int vfs_open(const char *path, int flags){
     }
 
     int findex = get_free_flides(_cpu());
+    Logint(FILE(findex)->inode->id);
     assert(findex>=0);
     assert(cputask[_cpu()]);
 
