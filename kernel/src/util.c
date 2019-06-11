@@ -1,4 +1,5 @@
 #include <util.h>
+#include <common.h>
 
 // 1 if splited, 0 if done
 // /bin/test/a -> / + bin/test/a
