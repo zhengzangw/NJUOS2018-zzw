@@ -43,7 +43,7 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
         ret->dir_len = 0;
         ret->fs_inode = NULL;
     } else if (isnum(name)) {
-        if (tasks[proc_num]) {
+        if (tasks[atoi(name)]) {
             ret->id = 3;
             ret->type = NF;
             ret->dir_len = 0;
