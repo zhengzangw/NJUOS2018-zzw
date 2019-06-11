@@ -18,14 +18,11 @@ static void os_init() {
     pmm->init();
     kmt->init();
     dev->init();
-
-    char *t = "zsh";
-    strip(t);
+    char *t = "";
     rootdir(t);
     alldir(t);
-    filename(t);
+    filedir(t);
     postname(t);
-    assert(0);
     vfs->init();
 }
 
