@@ -57,8 +57,8 @@ typedef struct mountpoint {
   filesystem_t *fs;
   int exists;
 } mountpoint_t;
-extern mountpoint_t mpt[MAXMP];
 #define MAXMP 64
+extern mountpoint_t mpt[MAXMP];
 
 typedef struct {
   void (*init)();
