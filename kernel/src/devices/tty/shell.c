@@ -293,7 +293,8 @@ void shell_task(void *name){
                 int fd = atoi(arg1);
                 int offset = atoi(arg2);
                 off_t of = vfs->lseek(fd, offset, S_SET);
-                sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
+                if (of<0) sprintf(text, "cannot set offset");
+                else sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
             }
         } else if (iscmd("lkcur", 5)){
             get2arg(5);
@@ -302,7 +303,8 @@ void shell_task(void *name){
                 int fd = atoi(arg1);
                 int offset = atoi(arg2);
                 off_t of = vfs->lseek(fd, offset, S_CUR);
-                sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
+                if (of<0) sprintf(text, "cannot set offset");
+                else sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
             }
         } else if (iscmd("lkend", 5)){
             get2arg(5);
@@ -311,7 +313,8 @@ void shell_task(void *name){
                 int fd = atoi(arg1);
                 int offset = atoi(arg2);
                 off_t of = vfs->lseek(fd, offset, S_END);
-                sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
+                if (of<0) sprintf(text, "cannot set offset");
+                else sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
             }
         } else {
             sprintf(text, FAIL "command not found %s\n", line);
