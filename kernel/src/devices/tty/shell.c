@@ -274,8 +274,8 @@ void shell_task(void *name){
             ifnoarg_do
             else{
                 int fd = atoi(arg1);
-                int bytes;
-                if (bytes = vfs->write(fd, arg2, strlen(arg2))>=0){
+                int bytes = vfs->write(fd, arg2, strlen(arg2));
+                if (bytes>=0){
                     sprintf(text, SUCCESS "write %d bytes to file with fd=%d\n", bytes, fd);
                 } else {
                     sprintf(text, FAIL "cannot write to file with fd=%d\n", fd);
