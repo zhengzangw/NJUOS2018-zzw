@@ -23,7 +23,7 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
       ret->dir_len = 8;
     } else {
         if (!checkdevice(dev)){
-            pmm->free(ret);
+            pmm->free(name);
             return NULL;
         }
       device_t *tmp = dev_lookup(name);
