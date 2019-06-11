@@ -26,7 +26,7 @@ void vfs_init(){
     filesystem_t *fs2 = pmm->alloc(sizeof(filesystem_t));
     fs2->ops = &ext2_ops;
     fs2->dev = dev_lookup("ramdisk1");
-    fs->ops->init(fs2, "/", fs2->dev);
+    fs2->ops->init(fs2, "/", fs2->dev);
     vfs->mount("/mnt", fs2);
 }
 
