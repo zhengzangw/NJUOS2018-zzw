@@ -91,7 +91,7 @@ ext2_inode_t* ext2_inode_create(device_t *dev, uint8_t type, uint8_t per){
 const  char *mp = "/";
 ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
     char* tmp = pmm->alloc(strlen(name)+1);
-    strcpy(tmp, name+strlen(mp));
+    strcpy(tmp, name);
     strip(tmp);
     
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
@@ -177,7 +177,6 @@ static void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* 
     ext2_append_data(dev, inode, entry_name, dir->name_len);
     pmm->free(dir);
 }
-
 
 int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name){
     dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
