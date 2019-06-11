@@ -211,6 +211,7 @@ int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name){
         ext2_data_read(dev, inode, cur, sizeof(dir_entry_t), offset);
         if (cur->file_type !=XX){
             char *tmp_name = pmm->alloc(cur->name_len+1);
+            Log("tmp:)%d",tmp_name);
 
             ext2_data_read(dev, inode, tmp_name, cur->name_len, offset+sizeof(dir_entry_t));
             
