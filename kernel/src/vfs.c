@@ -34,7 +34,7 @@ mountpoint_t mpt[MAXMP];
 int vfs_mount(const char *path, filesystem_t *fs){
     int index = -1;
     for (int i=0;i<MAXMP;++i){
-        if (!mpt[i].exists){
+        if (index==-1 && !mpt[i].exists){
             index = i;
         } else {
             if (mpt[i].exists&&strcmp(path, mpt[i].path)==0){
@@ -61,10 +61,11 @@ int vfs_unmount(const char *path){
     return finded;
 }
 
-int get_mount(const char *path){
+static int get_mount(const char *path){
     int index=-1, len = 0;
     for (int i=0;i<MAXMP;++i){
-        if (strncmp(path, mpt[i].path, strlen(mpt[i].path))==0){
+        if (mpt[i].exists) Log("i=%d, name=%s", i, mpt[i].path);
+        if (mpt[i].exists && strncmp(path, mpt[i].path, strlen(mpt[i].path))==0){
             if (len<strlen(mpt[i].path)){
                 len = strlen(mpt[i].path);
                 index = i;
