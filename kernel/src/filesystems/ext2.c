@@ -119,6 +119,7 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
         pre = rootdir(tmp);
         post = postname(tmp);
     }
+    Logint(inode->index);
     return inode;
 }
 
