@@ -130,9 +130,14 @@ void shell_task(void *name){
                             strcpy(typename, "directory");
                             sprintf(additional, "Number of Files: %d\n", FILE(fd)->inode->dir_len-2);
                         break;
-                        default:
+                        case NF:
                             strcpy(typename, "normal file");
                             sprintf(additional, "\0");
+                            break;
+                        case DV:
+                            strcpy(typename, "device");
+                            sprintf(additional, "\0");
+                            break;
                         }
                         sprintf(text, "  File: %s\n  Type: %s\n  Size: %d\nDevice: %s\nAccess: %x\n    ID: %d\n Links: %d\n%s", arg1,
                             typename,
