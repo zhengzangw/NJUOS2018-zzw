@@ -3,6 +3,7 @@
 
 #include <common.h>
 #include <klib.h>
+#include <vfs.h>
 
 #define MAXCPU 64
 
