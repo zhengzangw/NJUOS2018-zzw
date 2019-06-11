@@ -100,6 +100,7 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
     char *pre, *post;
     Log("%s: =====", name);
     pre = rootdir(tmp);
+    Log("pre = %s", pre);
     alldir(tmp);
     filename(tmp);
     post = postname(tmp);
