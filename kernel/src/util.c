@@ -75,6 +75,12 @@ char *postname(const char *path){
 }
 
 int isdigit(int ch){return (ch>='0')&&(ch<='9');}
+int isnum(char *s){
+    for (int i=0;i<strlen(s);++i){
+        if (!isdigit(s)) return 0;
+    }
+    return 1;
+}
 int atoi(char *s){
     int i=0, flag = 1;
     char *ptr = s;

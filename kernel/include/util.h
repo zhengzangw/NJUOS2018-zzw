@@ -8,5 +8,6 @@ char *alldir(const char *path);
 char *postname(const char *path);
 
 int isdigit(int);
+int isnum(char *);
 int atoi(char *);
 #endif

@@ -29,18 +29,27 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
         ret->id = 0;
         ret->type = DR;
         ret->dir_len = 2+task_num();
+        ret->fs_inode = NULL;
     } else if (strcmp(name, "cpuinfo")) {
         finded = 1;
         ret->id = 1;
         ret->type = NF;
         ret->dir_len = 0;
+        ret->fs_inode = NULL;
     } else if (strcmp(name, "meminfo")) {
         finded = 1;
         ret->id = 2;
         ret->type = NF;
         ret->dir_len = 0;
-    } else {
-
+        ret->fs_inode = NULL;
+    } else if (isnum(name)) {
+        if (tasks[proc_num]) {
+            ret->id = 3;
+            ret->type = NF;
+            ret->dir_len = 0;
+            ret->fs_inode = pmm->alloc(strlen(name)+1);
+            strcpy(ret->fs_inode, name);
+        }
     }
     if (finded){
         ret->fs = fs;
@@ -48,7 +57,6 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
         ret->permission = R_OK;
         ret->size = 0;
         ret->link_num = 1;
-        ret->fs_inode = NULL;
         return ret;
     } else {
         pmm->free(ret);
