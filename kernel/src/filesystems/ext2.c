@@ -170,13 +170,14 @@ ssize_t ext2_data_read(device_t *dev, ext2_inode_t* inode, void *buf, int size, 
                 first = 0;
                 left =  inode->size - (inode->len-1)*BLOCK_BYTES - OFFSET_REMAIN(offset);
             } else left = inode->size - (inode->len-1);
-        }
-            dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), buf+buf_offset, left);
-            size-=left;
-            offset+=left;
-            buf_offset += left;
-            cnt++;
-        }
+        }    
+        left = min(left, size);
+        dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), buf+buf_offset, left);
+        size-=left;
+        offset+=left;
+        buf_offset += left;
+        cnt++;
+    }
     return buf_offset;
 }
 
