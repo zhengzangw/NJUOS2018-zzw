@@ -30,13 +30,13 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
         ret->type = DR;
         ret->dir_len = 2+task_num();
         ret->fs_inode = NULL;
-    } else if (strcmp(name, "cpuinfo")) {
+    } else if (strcmp(name, "cpuinfo")==0) {
         finded = 1;
         ret->id = 1;
         ret->type = NF;
         ret->dir_len = 0;
         ret->fs_inode = NULL;
-    } else if (strcmp(name, "meminfo")) {
+    } else if (strcmp(name, "meminfo")==0) {
         finded = 1;
         ret->id = 2;
         ret->type = NF;
