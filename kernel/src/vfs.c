@@ -93,7 +93,8 @@ int vfs_rmdir(const char *path){
 
 int vfs_link(const char *oldpath, const char *newpath){
     int fd = vfs->open(oldpath, 0);
-    return FILE(fd)->inode->ops->link(FILE(fd), newpath);
+    int index = get_mount(newpath);
+    return FILE(fd)->inode->ops->link(FILE(fd), newpath+strlen(mpt[index].path));
 }
 
 int vfs_unlink(const char *path){
