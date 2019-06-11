@@ -22,6 +22,7 @@ struct task {
   char* stack;
   file_t *flides[NOFILE];
 };
+extern task_t *tasks[MAXTASK];
 extern task_t *cputask[MAXCPU];  // task running on each cpu
 
 // ============= SPINLOCK =============

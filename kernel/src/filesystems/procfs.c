@@ -1,19 +1,56 @@
 #include <vfs.h>
 #include <common.h>
 #include <devices.h>
+#include <kmt.h>
 
 void procfs_init(filesystem_t *fs, const char *name, device_t *dev){
 }
+
+task_t *task[MAXTASK];
+int task_num(){
+    int ret = 0;
+    for (int i=0;i<MAXTASK;++i){
+        if (tasks[i]){
+            ret ++;
+        }
+    }
+    return ret;
+}
+
 inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
-    return NULL;
+    int finded = 0;
+    inode_t *ret = balloc(sizeof(inode_t));
+    if (strcmp(name, "")==0||strcmp(name, ".")==0||strcmp(name,"..")==0){
+        finded = 1;
+        ret->id = 0;
+        ret->type = DR;
+        ret->dir_len = 2+task_num();
+    } else if (strcmp(name, "cpuinfo")) {
+        finded = 1;
+        ret->id = 1;
+        ret->type = NF;
+        ret->dir_len = 0;
+    } else if (strcmp(name, "meminfo")) {
+        finded = 1;
+        ret->id = 2;
+        ret->type = NF;
+        ret->dir_len = 0;
+    } else {
+
+    }
+    return ret;
 }
-int procfs_inode_open(file_t *file, int flags){
-    return 0;
-}
-int procfs_inode_close(file_t *file){
-    return 0;
-}
+
 ssize_t procfs_inode_read(file_t *file, char *buf, size_t size){
+    return 0;
+}
+
+int procfs_inode_open(file_t *file, int flags){
+    file->offset = 0;
+    return 0;
+}
+
+int procfs_inode_close(file_t *file){
     return 0;
 }
 
