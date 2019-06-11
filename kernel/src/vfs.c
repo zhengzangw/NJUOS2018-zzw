@@ -21,6 +21,7 @@ void vfs_init(){
     const char *words = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
     vfs->write(fd, words, strlen(words));
     vfs->close(fd);
+
     // Load /mnt
     filesystem_t *fs2 = pmm->alloc(sizeof(filesystem_t));
     fs2->ops = &ext2_ops;
@@ -70,6 +71,7 @@ int get_mount(const char *path){
             }
         }
     }
+    Logint(index);
     return index;
 }
 
