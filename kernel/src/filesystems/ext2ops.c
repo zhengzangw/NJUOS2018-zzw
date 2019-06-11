@@ -71,6 +71,7 @@ int ext2_rm(filesystem_t *fs, const char *name){
     }
 
     index = ext2_dir_lookup(fs->dev, dir, post);
+    Logint(index);
     pmm->free(pre); pmm->free(post);
     if (index<0){
         return -1;
