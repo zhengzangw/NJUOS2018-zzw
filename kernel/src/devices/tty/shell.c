@@ -122,6 +122,7 @@ void shell_task(void *name){
             else {
                 modify(arg1);
                 int fd = vfs->open(arg1, O_RD);
+                assert(0);
                 ifnofd_do(arg1)
                 else {
                     char typename[10];
