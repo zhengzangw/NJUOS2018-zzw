@@ -7,12 +7,13 @@ void devfs_init(filesystem_t *fs, const char *name, device_t *dev){
 inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
     int finded = 0;
     inode_t *ret = balloc(sizeof(inode_t));
-    if (strcmp(name,"/")){
+    Log("name=%s", name);
+    if (strcmp(name,"")||strcmp(name,".")||strcmp(name,"..")){
       finded = 1;
       ret->id = 0;
       ret->fs_inode = NULL;
       ret->type = DR;
-      ret->dir_len = 6;
+      ret->dir_len = 8;
     } else {
       device_t *tmp = dev_lookup(name);
       if (tmp) {
@@ -46,7 +47,7 @@ int devfs_inode_close(file_t *file){
 }
 
 #define DEV(file) ((device_t*)file->inode->fs_inode)
-const char *devfs_ls ="tty1\ntty2\ntty3\ntty4\nramdisk0\nramdisk1\n";
+const char *devfs_ls =".\n..\ntty1\ntty2\ntty3\ntty4\nramdisk0\nramdisk1\n";
 ssize_t devfs_inode_read(file_t *file, char *buf, size_t size){
     ssize_t ret;
     if (file->inode->id==0){
