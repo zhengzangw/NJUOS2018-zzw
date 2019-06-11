@@ -5,15 +5,45 @@
 void devfs_init(filesystem_t *fs, const char *name, device_t *dev){
 }
 inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
-    return NULL;
+    int finded = 0;
+    if (strcmp(name,"/")){
+      finded = 1;
+      inode->id = 0;
+      inode->fs_inode = NULL;
+    } else {
+      device_t *tmp = dev_lookup(name);
+      if (tmp) {
+          finded = 1;
+          inode->id = tmp->id;
+          inode->fs_inode = tmp;
+      }
+    }
+    if (!finded) return NULL;
+    else {
+        inode_t *ret = balloc(sizeof(inode_t));
+        ret->fs = fs;
+        ret->ops = &devfs_inodeops;
+        inode->permission = R_OK|W_OK;
+        inode->size = 0;
+        inode->type = DV;
+        inode->dir_len = 0;
+        inode->link_num = 1;
+    }
 }
+
 int devfs_inode_open(file_t *file, int flags){
+    file->offset = 0;
     return 0;
 }
 int devfs_inode_close(file_t *file){
     return 0;
 }
 ssize_t devfs_inode_read(file_t *file, char *buf, size_t size){
+    if (file->inode->id==0){
+        strcpy(buf, "tty1\ntty2\ntty3\ntty4\nramdisk0\nramdisk1\n");
+    } else {
+
+    }
     return 0;
 }
 ssize_t devfs_inode_write(file_t *file, const char *buf, size_t size){

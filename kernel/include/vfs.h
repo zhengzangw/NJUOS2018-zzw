@@ -79,7 +79,7 @@ typedef struct {
 /* ===== MACRO ===== */
 #define FILE(fd) cputask[_cpu()]->flides[fd]
 //TYPE
-enum TYPE {NF, DR, XX, MP};
+enum TYPE {NF, DR, XX, MP, DV};
 //access
 #define R_OK 1
 #define W_OK 2
