@@ -53,14 +53,13 @@ int ext2_create(filesystem_t *fs, const char *name){
 }
 
 int ext2_rm(filesystem_t *fs, const char *name){
-    if (strlen(name)==1) return -1;
+    if (strlen(name)==1 && name[0]=='/') return -1;
 
     char *pre, *post;
     char *tmp = balloc(strlen(name)+1);
     strcpy(tmp, name);
     pre = alldir(tmp);
     post = filename(tmp);
-    Log("pre =%s, post=%s", pre, post);
 
     //Get parent dir inode
     ext2_inode_t* dir = ext2_inode_lookup(fs->dev, pre);
@@ -71,7 +70,6 @@ int ext2_rm(filesystem_t *fs, const char *name){
     }
 
     index = ext2_dir_lookup(fs->dev, dir, post);
-    Logint(index);
     pmm->free(pre); pmm->free(post);
     if (index<0){
         return -1;
