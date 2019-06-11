@@ -250,7 +250,7 @@ void shell_task(void *name){
                     sprintf(text, SUCCESS "create link %s -> %s\n", arg2, arg1);
                 }
             }
-        } else if (iscmd("open", 4)==0){
+        } else if (iscmd("open", 4)){
             get1arg(4);
             ifnoarg_do
             else {
@@ -285,23 +285,26 @@ void shell_task(void *name){
             }
         } else if (iscmd("lkset", 5)){
             get2arg(5);
-            ifnoarg_do{
+            ifnoarg_do
+            else {
                 int fd = atoi(arg1);
                 int offset = atoi(arg2);
                 off_t of = vfs->lseek(fd, offset, S_SET);
                 sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
             }
-        } else if (strncmp(line, "lkcur", 5)==0){
+        } else if (iscmd("lkcur", 5)){
             get2arg(5);
-            ifnoarg_do{
+            ifnoarg_do
+            else {
                 int fd = atoi(arg1);
                 int offset = atoi(arg2);
                 off_t of = vfs->lseek(fd, offset, S_CUR);
                 sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
             }
-        } else if (strncmp(line, "lkend", 5)==0){
+        } else if (iscmd("lkend", 5)){
             get2arg(5);
-            ifnoarg_do{
+            ifnoarg_do
+            else {
                 int fd = atoi(arg1);
                 int offset = atoi(arg2);
                 off_t of = vfs->lseek(fd, offset, S_END);
