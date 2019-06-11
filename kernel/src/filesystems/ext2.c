@@ -110,7 +110,8 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
             break;
         }
 
-        if (tmp) pmm->free(tmp); pmm->free(pre);
+        if (tmp) pmm->free(tmp); 
+        if (pre) pmm->free(pre);
         tmp = post; 
         pre = rootdir(tmp);
         post = postname(tmp);
