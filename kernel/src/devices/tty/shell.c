@@ -335,10 +335,10 @@ void shell_task(void *name){
             }
         } else if (strcmp("mount", line)==0){
             memset(text, sizeof(text), 0);
-            sprintf(text, "path        device");
+            sprintf(text, "path        device\n");
             for (int i=0;i<MAXMP;++i){
                 if (mpt[i].exists){
-                    sprintf(text+strlen(text), "%12s%s", mpt[i].path, mpt[i].fs->dev->name);
+                    sprintf(text+strlen(text), "%12s%s\n", mpt[i].path, mpt[i].fs->dev->name);
                 }
             }
         } else {
