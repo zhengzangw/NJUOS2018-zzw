@@ -57,7 +57,7 @@ void shell_task(void *name){
         } else if (strcmp(line, "exit")==0){
             _halt(0);
         } else if (iscmd("cd", 2)){
-            int ret;
+            int ret = 0;
             if (line[len]!=' ') {
                 strcpy(pwd, "/");
             }
