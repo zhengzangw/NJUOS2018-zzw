@@ -4,7 +4,6 @@
 
 /*======== API ============*/
 void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
-    //printf("==== EXT2 INFO ====\n Block Size:%#lx\n Inode Nums:%d\nInode Start:%d\n Inode Size:%#lx\n Data Start:%d\n",BLOCK_BYTES, ITABLE_NUM, ITABLE, sizeof(ext2_inode_t), DATA_B);
     //clear
     bzero(dev, IMAP);
     bzero(dev, DMAP);

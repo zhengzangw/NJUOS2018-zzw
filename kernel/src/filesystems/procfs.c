@@ -22,7 +22,6 @@ int task_num(){
 }
 
 inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
-    Log("name = %s",name);
     int finded = 0;
     inode_t *ret = balloc(sizeof(inode_t));
     if (strcmp(name, "")==0||strcmp(name, ".")==0||strcmp(name,"..")==0){
@@ -44,7 +43,6 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
         ret->dir_len = 0;
         ret->fs_inode = NULL;
     } else if (isnum(name)) {
-        Logint(atoi(name));
         if (tasks[atoi(name)]) {
             finded = 1;
             ret->id = 3;
@@ -81,13 +79,16 @@ ssize_t procfs_inode_read(file_t *file, char *buf, size_t size){
             kmt->spin_unlock(&lock_kmt);
             break;
         case 1:
+            break;
         case 2:
+            sprintf(buf, "Root Filesystem Info\nFS:ext2\nBlock Size:%#lx\n Inode Nums:%d\nInode Start:%d\n Inode Size:%#lx\n Data Start:%d\n",BLOCK_BYTES, ITABLE_NUM, ITABLE, sizeof(ext2_inode_t), DATA_B);
+            break;
         case 3:
             task_num = atoi(file->inode->fs_inode);
             kmt->spin_lock(&lock_kmt);
             task_t *tmp = tasks[task_num];
             kmt->spin_unlock(&lock_kmt);
-            sprintf(buf, "    name: %s\n      id: %d\nrunnable: %d\nsleeping: %d", tmp->name, tmp->id, tmp->run, tmp->sleep);
+            sprintf(buf, "    name: %s\n      id: %d\nrunnable: %d\nsleeping: %d\n", tmp->name, tmp->id, tmp->run, tmp->sleep);
             break;
         default: return -1;
     }
