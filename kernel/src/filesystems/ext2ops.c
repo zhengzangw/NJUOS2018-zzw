@@ -216,7 +216,7 @@ ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
 
         int update_size = offset + size;
         if (update_size>inode->size){
-            inode->size = update_size;
+            file->inode->size = inode->size = update_size;
             dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
         }
     }
@@ -242,15 +242,12 @@ int ext2_inode_link(file_t *file, const char *name){
 off_t ext2_inode_lseek(file_t *file, off_t offset, int whence){
     off_t t_offset = -1;
     int size = file->inode->size;
-    Logint(size);
-    Logint(offset);
     switch (whence){
         case S_SET: t_offset = max(min(offset, size), 0); break;
         case S_CUR: t_offset = max(min(file->offset+offset, size), 0); break;
         case S_END: t_offset = max(min(size+offset, size), 0); break;
     }
     file->offset = t_offset;
-    Logint(t_offset);
     return t_offset;
 }
 
