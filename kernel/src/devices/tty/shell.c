@@ -39,8 +39,7 @@
 void shell_task(void *name){
     char pwd[128];
     strcpy(pwd, "/");
-    char shell_name[128];
-    shell_name = filename(name);
+    char *shell_name = filename(name);
     char line[128], text[1024], arg1[128], arg2[128];
     int len;
 
