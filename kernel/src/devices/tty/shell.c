@@ -261,38 +261,52 @@ void shell_task(void *name){
             }
         } else if (iscmd("close", 5)){
             get1arg(5);
-            int fd = atoi(arg1);
-            if (vfs->close(fd)==0)
-                sprintf(text, SUCCESS "close file with fd=%d\n", fd);
-            else sprintf(text, FAIL "unable to close file with fd=%d\n");
+            ifnoarg_do
+            else{
+                int fd = atoi(arg1);
+                if (vfs->close(fd)==0)
+                    sprintf(text, SUCCESS "close file with fd=%d\n", fd);
+                else sprintf(text, FAIL "unable to close file with fd=%d\n");
+            }
         } else if (iscmd("write", 5)){
             get2arg(5);
-            modify(arg2);
-            int fd = atoi(arg1);
-            vfs->write(fd, arg2, strlen(arg2));
-            sprintf(text, SUCCESS "write to file with fd=%d\n", fd);
+            ifnoarg_do
+            else{
+                modify(arg2);
+                int fd = atoi(arg1);
+                vfs->write(fd, arg2, strlen(arg2));
+                sprintf(text, SUCCESS "write to file with fd=%d\n", fd);
+            }
         } else if (iscmd("read", 4)){
             get1arg(4);
-            int fd = atoi(arg1);
-            vfs->read(fd, text, 1024);
+            ifnoarg_do{
+                int fd = atoi(arg1);
+                vfs->read(fd, text, 1024);
+            }
         } else if (iscmd("lkset", 5)){
             get2arg(5);
-            int fd = atoi(arg1);
-            int offset = atoi(arg2);
-            off_t of = vfs->lseek(fd, offset, S_SET);
-            sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
+            ifnoarg_do{
+                int fd = atoi(arg1);
+                int offset = atoi(arg2);
+                off_t of = vfs->lseek(fd, offset, S_SET);
+                sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
+            }
         } else if (strncmp(line, "lkcur", 5)==0){
             get2arg(5);
-            int fd = atoi(arg1);
-            int offset = atoi(arg2);
-            off_t of = vfs->lseek(fd, offset, S_CUR);
-            sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
+            ifnoarg_do{
+                int fd = atoi(arg1);
+                int offset = atoi(arg2);
+                off_t of = vfs->lseek(fd, offset, S_CUR);
+                sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
+            }
         } else if (strncmp(line, "lkend", 5)==0){
             get2arg(5);
-            int fd = atoi(arg1);
-            int offset = atoi(arg2);
-            off_t of = vfs->lseek(fd, offset, S_END);
-            sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
+            ifnoarg_do{
+                int fd = atoi(arg1);
+                int offset = atoi(arg2);
+                off_t of = vfs->lseek(fd, offset, S_END);
+                sprintf(text, "set offset to %d of file with fd=%d\n", of, fd);
+            }
         } else {
             sprintf(text, FAIL "command not found %s\n", line);
         }
