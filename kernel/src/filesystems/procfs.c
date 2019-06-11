@@ -79,9 +79,10 @@ ssize_t procfs_inode_read(file_t *file, char *buf, size_t size){
             kmt->spin_unlock(&lock_kmt);
             break;
         case 1:
+            sprintf(buf, "cpus amount: %d", _cpu());
             break;
         case 2:
-            sprintf(buf, " heap start:%#lx\n   heap end:%#lx\n  heap size:%ld\nRoot Filesystem Info\n         FS:ext2\n Block Size:%#lx\n IBlock Num:%d\nInode Start:%d\n Inode Size:%#lx\n Data Start:%d\n",(uintptr_t)_heap.start, (uintptr_t)_heap.end, _heap.end-_heap.start, BLOCK_BYTES, ITABLE_NUM, ITABLE, sizeof(ext2_inode_t), DATA_B);
+            sprintf(buf, " heap start: %#lx\n   heap end: %#lx\n  heap size: %ld\n\nRoot Filesystem Info\n         FS:ext2\n Block Size: %#lx\n IBlock Num: %d\nInode Start: %d\n Inode Size: %#lx\n Data Start: %d\n",(uintptr_t)_heap.start, (uintptr_t)_heap.end, _heap.end-_heap.start, BLOCK_BYTES, ITABLE_NUM, ITABLE, sizeof(ext2_inode_t), DATA_B);
             break;
         case 3:
             task_num = atoi(file->inode->fs_inode);
