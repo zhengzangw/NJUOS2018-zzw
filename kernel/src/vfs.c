@@ -164,7 +164,6 @@ int vfs_open(const char *path, int flags){
 
     kmt->spin_lock(&lock_kmt);
     int findex = get_free_flides(_cpu());
-    Logint(findex);
     assert(findex>=0);
 
     FILE(findex) = pmm->alloc(sizeof(file_t));
