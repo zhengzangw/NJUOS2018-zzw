@@ -95,6 +95,14 @@ enum TYPE {NF, DR, XX, MP};
 #define S_CUR 1
 #define S_END 2
 
+/* ===== devfs ===== */
+extern fsops_t devfs_ops;
+extern inodeops_t devfs_inodeops;
+
+/* ===== procfs ===== */
+extern fsops_t procfs_ops;
+extern inodeops_t procfs_inodeops;
+
 /* ====== ext2 ======= */
 extern fsops_t ext2_ops;
 extern inodeops_t ext2_inodeops;
@@ -162,10 +170,3 @@ int read_map(device_t *dev, int block, int i);;
 void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type);
 #endif
 
-/* ===== devfs ===== */
-extern fsops_t devfs_ops;
-extern inodeops_t devfs_inodeops;
-
-/* ===== procfs ===== */
-extern fsops_t procfs_ops;
-extern inodeops_t procfs_inodeops;
