@@ -40,7 +40,7 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
     }
     if (finded){
         ret->fs_inode = NULL;
-        ret->per = R_OK;
+        ret->permission = R_OK;
         return ret;
     } else {
         pmm->free(ret);
