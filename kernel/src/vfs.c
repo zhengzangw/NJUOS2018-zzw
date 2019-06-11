@@ -11,6 +11,15 @@ void vfs_init(){
 
     fs->ops->init(fs, "/", fs->dev);
     vfs->mount("/", fs);
+    vfs->mkdir("/bin");
+    vfs->mkdir("/home");
+    vfs->mkdir("/usr");
+    vfs->mkdir("/usr/bin");
+    vfs->mkdir("/etc");
+    int fd = vfs->open("/etc/passwd", 0);
+    const char *words = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
+    vfs->write(fd, words, strlen(words));
+    vfs->close(fd);
 }
 
 mountpoint_t mpt[MAXMP];
@@ -91,7 +100,9 @@ int vfs_unlink(const char *path){
     return mpt[index].fs->ops->unlink(mpt[index].fs, path);
 }
 
+int initialized;
 int get_free_flides(int ccppuu){
+    if (initialized == 0) return 0;
     int index = -1;
     for (int i=0;i<NOFILE;++i){
         if (cputask[ccppuu]->flides[i]==NULL){

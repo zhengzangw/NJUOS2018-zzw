@@ -7,6 +7,7 @@ spinlock_t lock_debug;
 spinlock_t lock_print;
 spinlock_t lock_os;
 
+int initialized = 0;
 static void os_init() {
     // Init spinlock
 #ifdef DEBUG_LOCK
@@ -19,6 +20,7 @@ static void os_init() {
     kmt->init();
     dev->init();
     vfs->init();
+    initialized = 1;
 }
 
 static void os_run() {

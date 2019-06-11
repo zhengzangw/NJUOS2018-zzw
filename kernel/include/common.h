@@ -24,4 +24,6 @@ extern spinlock_t lock_print;
 #define max(a,b) (((a)>(b))?(a):(b))
 #define min(a,b) (((a)<(b))?(a):(b))
 
+extern int initialized;
+
 #endif
