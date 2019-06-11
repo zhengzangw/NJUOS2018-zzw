@@ -2,16 +2,8 @@
 #include <vfs.h>
 #include <devices.h>
 
-#define LOG_NUM 4
-#define LOGBLOCK() \
-    for (int i=0;i<DATA_B+LOG_NUM;++i)\
-        LogBlock(dev, i)
-
-
-/*========== BLOCK ===============*/
-#define BLOCK_BYTES (1<<10)
-#define BLOCK(x) ((x)*BLOCK_BYTES)
-void bzero(device_t* dev, int x){
+/*========== BLOCK =============*/
+static void bzero(device_t* dev, int x){
     void *zeros = balloc(BLOCK_BYTES);
     dev->ops->write(dev, BLOCK(x), zeros, BLOCK_BYTES);
     pmm->free(zeros);
@@ -30,16 +22,14 @@ void LogBlock(device_t* dev, int x) {
 }
 
 /*========== IMAP,DMAP ===========*/
-#define IMAP 0
-#define DMAP 1
 #define MAP(block,i) (BLOCK(block)+(i)/8)
-int read_map(device_t *dev, int block, int i){
+static int read_map(device_t *dev, int block, int i){
     uint8_t m = 1<<(i%8), b;
     dev->ops->read(dev, MAP(block,i), &b, sizeof(uint8_t));
     return ((b&m)!=0);
 }
 
-int write_map(device_t* dev, int block, int i, uint8_t x){
+static int write_map(device_t* dev, int block, int i, uint8_t x){
     assert(x==0||x==1);
     uint8_t m = 1<<(i%8), b;
     dev->ops->read(dev, MAP(block, i), &b, sizeof(uint8_t));
@@ -50,7 +40,7 @@ int write_map(device_t* dev, int block, int i, uint8_t x){
     return 0;
 }
 
-int free_map(device_t* dev, int block){
+static int free_map(device_t* dev, int block){
     int ret = -1;
     for (int i=0;i<BLOCK_BYTES;++i){
         if (read_map(dev, block, i)==0) {
@@ -62,10 +52,6 @@ int free_map(device_t* dev, int block){
 }
 
 /*======== ITABLE =========*/
-#define ITABLE 2
-#define ITABLE_NUM 10
-#define INODE_BYTES (1<<7)
-#define TABLE(i) (BLOCK(ITABLE)+(i)*INODE_BYTES)
 struct ext2_inode {
   uint32_t index; //index of inode
   uint16_t type; //Type of this inode
@@ -78,10 +64,7 @@ struct ext2_inode {
   uint32_t link[25];
 }__attribute__((packed));
 uint32_t gid;
-typedef struct ext2_inode ext2_inode_t;
 
-#define DATA_B ITABLE+ITABLE_NUM
-#define DATA(i) BLOCK(DATA_B)+(i)*BLOCK_BYTES
 void ext2_inode_remove(device_t *dev, ext2_inode_t* inode){
     write_map(dev, IMAP, inode->index, 0);
     for (int i=0;i<inode->len;++i){
@@ -89,7 +72,7 @@ void ext2_inode_remove(device_t *dev, ext2_inode_t* inode){
     }
 }
 
-ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
+ext2_inode_t* ext2_inode_create(device_t *dev, uint8_t type, uint8_t per){
     int index_inode = free_map(dev, IMAP);
     write_map(dev, IMAP, index_inode, 1);
     ext2_inode_t *inode = (ext2_inode_t *)(balloc(sizeof(ext2_inode_t)));
@@ -104,14 +87,20 @@ ext2_inode_t* ext2_create_inode(device_t *dev, uint8_t type, uint8_t per){
     return inode;
 }
 
-int ext2_dir_search(device_t *, ext2_inode_t*, const char*);
-ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name){
+ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
+    char *pre = NULL, *post = NULL;
+    char tmp[128];
+    strcpy(tmp, name);
+
+    int len = strlen(tmp);
+    if (len!=1 && tmp[len-1]=='/'){
+        tmp[len] = '.';
+        tmp[len+1] = '\0';
+    }
+
     ext2_inode_t *inode = (ext2_inode_t *)(pmm->alloc(sizeof(ext2_inode_t)));
     dev->ops->read(dev, TABLE(0), inode, INODE_BYTES);
 
-    char *pre = NULL, *post = NULL, *tmp;
-    tmp = pmm->alloc(strlen(name)+1);
-    strcpy(tmp, name);
     int splited = split(tmp, &pre, &post);
     //Log("tmp=%s name=%s splited=%d", tmp, name, splited);
     while (splited){
@@ -148,7 +137,7 @@ ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
     //Log("tmp=%s pre=%s post=%s", tmp, pre, post);
 
     //Get parent dir inode
-    ext2_inode_t* dir = ext2_lookup_dir(dev, pre);
+    ext2_inode_t* dir = ext2_inode_lookup(dev, pre);
     int index;
     ext2_inode_t *ret;
     if (dir){
@@ -268,17 +257,17 @@ void ext2_dir_remove(device_t *dev, ext2_inode_t* inode, int index){
 int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int type){
     ext2_inode_t* dir;
     if (isroot){
-        dir = ext2_create_inode(dev, type, per);
+        dir = ext2_inode_create(dev, type, per);
         ext2_create_entry(dev, dir, dir, ".", DR);
         ext2_create_entry(dev, dir, dir, "..", DR);
     } else {
         char *pre, *post;
         split2(name, &pre, &post);
 
-        ext2_inode_t* father = ext2_lookup_dir(dev, pre);
+        ext2_inode_t* father = ext2_inode_lookup(dev, pre);
         if (father==NULL) return -1;
 
-        dir = ext2_create_inode(dev, type, per);
+        dir = ext2_inode_create(dev, type, per);
         if (type == DR){
             ext2_create_entry(dev, dir, dir, ".", DR);
             ext2_create_entry(dev, dir, father, "..", DR);
@@ -322,7 +311,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
 }
 
 inode_t* ext2_lookup(filesystem_t *fs, const char *name, int flags){
-    ext2_inode_t* tmp = ext2_lookup_inode(fs->dev, name);
+    ext2_inode_t* tmp = ext2_inode_lookup(fs->dev, name);
     if (tmp){
         inode_t* ret = balloc(sizeof(inode_t));
         ret->fs = fs;
@@ -359,7 +348,7 @@ int ext2_rmdir(filesystem_t *fs, const char *name){
     split2(tmp, &pre, &post);
 
     //Get parent dir inode
-    ext2_inode_t* dir = ext2_lookup_dir(fs->dev, pre);
+    ext2_inode_t* dir = ext2_inode_lookup(fs->dev, pre);
     int index;
     if (!dir){
         pmm->free(pre); pmm->free(post);
@@ -534,7 +523,7 @@ int ext2_inode_link(file_t *file, const char *name){
     device_t* dev = file->inode->fs->dev;
     char *pre = NULL, *post = NULL;
     split2(name, &pre, &post);
-    ext2_inode_t* father = ext2_lookup_dir(dev, pre);
+    ext2_inode_t* father = ext2_inode_lookup(dev, pre);
     ext2_create_entry(dev, father, inode, post, NF);
     inode->link_num++;
     dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);

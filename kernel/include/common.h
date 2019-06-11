@@ -7,6 +7,7 @@
 #include <debug.h>
 #include <kmt.h>
 #include <klib.h>
+#include <common.h>
 
 extern spinlock_t lock_print;
 #define lprintf(format, ...) \

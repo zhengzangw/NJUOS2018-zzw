@@ -3,6 +3,8 @@
 
 #include <common.h>
 
+/* ==== VFS ==== */
+
 typedef struct inodeops inodeops_t;
 typedef struct filesystem filesystem_t;
 typedef struct fsops fsops_t;
@@ -74,32 +76,52 @@ typedef struct {
   //Additional
 } MODULE(vfs);
 
+/* ===== MACRO ===== */
+#define FILE(fd) cputask[_cpu()]->flides[fd]
+//TYPE
 enum TYPE {NF, DR, XX, MP};
-/* ====== access ====== */
+//access
 #define R_OK 1
 #define W_OK 2
 #define X_OK 8
 #define F_OK 16
-
-/* ====== open ======= */
+//open
 #define O_RD 1
 #define O_WR 2
 #define O_CREAT  4
 #define O_TRUNC  8
-
-/* ====== lseek ====== */
+//lseek
 #define S_SET 0
 #define S_CUR 1
 #define S_END 2
 
-/* ====== util ======= */
-void *balloc(int);
-int split(const char *, char **, char **);
-int split2(const char *, char **, char **);
-#define FILE(fd) cputask[_cpu()]->flides[fd]
-
 /* ====== ext2 ======= */
 extern fsops_t ext2_ops;
+typedef struct ext2_inode ext2_inode_t;
 extern inodeops_t ext2_inodeops;
+
+#define BLOCK_BYTES (1<<10)
+#define INODE_BYTES (1<<7)
+#define BLOCK(x) ((x)*BLOCK_BYTES)
+#define TABLE(i) (BLOCK(ITABLE)+(i)*INODE_BYTES)
+#define DATA(i) (BLOCK(DATA_B)+(i)*BLOCK_BYTES)
+#define IMAP 0
+#define DMAP 1
+#define ITABLE 2
+#define ITABLE_NUM 10
+#define DATA_B (ITABLE+ITABLE_NUM)
+
+//Inode
+ext2_inode_t* ext2_inode_create(device_t *dev, uint8_t type, uint8_t per);
+void ext2_inode_remove(device_t *, ext2_inode_t*);
+ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name);
+
+int ext2_dir_search(device_t *, ext2_inode_t*, const char*);
+//Log
+#define LOG_NUM 4
+#define LOGBLOCK() \
+    for (int i=0;i<DATA_B+LOG_NUM;++i)\
+        LogBlock(dev, i)
+void LogBlock(device_t*, int);
 
 #endif
