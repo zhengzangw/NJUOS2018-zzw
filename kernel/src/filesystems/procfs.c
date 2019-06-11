@@ -25,6 +25,7 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
         ret->id = 0;
         ret->type = DR;
         ret->dir_len = 2+task_num();
+        assert(0);
     } else if (strcmp(name, "cpuinfo")) {
         finded = 1;
         ret->id = 1;
