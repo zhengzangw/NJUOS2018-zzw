@@ -22,6 +22,7 @@ int task_num(){
 }
 
 inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
+    Log("name = %s",name);
     int finded = 0;
     inode_t *ret = balloc(sizeof(inode_t));
     if (strcmp(name, "")==0||strcmp(name, ".")==0||strcmp(name,"..")==0){
@@ -43,6 +44,7 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
         ret->dir_len = 0;
         ret->fs_inode = NULL;
     } else if (isnum(name)) {
+        Logint(atoi(name));
         if (tasks[atoi(name)]) {
             ret->id = 3;
             ret->type = NF;
