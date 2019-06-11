@@ -18,11 +18,6 @@ static void os_init() {
     pmm->init();
     kmt->init();
     dev->init();
-    char *t = "";
-    rootdir(t);
-    alldir(t);
-    filename(t);
-    postname(t);
     vfs->init();
 }
 

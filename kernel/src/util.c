@@ -11,7 +11,7 @@ void strip(char *tmp){
 //path = usr/bin/zsh -> usr
 //path = usr -> usr
 char *rootdir(const char* path){
-    if (!path) return NULL;
+    if (!path || strlen(path) ==0) return NULL;
     char *ret = balloc(strlen(path)+1);
     strcpy(ret, path);
     for (int i=0;i<strlen(path);++i){
@@ -28,7 +28,7 @@ char *rootdir(const char* path){
 //path = usr/bin/zsh -> zsh
 //path = usr -> usr
 char *filename(const char* path){
-    if (!path) return NULL;
+    if (!path || strlen(path) ==0) return NULL;
     char *ret = balloc(strlen(path)+1);
     strcpy(ret, path);
     for (int i=strlen(path);i>0;--i){
@@ -45,9 +45,8 @@ char *filename(const char* path){
 //path = usr/bin/zsh -> usr/bin
 //path = usr -> NULL
 char *alldir(const char *path){
-    if (!path) return NULL;
+    if (!path || strlen(path) ==0) return NULL;
     char *ret = balloc(strlen(path));
-    if (strlen(path)==0) return ret;
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
             strncpy(ret, path, i);
@@ -62,9 +61,8 @@ char *alldir(const char *path){
 //path = usr/bin/zsh -> bin/zsh
 //path = usr -> NULL
 char *postname(const char *path){
-    if (!path) return NULL;
+    if (!path || strlen(path) ==0) return NULL;
     char *ret = balloc(strlen(path));
-    if (strlen(path)==0) return ret;
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
             strncpy(ret, path+i+1, strlen(path-i));
