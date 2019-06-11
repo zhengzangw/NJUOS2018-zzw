@@ -73,3 +73,18 @@ char *postname(const char *path){
     //Log("path = %s, ret = %s", path, ret);
     return ret;
 }
+
+int isdigit(int ch){return (ch>='0')&&(ch<='9');}
+int atoi(char *s){
+    int i=0, flag = 1;
+    char *ptr = s;
+    if (*ptr == '-') {
+        ptr++;
+        flag = -1;
+    }
+    while (isdigit(*ptr)){
+        i = i*10+*ptr-'0';
+        ptr++;
+    }
+    return i*flag;
+}
