@@ -333,7 +333,7 @@ void shell_task(void *name){
                 if (of<0) sprintf(text, "cannot set offset for file with fd=%d\n", fd);
                 else sprintf(text, "set offset to %d for file with fd=%d\n", of, fd);
             }
-        } else if (strcmp("mount", line)){
+        } else if (strcmp("mount", line)==0){
             memset(text, sizeof(text), 0);
             sprintf(text, "path        device");
             for (int i=0;i<MAXMP;++i){
