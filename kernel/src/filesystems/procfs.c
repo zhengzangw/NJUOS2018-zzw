@@ -9,11 +9,13 @@ void procfs_init(filesystem_t *fs, const char *name, device_t *dev){
 task_t *tasks[MAXTASK];
 int task_num(){
     int ret = 0;
+    kmt->spin_lock(&lock_kmt);
     for (int i=0;i<MAXTASK;++i){
         if (tasks[i]){
             ret ++;
         }
     }
+    kmt->spin_unlock(&lock_kmt);
     return ret;
 }
 
@@ -25,7 +27,6 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
         ret->id = 0;
         ret->type = DR;
         ret->dir_len = 2+task_num();
-        assert(0);
     } else if (strcmp(name, "cpuinfo")) {
         finded = 1;
         ret->id = 1;

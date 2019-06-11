@@ -161,15 +161,17 @@ int vfs_open(const char *path, int flags){
         }
     }
 
+    kmt->spin_lock(&lock_kmt);
     int findex = get_free_flides(_cpu());
     assert(findex>=0);
     //assert(cputask[_cpu()]);
-assert(0);
 
-    cputask[_cpu()]->flides[findex] = pmm->alloc(sizeof(file_t));
-    cputask[_cpu()]->flides[findex]->inode = cur;
+    FILE(findex) = pmm->alloc(sizeof(file_t));
+    FILE(findex)->inode = cur;
+    file_t tmp = FILE(findex);
+    kmt->spin_unlock(&lock_kmt);
 
-    cur->ops->open(cputask[_cpu()]->flides[findex], flags);
+    cur->ops->open(tmp, flags);
 
     return findex;
 }
