@@ -161,8 +161,8 @@ int vfs_open(const char *path, int flags){
             return -1;
         }
     }
-    assert(0);
 
+    if (initialized) assert(0);
     kmt->spin_lock(&lock_kmt);
     int findex = get_free_flides(_cpu());
     assert(findex>=0);
