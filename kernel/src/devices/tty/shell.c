@@ -34,7 +34,7 @@
 #define ifnoarg_do if (nofile) strcpy(text, FAIL "missing operand\n");
 #define ifnofd_do(file) if (fd<0) sprintf(text, FAIL "no such file or directory %s\n", file);
 #define ifnotDR_do(file) if (FILE(fd)->inode->type!=DR) sprintf(text, FAIL "not a directory: %s\n", file);
-#define ifnotNF_do(file) if (FILE(fd)->inode->type!=NF) sprintf(text, FAIL "Is a directory: %s\n", file);
+#define ifnotNF_do(file) if (FILE(fd)->inode->type==DR) sprintf(text, FAIL "Is a directory: %s\n", file);
 
 void shell_task(void *name){
     char pwd[128];
