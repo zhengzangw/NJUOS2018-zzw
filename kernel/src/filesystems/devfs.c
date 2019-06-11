@@ -44,16 +44,25 @@ int devfs_inode_open(file_t *file, int flags){
 int devfs_inode_close(file_t *file){
     return 0;
 }
+const char *devfs_ls ="tty1\ntty2\ntty3\ntty4\nramdisk0\nramdisk1\n";
 ssize_t devfs_inode_read(file_t *file, char *buf, size_t size){
+    ssize_t ret;
     if (file->inode->id==0){
-        strcpy(buf, "tty1\ntty2\ntty3\ntty4\nramdisk0\nramdisk1\n");
+        strcpy(buf, devfs_ls);
+        ret = strlen(devfs_ls);
     } else {
-
+        ret = dev->read(dev, file->offset, buf, size);
     }
-    return 0;
+    return ret;
 }
 ssize_t devfs_inode_write(file_t *file, const char *buf, size_t size){
-    return 0;
+    ssize_t ret;
+    if (file->inode->id==0){
+        ret = -1;
+    } else {
+        ret = dev->write(dev, file->offset, buf, size);
+    }
+    return ret;
 }
 
 fsops_t devfs_ops = {
