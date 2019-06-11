@@ -20,6 +20,7 @@ void vfs_init(){
     const char *words = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
     vfs->write(fd, words, strlen(words));
     vfs->close(fd);
+    assert(0);
 }
 
 mountpoint_t mpt[MAXMP];
@@ -66,6 +67,7 @@ int get_mount(const char *path){
     return index;
 }
 
+#define RAW(path) (path+strlen(mpt[index].path))
 int vfs_access(const char *path, int mode){
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
@@ -82,12 +84,12 @@ int vfs_access(const char *path, int mode){
 
 int vfs_mkdir(const char *path){
     int index = get_mount(path);
-    return mpt[index].fs->ops->mkdir(mpt[index].fs, path);
+    return mpt[index].fs->ops->mkdir(mpt[index].fs, RAW(path));
 }
 
 int vfs_rmdir(const char *path){
     int index = get_mount(path);
-    return mpt[index].fs->ops->rmdir(mpt[index].fs, path);
+    return mpt[index].fs->ops->rmdir(mpt[index].fs, RAW(path));
 }
 
 int vfs_link(const char *oldpath, const char *newpath){
@@ -115,7 +117,7 @@ int get_free_flides(int ccppuu){
 
 int vfs_open(const char *path, int flags){
     int index = get_mount(path);
-    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
+    inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
     if (cur == NULL) {
         if (flags & O_CREAT){
             int ret = mpt[index].fs->ops->create(mpt[index].fs, path);

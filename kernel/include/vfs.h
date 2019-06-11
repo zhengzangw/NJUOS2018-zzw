@@ -55,7 +55,7 @@ struct inodeops {
 typedef struct mountpoint {
   const char *path;
   filesystem_t *fs;
-  int exists;
+  int exists
 } mountpoint_t;
 #define MAXMP 64
 
