@@ -24,8 +24,8 @@
             if (line[slen]==' ') break;\
         }\
         if (line[slen]==' ') nofile = 0;\
-        strncpy(file, line+len+1, slen-len-1);\
-        strcpy(file2, line+slen+1);\
+        strncpy(arg1, line+len+1, slen-len-1);\
+        strcpy(arg2, line+slen+1);\
     }
 
 #define SUCCESS "[SUCCESS]: "
@@ -230,7 +230,7 @@ void shell_task(void *name){
                 modify(arg1);
                 int fd = vfs->open(arg1, O_RD);
                 ifnofd_do(arg1)
-                else ifnotNF_do
+                else ifnotNF_do(arg1)
                 else {
                         memset(text, 0, 1024);;
                         vfs->read(fd, text, 1024);
