@@ -110,6 +110,8 @@ extern inodeops_t ext2_inodeops;
 #define ITABLE 2
 #define ITABLE_NUM 10
 #define DATA_B (ITABLE+ITABLE_NUM)
+#define OFFSET_BLOCK(offset) (inode->link[(offset)/BLOCK_BYTES])
+#define OFFSET_REMAIN(offset) ((offset)%BLOCK_BYTES)
 
 //Inode
 ext2_inode_t* ext2_inode_create(device_t *dev, uint8_t type, uint8_t per);
