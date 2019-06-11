@@ -20,7 +20,7 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
           finded = 1;
           ret->id = tmp->id;
           ret->fs_inode = tmp;
-          if (strncmp(name, "ramdisk")) ret->type=DV_BLOCK;
+          if (strncmp(name, "ramdisk",7)) ret->type=DV_BLOCK;
           else ret->type = DV_CHAR;
           ret->dir_len = 0;
       }
