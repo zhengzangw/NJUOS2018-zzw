@@ -227,8 +227,11 @@ ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
 int ext2_inode_link(file_t *file, const char *name){
     ext2_inode_t* inode = file->inode->fs_inode;
     device_t* dev = file->inode->fs->dev;
-    char *pre = NULL, *post = NULL;
-    split2(name, &pre, &post);
+
+    char *pre, *post;
+    pre = alldir(name);
+    post = filename(name);
+
     ext2_inode_t* father = ext2_inode_lookup(dev, pre);
     ext2_create_entry(dev, father, inode, post, NF);
     inode->link_num++;

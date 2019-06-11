@@ -154,7 +154,6 @@ ssize_t vfs_read(int fd, void *buf, size_t nbyte){
 
 ssize_t vfs_write(int fd, const void *buf, size_t nbyte){
     inode_t* tmp = FILE(fd)->inode;
-    //Logint(tmp->id);
     return tmp->ops->write(FILE(fd), (char *)buf, nbyte);
 }
 
