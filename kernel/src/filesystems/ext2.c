@@ -4,7 +4,7 @@
 
 
 /*========== BLOCK =============*/
-static void bzero(device_t* dev, int x){
+void bzero(device_t* dev, int x){
     void *zeros = balloc(BLOCK_BYTES);
     dev->ops->write(dev, BLOCK(x), zeros, BLOCK_BYTES);
     pmm->free(zeros);
@@ -24,13 +24,13 @@ void LogBlock(device_t* dev, int x) {
 
 /*========== IMAP,DMAP ===========*/
 #define MAP(block,i) (BLOCK(block)+(i)/8)
-static int read_map(device_t *dev, int block, int i){
+int read_map(device_t *dev, int block, int i){
     uint8_t m = 1<<(i%8), b;
     dev->ops->read(dev, MAP(block,i), &b, sizeof(uint8_t));
     return ((b&m)!=0);
 }
 
-static int write_map(device_t* dev, int block, int i, uint8_t x){
+int write_map(device_t* dev, int block, int i, uint8_t x){
     assert(x==0||x==1);
     uint8_t m = 1<<(i%8), b;
     dev->ops->read(dev, MAP(block, i), &b, sizeof(uint8_t));
@@ -41,7 +41,7 @@ static int write_map(device_t* dev, int block, int i, uint8_t x){
     return 0;
 }
 
-static int free_map(device_t* dev, int block){
+int free_map(device_t* dev, int block){
     int ret = -1;
     for (int i=0;i<BLOCK_BYTES;++i){
         if (read_map(dev, block, i)==0) {
@@ -170,7 +170,7 @@ ssize_t ext2_data_read(device_t *dev, ext2_inode_t* inode, void *buf, int size, 
 }
 
 /*======== DIR ============*/
-static void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type){
+void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type){
     dir_entry_t* dir = balloc(sizeof(dir_entry_t));
     dir->inode = entry_inode->index;
     uint32_t name_len = strlen(entry_name);

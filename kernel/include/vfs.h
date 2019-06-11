@@ -130,7 +130,7 @@ extern inodeops_t ext2_inodeops;
 #define DATA_B (ITABLE+ITABLE_NUM)
 #define OFFSET_BLOCK(offset) (inode->link[(offset)/BLOCK_BYTES])
 #define OFFSET_REMAIN(offset) ((offset)%BLOCK_BYTES)
-
+void bzero(device_t* dev, int x);
 //Inode
 ext2_inode_t* ext2_inode_create(device_t *dev, uint8_t type, uint8_t per);
 void ext2_inode_remove(device_t *, ext2_inode_t*);
@@ -151,8 +151,12 @@ int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int t
     for (int i=0;i<DATA_B+LOG_NUM;++i)\
         LogBlock(dev, i)
 void LogBlock(device_t*, int);
+//Redundance
+int free_map(device_t* dev, int block);
+int write_map(device_t* dev, int block, int i, uint8_t x);
+int read_map(device_t *dev, int block, int i);;
 
 /* === API === */
 #define EXT(inode) ((ext2_inode_t*)inode->fs_inode)
-
+void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type);
 #endif
