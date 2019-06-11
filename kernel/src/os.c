@@ -21,7 +21,7 @@ static void os_init() {
     char *t = "";
     rootdir(t);
     alldir(t);
-    filedir(t);
+    filename(t);
     postname(t);
     vfs->init();
 }
