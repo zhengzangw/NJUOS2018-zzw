@@ -175,7 +175,7 @@ void shell_task(void *name){
                 int fd = vfs->open(arg1, 0);
                 ifnofd_do(arg1)
                 else {
-                    ifnotDR(arg1)
+                    ifnotDR_do(arg1)
                     else {
                         vfs->close(fd);
                         int ret = vfs->rmdir(arg1);
@@ -194,7 +194,7 @@ void shell_task(void *name){
                 modify(arg1);
                 int fd = vfs->open(arg1, 0);
                 ifnofd_do(arg1)
-                else ifnotNR_do(arg1)
+                else ifnotNF_do(arg1)
                 else {
                         vfs->close(fd);
                         int ret = vfs->unlink(arg1);
@@ -229,7 +229,7 @@ void shell_task(void *name){
             else {
                 modify(arg1);
                 int fd = vfs->open(arg1, O_RD);
-                ifnofd_do
+                ifnofd_do(arg1)
                 else ifnotNF_do
                 else {
                         memset(text, 0, 1024);;
