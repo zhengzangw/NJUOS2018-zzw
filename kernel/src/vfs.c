@@ -7,7 +7,7 @@ void vfs_init(){
     // Load / as ext2 filesystem
     filesystem_t *fs = pmm->alloc(sizeof(filesystem_t));
     fs->ops = &ext2_ops;
-    fs->dev = dev_lookup("ramdisk0");
+    fs->dev = dev_lookup("ramdisk1");
 
     fs->ops->init(fs, "/", fs->dev);
     vfs->mount("/", fs);
@@ -15,6 +15,7 @@ void vfs_init(){
     vfs->mkdir("/home");
     vfs->mkdir("/usr");
     vfs->mkdir("/usr/bin");
+    vfs->mkdir("/mnt");
     vfs->mkdir("/etc");
     int fd = vfs->open("/etc/passwd", O_CREAT);
     const char *words = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
