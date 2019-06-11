@@ -211,9 +211,9 @@ int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name){
         ext2_data_read(dev, inode, cur, sizeof(dir_entry_t), offset);
         if (cur->file_type !=XX){
             char *tmp_name = pmm->alloc(cur->name_len+1);
-            int name_offset = offset+sizeof(dir_entry_t);
-            dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
-
+            ext2_data_read(dev, inode, tmp_name, cur->name_len, offset+sizeof(dir_entry_t));
+            
+            Log("name=%s, tmp_name=%s", name, tmp_name);
             int clen = (name[strlen(name)-1]=='/')?strlen(name)-1:strlen(name);
             if (strncmp(name, tmp_name, clen)==0){
                 finded =1;
