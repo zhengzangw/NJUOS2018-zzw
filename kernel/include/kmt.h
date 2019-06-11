@@ -14,6 +14,7 @@
 #define INT_MAX 2147483647
 #define INT_MIN (-INT_MAX-1)
 #define NOFILE 64
+typedef struct file file_t;
 struct task {
   const char *name;
   _Context context;

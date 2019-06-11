@@ -160,3 +160,5 @@ int read_map(device_t *dev, int block, int i);;
 #define EXT(inode) ((ext2_inode_t*)inode->fs_inode)
 void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type);
 #endif
+
+/* ===== devfs ===== */
