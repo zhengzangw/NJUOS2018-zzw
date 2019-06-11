@@ -30,7 +30,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     //assert(0);
 }
 
-#define update_inode_attr(attr) inode->attr==EXT(inode)->attr
+#define update_inode_attr(attr) inode->attr=EXT(inode)->attr
 void update_inode(inode_t* inode, ext2_inode_t *extinode){
     if (inode->fs_inode) pmm->free(inode->fs_inode);
     inode->fs_inode = extinode;
@@ -211,8 +211,6 @@ ssize_t ext2_inode_write(file_t *file, const char *buf, size_t size){
         case DR: assert(0);
         case NF:
             while (bytes>0){
-                Logint(bytes);
-                Logint(offset);
                 if (offset < original_len*BLOCK_BYTES){
                     towrite = BLOCK_BYTES;
                     if (first) {
