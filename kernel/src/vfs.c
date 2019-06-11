@@ -151,7 +151,7 @@ ssize_t vfs_read(int fd, void *buf, size_t nbyte){
     return tmp->ops->read(cputask[_cpu()]->flides[fd], (char *)buf, nbyte);
 }
 
-ssize_t vfs_write(int fd, void *buf, size_t nbyte){
+ssize_t vfs_write(int fd, const void *buf, size_t nbyte){
     inode_t* tmp = cputask[_cpu()]->flides[fd]->inode;
     return tmp->ops->write(cputask[_cpu()]->flides[fd], (char *)buf, nbyte);
 }
