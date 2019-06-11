@@ -6,6 +6,7 @@ void devfs_init(filesystem_t *fs, const char *name, device_t *dev){
 }
 inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
     int finded = 0;
+    inode_t *ret = balloc(sizeof(inode_t));
     if (strcmp(name,"/")){
       finded = 1;
       inode->id = 0;
@@ -18,9 +19,11 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
           inode->fs_inode = tmp;
       }
     }
-    if (!finded) return NULL;
+    if (!finded) {
+        pmm->free(ret);
+        return NULL;
+    }
     else {
-        inode_t *ret = balloc(sizeof(inode_t));
         ret->fs = fs;
         ret->ops = &devfs_inodeops;
         inode->permission = R_OK|W_OK;
