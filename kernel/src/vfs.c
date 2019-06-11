@@ -32,18 +32,18 @@ void vfs_init(){
     vfs->mount("/mnt/", fs2);
 
     // devfs -> /dev
-    filesystem_t *fs = pmm->alloc(sizeof(filesystem_t));
-    fs->ops = &devfs_ops;
-    fs->dev = NULL;
-    fs->ops->init(fs, "/", fs->dev);
-    vfs->mount("/dev", fs);
+    filesystem_t *devfs = pmm->alloc(sizeof(filesystem_t));
+    devfs->ops = &devfs_ops;
+    devfs->dev = NULL;
+    devfs->ops->init(devfs, "/", devfs->dev);
+    vfs->mount("/dev", devfs);
 
     // procfs -> /proc
-    filesystem_t *fs = pmm->alloc(sizeof(filesystem_t));
-    fs->ops = &procfs_ops;
-    fs->dev = NULL;
-    fs->ops->init(fs, "/", fs->dev);
-    vfs->mount("/proc", fs);
+    filesystem_t *procfs = pmm->alloc(sizeof(filesystem_t));
+    procfs->ops = &procfs_ops;
+    procfs->dev = NULL;
+    procfs->ops->init(procfs, "/", procfs->dev);
+    vfs->mount("/proc", procfs);
 }
 
 mountpoint_t mpt[MAXMP];
