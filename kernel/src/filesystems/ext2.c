@@ -119,27 +119,41 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
 }
 
 /*======== DATA ===========*/
-void ext2_append_data(device_t *dev, ext2_inode_t* inode, const void *buf, int size){
-    int add_size = size;
-    int left = inode->len*BLOCK_BYTES - inode->size;
-    assert(left>=0);
-    if (left>0){
-        int offset = inode->size - (inode->len - 1)*BLOCK_BYTES;
-        int towrite = left<size?left:size;
-        dev->ops->write(dev, DATA(inode->link[inode->len-1])+offset, buf, towrite);
-        size-=towrite;
+ssize_t ext2_data_write(device_t *dev, ext2_inode_t* inode, const void *buf, int size, int offset){
+    int bytes = size;
+    int buf_offset = 0; //offset pointer of buffer
+    int original_len = inode->len;
+    int towrite; //bytes to write once
+    int first = 1;
+
+    while (bytes>0){
+        if (offset < original_len*BLOCK_BYTES){
+            towrite = BLOCK_BYTES;
+            if (first) {
+                first = 0;
+                towrite -= OFFSET_REMAIN(offset);
+            }
+            towrite = min(towrite, bytes);
+        } else {
+            inode->link[inode->len] = free_map(dev, DMAP);
+            write_map(dev, DMAP, inode->link[inode->len], 1);
+            inode->len ++;
+            towrite = BLOCK_BYTES<bytes?BLOCK_BYTES:bytes;
+        }
+
+        dev->ops->write(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), buf+buf_offset, towrite);
+        bytes -= towrite;
+        buf_offset += towrite;
     }
-    while (size){
-        inode->link[inode->len] = free_map(dev, DMAP);
-        write_map(dev, DMAP, inode->link[inode->len], 1);
-        inode->len ++;
-        int towrite = BLOCK_BYTES<size?BLOCK_BYTES:size;
-        dev->ops->write(dev, DATA(inode->link[inode->len-1]), buf, towrite);
-        size -= towrite;
+
+    int update_size = offset + size;
+    if (update_size>inode->size){
+        inode->size = update_size;
+        dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
     }
-    inode->size += add_size;
-    dev->ops->write(dev, TABLE(inode->index), inode, INODE_BYTES);
+    return size;
 }
+#define ext2_append_data(dev, inode, buf, size_t) ext2_data_write(dev, inode, buf, size_t, inode->size)
 
 /*======== DIR ============*/
 struct dir_entry {
@@ -168,7 +182,7 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
 #define OFFSET_BLOCK(offset) (inode->link[(offset)/BLOCK_BYTES])
 #define OFFSET_REMAIN(offset) ((offset)%BLOCK_BYTES)
 int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
-    Log("name=%s", name);
+    //Log("name=%s", name);
     dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
     int finded = 0;
     int offset = 0;
@@ -180,7 +194,7 @@ int ext2_dir_search(device_t *dev, ext2_inode_t* inode, const char* name){
             dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
 
             int clen = (name[strlen(name)-1]=='/')?strlen(name)-1:strlen(name);
-            Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
+            //Log("name = %s, tmpname = %s, name_len =%d", name, tmp_name, clen);
             if (strncmp(name, tmp_name, clen)==0){
                 finded =1;
                 break;

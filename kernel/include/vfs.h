@@ -114,7 +114,7 @@ extern inodeops_t ext2_inodeops;
 //Inode
 ext2_inode_t* ext2_inode_create(device_t *dev, uint8_t type, uint8_t per);
 void ext2_inode_remove(device_t *, ext2_inode_t*);
-ext2_inode_t* ext2_lookup_dir(device_t *dev, const char *name);
+ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name);
 
 int ext2_dir_search(device_t *, ext2_inode_t*, const char*);
 //Log
