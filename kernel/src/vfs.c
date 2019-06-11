@@ -121,7 +121,7 @@ int vfs_open(const char *path, int flags){
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
     if (cur == NULL) {
         if (flags & O_CREAT){
-            int ret = mpt[index].fs->ops->create(mpt[index].fs, path);
+            int ret = mpt[index].fs->ops->create(mpt[index].fs, RAW(path));
             assert(ret ==0);
             if (ret==0) cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
             else return -1;
