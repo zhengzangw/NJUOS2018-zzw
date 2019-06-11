@@ -6,7 +6,7 @@
 void procfs_init(filesystem_t *fs, const char *name, device_t *dev){
 }
 
-task_t *task[MAXTASK];
+task_t *tasks[MAXTASK];
 int task_num(){
     int ret = 0;
     for (int i=0;i<MAXTASK;++i){
@@ -24,7 +24,6 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
         finded = 1;
         ret->id = 0;
         ret->type = DR;
-        assert(0);
         ret->dir_len = 2+task_num();
     } else if (strcmp(name, "cpuinfo")) {
         finded = 1;
