@@ -51,7 +51,7 @@ ssize_t devfs_inode_read(file_t *file, char *buf, size_t size){
         strcpy(buf, devfs_ls);
         ret = strlen(devfs_ls);
     } else {
-        ret = dev->read(dev, file->offset, buf, size);
+        ret = dev->ops->read(dev, file->offset, buf, size);
     }
     return ret;
 }
@@ -60,7 +60,7 @@ ssize_t devfs_inode_write(file_t *file, const char *buf, size_t size){
     if (file->inode->id==0){
         ret = -1;
     } else {
-        ret = dev->write(dev, file->offset, buf, size);
+        ret = dev->ops->write(dev, file->offset, buf, size);
     }
     return ret;
 }
