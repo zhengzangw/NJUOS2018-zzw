@@ -98,6 +98,7 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
     dev->ops->read(dev, TABLE(0), inode, INODE_BYTES);
     
     char *pre, *post;
+    Log("%s: =====", name);
     pre = rootdir(tmp);
     alldir(tmp);
     filename(tmp);

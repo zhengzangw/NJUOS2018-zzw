@@ -26,6 +26,7 @@ char *rootdir(const char* path){
 //path = usr/bin/zsh -> zsh
 char *filename(const char* path){
     char *ret = NULL;
+    if (strlen(path)==0) return ret;
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
             ret = balloc(strlen(path-i+1)+1);
@@ -41,6 +42,7 @@ char *filename(const char* path){
 //path = usr/bin/zsh -> usr/bin
 char *alldir(const char *path){
     char *ret = NULL;
+    if (strlen(path)==0) return ret;
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
             ret = balloc(i+2);
@@ -56,6 +58,7 @@ char *alldir(const char *path){
 //path = usr/bin/zsh -> bin/zsh
 char *postname(const char *path){
     char *ret = NULL;
+    if (strlen(path)==0) return ret;
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
             ret = balloc(strlen(path-i+1)+1);
