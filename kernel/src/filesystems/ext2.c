@@ -103,12 +103,12 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
     dev->ops->read(dev, TABLE(0), inode, INODE_BYTES);
 
     int splited = split(tmp, &pre, &post);
-    //Log("tmp=%s name=%s splited=%d", tmp, name, splited);
+    Log("tmp=%s name=%s splited=%d", tmp, name, splited);
     while (splited){
         strcpy(tmp, post);
         pmm->free(pre); pmm->free(post);
         splited = split(tmp, &pre, &post);
-        //Log("pre=%s post=%s splited=%d", pre, post, splited);
+        Log("pre=%s post=%s splited=%d", pre, post, splited);
         int inode_index = ext2_dir_search(dev, inode, pre);
         if (inode_index>=0){
             dev->ops->read(dev, TABLE(inode_index), inode, INODE_BYTES);
@@ -119,43 +119,6 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
     }
 
     return inode;
-}
-
-ext2_inode_t* ext2_lookup_inode(device_t *dev, const char *name){
-    //Log("name = %s", name);
-    char *pre = NULL, *post = NULL;
-    char tmp[128];
-    strcpy(tmp, name);
-
-    int len = strlen(tmp);
-    if (len!=1 && tmp[len-1]=='/'){
-        tmp[len] = '.';
-        tmp[len+1] = '\0';
-    }
-    split2(tmp, &pre, &post);
-
-    //Log("tmp=%s pre=%s post=%s", tmp, pre, post);
-
-    //Get parent dir inode
-    ext2_inode_t* dir = ext2_inode_lookup(dev, pre);
-    int index;
-    ext2_inode_t *ret;
-    if (dir){
-        index = ext2_dir_search(dev, dir, post);
-        pmm->free(pre); pmm->free(post);
-        pmm->free(dir);
-    } else {
-        pmm->free(pre); pmm->free(post);
-        return NULL;
-    }
-    if (index>=0){
-        //Get inode
-        ret = pmm->alloc(sizeof(ext2_inode_t));
-        dev->ops->read(dev, TABLE(index), ret, INODE_BYTES);
-    } else {
-        return NULL;
-    }
-    return ret;
 }
 
 /*======== DATA ===========*/

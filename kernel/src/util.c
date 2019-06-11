@@ -1,6 +1,16 @@
 #include <util.h>
 #include <common.h>
 
+char *rootdir(const char* path){
+    char *ret = NULL;
+    for (int i=0;i<strlen(path);++i){
+        if (path[i] == '/'){
+            ret = balloc(i+2);
+            break;
+        }
+    }
+}
+
 // 1 if splited, 0 if done
 // /bin/test/a -> / + bin/test/a
 int split(const char *path, char **pre, char **post){
