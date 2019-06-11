@@ -6,6 +6,7 @@ void strip(char *tmp){
     if (len!=1 && tmp[len-1]=='/'){
         tmp[len-1] = '\0';
     }
+}
 
 //path = usr/bin/zsh -> usr
 //path = usr -> usr
