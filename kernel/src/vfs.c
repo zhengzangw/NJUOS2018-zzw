@@ -8,10 +8,10 @@ void vfs_init(){
     filesystem_t *fs = pmm->alloc(sizeof(filesystem_t));
     fs->ops = &ext2_ops;
     fs->dev = dev_lookup("ramdisk0");
-
+assert(0);
     fs->ops->init(fs, "/", fs->dev);
     vfs->mount("/", fs);
-    assert(0);
+    
 }
 
 mountpoint_t mpt[MAXMP];
