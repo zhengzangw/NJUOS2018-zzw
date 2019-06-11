@@ -61,7 +61,6 @@ ssize_t procfs_inode_read(file_t *file, char *buf, size_t size){
 }
 
 int procfs_inode_open(file_t *file, int flags){
-    assert(0);
     file->offset = 0;
     return 0;
 }
