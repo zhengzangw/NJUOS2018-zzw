@@ -12,14 +12,15 @@ void strip(char *tmp){
 //path = usr -> usr
 char *rootdir(const char* path){
     if (!path) return NULL;
-    char *ret = balloc(strlen(path));
+    char *ret = balloc(strlen(path)+1);
+    strcpy(ret, path);
     for (int i=0;i<strlen(path);++i){
         if (path[i] == '/'){
             strncpy(ret, path, i);
+            ret[i+1] = '\0';
             break;
         }
     }
-    if (ret==NULL) strcpy(ret, path);
     Log("path = %s, ret = %s", path, ret);
     return ret;
 }
@@ -28,14 +29,15 @@ char *rootdir(const char* path){
 //path = usr -> usr
 char *filename(const char* path){
     if (!path) return NULL;
-    char *ret = balloc(strlen(path));
+    char *ret = balloc(strlen(path)+1);
+    strcpy(ret, path);
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
             strncpy(ret, path+i+1, strlen(path-i));
+            ret[strlen(path-i)+1] = '\0';
             break;
         }
     }
-    if (ret==NULL) strcpy(ret, path);
     Log("path = %s, ret = %s", path, ret);
     return ret;
 }
@@ -49,6 +51,7 @@ char *alldir(const char *path){
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
             strncpy(ret, path, i);
+            ret[i+1] = '\0';
             break;
         }
     }
@@ -65,6 +68,7 @@ char *postname(const char *path){
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
             strncpy(ret, path+i+1, strlen(path-i));
+            ret[strlen(path-i)+1] = '\0';
             break;
         }
     }
