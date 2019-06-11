@@ -105,6 +105,7 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
     post = postname(tmp);
 
     while (pre!=NULL){
+        Log("pre = %s", pre);
         int inode_index = ext2_dir_search(dev, inode, pre);
 
         if (inode_index>=0){
