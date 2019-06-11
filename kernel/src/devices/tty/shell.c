@@ -244,7 +244,7 @@ void shell_task(void *name){
                     memset(text, 0, 1024);;
                     int bytes = vfs->read(fd, text, 1024);
                     if (bytes<0){
-                        sprintf(text, FAIL "cannot write to file with fd=%d\n", fd);
+                        sprintf(text, FAIL "cannot read to file with fd=%d\n", fd);
                     }
                     vfs->close(fd);
                 }
@@ -299,7 +299,7 @@ void shell_task(void *name){
                 int fd = atoi(arg1);
                 int bytes = vfs->read(fd, text, 1024);
                 if (bytes<0){
-                    sprintf(text, FAIL "cannot write to file with fd=%d\n", fd);
+                    sprintf(text, FAIL "cannot read to file with fd=%d\n", fd);
                 }
             }
         } else if (iscmd("lkset", 5)){
