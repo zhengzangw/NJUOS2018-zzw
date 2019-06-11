@@ -30,7 +30,6 @@ char *rootdir(const char* path){
 char *filename(const char* path){
     if (!path) return NULL;
     char *ret = NULL;
-    if (strlen(path)==0) return ret;
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
             ret = balloc(strlen(path-i+1)+1);
@@ -56,7 +55,6 @@ char *alldir(const char *path){
             break;
         }
     }
-    if (ret==NULL) strcpy(ret, path);
     Log("path = %s, ret = %s", path, ret);
     return ret;
 }
