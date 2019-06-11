@@ -12,10 +12,9 @@ void strip(char *tmp){
 //path = usr -> usr
 char *rootdir(const char* path){
     if (!path) return NULL;
-    char *ret = NULL;
+    char *ret = balloc(strlen(path));
     for (int i=0;i<strlen(path);++i){
         if (path[i] == '/'){
-            ret = balloc(i+2);
             strncpy(ret, path, i);
             break;
         }
@@ -29,10 +28,9 @@ char *rootdir(const char* path){
 //path = usr -> usr
 char *filename(const char* path){
     if (!path) return NULL;
-    char *ret = NULL;
+    char *ret = balloc(strlen(path));
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
-            ret = balloc(strlen(path-i+1)+1);
             strncpy(ret, path+i+1, strlen(path-i+1));
             break;
         }
@@ -46,11 +44,10 @@ char *filename(const char* path){
 //path = usr -> NULL
 char *alldir(const char *path){
     if (!path) return NULL;
-    char *ret = NULL;
+    char *ret = balloc(strlen(path));
     if (strlen(path)==0) return ret;
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
-            ret = balloc(i+2);
             strncpy(ret, path, i);
             break;
         }
@@ -63,11 +60,10 @@ char *alldir(const char *path){
 //path = usr -> NULL
 char *postname(const char *path){
     if (!path) return NULL;
-    char *ret = NULL;
+    char *ret = balloc(strlen(path));
     if (strlen(path)==0) return ret;
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
-            ret = balloc(strlen(path-i+1)+1);
             strncpy(ret, path+i+1, strlen(path-i+1));
             break;
         }
