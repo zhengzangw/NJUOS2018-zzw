@@ -169,7 +169,7 @@ int vfs_open(const char *path, int flags){
 
     FILE(findex) = pmm->alloc(sizeof(file_t));
     FILE(findex)->inode = cur;
-    file_t tmp = FILE(findex);
+    file_t* tmp = FILE(findex);
     kmt->spin_unlock(&lock_kmt);
 
     cur->ops->open(tmp, flags);
