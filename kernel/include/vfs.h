@@ -98,7 +98,24 @@ enum TYPE {NF, DR, XX, MP};
 /* ====== ext2 ======= */
 extern fsops_t ext2_ops;
 typedef struct ext2_inode ext2_inode_t;
-
+struct ext2_inode {
+  uint32_t index; //index of inode
+  uint16_t type; //Type of this inode
+  uint16_t permission; //Permission of this inode
+  uint32_t size; //Size of file
+  uint32_t len; //Number of link
+  uint32_t id; //File id
+  uint32_t dir_len; //Special for dir
+  uint32_t link_num;
+  uint32_t link[25];
+}__attribute__((packed));
+struct dir_entry {
+    uint32_t inode;
+    uint32_t rec_len;
+    uint32_t name_len;
+    uint32_t file_type;
+};
+typedef struct dir_entry dir_entry_t;
 extern inodeops_t ext2_inodeops;
 
 #define BLOCK_BYTES (1<<10)
@@ -134,5 +151,8 @@ int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int t
     for (int i=0;i<DATA_B+LOG_NUM;++i)\
         LogBlock(dev, i)
 void LogBlock(device_t*, int);
+
+/* === API === */
+#define EXT(inode) ((ext2_inode_t*)inode->fs_inode)
 
 #endif
