@@ -77,13 +77,13 @@ char *postname(const char *path){
 int isdigit(int ch){return (ch>='0')&&(ch<='9');}
 int isnum(const char *s){
     for (int i=0;i<strlen(s);++i){
-        if (!isdigit(s)) return 0;
+        if (!isdigit(s[i])) return 0;
     }
     return 1;
 }
 int atoi(const char *s){
     int i=0, flag = 1;
-    char *ptr = s;
+    const char *ptr = s;
     if (*ptr == '-') {
         ptr++;
         flag = -1;
