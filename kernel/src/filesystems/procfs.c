@@ -44,6 +44,7 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
         return ret;
     } else {
         pmm->free(ret);
+        return NULL;
     }
 }
 
