@@ -64,7 +64,6 @@ int vfs_unmount(const char *path){
 static int get_mount(const char *path){
     int index=-1, len = 0;
     for (int i=0;i<MAXMP;++i){
-        if (mpt[i].exists) Log("i=%d, name=%s", i, mpt[i].path);
         if (mpt[i].exists && strncmp(path, mpt[i].path, strlen(mpt[i].path))==0){
             if (len<strlen(mpt[i].path)){
                 len = strlen(mpt[i].path);
@@ -127,6 +126,7 @@ int get_free_flides(int ccppuu){
 
 int vfs_open(const char *path, int flags){
     int index = get_mount(path);
+    Log("p=%s", RAW(path));
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
     if (cur == NULL) {
         if (flags & O_CREAT){
