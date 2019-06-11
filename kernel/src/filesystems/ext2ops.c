@@ -60,6 +60,7 @@ int ext2_rm(filesystem_t *fs, const char *name){
     strcpy(tmp, name);
     pre = alldir(tmp);
     post = filename(tmp);
+    Log("pre =%s, post=%s", pre, post);
 
     //Get parent dir inode
     ext2_inode_t* dir = ext2_inode_lookup(fs->dev, pre);
