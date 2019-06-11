@@ -49,7 +49,7 @@ void shell_task(void *name){
         sprintf(text, "(%s):%s $ ", name, pwd);
 
         vfs->write(task_fd, text, strlen(text));
-        int nread = vfs->read(tty, line, sizeof(line));
+        int nread = vfs->read(task_fd, line, sizeof(line));
         line[nread-1] = '\0';
 
         if (strcmp(line, "pwd")==0){
@@ -336,6 +336,6 @@ void shell_task(void *name){
             sprintf(text, FAIL "command not found %s\n", line);
         }
 
-        vfs->write(tty, text, strlen(text));
+        vfs->write(task_fd, text, strlen(text));
     }
 }
