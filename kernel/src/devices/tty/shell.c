@@ -264,7 +264,7 @@ void shell_task(void *name){
             int fd = atoi(arg1);
             if (vfs->close(fd)==0)
                 sprintf(text, SUCCESS "close file with fd=%d\n", fd);
-            else sprintf(text, FAIL "unable to close file with fd=%d\n")
+            else sprintf(text, FAIL "unable to close file with fd=%d\n");
         } else if (iscmd("write", 5)){
             get2arg(5);
             modify(arg2);
