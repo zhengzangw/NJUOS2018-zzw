@@ -2,6 +2,13 @@
 #include <vfs.h>
 #include <devices.h>
 
+const char devfs_devices[6] = {"tty1", "tty2", "tty3", "tyy4", "ramdisk0", "ramdiskm1"};
+int checkdevice(const char *name){
+    for (int i=0;i<6;++i){
+        if (strcmp(name, devfs_devices[i])==0) return 1;
+    }
+    return 0;
+}
 void devfs_init(filesystem_t *fs, const char *name, device_t *dev){
 }
 inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
@@ -15,6 +22,10 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
       ret->type = DR;
       ret->dir_len = 8;
     } else {
+        if (!checkdevice(dev)){
+            pmm->free(ret);
+            return NULL;
+        }
       device_t *tmp = dev_lookup(name);
       if (tmp) {
           finded = 1;
