@@ -211,14 +211,14 @@ int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name){
         ext2_data_read(dev, inode, cur, sizeof(dir_entry_t), offset);
         if (cur->file_type !=XX){
             char *tmp_name = pmm->alloc(cur->name_len+1);
-            Logint(tmp_name);
+
             ext2_data_read(dev, inode, tmp_name, cur->name_len, offset+sizeof(dir_entry_t));
             
             if (strcmp(name, tmp_name)==0){
                 finded =1;
                 break;
             }
-            Logint(tmp_name);
+
             pmm->free(tmp_name);
         }
         offset += cur->rec_len;
@@ -297,7 +297,7 @@ void ext2_init(filesystem_t *fs, const char *name, device_t *dev){
     ext2_create_dir(dev, "/usr/bin", 0);
     ext2_create_dir(dev, "/etc", 0);
     ext2_create_file(dev, "/etc/passwd", 0, R_OK|W_OK|X_OK, NF);
-
+    assert(0);
     const char *words = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
     inode_t* tmp = ext2_lookup(fs, "etc/passwd", 0);
     assert(tmp!=NULL);
