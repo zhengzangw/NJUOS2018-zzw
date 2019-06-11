@@ -42,7 +42,7 @@ void shell_task(void *name){
     char line[128], text[1024], arg1[128], arg2[128];
     int len;
 
-    int task_fd = open(name, 0);
+    int task_fd = vfs->open(name, 0);
     while (1){
         memset(arg1, 0, sizeof(arg1));
         memset(arg2, 0, sizeof(arg2));
