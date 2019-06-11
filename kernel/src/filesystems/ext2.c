@@ -110,8 +110,7 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
             break;
         }
 
-        if (tmp) pmm->free(tmp); 
-        if (pre) pmm->free(pre);
+        if (tmp) pmm->free(tmp); pmm->free(pre);
         tmp = post; 
         pre = rootdir(tmp);
         post = postname(tmp);
@@ -211,12 +210,14 @@ int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name){
         ext2_data_read(dev, inode, cur, sizeof(dir_entry_t), offset);
         if (cur->file_type !=XX){
             char *tmp_name = pmm->alloc(cur->name_len+1);
+            Logint(tmp_name);
             ext2_data_read(dev, inode, tmp_name, cur->name_len, offset+sizeof(dir_entry_t));
             
             if (strcmp(name, tmp_name)==0){
                 finded =1;
                 break;
             }
+            Logint(tmp_name);
             pmm->free(tmp_name);
         }
         offset += cur->rec_len;
