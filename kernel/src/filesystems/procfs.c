@@ -67,7 +67,23 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
 }
 
 ssize_t procfs_inode_read(file_t *file, char *buf, size_t size){
-    return 0;
+    switch (file->inode->id){
+        case 0:
+            sprintf(buf, ".\n..\ncpuinfo\nmeminfo\n");
+            kmt->spin_lock(&lock_kmt);
+            for (int i=0;i<MAXTASK;++i){
+                if (tasks[i]){
+                    sprintf(buf+strlen(buf), "%d\n", i);
+                }
+            }
+            kmt->spin_unlock(&lock_kmt);
+            break;
+        case 1:
+        case 2:
+        case 3:
+        default: return -1;
+    }
+    return strlen(buf);
 }
 
 int procfs_inode_open(file_t *file, int flags){
