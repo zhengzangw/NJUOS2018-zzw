@@ -218,15 +218,14 @@ int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name){
                 finded =1;
                 break;
             }
-Log("tmp:)");
+Log("tmp:)%d",tmp_name);
             pmm->free(tmp_name);
-            Log("tmp:)");
+            Log("tmp:)%d",tmp_name);
         }
         offset += cur->rec_len;
     }
     Log("lll");
     pmm->free(cur);
-    Log("lll");
     if (finded)
         return cur->inode;
     else
