@@ -105,26 +105,31 @@ int vfs_access(const char *path, int mode){
     return 0;
 }
 
-
+#define checkfs(func) if (mpt[index].fs->ops->func==NULL) return -1
+#define checkinode(func) if (FILE(fd)->inode->ops->func==NULL) return -1
 int vfs_mkdir(const char *path){
     int index = get_mount(path);
+    checkfs(mkdir);
     return mpt[index].fs->ops->mkdir(mpt[index].fs, RAW(path));
 }
 
 int vfs_rmdir(const char *path){
     int index = get_mount(path);
     if (strlen(RAW(path))<=1) return -1;
+    checkfs(rmdir);
     return mpt[index].fs->ops->rmdir(mpt[index].fs, RAW(path));
 }
 
 int vfs_link(const char *oldpath, const char *newpath){
     int fd = vfs->open(oldpath, 0);
     int index = get_mount(newpath);
+    checkinode(link);
     return FILE(fd)->inode->ops->link(FILE(fd), newpath+strlen(mpt[index].path));
 }
 
 int vfs_unlink(const char *path){
     int index = get_mount(path);
+    checkfs(unlink);
     return mpt[index].fs->ops->unlink(mpt[index].fs, RAW(path));
 }
 
@@ -146,6 +151,7 @@ int vfs_open(const char *path, int flags){
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
     if (cur == NULL) {
         if (flags & O_CREAT){
+            checkinode(create);
             int ret = mpt[index].fs->ops->create(mpt[index].fs, RAW(path));
             if (ret==0) cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
             else return -1;
@@ -169,6 +175,7 @@ int vfs_open(const char *path, int flags){
 
 int vfs_close(int fd){
     if (FILE(fd)==NULL) return -1;
+    checkinode(close);
     FILE(fd)->inode->ops->close(cputask[_cpu()]->flides[fd]);
     pmm->free(cputask[_cpu()]->flides[fd]);
     FILE(fd) = NULL;
@@ -177,18 +184,19 @@ int vfs_close(int fd){
 
 ssize_t vfs_read(int fd, void *buf, size_t nbyte){
     if (FILE(fd)==NULL) return -1;
-    inode_t* tmp = cputask[_cpu()]->flides[fd]->inode;
-    return tmp->ops->read(cputask[_cpu()]->flides[fd], (char *)buf, nbyte);
+    checkinode(read);
+    return FILE(fd)->inode->ops->read(FILE(fd), (char *)buf, nbyte);
 }
 
 ssize_t vfs_write(int fd, const void *buf, size_t nbyte){
     if (FILE(fd)==NULL) return -1;
-    inode_t* tmp = FILE(fd)->inode;
-    return tmp->ops->write(FILE(fd), (char *)buf, nbyte);
+    checkinode(write);
+    return FILE(fd)->inode->ops->write(FILE(fd), (char *)buf, nbyte);
 }
 
 off_t vfs_lseek(int fd, off_t offset, int whence){
     if (FILE(fd)==NULL) return -1;
+    checkinode(lseek);
     return FILE(fd)->inode->ops->lseek(FILE(fd), offset, whence);
 }
 
