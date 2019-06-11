@@ -27,7 +27,7 @@ void vfs_init(){
     fs2->ops = &ext2_ops;
     fs2->dev = dev_lookup("ramdisk1");
     fs2->ops->init(fs2, "/", fs2->dev);
-    vfs->mount("/mnt", fs2);
+    vfs->mount("/mnt/", fs2);
 }
 
 mountpoint_t mpt[MAXMP];
@@ -71,7 +71,7 @@ static int get_mount(const char *path){
             }
         }
     }
-    Logint(index);
+    
     return index;
 }
 
@@ -126,7 +126,6 @@ int get_free_flides(int ccppuu){
 
 int vfs_open(const char *path, int flags){
     int index = get_mount(path);
-    Log("p=%s", RAW(path));
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
     if (cur == NULL) {
         if (flags & O_CREAT){
