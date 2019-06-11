@@ -25,8 +25,8 @@ void vfs_init(){
     filesystem_t *fs2 = pmm->alloc(sizeof(filesystem_t));
     fs2->ops = &ext2_ops;
     fs2->dev = dev_lookup("ramdisk1");
-    fs->ops->init(fs, "/", fs->dev);
-    vfs->mount("/mnt", fs);
+    fs->ops->init(fs2, "/", fs2->dev);
+    vfs->mount("/", fs2);
 }
 
 mountpoint_t mpt[MAXMP];
