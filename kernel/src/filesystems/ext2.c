@@ -205,17 +205,14 @@ static void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* 
 
 int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name){
     dir_entry_t* cur = pmm->alloc(sizeof(dir_entry_t));
-    int finded = 0;
-    int offset = 0;
+    int finded = 0, offset = 0;
     while (offset < inode->size){
         ext2_data_read(dev, inode, cur, sizeof(dir_entry_t), offset);
         if (cur->file_type !=XX){
             char *tmp_name = pmm->alloc(cur->name_len+1);
             ext2_data_read(dev, inode, tmp_name, cur->name_len, offset+sizeof(dir_entry_t));
             
-            Log("name=%s, tmp_name=%s", name, tmp_name);
-            int clen = (name[strlen(name)-1]=='/')?strlen(name)-1:strlen(name);
-            if (strncmp(name, tmp_name, clen)==0){
+            if (strcmp(name, tmp_name)==0){
                 finded =1;
                 break;
             }
