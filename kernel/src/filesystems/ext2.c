@@ -154,6 +154,31 @@ ssize_t ext2_data_write(device_t *dev, ext2_inode_t* inode, const void *buf, int
     return size;
 }
 
+ssize_t ext2_inode_read(device_t *dev, ext2_inode_t* inode, const void *buf, int size, int offset){
+    int cnt = offset/BLOCK_BYTES ,ret = 0, buf_offset = 0;
+    int left;
+    int first = 1;
+    while (offset < inode->size && size){
+        if (cnt<inode->len-1) {
+            if (first) {
+                first = 0;
+                left = BLOCK_BYTES - OFFSET_REMAIN(offset);
+            } else left = BLOCK_BYTES;
+        } else {
+            if (first){
+                first = 0;
+                left =  inode->size - (inode->len-1)*BLOCK_BYTES - OFFSET_REMAIN(offset);
+            } else left = inode->size - (inode->len-1);
+        }
+            dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), buf+buf_offset, left);
+            size-=left;
+            offset+=left;
+            buf_offset += left;
+            cnt++;
+        }
+    return buf_offset;
+}
+
 /*======== DIR ============*/
 struct dir_entry {
     uint32_t inode;
@@ -183,7 +208,7 @@ int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name){
     int finded = 0;
     int offset = 0;
     while (offset < inode->size){
-        dev->ops->read(dev, DATA(OFFSET_BLOCK(offset))+OFFSET_REMAIN(offset), cur, sizeof(dir_entry_t));
+        ext2_data_read(dev, inode, cur, sizeof(dir_entry_t), offset);
         if (cur->file_type !=XX){
             char *tmp_name = pmm->alloc(cur->name_len+1);
             int name_offset = offset+sizeof(dir_entry_t);
@@ -237,7 +262,6 @@ int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int t
         post = filename(tmp);
 
         ext2_inode_t* father = ext2_inode_lookup(dev, pre);
-        Logint(father->index);
         if (father==NULL) return -1;
 
         dir = ext2_inode_create(dev, type, per);
@@ -391,7 +415,6 @@ ssize_t ext2_inode_read(file_t *file, char *buf, size_t size){
                 if (cur->file_type!=XX){
                     char *tmp_name = pmm->alloc(cur->name_len+1);
                     int name_offset = offset+sizeof(dir_entry_t);
-                    //Log("offset = %d, cnt = %d, name_offset = %d", offset, cnt, name_offset);
                     dev->ops->read(dev, DATA(OFFSET_BLOCK(name_offset))+OFFSET_REMAIN(name_offset), tmp_name, cur->name_len);
 
                     cnt ++;
