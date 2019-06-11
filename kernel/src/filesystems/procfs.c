@@ -3,6 +3,8 @@
 #include <devices.h>
 #include <kmt.h>
 
+spinlock_t lock_kmt;
+
 void procfs_init(filesystem_t *fs, const char *name, device_t *dev){
 }
 

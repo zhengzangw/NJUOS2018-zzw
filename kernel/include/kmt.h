@@ -24,6 +24,7 @@ struct task {
 };
 extern task_t *tasks[MAXTASK];
 extern task_t *cputask[MAXCPU];  // task running on each cpu
+extern spinlock_t lock_kmt;
 
 // ============= SPINLOCK =============
 

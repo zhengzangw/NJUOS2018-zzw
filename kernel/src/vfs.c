@@ -146,6 +146,7 @@ int get_free_flides(int ccppuu){
     return index;
 }
 
+spinlock_t lock_kmt;
 int vfs_open(const char *path, int flags){
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
