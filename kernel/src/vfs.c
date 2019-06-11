@@ -152,7 +152,7 @@ int vfs_open(const char *path, int flags){
 }
 
 int vfs_close(int fd){
-    if (FILE(fd)->exists == 0) return -1;
+    if (FILE(fd)->inode) return -1;
     FILE(fd)->inode->ops->close(cputask[_cpu()]->flides[fd]);
     pmm->free(cputask[_cpu()]->flides[fd]);
     FILE(fd) = NULL;
