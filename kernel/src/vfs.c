@@ -7,10 +7,10 @@ void vfs_init(){
     // Load / as ext2 filesystem
     filesystem_t *fs = pmm->alloc(sizeof(filesystem_t));
     fs->ops = &ext2_ops;
-    fs->dev = dev_lookup("ramdisk1");
-
+    fs->dev = dev_lookup("ramdisk0");
     fs->ops->init(fs, "/", fs->dev);
     vfs->mount("/", fs);
+
     vfs->mkdir("/bin");
     vfs->mkdir("/home");
     vfs->mkdir("/usr");
@@ -21,6 +21,12 @@ void vfs_init(){
     const char *words = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
     vfs->write(fd, words, strlen(words));
     vfs->close(fd);
+    // Load /mnt
+    filesystem_t *fs2 = pmm->alloc(sizeof(filesystem_t));
+    fs2->ops = &ext2_ops;
+    fs2->dev = dev_lookup("ramdisk1");
+    fs->ops->init(fs, "/", fs->dev);
+    vfs->mount("/mnt", fs);
 }
 
 mountpoint_t mpt[MAXMP];
