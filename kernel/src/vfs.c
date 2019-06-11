@@ -61,7 +61,7 @@ int vfs_unmount(const char *path){
     return finded;
 }
 
-static int get_mount(const char *path){
+static int get_mount(char *path){
     int index=-1, len = 0;
     for (int i=0;i<MAXMP;++i){
         if (mpt[i].exists && strncmp(path, mpt[i].path, strlen(mpt[i].path))==0){
@@ -71,7 +71,7 @@ static int get_mount(const char *path){
             }
         }
     }
-    
+
     return index;
 }
 
@@ -97,6 +97,7 @@ int vfs_mkdir(const char *path){
 
 int vfs_rmdir(const char *path){
     int index = get_mount(path);
+    if (strlen(RAW(path))==1) return -1;
     return mpt[index].fs->ops->rmdir(mpt[index].fs, RAW(path));
 }
 
