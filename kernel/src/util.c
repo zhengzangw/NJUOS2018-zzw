@@ -31,7 +31,7 @@ char *filename(const char* path){
     char *ret = balloc(strlen(path));
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
-            strncpy(ret, path+i+1, strlen(path-i+1));
+            strncpy(ret, path+i+1, strlen(path-i));
             break;
         }
     }
@@ -64,7 +64,7 @@ char *postname(const char *path){
     if (strlen(path)==0) return ret;
     for (int i=strlen(path);i>0;--i){
         if (path[i] == '/'){
-            strncpy(ret, path+i+1, strlen(path-i+1));
+            strncpy(ret, path+i+1, strlen(path-i));
             break;
         }
     }
