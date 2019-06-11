@@ -61,7 +61,7 @@ int vfs_unmount(const char *path){
     return finded;
 }
 
-static int get_mount(char *path){
+static int get_mount(const char *path){
     int index=-1, len = 0;
     for (int i=0;i<MAXMP;++i){
         if (mpt[i].exists && strncmp(path, mpt[i].path, strlen(mpt[i].path))==0){
