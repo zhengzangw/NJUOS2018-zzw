@@ -97,6 +97,8 @@ enum TYPE {NF, DR, XX, MP};
 
 /* ====== ext2 ======= */
 extern fsops_t ext2_ops;
+extern inodeops_t ext2_inodeops;
+
 typedef struct ext2_inode ext2_inode_t;
 struct ext2_inode {
   uint32_t index; //index of inode
@@ -116,7 +118,6 @@ struct dir_entry {
     uint32_t file_type;
 };
 typedef struct dir_entry dir_entry_t;
-extern inodeops_t ext2_inodeops;
 
 #define BLOCK_BYTES (1<<10)
 #define INODE_BYTES (1<<7)
@@ -162,3 +163,9 @@ void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_i
 #endif
 
 /* ===== devfs ===== */
+extern fsops_t devfs_ops;
+extern inodeops_t devfs_inodeops;
+
+/* ===== procfs ===== */
+extern fsops_t procfs_ops;
+extern inodeops_t procfs_inodeops;

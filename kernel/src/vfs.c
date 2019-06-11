@@ -4,7 +4,7 @@
 #include <kmt.h>
 
 void vfs_init(){
-    // Load / as ext2 filesystem
+    // ext2fs -> /
     filesystem_t *fs = pmm->alloc(sizeof(filesystem_t));
     fs->ops = &ext2_ops;
     fs->dev = dev_lookup("ramdisk0");
@@ -24,12 +24,26 @@ void vfs_init(){
     vfs->write(fd, words, strlen(words));
     vfs->close(fd);
 
-    // Load /mnt
+    // ext2fs -> /mnt
     filesystem_t *fs2 = pmm->alloc(sizeof(filesystem_t));
     fs2->ops = &ext2_ops;
     fs2->dev = dev_lookup("ramdisk1");
     fs2->ops->init(fs2, "/", fs2->dev);
     vfs->mount("/mnt/", fs2);
+
+    // devfs -> /dev
+    filesystem_t *fs = pmm->alloc(sizeof(filesystem_t));
+    fs->ops = &devfs_ops;
+    fs->dev = NULL;
+    fs->ops->init(fs, "/", fs->dev);
+    vfs->mount("/dev", fs);
+
+    // procfs -> /proc
+    filesystem_t *fs = pmm->alloc(sizeof(filesystem_t));
+    fs->ops = &procfs_ops;
+    fs->dev = NULL;
+    fs->ops->init(fs, "/", fs->dev);
+    vfs->mount("/proc", fs);
 }
 
 mountpoint_t mpt[MAXMP];
