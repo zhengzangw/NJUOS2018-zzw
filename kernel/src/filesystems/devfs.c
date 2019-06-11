@@ -11,7 +11,7 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
       finded = 1;
       ret->id = 0;
       ret->fs_inode = NULL;
-      ret->type = DV;
+      ret->type = DR;
       ret->dir_len = 6;
     } else {
       device_t *tmp = dev_lookup(name);
