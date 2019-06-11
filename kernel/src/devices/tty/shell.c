@@ -274,11 +274,8 @@ void shell_task(void *name){
             ifnoarg_do
             else{
                 int fd = atoi(arg1);
-                ifnotDR_do(arg1)
-                else {
-                    vfs->write(fd, arg2, strlen(arg2));
-                    sprintf(text, SUCCESS "write to file with fd=%d\n", fd);
-                }
+                vfs->write(fd, arg2, strlen(arg2));
+                sprintf(text, SUCCESS "write to file with fd=%d\n", fd);
             }
         } else if (iscmd("read", 4)){
             get1arg(4);
