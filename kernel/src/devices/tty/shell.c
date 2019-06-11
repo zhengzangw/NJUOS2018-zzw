@@ -121,7 +121,7 @@ void shell_task(void *name){
             else {
                 modify(arg1);
                 int fd = vfs->open(arg1, O_RD);
-                ifnofd_do(arg1);
+                ifnofd_do(arg1)
                 else {
                     char typename[10];
                     char additional[20];
@@ -159,7 +159,6 @@ void shell_task(void *name){
                     vfs->read(fd, text, 128);
                     vfs->close(fd);
                 }
-            }
         } else if (iscmd("mkdir", 5)){
             get1arg(5);
             ifnoarg_do
@@ -174,7 +173,7 @@ void shell_task(void *name){
             else {
                 modify(arg1);
                 int fd = vfs->open(arg1, 0);
-                ifnofd_do
+                ifnofd_do(arg1)
                 else {
                     ifnotDR(arg1)
                     else {
