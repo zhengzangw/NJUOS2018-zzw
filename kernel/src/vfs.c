@@ -16,7 +16,7 @@ void vfs_init(){
     vfs->mkdir("/usr");
     vfs->mkdir("/usr/bin");
     vfs->mkdir("/etc");
-    int fd = vfs->open("/etc/passwd", 0);
+    int fd = vfs->open("/etc/passwd", O_CREAT);
     const char *words = "zhengzangw:x:1000:1000:zhengzangw,,,:/home/zhengzangw:/bin/awsh";
     vfs->write(fd, words, strlen(words));
     assert(0);
