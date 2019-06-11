@@ -46,6 +46,7 @@ inode_t* procfs_lookup(filesystem_t *fs, const char *name, int flags){
     } else if (isnum(name)) {
         Logint(atoi(name));
         if (tasks[atoi(name)]) {
+            finded = 1;
             ret->id = 3;
             ret->type = NF;
             ret->dir_len = 0;
@@ -81,6 +82,12 @@ ssize_t procfs_inode_read(file_t *file, char *buf, size_t size){
         case 1:
         case 2:
         case 3:
+            int task_num = atoi(file->inode->fs_inode);
+            kmt->spin_lock(&lock_kmt);
+            task_t tmp = tasks[task_num];
+            kmt->spin_unlock(&lock_kmt);
+            sprintf(buf, "    name: %s\n      id: %d\nrunnable: %d\nsleeping: %d", tmp->name, tmp->id, tmp->run, tmp->sleep);
+            break;
         default: return -1;
     }
     return strlen(buf);
