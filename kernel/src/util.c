@@ -38,7 +38,7 @@ char *filename(const char* path){
             break;
         }
     }
-    //Log("path = %s, ret = %s", path, ret);
+    Log("path = %s, ret = %s", path, ret);
     return ret;
 }
 
@@ -54,7 +54,7 @@ char *alldir(const char *path){
             break;
         }
     }
-    //Log("path = %s, ret = %s", path, ret);
+    Log("path = %s, ret = %s", path, ret);
     return ret;
 }
 

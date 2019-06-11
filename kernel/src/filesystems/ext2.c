@@ -232,8 +232,10 @@ int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int t
         ext2_create_entry(dev, dir, dir, "..", DR);
     } else {
         char *pre, *post;
-        pre = alldir(name);
-        post = filename(name);
+        char *tmp = balloc(strlen(name)+1);
+        strcpy(tmp, name);
+        pre = alldir(tmp);
+        post = filename(tmp);
 
         ext2_inode_t* father = ext2_inode_lookup(dev, pre);
         if (father==NULL) return -1;
