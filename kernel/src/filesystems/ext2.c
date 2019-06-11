@@ -219,7 +219,7 @@ int ext2_dir_lookup(device_t *dev, ext2_inode_t* inode, const char* name){
                 finded =1;
                 break;
             }
-Log("tmp:)%d",tmp_name);
+Log("tmp:)%d,%s",tmp_name,tmp_name);
             pmm->free(tmp_name);
             Log("tmp:)%d",tmp_name);
         }
