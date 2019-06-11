@@ -20,7 +20,8 @@ inode_t* devfs_lookup(filesystem_t *fs, const char *name, int flags){
           finded = 1;
           ret->id = tmp->id;
           ret->fs_inode = tmp;
-          ret->type = DV;
+          if (strncmp(name, "ramdisk")) ret->type=DV_BLOCK;
+          else ret->type = DV_CHAR;
           ret->dir_len = 0;
       }
     }
@@ -53,6 +54,8 @@ ssize_t devfs_inode_read(file_t *file, char *buf, size_t size){
     if (file->inode->id==0){
         strcpy(buf, devfs_ls);
         ret = strlen(devfs_ls);
+    } else if (file->inode->type==DV_BLOCK){
+        ret = -1;
     } else {
         ret = DEV(file)->ops->read(DEV(file), file->offset, buf, size);
     }
@@ -60,7 +63,7 @@ ssize_t devfs_inode_read(file_t *file, char *buf, size_t size){
 }
 ssize_t devfs_inode_write(file_t *file, const char *buf, size_t size){
     ssize_t ret;
-    if (file->inode->id==0){
+    if (file->inode->id==0||file->inode->type==DV_BLOCK){
         ret = -1;
     } else {
         ret = DEV(file)->ops->write(DEV(file), file->offset, buf, size);

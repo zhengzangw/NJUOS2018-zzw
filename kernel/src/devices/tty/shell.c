@@ -134,8 +134,12 @@ void shell_task(void *name){
                             strcpy(typename, "normal file");
                             sprintf(additional, "\0");
                             break;
-                        case DV:
-                            strcpy(typename, "device");
+                        case DV_CHAR:
+                            strcpy(typename, "char device");
+                            sprintf(additional, "\0");
+                            break;
+                        case DV_BLOCK:
+                            strcpy(typename, "block device");
                             sprintf(additional, "\0");
                             break;
                         }
@@ -237,10 +241,10 @@ void shell_task(void *name){
                 ifnofd_do(arg1)
                 else ifnotNF_do(arg1)
                 else {
-                        memset(text, 0, 1024);;
-                        vfs->read(fd, text, 1024);
-                        vfs->close(fd);
-                    }
+                    memset(text, 0, 1024);;
+                    vfs->read(fd, text, 1024);
+                    vfs->close(fd);
+                }
             }
         } else if (iscmd("link", 4)){
             get2arg(4)
