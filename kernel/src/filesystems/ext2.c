@@ -98,17 +98,11 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
     dev->ops->read(dev, TABLE(0), inode, INODE_BYTES);
     
     char *pre, *post;
-    Log("%s: =====", name);
     pre = rootdir(tmp);
-    Log("pre = %s", pre);
-    alldir(tmp);
-    filename(tmp);
     post = postname(tmp);
 
     while (pre!=NULL){
-        Log("pre = %s", pre);
         int inode_index = ext2_dir_search(dev, inode, pre);
-
         if (inode_index>=0){
             dev->ops->read(dev, TABLE(inode_index), inode, INODE_BYTES);
         } else {
@@ -121,7 +115,6 @@ ext2_inode_t* ext2_inode_lookup(device_t *dev, const char *name){
         pre = rootdir(tmp);
         post = postname(tmp);
     }
-    Logint(inode->index);
     return inode;
 }
 
