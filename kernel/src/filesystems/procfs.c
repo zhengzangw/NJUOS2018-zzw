@@ -84,7 +84,7 @@ ssize_t procfs_inode_read(file_t *file, char *buf, size_t size){
         case 3:
             int task_num = atoi(file->inode->fs_inode);
             kmt->spin_lock(&lock_kmt);
-            task_t tmp = tasks[task_num];
+            task_t *tmp = tasks[task_num];
             kmt->spin_unlock(&lock_kmt);
             sprintf(buf, "    name: %s\n      id: %d\nrunnable: %d\nsleeping: %d", tmp->name, tmp->id, tmp->run, tmp->sleep);
             break;
