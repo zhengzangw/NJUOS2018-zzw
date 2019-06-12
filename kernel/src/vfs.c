@@ -3,7 +3,11 @@
 #include <devices.h>
 #include <kmt.h>
 
+spinlock_t lock_vfs;
+
 void vfs_init(){
+    kmt->spin_init(&lock_vfs, "vfs");
+
     // ext2fs -> /
     filesystem_t *fs = pmm->alloc(sizeof(filesystem_t));
     fs->ops = &ext2_ops;
@@ -93,16 +97,17 @@ static int get_mount(const char *path){
 
 #define RAW(path) (path+strlen(mpt[index].path))
 int vfs_access(const char *path, int mode){
+    int ret = 0;
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, path, 0);
 
-    if ((mode|F_OK)&&!cur) return -1;
-    if ((mode|F_OK)&&(cur->permission|R_OK)) return -1;
-    if ((mode|F_OK)&&(cur->permission|W_OK)) return -1;
-    if ((mode|F_OK)&&(cur->permission|X_OK)) return -1;
+    if ((mode|F_OK)&&!cur) ret = -1;
+    else if ((mode|F_OK)&&(cur->permission|R_OK)) ret = -1;
+    else if ((mode|F_OK)&&(cur->permission|W_OK)) ret = -1;
+    else if ((mode|F_OK)&&(cur->permission|X_OK)) ret = -1;
 
     pmm->free(cur);
-    return 0;
+    return ret;
 }
 
 #define checkfs(func) if (mpt[index].fs->ops->func==NULL) return -1
@@ -110,27 +115,34 @@ int vfs_access(const char *path, int mode){
 int vfs_mkdir(const char *path){
     int index = get_mount(path);
     checkfs(mkdir);
-    return mpt[index].fs->ops->mkdir(mpt[index].fs, RAW(path));
+    int ret = mpt[index].fs->ops->mkdir(mpt[index].fs, RAW(path));
+    return ret;
 }
 
 int vfs_rmdir(const char *path){
+    int ret = 0;
     int index = get_mount(path);
-    if (strlen(RAW(path))<=1) return -1;
-    checkfs(rmdir);
-    return mpt[index].fs->ops->rmdir(mpt[index].fs, RAW(path));
+    if (strlen(RAW(path))<=1) ret = -1;
+    else {
+        checkfs(rmdir);
+        ret = mpt[index].fs->ops->rmdir(mpt[index].fs, RAW(path));
+    }
+    return ret;
 }
 
 int vfs_link(const char *oldpath, const char *newpath){
     int fd = vfs->open(oldpath, 0);
     int index = get_mount(newpath);
     checkinode(link);
-    return FILE(fd)->inode->ops->link(FILE(fd), newpath+strlen(mpt[index].path));
+    int ret = FILE(fd)->inode->ops->link(FILE(fd), newpath+strlen(mpt[index].path));
+    return ret;
 }
 
 int vfs_unlink(const char *path){
     int index = get_mount(path);
     checkfs(unlink);
-    return mpt[index].fs->ops->unlink(mpt[index].fs, RAW(path));
+    int ret = mpt[index].fs->ops->unlink(mpt[index].fs, RAW(path));
+    return ret;
 }
 
 int initialized;
@@ -148,16 +160,27 @@ int get_free_flides(int ccppuu){
 
 spinlock_t lock_kmt;
 int vfs_open(const char *path, int flags){
+    kmt->spin_lock(&lock_vfs);
     int index = get_mount(path);
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
     if (cur == NULL) {
         if (flags & O_CREAT){
-            checkfs(create);
+            if (mpt[index].fs->ops->create==NULL) {
+                kmt->spin_unlock(&lock_vfs);
+                return -1;
+            }
             int ret = mpt[index].fs->ops->create(mpt[index].fs, RAW(path));
             if (ret==0) cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
-            else return -1;
-            if (cur == NULL) return -1;
+            else {
+                kmt->spin_unlock(&lock_vfs);
+                return -1;
+            }
+            if (cur == NULL){
+                kmt->spin_unlock(&lock_vfs);
+                return -1;
+            }
         } else {
+            kmt->spin_unlock(&lock_vfs);
             return -1;
         }
     }
@@ -172,35 +195,44 @@ int vfs_open(const char *path, int flags){
     kmt->spin_unlock(&lock_kmt);
 
     cur->ops->open(tmp, flags);
+    kmt->spin_unlock(&lock_vfs);
 
     return findex;
 }
 
 int vfs_close(int fd){
     if (FILE(fd)==NULL) return -1;
+    kmt->spin_lock(&lock_vfs);
     checkinode(close);
     FILE(fd)->inode->ops->close(cputask[_cpu()]->flides[fd]);
     pmm->free(cputask[_cpu()]->flides[fd]);
     FILE(fd) = NULL;
+    kmt->spin_unlock(&lock_vfs);
     return 0;
 }
 
 ssize_t vfs_read(int fd, void *buf, size_t nbyte){
     if (FILE(fd)==NULL) return -1;
     checkinode(read);
-    return FILE(fd)->inode->ops->read(FILE(fd), (char *)buf, nbyte);
+    int ret= FILE(fd)->inode->ops->read(FILE(fd), (char *)buf, nbyte);
+    return ret;
 }
 
 ssize_t vfs_write(int fd, const void *buf, size_t nbyte){
     if (FILE(fd)==NULL) return -1;
     checkinode(write);
-    return FILE(fd)->inode->ops->write(FILE(fd), (char *)buf, nbyte);
+    int ret = FILE(fd)->inode->ops->write(FILE(fd), (char *)buf, nbyte);
+    return ret;
 }
 
 off_t vfs_lseek(int fd, off_t offset, int whence){
-    if (FILE(fd)==NULL) return -1;
-    checkinode(lseek);
-    return FILE(fd)->inode->ops->lseek(FILE(fd), offset, whence);
+    int ret;
+    if (FILE(fd)==NULL) ret = -1;
+    else {
+        checkinode(lseek);
+        ret = FILE(fd)->inode->ops->lseek(FILE(fd), offset, whence);
+    }
+    return ret;
 }
 
 MODULE_DEF(vfs){
