@@ -2,6 +2,7 @@
 #define __VFS_H__
 
 #include <common.h>
+extern spinlock_t lock_vfs;
 
 /* ==== VFS ==== */
 

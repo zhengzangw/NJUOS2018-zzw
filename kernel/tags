@@ -83,7 +83,7 @@ PREBUILD	Makefile	/^PREBUILD := git initrd$/;"	m
 Panic	include/debug.h	51;"	d
 QEMU_FLAGS	Makefile	/^QEMU_FLAGS := -serial stdio -machine accel=kvm:tcg -drive format=raw,file=$(BINARY)$/;"	m
 QEMU_FLAGS_TCG	Makefile	/^QEMU_FLAGS_TCG := -serial stdio -machine accel=tcg -drive format=raw,file=$(BINARY)$/;"	m
-RAW	src/vfs.c	94;"	d	file:
+RAW	src/vfs.c	98;"	d	file:
 RD_SIZE	include/devices.h	36;"	d
 R_OK	include/vfs.h	85;"	d
 SHOULD_NOT_REACH_HERE	include/debug.h	54;"	d
@@ -133,8 +133,8 @@ capslock	include/devices.h	/^  int capslock, shift_down[2], ctrl_down[2], alt_do
 ch	include/devices.h	/^  unsigned char ch;$/;"	m	struct:character
 character	include/devices.h	/^struct character {$/;"	s
 checkdevice	src/filesystems/devfs.c	/^int checkdevice(const char *name){$/;"	f
-checkfs	src/vfs.c	108;"	d	file:
-checkinode	src/vfs.c	109;"	d	file:
+checkfs	src/vfs.c	115;"	d	file:
+checkinode	src/vfs.c	116;"	d	file:
 close	include/vfs.h	/^  int (*close)(file_t *file);$/;"	m	struct:inodeops
 close	include/vfs.h	/^  int (*close)(inode_t *inode);$/;"	m	struct:fsops
 close	include/vfs.h	/^  int (*close)(int fd);$/;"	m	struct:__anon5
@@ -333,6 +333,7 @@ lock_kmt	src/kmt.c	/^spinlock_t lock_kmt;$/;"	v
 lock_kmt	src/vfs.c	/^spinlock_t lock_kmt;$/;"	v
 lock_os	src/os.c	/^spinlock_t lock_os;$/;"	v
 lock_print	src/os.c	/^spinlock_t lock_print;$/;"	v
+lock_vfs	src/vfs.c	/^spinlock_t lock_vfs;$/;"	v
 locked	include/kmt.h	/^  int locked;$/;"	m	struct:spinlock
 logging	framework/L2/test_abc.c	/^void logging(void *arg) {$/;"	f
 logging	framework/L2/test_gen.c	/^void logging(void *arg) {$/;"	f
