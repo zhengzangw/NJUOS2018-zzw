@@ -9,35 +9,35 @@ ARCH	Makefile	/^export ARCH := x86-qemu$/;"	m
 Assert	include/debug.h	39;"	d
 Assert	include/debug.h	48;"	d
 BIAS	include/pmm.h	18;"	d
-BLOCK	include/vfs.h	133;"	d
-BLOCK_BYTES	include/vfs.h	131;"	d
+BLOCK	include/vfs.h	134;"	d
+BLOCK_BYTES	include/vfs.h	132;"	d
 BLOCK_COVER	src/filesystems/ext2fs.c	181;"	d	file:
 CREATE	src/devices/dev.c	44;"	d	file:
-DATA	include/vfs.h	135;"	d
-DATA_B	include/vfs.h	140;"	d
+DATA	include/vfs.h	136;"	d
+DATA_B	include/vfs.h	141;"	d
 DEBUG	include/debug.h	6;"	d
 DEV	src/filesystems/devfs.c	60;"	d	file:
 DEVICES	src/devices/dev.c	6;"	d	file:
 DEV_CNT	src/devices/dev.c	16;"	d	file:
-DMAP	include/vfs.h	137;"	d
+DMAP	include/vfs.h	138;"	d
 DR	include/vfs.h	/^enum TYPE {NF, DR, XX, MP, DV_CHAR, DV_BLOCK};$/;"	e	enum:TYPE
 DV_BLOCK	include/vfs.h	/^enum TYPE {NF, DR, XX, MP, DV_CHAR, DV_BLOCK};$/;"	e	enum:TYPE
 DV_CHAR	include/vfs.h	/^enum TYPE {NF, DR, XX, MP, DV_CHAR, DV_BLOCK};$/;"	e	enum:TYPE
-EXT	include/vfs.h	170;"	d
+EXT	include/vfs.h	171;"	d
 FAIL	src/devices/tty/shell.c	32;"	d	file:
-FILE	include/vfs.h	81;"	d
-F_OK	include/vfs.h	88;"	d
-IMAP	include/vfs.h	136;"	d
+FILE	include/vfs.h	82;"	d
+F_OK	include/vfs.h	89;"	d
+IMAP	include/vfs.h	137;"	d
 INC_DIR	Makefile	/^INC_DIR        := include\/ framework\/$/;"	m
 INIT	src/devices/dev.c	47;"	d	file:
-INODE_BYTES	include/vfs.h	132;"	d
+INODE_BYTES	include/vfs.h	133;"	d
 INT_MAX	include/kmt.h	14;"	d
 INT_MIN	include/kmt.h	15;"	d
-ITABLE	include/vfs.h	138;"	d
-ITABLE_NUM	include/vfs.h	139;"	d
+ITABLE	include/vfs.h	139;"	d
+ITABLE_NUM	include/vfs.h	140;"	d
 LENGTH	include/devices.h	5;"	d
-LOGBLOCK	include/vfs.h	160;"	d
-LOG_NUM	include/vfs.h	159;"	d
+LOGBLOCK	include/vfs.h	161;"	d
+LOG_NUM	include/vfs.h	160;"	d
 Log	include/debug.h	21;"	d
 Log	include/debug.h	24;"	d
 Log	include/debug.h	28;"	d
@@ -52,7 +52,7 @@ Logsem	include/debug.h	68;"	d
 MAP	src/filesystems/ext2.c	25;"	d	file:
 MAXCB	include/os.h	9;"	d
 MAXCPU	include/kmt.h	8;"	d
-MAXMP	include/vfs.h	60;"	d
+MAXMP	include/vfs.h	61;"	d
 MAXTASK	include/kmt.h	13;"	d
 MODULE	framework/kernel.h	/^} MODULE(dev);$/;"	t	typeref:struct:__anon4
 MODULE	framework/kernel.h	/^} MODULE(kmt);$/;"	t	typeref:struct:__anon3
@@ -73,28 +73,28 @@ NF	include/vfs.h	/^enum TYPE {NF, DR, XX, MP, DV_CHAR, DV_BLOCK};$/;"	e	enum:TYP
 NOFILE	include/kmt.h	16;"	d
 NSPRITE	src/devices/video/video.c	4;"	d	file:
 NTEXTURE	src/devices/video/video.c	3;"	d	file:
-OFFSET_BLOCK	include/vfs.h	141;"	d
-OFFSET_REMAIN	include/vfs.h	142;"	d
-O_CREAT	include/vfs.h	92;"	d
-O_RD	include/vfs.h	90;"	d
-O_TRUNC	include/vfs.h	93;"	d
-O_WR	include/vfs.h	91;"	d
+OFFSET_BLOCK	include/vfs.h	142;"	d
+OFFSET_REMAIN	include/vfs.h	143;"	d
+O_CREAT	include/vfs.h	93;"	d
+O_RD	include/vfs.h	91;"	d
+O_TRUNC	include/vfs.h	94;"	d
+O_WR	include/vfs.h	92;"	d
 PREBUILD	Makefile	/^PREBUILD := git initrd$/;"	m
 Panic	include/debug.h	51;"	d
 QEMU_FLAGS	Makefile	/^QEMU_FLAGS := -serial stdio -machine accel=kvm:tcg -drive format=raw,file=$(BINARY)$/;"	m
 QEMU_FLAGS_TCG	Makefile	/^QEMU_FLAGS_TCG := -serial stdio -machine accel=tcg -drive format=raw,file=$(BINARY)$/;"	m
 RAW	src/vfs.c	98;"	d	file:
 RD_SIZE	include/devices.h	36;"	d
-R_OK	include/vfs.h	85;"	d
+R_OK	include/vfs.h	86;"	d
 SHOULD_NOT_REACH_HERE	include/debug.h	54;"	d
 SPRITE_BRK	include/devices.h	58;"	d
 SRCS	Makefile	/^SRCS           := framework\/main.c $(shell find -L .\/src\/ -name "*.c" -o -name "*.S")$/;"	m
 STACKSIZE	include/kmt.h	12;"	d
 SUCCESS	src/devices/tty/shell.c	31;"	d	file:
-S_CUR	include/vfs.h	96;"	d
-S_END	include/vfs.h	97;"	d
-S_SET	include/vfs.h	95;"	d
-TABLE	include/vfs.h	134;"	d
+S_CUR	include/vfs.h	97;"	d
+S_END	include/vfs.h	98;"	d
+S_SET	include/vfs.h	96;"	d
+TABLE	include/vfs.h	135;"	d
 TERM_FONT	include/devices.h	106;"	d
 TEXTURE_H	include/devices.h	57;"	d
 TEXTURE_W	include/devices.h	56;"	d
@@ -102,9 +102,9 @@ TODO	include/debug.h	53;"	d
 TTY_COOK_BUF_SZ	src/devices/tty/tty.c	4;"	d	file:
 TYPE	include/vfs.h	/^enum TYPE {NF, DR, XX, MP, DV_CHAR, DV_BLOCK};$/;"	g
 Tasknode	include/kmt.h	/^typedef struct Tasknode {$/;"	s
-W_OK	include/vfs.h	86;"	d
+W_OK	include/vfs.h	87;"	d
 XX	include/vfs.h	/^enum TYPE {NF, DR, XX, MP, DV_CHAR, DV_BLOCK};$/;"	e	enum:TYPE
-X_OK	include/vfs.h	87;"	d
+X_OK	include/vfs.h	88;"	d
 __COMMON_H__	include/common.h	2;"	d
 __DEBUG_H__	include/debug.h	2;"	d
 __KERNEL_H__	framework/kernel.h	2;"	d
@@ -133,8 +133,8 @@ capslock	include/devices.h	/^  int capslock, shift_down[2], ctrl_down[2], alt_do
 ch	include/devices.h	/^  unsigned char ch;$/;"	m	struct:character
 character	include/devices.h	/^struct character {$/;"	s
 checkdevice	src/filesystems/devfs.c	/^int checkdevice(const char *name){$/;"	f
-checkfs	src/vfs.c	115;"	d	file:
-checkinode	src/vfs.c	116;"	d	file:
+checkfs	src/vfs.c	113;"	d	file:
+checkinode	src/vfs.c	114;"	d	file:
 close	include/vfs.h	/^  int (*close)(file_t *file);$/;"	m	struct:inodeops
 close	include/vfs.h	/^  int (*close)(inode_t *inode);$/;"	m	struct:fsops
 close	include/vfs.h	/^  int (*close)(int fd);$/;"	m	struct:__anon5
@@ -197,10 +197,10 @@ event	src/devices/input/input.c	/^static struct input_event event(int ctrl, int 
 event_sem	include/devices.h	/^  sem_t event_sem;$/;"	m	struct:__anon6
 events	include/devices.h	/^  struct input_event *events;$/;"	m	struct:__anon6	typeref:struct:__anon6::input_event
 exists	include/vfs.h	/^  int exists;$/;"	m	struct:mountpoint
-ext2_append_data	include/vfs.h	150;"	d
+ext2_append_data	include/vfs.h	151;"	d
 ext2_close	src/filesystems/ext2fs.c	/^int ext2_close(inode_t *inode){$/;"	f
 ext2_create	src/filesystems/ext2fs.c	/^int ext2_create(filesystem_t *fs, const char *name){$/;"	f
-ext2_create_dir	include/vfs.h	157;"	d
+ext2_create_dir	include/vfs.h	158;"	d
 ext2_create_entry	src/filesystems/ext2.c	/^void ext2_create_entry(device_t *dev, ext2_inode_t* inode, ext2_inode_t* entry_inode, const char* entry_name, uint32_t type){$/;"	f
 ext2_create_file	src/filesystems/ext2.c	/^int ext2_create_file(device_t *dev, const char *name, int isroot, int per, int type){$/;"	f
 ext2_data_read	src/filesystems/ext2.c	/^ssize_t ext2_data_read(device_t *dev, ext2_inode_t* inode, void *buf, int size, int offset){$/;"	f
