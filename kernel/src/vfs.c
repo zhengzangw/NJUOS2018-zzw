@@ -165,7 +165,7 @@ int vfs_open(const char *path, int flags){
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
     if (cur == NULL) {
         if (flags & O_CREAT){
-            if (mpt[index].fs->ops->create=NULL) {
+            if (mpt[index].fs->ops->create==NULL) {
                 kmt->spin_unlock(&lock_vfs);
                 return -1;
             }
