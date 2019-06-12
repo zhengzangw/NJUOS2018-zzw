@@ -221,10 +221,7 @@ ssize_t vfs_read(int fd, void *buf, size_t nbyte){
 ssize_t vfs_write(int fd, const void *buf, size_t nbyte){
     if (FILE(fd)==NULL) return -1;
     checkinode(write);
-    Log("enter");
     int ret = FILE(fd)->inode->ops->write(FILE(fd), (char *)buf, nbyte);
-    Log("here");
-    Log("exit");
     return ret;
 }
 
