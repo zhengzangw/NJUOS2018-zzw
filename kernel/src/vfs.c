@@ -110,8 +110,8 @@ int vfs_access(const char *path, int mode){
     return ret;
 }
 
-#define checkfs(func) do{if (mpt[index].fs->ops->func==NULL) {kmt->spin_unlock(&lock_vfs); return -1;}} while (0)
-#define checkinode(func) do{if (FILE(fd)->inode->ops->func==NULL) { return -1;}} while (0)
+#define checkfs(func) if (mpt[index].fs->ops->func==NULL) return -1
+#define checkinode(func) if (FILE(fd)->inode->ops->func==NULL) return -1
 int vfs_mkdir(const char *path){
     int index = get_mount(path);
     checkfs(mkdir);
@@ -121,33 +121,27 @@ int vfs_mkdir(const char *path){
 
 int vfs_rmdir(const char *path){
     int ret = 0;
-    kmt->spin_lock(&lock_vfs);
     int index = get_mount(path);
     if (strlen(RAW(path))<=1) ret = -1;
     else {
         checkfs(rmdir);
         ret = mpt[index].fs->ops->rmdir(mpt[index].fs, RAW(path));
     }
-    kmt->spin_unlock(&lock_vfs);
     return ret;
 }
 
 int vfs_link(const char *oldpath, const char *newpath){
     int fd = vfs->open(oldpath, 0);
-    kmt->spin_lock(&lock_vfs);
     int index = get_mount(newpath);
     checkinode(link);
     int ret = FILE(fd)->inode->ops->link(FILE(fd), newpath+strlen(mpt[index].path));
-    kmt->spin_unlock(&lock_vfs);
     return ret;
 }
 
 int vfs_unlink(const char *path){
-    kmt->spin_lock(&lock_vfs);
     int index = get_mount(path);
     checkfs(unlink);
     int ret = mpt[index].fs->ops->unlink(mpt[index].fs, RAW(path));
-    kmt->spin_unlock(&lock_vfs);
     return ret;
 }
 
@@ -171,7 +165,10 @@ int vfs_open(const char *path, int flags){
     inode_t* cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
     if (cur == NULL) {
         if (flags & O_CREAT){
-            checkfs(create);
+            if (mpt[index].fs->ops->create=NULL) {
+                kmt->spin_unlock(&lock_vfs);
+                return -1;
+            }
             int ret = mpt[index].fs->ops->create(mpt[index].fs, RAW(path));
             if (ret==0) cur = mpt[index].fs->ops->lookup(mpt[index].fs, RAW(path), 0);
             else {
@@ -216,34 +213,28 @@ int vfs_close(int fd){
 
 ssize_t vfs_read(int fd, void *buf, size_t nbyte){
     if (FILE(fd)==NULL) return -1;
-    kmt->spin_lock(&lock_vfs);
     checkinode(read);
     int ret= FILE(fd)->inode->ops->read(FILE(fd), (char *)buf, nbyte);
-    kmt->spin_unlock(&lock_vfs);
     return ret;
 }
 
 ssize_t vfs_write(int fd, const void *buf, size_t nbyte){
     if (FILE(fd)==NULL) return -1;
-    kmt->spin_lock(&lock_vfs);
     checkinode(write);
     Log("enter");
     int ret = FILE(fd)->inode->ops->write(FILE(fd), (char *)buf, nbyte);
     Log("here");
-    kmt->spin_unlock(&lock_vfs);
     Log("exit");
     return ret;
 }
 
 off_t vfs_lseek(int fd, off_t offset, int whence){
     int ret;
-    kmt->spin_lock(&lock_vfs);
     if (FILE(fd)==NULL) ret = -1;
     else {
         checkinode(lseek);
         ret = FILE(fd)->inode->ops->lseek(FILE(fd), offset, whence);
     }
-    kmt->spin_unlock(&lock_vfs);
     return ret;
 }
 
