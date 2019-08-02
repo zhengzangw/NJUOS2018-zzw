@@ -1,8 +1,10 @@
 .*
 *.[oad]
 !.gitignore
+!README.md
 *~
 a.out
 a.out-*
 *-32*
 *-64*
+tags
